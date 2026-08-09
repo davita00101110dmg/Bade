@@ -28,7 +28,8 @@ struct BOGPaymentRecord {
             rawDescription: merchant,
             amount: amount,
             currency: String(money.1),
-            sourceLine: body.prefix(Self.sourceLineLimit).trimmingCharacters(in: .whitespaces)
+            sourceLine: body.prefix(Self.sourceLineLimit).trimmingCharacters(in: .whitespaces),
+            mcc: body.field(after: "MCC:", upTo: ";")
         )
     }
 

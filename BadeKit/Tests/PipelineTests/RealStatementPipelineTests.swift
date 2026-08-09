@@ -60,6 +60,14 @@ struct RealStatementPipelineTests {
         #expect(apple.contains { $0.amount == Decimal(string: "11.99")! && $0.confidence == .confident })
     }
 
+    /// Everyday spending on a regular rhythm is excluded by merchant category, not by luck.
+    @Test func excludesEverydaySpendingByCategory() throws {
+        let merchants = try Set(LocalPipeline.subscriptions().map(\.merchant))
+        for everyday in ["McDonald's", "Wolt", "podsey", "Glovo"] {
+            #expect(!merchants.contains(everyday), "\(everyday) is not a subscription")
+        }
+    }
+
     @Test func inventsNoSubscriptionForMerchantsThatMerelyContainABrand() throws {
         let merchants = try Set(LocalPipeline.subscriptions().map(\.merchant))
         #expect(!merchants.contains("ChatGPT"))

@@ -15,7 +15,10 @@ public struct SubscriptionDetector: Sendable {
     }
 
     public func detect(_ transactions: [NormalizedTransaction]) -> [DetectedSubscription] {
-        Dictionary(grouping: deduplicator.deduplicate(transactions), by: Account.init)
+        let recurring = deduplicator.deduplicate(transactions)
+            .filter { MerchantCategory.canRecur($0.raw) }
+
+        return Dictionary(grouping: recurring, by: Account.init)
             .sorted { $0.key < $1.key }
             .flatMap { account, charges in
                 grouper.clusters(for: charges).compactMap { subscription(for: account, from: $0) }
