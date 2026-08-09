@@ -3,13 +3,16 @@ import Foundation
 
 /// Spec §7. Pure: no I/O, no network, no LLM.
 public struct SubscriptionDetector: Sendable {
+    private let catalog: any SubscriptionCatalog
     private let deduplicator = TransactionDeduplicator()
     private let grouper = ChargeGrouper()
     private let cadenceResolver = CadenceResolver()
     private let amountAnalyzer = AmountHistoryAnalyzer()
     private let scorer = ConfidenceScorer()
 
-    public init() {}
+    public init(catalog: any SubscriptionCatalog = EmptyCatalog()) {
+        self.catalog = catalog
+    }
 
     public func detect(_ transactions: [NormalizedTransaction]) -> [DetectedSubscription] {
         Dictionary(grouping: deduplicator.deduplicate(transactions), by: Account.init)
@@ -20,23 +23,32 @@ public struct SubscriptionDetector: Sendable {
     }
 
     private func subscription(for account: Account, from cluster: ChargeCluster) -> DetectedSubscription? {
-        guard let cadence = cadenceResolver.cadence(for: cluster.dates),
-            let confidence = scorer.confidence(forOccurrences: cluster.charges.count)
+        let latest = cluster.last.raw
+        let match = catalog.match(
+            merchant: account.merchant, amount: latest.amount, currency: account.currency)
+
+        guard let cadence = cadence(for: cluster, match: match),
+            let confidence = scorer.confidence(occurrences: cluster.charges.count, catalog: match)
         else { return nil }
 
         let occurrences = cluster.occurrences
         let history = amountAnalyzer.history(of: occurrences)
         return DetectedSubscription(
             merchant: account.merchant,
-            amount: cluster.last.raw.amount,
+            amount: latest.amount,
             isVariableAmount: history.isVariable,
             currency: account.currency,
             cadence: cadence,
             occurrences: occurrences,
-            nextChargeDate: ChargeCalendar.date(after: cluster.last.raw.date, cadence: cadence),
+            nextChargeDate: ChargeCalendar.date(after: latest.date, cadence: cadence),
             confidence: confidence,
             priceChanges: history.priceChanges
         )
+    }
+
+    /// Observed intervals outrank the catalog; the catalog only speaks when there is no interval yet.
+    private func cadence(for cluster: ChargeCluster, match: CatalogMatch) -> Cadence? {
+        cluster.charges.count >= 2 ? cadenceResolver.cadence(for: cluster.dates) : match.cadence
     }
 }
 

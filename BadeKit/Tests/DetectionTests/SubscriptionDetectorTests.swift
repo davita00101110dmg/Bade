@@ -189,7 +189,7 @@ struct HardCaseTests {
         #expect(detected.nextChargeDate == day("2026-12-09"))
     }
 
-    @Test(.disabled("needs Catalog merchant aliases — build step 4"))
+    @Test(.disabled("alias resolution belongs to Normalization — build step 6"))
     func linksMerchantRenameMidHistory() throws {
         let charges =
             monthlyCharges("FB Pay", from: "2026-01-09", count: 3, amount: "15.00")
