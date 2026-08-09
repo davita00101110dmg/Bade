@@ -41,7 +41,7 @@ private struct SpyRepository: SubscriptionRepository {
 private func subscription(_ merchant: String) -> Subscription {
     Subscription(
         merchant: merchant, amount: 10, currency: "GEL", cadence: .monthly,
-        firstChargeDate: .now, lastChargeDate: .now, nextChargeDate: .now, occurrenceCount: 3,
+        firstChargeDate: .now, lastChargeDate: .now, nextChargeDate: .now,
         confidence: .confident)
 }
 

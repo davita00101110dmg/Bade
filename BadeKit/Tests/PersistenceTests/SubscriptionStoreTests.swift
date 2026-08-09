@@ -246,3 +246,69 @@ struct ConcurrentSubscriptionTests {
         #expect(try await store.all().count == 2)
     }
 }
+
+/// Detail's history, the price timeline and §8's markup all read the charges rather than a count,
+/// so they have to outlive the import that found them.
+@Suite("Stored charges", .serialized)
+struct StoredChargeTests {
+    @Test func chargesSurviveConfirmation() async throws {
+        let store = try newStore()
+
+        _ = try await store.confirm([
+            detected("Netflix", amount: "35.99", dates: ["2026-06-01", "2026-07-01"], next: "2026-08-01")
+        ])
+
+        let stored = try #require(try await store.all().first)
+        #expect(stored.charges.count == 2)
+        #expect(stored.charges.map(\.amount) == [Decimal(string: "35.99")!, Decimal(string: "35.99")!])
+        #expect(stored.occurrenceCount == 2)
+    }
+
+    @Test func reimportingTheSameStatementDoesNotDuplicateCharges() async throws {
+        let store = try newStore()
+        let batch = [
+            detected("Netflix", amount: "35.99", dates: ["2026-06-01", "2026-07-01"], next: "2026-08-01")
+        ]
+
+        _ = try await store.confirm(batch)
+        _ = try await store.confirm(batch)
+
+        #expect(try await store.all().first?.charges.count == 2)
+    }
+
+    /// Two statements covering different months are two halves of one history.
+    @Test func overlappingStatementsUnionIntoOneHistory() async throws {
+        let store = try newStore()
+        _ = try await store.confirm([
+            detected("Netflix", amount: "35.99", dates: ["2026-05-01", "2026-06-01"], next: "2026-07-01")
+        ])
+
+        _ = try await store.confirm([
+            detected("Netflix", amount: "35.99", dates: ["2026-06-01", "2026-07-01"], next: "2026-08-01")
+        ])
+
+        let stored = try #require(try await store.all().first)
+        #expect(stored.charges.count == 3, "May, June and July, with June counted once")
+        #expect(stored.charges.map(\.date) == stored.charges.map(\.date).sorted())
+    }
+
+    @Test func aChargeKeepsWhatTheBankDidToConvertIt() async throws {
+        let store = try newStore()
+        let conversion = CurrencyConversion(
+            from: "USD", to: "GEL", bankRate: Decimal(string: "2.72")!,
+            schemeRate: Decimal(string: "2.61")!)
+        let charge = RawTransaction(
+            date: day("2026-06-01"), rawDescription: "NETFLIX.COM", amount: Decimal(string: "12.99")!,
+            currency: "USD", sourceLine: "x", conversion: conversion)
+        let subscription = DetectedSubscription(
+            merchant: "Netflix", amount: Decimal(string: "12.99")!, currency: "USD",
+            cadence: .monthly, occurrences: [charge], nextChargeDate: day("2026-07-01"),
+            confidence: .confident, priceChanges: [])
+
+        _ = try await store.confirm([subscription])
+
+        let stored = try #require(try await store.all().first?.charges.first)
+        #expect(stored.conversion?.bankRate == Decimal(string: "2.72")!)
+        #expect(stored.conversion?.markupFraction != nil)
+    }
+}

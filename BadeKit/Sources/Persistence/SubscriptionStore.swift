@@ -113,7 +113,7 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository {
             firstChargeDate: min(stored.firstChargeDate, incoming.firstChargeDate),
             lastChargeDate: max(stored.lastChargeDate, incoming.lastChargeDate),
             nextChargeDate: newest.nextChargeDate,
-            occurrenceCount: max(stored.occurrenceCount, incoming.occurrenceCount),
+            charges: merged(stored.charges, incoming.charges),
             priceChanges: newest.priceChanges.isEmpty ? stored.priceChanges : newest.priceChanges,
             isActive: stored.isActive,
             confidence: newest.confidence
@@ -124,6 +124,20 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository {
         try modelContext.fetch(
             FetchDescriptor<SubscriptionRecord>(predicate: #Predicate { $0.id == id })
         ).first
+    }
+
+    /// Overlapping statements repeat charges; the same money on the same day is the same charge.
+    private func merged(_ stored: [Charge], _ incoming: [Charge]) -> [Charge] {
+        var known = Set(stored.map(Self.identity))
+        var all = stored
+        for charge in incoming where known.insert(Self.identity(charge)).inserted {
+            all.append(charge)
+        }
+        return all.sorted { $0.date < $1.date }
+    }
+
+    private static func identity(_ charge: Charge) -> String {
+        "\(charge.date.timeIntervalSince1970)|\(charge.amount)|\(charge.currency)"
     }
 
     private func records(matching key: String) throws -> [SubscriptionRecord] {

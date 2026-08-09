@@ -13,7 +13,9 @@ public struct Subscription: Equatable, Sendable, Codable, Identifiable {
     public var firstChargeDate: Date
     public var lastChargeDate: Date
     public var nextChargeDate: Date
-    public var occurrenceCount: Int
+    /// Every charge behind this subscription. Empty for one entered by hand, which has a price
+    /// and a rhythm but no history yet.
+    public var charges: [Charge]
     public var priceChanges: [PriceChange]
     public var isActive: Bool
     public var confidence: Confidence
@@ -28,7 +30,7 @@ public struct Subscription: Equatable, Sendable, Codable, Identifiable {
         firstChargeDate: Date,
         lastChargeDate: Date,
         nextChargeDate: Date,
-        occurrenceCount: Int,
+        charges: [Charge] = [],
         priceChanges: [PriceChange] = [],
         isActive: Bool = true,
         confidence: Confidence
@@ -42,7 +44,7 @@ public struct Subscription: Equatable, Sendable, Codable, Identifiable {
         self.firstChargeDate = firstChargeDate
         self.lastChargeDate = lastChargeDate
         self.nextChargeDate = nextChargeDate
-        self.occurrenceCount = occurrenceCount
+        self.charges = charges
         self.priceChanges = priceChanges
         self.isActive = isActive
         self.confidence = confidence
@@ -61,11 +63,14 @@ public struct Subscription: Equatable, Sendable, Codable, Identifiable {
             firstChargeDate: dates.first ?? detected.nextChargeDate,
             lastChargeDate: dates.last ?? detected.nextChargeDate,
             nextChargeDate: detected.nextChargeDate,
-            occurrenceCount: detected.occurrences.count,
+            charges: detected.occurrences.map(Charge.init),
             priceChanges: detected.priceChanges,
             confidence: detected.confidence
         )
     }
+
+    /// Derived rather than stored, so it can never disagree with the history it counts.
+    public var occurrenceCount: Int { charges.count }
 
     /// Identity across imports: the same service billed the same way, whatever the id.
     public var matchKey: String { "\(merchant)|\(currency)|\(cadence.rawValue)" }

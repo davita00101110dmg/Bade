@@ -16,7 +16,7 @@ final class SubscriptionRecord {
     var firstChargeDate: Date
     var lastChargeDate: Date
     var nextChargeDate: Date
-    var occurrenceCount: Int
+    var charges: [Charge]
     var priceChanges: [PriceChange]
     var isActive: Bool
     var confidenceRaw: String
@@ -32,7 +32,7 @@ final class SubscriptionRecord {
         firstChargeDate = subscription.firstChargeDate
         lastChargeDate = subscription.lastChargeDate
         nextChargeDate = subscription.nextChargeDate
-        occurrenceCount = subscription.occurrenceCount
+        charges = subscription.charges
         priceChanges = subscription.priceChanges
         isActive = subscription.isActive
         confidenceRaw = subscription.confidence.rawValue
@@ -48,7 +48,7 @@ final class SubscriptionRecord {
         firstChargeDate = subscription.firstChargeDate
         lastChargeDate = subscription.lastChargeDate
         nextChargeDate = subscription.nextChargeDate
-        occurrenceCount = subscription.occurrenceCount
+        charges = subscription.charges
         priceChanges = subscription.priceChanges
         isActive = subscription.isActive
         confidenceRaw = subscription.confidence.rawValue
@@ -66,7 +66,7 @@ final class SubscriptionRecord {
             firstChargeDate: firstChargeDate,
             lastChargeDate: lastChargeDate,
             nextChargeDate: nextChargeDate,
-            occurrenceCount: occurrenceCount,
+            charges: charges,
             priceChanges: priceChanges,
             isActive: isActive,
             confidence: Confidence(rawValue: confidenceRaw) ?? .probable

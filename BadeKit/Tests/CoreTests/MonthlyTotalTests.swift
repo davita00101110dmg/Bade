@@ -13,7 +13,7 @@ private func subscription(
     Subscription(
         merchant: merchant, amount: Decimal(string: amount)!, currency: currency, cadence: cadence,
         firstChargeDate: .distantPast, lastChargeDate: .distantPast, nextChargeDate: .distantPast,
-        occurrenceCount: 3, isActive: active, confidence: .confident)
+        isActive: active, confidence: .confident)
 }
 
 @Suite("Monthly normalisation")

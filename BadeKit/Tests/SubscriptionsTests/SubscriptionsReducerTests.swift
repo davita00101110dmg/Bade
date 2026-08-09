@@ -17,7 +17,7 @@ private func subscription(
     Subscription(
         merchant: merchant, amount: Decimal(string: amount)!, currency: currency, cadence: cadence,
         firstChargeDate: day("2026-01-05"), lastChargeDate: day("2026-08-05"),
-        nextChargeDate: day(next), occurrenceCount: 6, isActive: active, confidence: .confident)
+        nextChargeDate: day(next), isActive: active, confidence: .confident)
 }
 
 private func rateBook() -> RateBook {

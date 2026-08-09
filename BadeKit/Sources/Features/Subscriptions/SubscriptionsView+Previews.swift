@@ -19,7 +19,6 @@
             firstChargeDate: now.addingTimeInterval(-15_552_000),
             lastChargeDate: now,
             nextChargeDate: now.addingTimeInterval(Double(nextChargeInDays) * 86_400),
-            occurrenceCount: 6,
             confidence: .confident)
     }
 
