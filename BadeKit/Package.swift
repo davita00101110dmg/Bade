@@ -15,6 +15,7 @@ let package = Package(
         .library(name: "Persistence", targets: ["Persistence"]),
         .library(name: "DesignSystem", targets: ["DesignSystem"]),
         .library(name: "AppRoot", targets: ["AppRoot"]),
+        .library(name: "Pipeline", targets: ["Pipeline"]),
     ],
     targets: [
         .target(name: "Core"),
@@ -32,9 +33,16 @@ let package = Package(
             name: "Welcome", dependencies: ["DesignSystem", "Localization"],
             path: "Sources/Features/Welcome"),
         .target(
+            name: "Import", dependencies: ["Core", "DesignSystem", "Localization"],
+            path: "Sources/Features/Import"),
+        .target(
+            name: "Pipeline",
+            dependencies: ["Core", "Ingestion", "Normalization", "Detection", "Catalog"]),
+        .testTarget(name: "ImportTests", dependencies: ["Import", "Core"]),
+        .target(
             name: "AppRoot",
             dependencies: [
-                "DesignSystem", "Localization", "Welcome",
+                "Core", "DesignSystem", "Localization", "Welcome", "Import", "Pipeline",
             ],
             path: "Sources/App"),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
@@ -44,7 +52,7 @@ let package = Package(
         .testTarget(name: "CatalogTests", dependencies: ["Catalog", "Detection", "Core"]),
         .testTarget(
             name: "PipelineTests",
-            dependencies: ["Ingestion", "Normalization", "Detection", "Catalog", "Core"]),
+            dependencies: ["Pipeline", "Ingestion", "Normalization", "Detection", "Catalog", "Core"]),
         .target(name: "TestSupport", dependencies: ["Core"]),
         .testTarget(name: "GoldenTests", dependencies: ["TestSupport", "Core"]),
     ]

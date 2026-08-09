@@ -34,13 +34,20 @@ struct StringCatalogTests {
             .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appending(path: "Sources/Localization/Strings.swift")
         let source = (try? String(contentsOf: file, encoding: .utf8)) ?? ""
-        let pattern = /string\("([a-z][a-zA-Z]*(?:\.[a-zA-Z0-9]+)+)"\)/
+        let pattern = /string\("([a-z][a-zA-Z]*(?:\.[a-zA-Z0-9]+)+)/
         return Set(source.matches(of: pattern).map { String($0.1) })
     }()
 
+    /// Interpolated keys carry their format specifiers, so compare up to the first placeholder.
+    private static func stem(_ key: String) -> String {
+        String(key.prefix { $0 != " " })
+    }
+
     @Test func everyCatalogKeyIsReachableFromCode() {
         for key in Self.catalog.strings.keys.sorted() {
-            #expect(Self.usedKeys.contains(key), "\(key) is in the catalog but no constant exposes it")
+            #expect(
+                Self.usedKeys.contains(Self.stem(key)),
+                "\(key) is in the catalog but no constant exposes it")
         }
     }
 
@@ -52,7 +59,8 @@ struct StringCatalogTests {
         #expect(!Self.usedKeys.isEmpty, "key scraping found nothing — the scan is broken")
         for key in Self.usedKeys.sorted() {
             #expect(
-                Self.catalog.strings[key] != nil, "\(key) has a constant but is not in the catalog")
+                Self.catalog.strings.keys.contains { Self.stem($0) == key },
+                "\(key) has a constant but is not in the catalog")
         }
     }
 

@@ -1,6 +1,134 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "parsing.failed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not read that statement"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამონაწერის წაკითხვა ვერ მოხერხდა"
+          }
+        }
+      }
+    },
+    "parsing.file.months %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld months"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld თვე"
+          }
+        }
+      }
+    },
+    "parsing.file.transactions %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld transactions"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld ტრანზაქცია"
+          }
+        }
+      }
+    },
+    "parsing.found": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Found"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ნაპოვნია"
+          }
+        }
+      }
+    },
+    "parsing.occurrences %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "×%lld"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "×%lld"
+          }
+        }
+      }
+    },
+    "parsing.processedHere": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processed on this phone only"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დამუშავება ხდება ტელეფონში"
+          }
+        }
+      }
+    },
+    "parsing.progress %@ %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$@"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "parsing.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking transactions"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ვამოწმებ ტრანზაქციებს"
+          }
+        }
+      }
+    },
     "welcome.addManually": {
       "localizations": {
         "en": {
@@ -13,6 +141,22 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ხელით დამატება"
+          }
+        }
+      }
+    },
+    "welcome.guide.bankPicker": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bank"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ბანკი"
           }
         }
       }
@@ -209,22 +353,54 @@
         }
       }
     },
-    "welcome.guide.bankPicker": {
+    "parsing.failure.unreadable": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bank"
+            "value": "That file could not be opened."
           }
         },
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ბანკი"
+            "value": "ფაილის გახსნა ვერ მოხერხდა."
+          }
+        }
+      }
+    },
+    "parsing.failure.unrecognised": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This does not look like a bank statement Bade can read yet."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ეს არ ჰგავს ამონაწერს, რომლის წაკითხვაც ბადეს ჯერ შეუძლია."
+          }
+        }
+      }
+    },
+    "parsing.failure.tooFew": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Almost nothing could be read from that statement."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამონაწერიდან თითქმის ვერაფერი წაიკითხა."
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version": "1.1"
 }

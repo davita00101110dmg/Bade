@@ -5,12 +5,25 @@ public struct ImportResult: Equatable, Sendable {
     public let detected: [DetectedSubscription]
     public let rates: RateBook
     public let transactionCount: Int
+    /// The span the statement covers, used to show progress through it.
+    public let period: ClosedRange<Date>?
 
-    public init(detected: [DetectedSubscription], rates: RateBook, transactionCount: Int) {
+    public init(
+        detected: [DetectedSubscription], rates: RateBook, transactionCount: Int,
+        period: ClosedRange<Date>? = nil
+    ) {
         self.detected = detected
         self.rates = rates
         self.transactionCount = transactionCount
+        self.period = period
     }
+}
+
+/// What can go wrong importing, in terms a feature can present without knowing about parsers.
+public enum ImportError: Error, Equatable, Sendable {
+    case unreadableFile
+    case unrecognisedFormat
+    case tooFewTransactions
 }
 
 /// Features depend on this, never on the parsing, normalisation or detection modules;

@@ -1,11 +1,14 @@
+import Core
 import DesignSystem
+import Import
+import Pipeline
 import SwiftUI
 import UniformTypeIdentifiers
 import Welcome
 
-/// Composition root. The app target holds only `@main`, assets and entitlements.
 public struct BadeRootView: View {
     @State private var isPickingFile = false
+    @State private var statement: StatementFile?
 
     public init() {}
 
@@ -18,8 +21,17 @@ public struct BadeRootView: View {
         .fileImporter(
             isPresented: $isPickingFile,
             allowedContentTypes: [.pdf, .plainText, .commaSeparatedText]
-        ) { _ in
-            // Parsing and Review arrive next; the picker is wired so the flow can be felt.
+        ) { result in
+            guard case .success(let url) = result else { return }
+            statement = StatementFile(contentsOf: url)
+        }
+        .badeCover(item: $statement) { file in
+            ParsingView(
+                model: ParsingViewModel(
+                    file: file, importer: StatementImporter(),
+                    onFinished: { _, _ in statement = nil })
+            )
+            .badeTheme()
         }
     }
 }
