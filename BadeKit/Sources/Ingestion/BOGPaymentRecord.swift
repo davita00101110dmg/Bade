@@ -10,6 +10,9 @@ struct BOGPaymentRecord {
     private static var datePattern: Regex<(Substring, Substring, Substring, Substring)> {
         /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/
     }
+    private static var ratePattern: Regex<(Substring, Substring, Substring, Substring, Substring)> {
+        /(Card scheme|Bank) conversion rate \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9.]+)/
+    }
 
     let transaction: RawTransaction
 
@@ -29,11 +32,27 @@ struct BOGPaymentRecord {
             amount: amount,
             currency: String(money.1),
             sourceLine: body.prefix(Self.sourceLineLimit).trimmingCharacters(in: .whitespaces),
-            mcc: body.field(after: "MCC:", upTo: ";")
+            mcc: body.field(after: "MCC:", upTo: ";"),
+            conversion: Self.conversion(in: body)
         )
     }
 
     private static let sourceLineLimit = 240
+
+    /// Statements print the scheme's reference rate and the bank's own; the gap is the markup.
+    private static func conversion(in body: Substring) -> CurrencyConversion? {
+        var scheme: Decimal?
+        var bank: Decimal?
+        var pair: (String, String)?
+        for match in body.matches(of: ratePattern) {
+            guard let value = Decimal(string: String(match.4)) else { continue }
+            pair = (String(match.2), String(match.3))
+            if match.1 == "Bank" { bank = value } else { scheme = value }
+        }
+        guard let pair, let bank = bank ?? scheme else { return nil }
+        return CurrencyConversion(
+            from: pair.0, to: pair.1, bankRate: bank, schemeRate: scheme)
+    }
 
     private static func date(day: Substring, month: Substring, year: Substring) -> Date? {
         guard let day = Int(day), let month = Int(month), let year = Int(year) else { return nil }

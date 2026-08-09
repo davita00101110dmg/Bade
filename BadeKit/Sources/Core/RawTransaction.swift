@@ -11,6 +11,8 @@ public struct RawTransaction: Equatable, Sendable, Codable {
     public let sourceLine: String
     /// ISO 18245 merchant category, when the statement carries one.
     public let mcc: String?
+    /// Present when the bank converted the charge from another currency.
+    public let conversion: CurrencyConversion?
 
     public init(
         date: Date,
@@ -18,7 +20,8 @@ public struct RawTransaction: Equatable, Sendable, Codable {
         amount: Decimal,
         currency: String,
         sourceLine: String,
-        mcc: String? = nil
+        mcc: String? = nil,
+        conversion: CurrencyConversion? = nil
     ) {
         self.date = date
         self.rawDescription = rawDescription
@@ -26,5 +29,6 @@ public struct RawTransaction: Equatable, Sendable, Codable {
         self.currency = currency
         self.sourceLine = sourceLine
         self.mcc = mcc
+        self.conversion = conversion
     }
 }
