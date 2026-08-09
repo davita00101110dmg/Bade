@@ -10,7 +10,7 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **7 — Persistence**
+> Build order step: **8 — Home + import UI**
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.)
 
 ---

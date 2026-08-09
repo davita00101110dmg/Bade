@@ -11,6 +11,7 @@ let package = Package(
         .library(name: "Catalog", targets: ["Catalog"]),
         .library(name: "Ingestion", targets: ["Ingestion"]),
         .library(name: "Normalization", targets: ["Normalization"]),
+        .library(name: "Persistence", targets: ["Persistence"]),
     ],
     targets: [
         .target(name: "Core"),
@@ -21,6 +22,8 @@ let package = Package(
         .testTarget(name: "IngestionTests", dependencies: ["Ingestion", "Core"]),
         .target(name: "Normalization", dependencies: ["Core"]),
         .testTarget(name: "NormalizationTests", dependencies: ["Normalization", "Core"]),
+        .target(name: "Persistence", dependencies: ["Core"]),
+        .testTarget(name: "PersistenceTests", dependencies: ["Persistence", "Core"]),
         .target(name: "Catalog", dependencies: ["Core"]),
         .testTarget(name: "CatalogTests", dependencies: ["Catalog", "Detection", "Core"]),
         .testTarget(
