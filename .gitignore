@@ -5,3 +5,9 @@
 
 # Product strategy — deliberately not published to the public repo
 docs/
+
+# Real bank statements — local only, never committed
+statements/
+BadeKit/Tests/Fixtures/local/
+BadeKit/Tests/Fixtures/**/*.pdf
+*.pdf
