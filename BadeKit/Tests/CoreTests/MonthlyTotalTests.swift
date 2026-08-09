@@ -3,6 +3,9 @@ import Testing
 
 @testable import Core
 
+/// These subscriptions are dated `.distantPast`, so any observation is the nearest one.
+private let anyDay = Date.distantPast
+
 private func subscription(
     _ merchant: String, _ amount: String, _ currency: String, _ cadence: Cadence,
     active: Bool = true
@@ -47,7 +50,10 @@ struct MonthlyTotalTests {
 
     @Test func sumsAcrossCurrenciesUsingObservedRates() {
         var rates = RateBook()
-        rates.record(CurrencyConversion(from: "USD", to: "GEL", bankRate: Decimal(string: "2.6716")!))
+        rates.record(
+            ObservedRate(
+                date: anyDay, from: "USD", to: "GEL",
+                rate: Decimal(string: "2.6716")!))
 
         let result = [
             subscription("SETANTA", "14.99", "GEL", .monthly),
@@ -61,7 +67,7 @@ struct MonthlyTotalTests {
     /// A currency the statement never converted must be reported, never silently dropped.
     @Test func reportsWhatItCannotConvert() {
         var rates = RateBook()
-        rates.record(CurrencyConversion(from: "USD", to: "GEL", bankRate: 2))
+        rates.record(ObservedRate(date: anyDay, from: "USD", to: "GEL", rate: 2))
 
         let result = [
             subscription("SETANTA", "10.00", "GEL", .monthly),
@@ -80,9 +86,9 @@ struct MonthlyTotalTests {
 
     @Test func invertsARateWhenOnlyTheOppositeDirectionIsKnown() {
         var rates = RateBook()
-        rates.record(CurrencyConversion(from: "USD", to: "GEL", bankRate: 2))
-        #expect(rates.rate(from: "GEL", to: "USD") == Decimal(1) / 2)
-        #expect(rates.rate(from: "GEL", to: "GEL") == 1)
+        rates.record(ObservedRate(date: anyDay, from: "USD", to: "GEL", rate: 2))
+        #expect(rates.rate(from: "GEL", to: "USD", on: anyDay) == Decimal(1) / 2)
+        #expect(rates.rate(from: "GEL", to: "GEL", on: anyDay) == 1)
     }
 
     @Test func markupIsTheGapBetweenBankAndSchemeRates() {

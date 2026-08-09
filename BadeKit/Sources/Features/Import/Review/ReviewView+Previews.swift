@@ -50,8 +50,9 @@
     @MainActor
     private func stubReview() -> some View {
         var rates: RateBook = RateBook()
-        rates.record(CurrencyConversion(from: "USD", to: "GEL", bankRate: 2.72))
-        rates.record(CurrencyConversion(from: "EUR", to: "GEL", bankRate: 2.95))
+        let observed: Date = Date(timeIntervalSince1970: 1_720_000_000)
+        rates.record(ObservedRate(date: observed, from: "USD", to: "GEL", rate: 2.72))
+        rates.record(ObservedRate(date: observed, from: "EUR", to: "GEL", rate: 2.95))
         let detected: [DetectedSubscription] = [
             stubDetection("ChatGPT Plus", "20.00", "USD", .confident, 6),
             stubDetection("YouTube Premium", "42.90", "GEL", .confident, 6),

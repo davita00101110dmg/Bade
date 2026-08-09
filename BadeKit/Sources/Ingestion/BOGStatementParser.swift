@@ -31,6 +31,10 @@ public struct BOGStatementParser: StatementParser {
         return transactions
     }
 
+    public func exchangeRates(in text: String) -> [ObservedRate] {
+        BOGExchangeRecord.rates(in: Self.flatten(text))
+    }
+
     private func vocabulary(for flat: String) -> BOGVocabulary? {
         BOGVocabulary.all.first { flat.contains($0.merchant) }
     }

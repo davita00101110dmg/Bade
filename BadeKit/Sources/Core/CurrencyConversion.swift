@@ -24,25 +24,45 @@ public struct CurrencyConversion: Equatable, Sendable, Codable {
 }
 
 /// Rates observed in a statement, so totals can span currencies using what the bank really
-/// charged rather than a published rate. §10's FX module replaces this with dated NBG rates.
+/// charged rather than a published rate. §10's FX module adds published NBG rates alongside these.
+///
+/// Dated, because one rate cannot describe a long statement: across eighteen months a lari rate
+/// drifts several percent, and a charge should be converted at a rate from around when it landed.
 public struct RateBook: Equatable, Sendable, Codable {
-    private var rates: [String: Decimal] = [:]
+    private var observed: [String: [ObservedRate]] = [:]
 
     public init() {}
 
-    public mutating func record(_ conversion: CurrencyConversion) {
-        rates[Self.key(conversion.from, conversion.to)] = conversion.bankRate
+    public mutating func record(_ rate: ObservedRate) {
+        guard rate.rate > 0, rate.from != rate.to else { return }
+        observed[Self.key(rate.from, rate.to), default: []].append(rate)
     }
 
-    public func rate(from: String, to: String) -> Decimal? {
+    public mutating func record(_ conversion: CurrencyConversion, on date: Date) {
+        record(
+            ObservedRate(
+                date: date, from: conversion.from, to: conversion.to, rate: conversion.bankRate))
+    }
+
+    /// The rate closest in time to the charge. Nothing extrapolates: a pair never seen stays
+    /// unconvertible rather than being guessed at.
+    public func rate(from: String, to: String, on date: Date) -> Decimal? {
         if from == to { return 1 }
-        if let direct = rates[Self.key(from, to)] { return direct }
-        if let inverse = rates[Self.key(to, from)], inverse > 0 { return 1 / inverse }
+        if let direct = nearest(Self.key(from, to), to: date) { return direct }
+        if let inverse = nearest(Self.key(to, from), to: date), inverse > 0 { return 1 / inverse }
         return nil
     }
 
-    public func convert(_ amount: Decimal, from: String, to: String) -> Decimal? {
-        rate(from: from, to: to).map { amount * $0 }
+    public func convert(_ amount: Decimal, from: String, to: String, on date: Date) -> Decimal? {
+        rate(from: from, to: to, on: date).map { amount * $0 }
+    }
+
+    private func nearest(_ key: String, to date: Date) -> Decimal? {
+        observed[key]?
+            .min {
+                abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date))
+            }?
+            .rate
     }
 
     private static func key(_ from: String, _ to: String) -> String { "\(from)|\(to)" }

@@ -142,7 +142,10 @@ struct ReviewStateTests {
 
     @Test func theTotalUsesTheRateTheBankActuallyCharged() {
         var rates = RateBook()
-        rates.record(CurrencyConversion(from: "USD", to: "GEL", bankRate: 2.72))
+        rates.record(
+            ObservedRate(
+                date: Date(timeIntervalSince1970: 1_700_000_000), from: "USD", to: "GEL",
+                rate: 2.72))
         let subject = state(
             [
                 detection("ChatGPT", confidence: .confident, amount: 20, currency: "USD"),
@@ -166,7 +169,10 @@ struct ReviewStateTests {
 
     @Test func aForeignChargeShowsBothWhatWasBilledAndWhatWasCharged() {
         var rates = RateBook()
-        rates.record(CurrencyConversion(from: "USD", to: "GEL", bankRate: 2.72))
+        rates.record(
+            ObservedRate(
+                date: Date(timeIntervalSince1970: 1_700_000_000), from: "USD", to: "GEL",
+                rate: 2.72))
         let subject = state(
             [detection("ChatGPT", confidence: .confident, amount: 20, currency: "USD")],
             rates: rates)

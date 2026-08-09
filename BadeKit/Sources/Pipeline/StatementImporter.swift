@@ -28,7 +28,11 @@ public struct StatementImporter: StatementImporting {
             throw ImportError.unrecognisedFormat
         }
         var rates = RateBook()
-        for conversion in transactions.compactMap(\.conversion) { rates.record(conversion) }
+        for transaction in transactions {
+            guard let conversion = transaction.conversion else { continue }
+            rates.record(conversion, on: transaction.date)
+        }
+        for rate in parser.exchangeRates(in: text) { rates.record(rate) }
 
         let dates = transactions.map(\.date)
         let normalized = MerchantNormalizer(directory: catalog).normalize(transactions)

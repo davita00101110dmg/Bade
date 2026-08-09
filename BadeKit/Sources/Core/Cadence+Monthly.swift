@@ -28,7 +28,8 @@ extension Collection<Subscription> {
         var unconvertible: [Subscription] = []
         for subscription in self where subscription.isActive {
             if let converted = rates.convert(
-                subscription.monthlyAmount, from: subscription.currency, to: currency)
+                subscription.monthlyAmount, from: subscription.currency, to: currency,
+                on: subscription.lastChargeDate)
             {
                 total += converted
             } else {

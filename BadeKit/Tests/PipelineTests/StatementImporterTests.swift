@@ -43,7 +43,7 @@ struct StatementImporterTests {
             Bank conversion rate (USD-GEL): 2.6716;
             """
         let result = try await importer.detectSubscriptions(in: statement(withRate))
-        #expect(result.rates.rate(from: "USD", to: "GEL") == Decimal(string: "2.6716")!)
+        #expect(result.rates.rate(from: "USD", to: "GEL", on: Date(timeIntervalSince1970: 1_760_000_000)) == Decimal(string: "2.6716")!)
     }
 
     /// Features present these; a Swift error description must never reach the user (§5).

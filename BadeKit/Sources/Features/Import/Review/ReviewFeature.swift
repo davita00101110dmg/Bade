@@ -25,7 +25,8 @@ public struct ReviewState: Equatable {
                     ReviewItem(
                         id: $0, subscription: detected[$0], decision: decisions[$0],
                         converted: rates.convert(
-                            detected[$0].amount, from: detected[$0].currency, to: currency))
+                            detected[$0].amount, from: detected[$0].currency, to: currency,
+                            on: detected[$0].nextChargeDate))
                 }
             return items.isEmpty ? nil : ReviewSection(confidence: confidence, items: items)
         }
