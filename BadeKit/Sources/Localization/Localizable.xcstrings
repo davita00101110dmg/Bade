@@ -633,55 +633,39 @@
         }
       }
     },
-    "welcome.guide.bankPicker": {
+    "welcome.guide.1": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bank"
+            "value": "Open your bank's app → Accounts"
           }
         },
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ბანკი"
+            "value": "გახსენით ბანკის აპი → ანგარიშები"
           }
         }
       }
     },
-    "welcome.guide.bog.1": {
+    "welcome.guide.2": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open BOG mobile → Accounts"
+            "value": "Statement → period: last 12 months"
           }
         },
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "გახსენით BOG mobile → ანგარიშები"
+            "value": "ამონაწერი → პერიოდი: ბოლო 12 თვე"
           }
         }
       }
     },
-    "welcome.guide.bog.2": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Statement → period: last 6 months"
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "ამონაწერი → პერიოდი: ბოლო 6 თვე"
-          }
-        }
-      }
-    },
-    "welcome.guide.bog.3": {
+    "welcome.guide.3": {
       "localizations": {
         "en": {
           "stringUnit": {
@@ -692,55 +676,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ფორმატი PDF → გაზიარება → ბადე"
-          }
-        }
-      }
-    },
-    "welcome.guide.tbc.1": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open TBC mobile → Accounts"
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "გახსენით TBC mobile → ანგარიშები"
-          }
-        }
-      }
-    },
-    "welcome.guide.tbc.2": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Statement → period: last 6 months"
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "ამონაწერი → პერიოდი: ბოლო 6 თვე"
-          }
-        }
-      }
-    },
-    "welcome.guide.tbc.3": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Format PDF → Share → Bade"
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "ფორმატი PDF → გაზიარება → ბადე"
+            "value": "ფორმატი PDF → გაზიარება → Bade"
           }
         }
       }
