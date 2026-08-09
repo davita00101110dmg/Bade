@@ -53,10 +53,13 @@ struct RealStatementPipelineTests {
         #expect(youtube.priceChanges.first?.from == Decimal(string: "10.29")!)
     }
 
-    /// A merchant that bills several App Store subscriptions splits by amount, not into one.
-    @Test func separatesAppleSubscriptionsByAmount() throws {
+    /// Apple bills a subscription and a one-off app purchase down the same line. Only a repeating
+    /// charge is a subscription; a single charge at a price Apple never published is shopping,
+    /// which is how seven purchases once became seven subscriptions.
+    @Test func keepsRecurringAppleChargesAndDropsOneOffPurchases() throws {
         let apple = try LocalPipeline.subscriptions().filter { $0.merchant == "Apple" }
-        #expect(apple.count > 1)
+        #expect(!apple.isEmpty)
+        #expect(apple.allSatisfy { $0.occurrences.count >= 2 })
         #expect(apple.contains { $0.amount == Decimal(string: "11.99")! && $0.confidence == .confident })
     }
 

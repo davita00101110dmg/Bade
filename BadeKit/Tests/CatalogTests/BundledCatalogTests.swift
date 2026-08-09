@@ -48,7 +48,17 @@ struct BundledCatalogTests {
         #expect(catalog.entry(for: merchant)?.merchant == "Netflix")
     }
 
-    @Test(arguments: ["ZOOMMER", "OPEN AIR", "NETFLIX.COM 1082"])
+    /// Processors bolt extra words onto the brand. The brand is still there, as a whole word.
+    @Test(arguments: [
+        "NETFLIX.COM 1082", "NETFLIX INTERNATIONAL", "ANTHROPIC* CLAUDE SUB",
+        "CLAUDE.AI SUBSCRIPTION",
+    ])
+    func matchesABrandCarryingExtraWords(merchant: String) {
+        #expect(catalog.entry(for: merchant) != nil)
+    }
+
+    /// A word either is the brand or it is not: "ZOOMMER" is one word, and it is not "zoom".
+    @Test(arguments: ["ZOOMMER", "OPEN AIR", "NETFLIXY", "SPOTIFYING"])
     func doesNotMatchMerchantsThatMerelyContainABrand(merchant: String) {
         #expect(catalog.entry(for: merchant) == nil)
     }

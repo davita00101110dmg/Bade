@@ -40,7 +40,9 @@ public enum MerchantSeed {
     ]
 
     static let storage: [CatalogEntry] = [
-        .init("Apple", .monthly, aliases: ["applecombill", "applecom", "applebill"]),
+        .init(
+            "Apple", .monthly, aliases: ["applecombill", "applecom", "applebill"],
+            sellsOneOffs: true),
         .init("iCloud", .monthly, aliases: ["appleicloud", "icloudplus"], pricePoints: [.monthly("0.99"), .monthly("2.99"), .monthly("9.99")]),
         .init("Google One", .monthly, aliases: ["googleone", "googlestorage"], pricePoints: [.monthly("1.99"), .monthly("2.99"), .monthly("9.99"), .annual("19.99")]),
         .init("Dropbox", .monthly, pricePoints: [.monthly("11.99"), .annual("119.88")]),
