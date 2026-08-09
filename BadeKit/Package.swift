@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "BadeKit",
+    defaultLocalization: "en",
     // macOS only so `swift test` runs on the host; the app ships iOS-only.
     platforms: [.iOS(.v26), .macOS(.v26)],
     products: [
@@ -12,6 +13,7 @@ let package = Package(
         .library(name: "Ingestion", targets: ["Ingestion"]),
         .library(name: "Normalization", targets: ["Normalization"]),
         .library(name: "Persistence", targets: ["Persistence"]),
+        .library(name: "DesignSystem", targets: ["DesignSystem"]),
     ],
     targets: [
         .target(name: "Core"),
@@ -22,6 +24,8 @@ let package = Package(
         .testTarget(name: "IngestionTests", dependencies: ["Ingestion", "Core"]),
         .target(name: "Normalization", dependencies: ["Core"]),
         .testTarget(name: "NormalizationTests", dependencies: ["Normalization", "Core"]),
+        .target(name: "DesignSystem"),
+        .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
         .target(name: "Persistence", dependencies: ["Core"]),
         .testTarget(name: "PersistenceTests", dependencies: ["Persistence", "Core"]),
         .target(name: "Catalog", dependencies: ["Core"]),
