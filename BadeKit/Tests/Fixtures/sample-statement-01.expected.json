@@ -1,0 +1,68 @@
+[
+  {
+    "merchant": "Netflix",
+    "amount": 35.99,
+    "isVariableAmount": false,
+    "currency": "GEL",
+    "cadence": "monthly",
+    "nextChargeDate": "2026-08-09T00:00:00Z",
+    "confidence": "confident",
+    "priceChanges": [],
+    "occurrences": [
+      {
+        "date": "2026-05-09T00:00:00Z",
+        "rawDescription": "SP NETFLIX.COM 1082 LOS GATOS CA 4829",
+        "amount": 35.99,
+        "currency": "GEL",
+        "sourceLine": "2026-05-09,SP NETFLIX.COM 1082 LOS GATOS CA 4829,35.99,GEL"
+      },
+      {
+        "date": "2026-06-09T00:00:00Z",
+        "rawDescription": "SP NETFLIX.COM 1082 LOS GATOS CA 4829",
+        "amount": 35.99,
+        "currency": "GEL",
+        "sourceLine": "2026-06-09,SP NETFLIX.COM 1082 LOS GATOS CA 4829,35.99,GEL"
+      },
+      {
+        "date": "2026-07-09T00:00:00Z",
+        "rawDescription": "SP NETFLIX.COM 1082 LOS GATOS CA 4829",
+        "amount": 35.99,
+        "currency": "GEL",
+        "sourceLine": "2026-07-09,SP NETFLIX.COM 1082 LOS GATOS CA 4829,35.99,GEL"
+      }
+    ]
+  },
+  {
+    "merchant": "Spotify",
+    "amount": 24.99,
+    "isVariableAmount": false,
+    "currency": "GEL",
+    "cadence": "monthly",
+    "nextChargeDate": "2026-08-14T00:00:00Z",
+    "confidence": "confident",
+    "priceChanges": [],
+    "occurrences": [
+      {
+        "date": "2026-05-14T00:00:00Z",
+        "rawDescription": "SPOTIFY P0A1B2C3D4 STOCKHOLM SE",
+        "amount": 24.99,
+        "currency": "GEL",
+        "sourceLine": "2026-05-14,SPOTIFY P0A1B2C3D4 STOCKHOLM SE,24.99,GEL"
+      },
+      {
+        "date": "2026-06-14T00:00:00Z",
+        "rawDescription": "SPOTIFY P0A1B2C3D4 STOCKHOLM SE",
+        "amount": 24.99,
+        "currency": "GEL",
+        "sourceLine": "2026-06-14,SPOTIFY P0A1B2C3D4 STOCKHOLM SE,24.99,GEL"
+      },
+      {
+        "date": "2026-07-14T00:00:00Z",
+        "rawDescription": "SPOTIFY P0A1B2C3D4 STOCKHOLM SE",
+        "amount": 24.99,
+        "currency": "GEL",
+        "sourceLine": "2026-07-14,SPOTIFY P0A1B2C3D4 STOCKHOLM SE,24.99,GEL"
+      }
+    ]
+  }
+]

@@ -11,5 +11,7 @@ let package = Package(
     targets: [
         .target(name: "Core"),
         .testTarget(name: "CoreTests", dependencies: ["Core"]),
+        .target(name: "TestSupport", dependencies: ["Core"]),
+        .testTarget(name: "GoldenTests", dependencies: ["TestSupport", "Core"]),
     ]
 )
