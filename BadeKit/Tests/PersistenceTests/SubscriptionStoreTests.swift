@@ -31,7 +31,8 @@ private func newStore() throws -> SubscriptionStore {
     SubscriptionStore(modelContainer: try SubscriptionStore.container(inMemory: true))
 }
 
-@Suite("Subscription store")
+/// SwiftData containers are not safe to spin up concurrently; parallel execution segfaults.
+@Suite("Subscription store", .serialized)
 struct SubscriptionStoreTests {
     /// Step 7's criterion: confirm-and-save round-trips.
     @Test func confirmAndSaveRoundTrips() async throws {

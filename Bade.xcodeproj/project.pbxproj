@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C5EF365430285962002CE2C5 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = C5EF365330285962002CE2C5 /* Core */; };
+		C5EF3663302887CA002CE2C5 /* AppRoot in Frameworks */ = {isa = PBXBuildFile; productRef = C5EF3662302887CA002CE2C5 /* AppRoot */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5EF365430285962002CE2C5 /* Core in Frameworks */,
+				C5EF3663302887CA002CE2C5 /* AppRoot in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +83,7 @@
 				C5EF35FA302851CA002CE2C5 /* Bade */,
 				C5EF3608302851CB002CE2C5 /* BadeTests */,
 				C5EF3612302851CB002CE2C5 /* BadeUITests */,
+				C5EF3661302887CA002CE2C5 /* Frameworks */,
 				C5EF35F9302851CA002CE2C5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,6 +96,13 @@
 				C5EF360F302851CB002CE2C5 /* BadeUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C5EF3661302887CA002CE2C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,7 +125,7 @@
 			);
 			name = Bade;
 			packageProductDependencies = (
-				C5EF365330285962002CE2C5 /* Core */,
+				C5EF3662302887CA002CE2C5 /* AppRoot */,
 			);
 			productName = Bade;
 			productReference = C5EF35F8302851CA002CE2C5 /* Bade.app */;
@@ -633,9 +641,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C5EF365330285962002CE2C5 /* Core */ = {
+		C5EF3662302887CA002CE2C5 /* AppRoot */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Core;
+			package = C5EF365230285962002CE2C5 /* XCLocalSwiftPackageReference "BadeKit" */;
+			productName = AppRoot;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

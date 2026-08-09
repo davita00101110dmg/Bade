@@ -1,0 +1,230 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "welcome.addManually": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add manually"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ხელით დამატება"
+          }
+        }
+      }
+    },
+    "welcome.guide.bog.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open BOG mobile → Accounts"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გახსენით BOG mobile → ანგარიშები"
+          }
+        }
+      }
+    },
+    "welcome.guide.bog.2": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statement → period: last 6 months"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამონაწერი → პერიოდი: ბოლო 6 თვე"
+          }
+        }
+      }
+    },
+    "welcome.guide.bog.3": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format PDF → Share → Bade"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფორმატი PDF → გაზიარება → ბადე"
+          }
+        }
+      }
+    },
+    "welcome.guide.tbc.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open TBC mobile → Accounts"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გახსენით TBC mobile → ანგარიშები"
+          }
+        }
+      }
+    },
+    "welcome.guide.tbc.2": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statement → period: last 6 months"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამონაწერი → პერიოდი: ბოლო 6 თვე"
+          }
+        }
+      }
+    },
+    "welcome.guide.tbc.3": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format PDF → Share → Bade"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფორმატი PDF → გაზიარება → ბადე"
+          }
+        }
+      }
+    },
+    "welcome.guide.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to export your statement"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "როგორ ჩამოტვირთოთ ამონაწერი"
+          }
+        }
+      }
+    },
+    "welcome.import": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import statement"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამონაწერის იმპორტი"
+          }
+        }
+      }
+    },
+    "welcome.privacy.line1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing leaves your phone."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "არაფერი ტოვებს ტელეფონს."
+          }
+        }
+      }
+    },
+    "welcome.privacy.line2": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We never ask for your bank password."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ბანკის პაროლი არასდროს გვჭირდება."
+          }
+        }
+      }
+    },
+    "welcome.subtitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bade finds every recurring charge in your bank statement."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ბადე იპოვის ყველა განმეორებად ჩამოჭრას თქვენს საბანკო ამონაწერში."
+          }
+        }
+      }
+    },
+    "welcome.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How much are you paying a month?"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "რამდენს იხდით თვეში?"
+          }
+        }
+      }
+    },
+    "welcome.guide.bankPicker": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bank"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ბანკი"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

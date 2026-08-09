@@ -1,0 +1,43 @@
+import SwiftUI
+
+/// Motion vocabulary. Named by what the motion means, not by duration, so a screen asks for
+/// `.badeSelection` rather than inventing a number.
+extension Animation {
+    /// Press feedback on buttons and controls.
+    public static let badePress: Animation = .snappy(duration: 0.18)
+    /// A selection moving: segmented controls, toggles, pickers.
+    public static let badeSelection: Animation = .snappy(duration: 0.22)
+    /// Content appearing or changing in place.
+    public static let badeContent: Animation = .smooth(duration: 0.3)
+    /// Moving between screens or major states.
+    public static let badeTransition: Animation = .smooth(duration: 0.4)
+    /// The net dissolving as the app fills with data.
+    public static let badeNet: Animation = .easeInOut(duration: 0.8)
+}
+
+extension View {
+    /// Animates a change, honouring Reduce Motion in one place rather than per view. The change
+    /// still happens — it simply arrives without movement.
+    public func badeAnimation<V: Equatable>(_ animation: Animation, value: V) -> some View {
+        modifier(BadeAnimationModifier(animation: animation, value: value))
+    }
+}
+
+private struct BadeAnimationModifier<V: Equatable>: ViewModifier {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    let animation: Animation
+    let value: V
+
+    func body(content: Content) -> some View {
+        content.animation(reduceMotion ? nil : animation, value: value)
+    }
+}
+
+/// Runs a change with Bade's motion, skipped entirely under Reduce Motion.
+@MainActor
+public func withBadeAnimation<Result>(
+    _ animation: Animation, reduceMotion: Bool, _ body: () throws -> Result
+) rethrows -> Result {
+    try withAnimation(reduceMotion ? nil : animation, body)
+}

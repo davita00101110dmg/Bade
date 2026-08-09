@@ -18,6 +18,7 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 ## Working agreement
 
 - **Write like a staff iOS engineer. Top priority.** Clean, modern Swift; SOLID; single-responsibility types; dependencies injected behind protocols where a real second implementation exists. Apply SOLID to code that exists — never invent an interface for a hypothetical future caller. When SOLID and "simplest thing that works" conflict, the simplest design that keeps responsibilities separate wins.
+- **Naming.** A feature's observable state holder is `<Feature>ViewModel`. No hex, font name, or user-facing string is ever written in a view.
 - **Comments: only where necessary, one compact line. Never multi-line.** Prefer a clear name over a comment. No comment that restates the code.
 - Ask about doubts, including small ones. Batch questions; don't pick silently and report afterwards.
 - State assumptions explicitly. If a requirement is ambiguous, stop and ask — do not pick silently.

@@ -12,6 +12,7 @@ public enum BadeTypography {
     public static let family: BadeFontFamily = .system
 
     public static let totalSize: CGFloat = 56
+    public static let displaySize: CGFloat = 40
     public static let titleSize: CGFloat = 22
     public static let headlineSize: CGFloat = 17
     public static let bodySize: CGFloat = 16
@@ -39,6 +40,10 @@ extension Font {
         }
     }
 
+    /// Screen-opening question, the largest text after the hero total.
+    public static var badeDisplay: Font {
+        BadeTypography.font(BadeTypography.displaySize, relativeTo: .largeTitle, weight: .bold)
+    }
     public static var badeTitle: Font {
         BadeTypography.font(BadeTypography.titleSize, relativeTo: .title2, weight: .semibold)
     }
