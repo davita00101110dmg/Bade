@@ -15,23 +15,30 @@ public struct SubscriptionDetector: Sendable {
     }
 
     public func detect(_ transactions: [NormalizedTransaction]) -> [DetectedSubscription] {
+        guard let statementEnd = transactions.map(\.raw.date).max() else { return [] }
         let recurring = deduplicator.deduplicate(transactions)
             .filter { MerchantCategory.canRecur($0.raw) }
 
         return Dictionary(grouping: recurring, by: Account.init)
             .sorted { $0.key < $1.key }
             .flatMap { account, charges in
-                grouper.clusters(for: charges).compactMap { subscription(for: account, from: $0) }
+                grouper.clusters(for: charges).compactMap {
+                    subscription(for: account, from: $0, statementEnd: statementEnd)
+                }
             }
     }
 
-    private func subscription(for account: Account, from cluster: ChargeCluster) -> DetectedSubscription? {
+    private func subscription(
+        for account: Account, from cluster: ChargeCluster, statementEnd: Date
+    ) -> DetectedSubscription? {
         let latest = cluster.last.raw
         let match = catalog.match(
             merchant: account.merchant, amount: latest.amount, currency: account.currency)
 
         guard let cadence = cadence(for: cluster, match: match),
-            let confidence = scorer.confidence(occurrences: cluster.charges.count, catalog: match)
+            let confidence = scorer.confidence(occurrences: cluster.charges.count, catalog: match),
+            !SubscriptionLapse.hasLapsed(
+                since: latest.date, cadence: cadence, statementEnd: statementEnd)
         else { return nil }
 
         let occurrences = cluster.occurrences
