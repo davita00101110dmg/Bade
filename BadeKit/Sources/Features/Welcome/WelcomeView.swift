@@ -30,7 +30,7 @@ public struct WelcomeView: View {
                     .padding(.horizontal, .xl)
                     .padding(.vertical, .xxl)
                 }
-                .padding(.top, .sm)
+                .padding(.top, .xxxl)
 
                 actions
                     .padding(.horizontal, .screenMargin)
@@ -69,3 +69,4 @@ public struct WelcomeView: View {
         .accessibilityElement(children: .combine)
     }
 }
+
