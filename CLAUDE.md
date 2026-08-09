@@ -4,6 +4,8 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 **Full spec: `docs/BADE-ENGINEERING-SPEC.md`. Read it before implementing anything. Design context: `docs/BADE-DESIGN-BRIEF.md`.**
 
+> `docs/` is intentionally not in this public repository — it carries launch strategy. Both files live locally in the working copy.
+
 ---
 
 ## Current step

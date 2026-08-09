@@ -2,3 +2,6 @@
 .build/
 .swiftpm/
 **/xcuserdata/
+
+# Product strategy — deliberately not published to the public repo
+docs/
