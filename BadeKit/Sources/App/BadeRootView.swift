@@ -29,9 +29,17 @@ public struct BadeRootView: View {
             ParsingView(
                 model: ParsingViewModel(
                     file: file, importer: StatementImporter(),
-                    onFinished: { _, _ in statement = nil })
+                    onOutcome: handle)
             )
             .badeTheme()
+        }
+    }
+
+    private func handle(_ outcome: ParsingOutcome) {
+        statement = nil
+        switch outcome {
+        case .cancelled, .finished: break
+        case .chooseAnother: isPickingFile = true
         }
     }
 }

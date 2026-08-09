@@ -23,6 +23,8 @@ extension LocalizedStringResource {
         public var found: LocalizedStringResource { string("parsing.found") }
         public var processedHere: LocalizedStringResource { string("parsing.processedHere") }
         public var failed: LocalizedStringResource { string("parsing.failed") }
+        public var close: LocalizedStringResource { string("parsing.close") }
+        public var chooseAnother: LocalizedStringResource { string("parsing.chooseAnother") }
         public var failureUnreadable: LocalizedStringResource { string("parsing.failure.unreadable") }
         public var failureUnrecognised: LocalizedStringResource { string("parsing.failure.unrecognised") }
         public var failureTooFew: LocalizedStringResource { string("parsing.failure.tooFew") }

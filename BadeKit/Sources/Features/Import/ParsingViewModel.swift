@@ -8,17 +8,17 @@ public final class ParsingViewModel {
     public private(set) var state: ParsingState
 
     private let importer: any StatementImporting
-    private let onFinished: ([DetectedSubscription], RateBook) -> Void
+    private let onOutcome: (ParsingOutcome) -> Void
     private var work: Task<Void, Never>?
 
     public init(
         file: StatementFile,
         importer: any StatementImporting,
-        onFinished: @escaping ([DetectedSubscription], RateBook) -> Void
+        onOutcome: @escaping (ParsingOutcome) -> Void
     ) {
         state = ParsingState(file: file)
         self.importer = importer
-        self.onFinished = onFinished
+        self.onOutcome = onOutcome
     }
 
     public func send(_ intent: ParsingIntent) {
@@ -49,8 +49,8 @@ public final class ParsingViewModel {
             guard await sleep(delay) else { return }
             send(.completed)
 
-        case .finish(let detected, let rates):
-            onFinished(detected, rates)
+        case .exit(let outcome):
+            onOutcome(outcome)
         }
     }
 

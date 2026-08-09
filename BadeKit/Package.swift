@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "BadeKit",
     defaultLocalization: "en",
-    // macOS only so `swift test` runs on the host; the app ships iOS-only.
+    // macOS exists only so `swift test` runs on the host in ~0.5s; Bade ships iOS-only.
     platforms: [.iOS(.v26), .macOS(.v26)],
     products: [
         .library(name: "Core", targets: ["Core"]),

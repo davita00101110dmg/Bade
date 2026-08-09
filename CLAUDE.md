@@ -10,8 +10,11 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **8 — Home + import UI**
-> (Update this line when a step is finished. Steps are listed in §12 of the spec.)
+> Build order step: **8 — UI**. Steps 1–7 are done and the whole non-UI pipeline is proven
+> against a real statement. Within step 8: Welcome ✅, Parsing ✅, Review ▶ next,
+> then Subscriptions + TabView.
+> (Update this line when a step is finished. Steps are listed in §12 of the spec.
+> The screen inventory and navigation model live in `NEXT-SESSION.md`.)
 
 ---
 
@@ -45,18 +48,54 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 ## Layout
 
 ```
-Bade.xcodeproj      thin app target — avoid touching
-Bade/               app entry point only
-BadeKit/            all real code (SPM, one package, many targets)
-  Sources/          Core, Detection, Ingestion, Normalization,
-                    FX, Catalog, Persistence, Notifications,
-                    DesignSystem, Features/*
+Bade.xcodeproj        thin app target — avoid touching
+Bade/                 @main, assets, entitlements. Nothing else.
+BadeKit/              all real code (SPM, one package, many targets)
+  Sources/
+    Core/             entities + protocols. Imports Foundation only.
+    Ingestion/        PDF/text → [RawTransaction]. Parser registry.
+    Normalization/    raw description → merchant. Tier 1, no LLM.
+    Detection/        recurrence engine. Pure.
+    Catalog/          bundled merchant database.
+    Persistence/      SwiftData. Sealed — no other module imports it.
+    Pipeline/         composes ingestion → normalization → detection.
+    DesignSystem/     theme, type, spacing, motion, haptics, components.
+    Localization/     the one Localizable.xcstrings + typed constants.
+    Features/         Welcome, Import (Parsing + Review). One per feature.
+    App/              composition root only. The one target the app links.
   Tests/
-  Tests/Fixtures/   golden statement fixtures + expected JSON
-docs/
+  Tests/Fixtures/     golden fixtures; local/ is gitignored (real statements)
+docs/                 gitignored — spec and design brief live locally
+statements/           gitignored — never commit a real statement
 ```
 
+`swift test` runs the whole suite in ~0.5s. The package declares macOS **only** so that
+works on the host; Bade ships iOS-only. Occasionally an iOS-only SwiftUI API needs a shim
+(`badeCover`) or a semantic alternative (`.cancellationAction` over `.topBarLeading`).
+
 Xcode project files are fragile — don't hand-edit `.pbxproj`. If a change requires the Xcode project, say so and I'll do it in Xcode.
+
+---
+
+## UI conventions
+
+Every screen meets these. They are not negotiable per-screen; fix the token, not the view.
+
+- **No magic numbers.** `BadeSpacing` / `BadeRadius` / `BadeLayout`, written `.padding(.top, .lg)`.
+  Never arithmetic on a token (`.sm + 2`) — add a token or snap to the scale.
+- **A component's own dimensions** live with it (`BadeButtonMetrics`), not in the spacing scale.
+- **No raw string keys.** `Text(.welcome.title)` via typed constants; a typo is a compile error.
+- **No hardcoded colour or font.** `@Environment(\.badeTheme)` and the `Font.bade*` scale.
+- **Money is always `.badeMoney(code)`** — always renders the symbol (₾, ₺, ֏), locale places it.
+- **Motion via `.badeAnimation(_:value:)`**, named by meaning. Reduce Motion is handled inside it.
+- **Haptics via `.badeFeedback(_:trigger:)`**, never the only signal for an outcome.
+- **Backgrounds via `.background(...)`**, not a wrapping `ZStack`.
+- **A screen exposes one outcome enum**, not a bag of `() -> Void` closures. Leaving is an intent.
+- **Structure:** `<Screen>View.swift` at the feature root, `Views/` for subviews, `Models/` for
+  types, `<Screen>View+Previews.swift` for previews. No non-view types in a view file.
+- **Previews** cover both languages, both appearances and large text, and are explicitly typed —
+  previews rewrite literals into `__designTimeString`, and inference through that defeats the compiler.
+- **Check every state has a way out.** A screen with no exit is a trapped user.
 
 ---
 

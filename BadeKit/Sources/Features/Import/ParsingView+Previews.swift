@@ -38,17 +38,37 @@
         }
     }
 
+    private struct FailingImporter: StatementImporting {
+        func detectSubscriptions(in statement: Data) async throws -> ImportResult {
+            throw ImportError.unrecognisedFormat
+        }
+    }
+
+    @MainActor
+    private func stubFailure() -> ParsingView {
+        let file = StatementFile(name: "dummy.pdf", byteCount: 12_288, data: Data())
+        let model = ParsingViewModel(
+            file: file, importer: FailingImporter(), onOutcome: { _ in })
+        return ParsingView(model: model)
+    }
+
     @MainActor
     private func stubParsing() -> ParsingView {
         let file = StatementFile(name: "statement.pdf", byteCount: 1_258_291, data: Data())
         let model = ParsingViewModel(
-            file: file, importer: StubImporter(), onFinished: { _, _ in })
+            file: file, importer: StubImporter(), onOutcome: { _ in })
         return ParsingView(model: model)
     }
 
     #Preview("Parsing") { stubParsing().badeTheme() }
 
     #Preview("Parsing · Dark") { stubParsing().badeTheme().preferredColorScheme(.dark) }
+
+    #Preview("Parsing · Failed") { stubFailure().badeTheme() }
+
+    #Preview("Parsing · Failed · Dark") {
+        stubFailure().badeTheme().preferredColorScheme(.dark)
+    }
 
     #Preview("Parsing · ქართული") {
         stubParsing().badeTheme().environment(\.locale, Locale(identifier: "ka"))

@@ -60,13 +60,15 @@ public enum ParsingIntent: Equatable {
     case readFailed(ImportError)
     case revealNext
     case completed
+    case closeTapped
+    case chooseAnotherTapped
 }
 
 public enum ParsingEffect: Equatable {
     case read(Data)
     case scheduleReveal(Duration)
     case scheduleCompletion(Duration)
-    case finish([DetectedSubscription], RateBook)
+    case exit(ParsingOutcome)
 }
 
 extension ParsingState {
@@ -82,7 +84,7 @@ extension ParsingState {
             found = result.detected
             guard !result.detected.isEmpty else {
                 phase = .finished
-                return .finish([], result.rates)
+                return .exit(.finished([], result.rates))
             }
             phase = .revealing
             return .scheduleReveal(ParsingTiming.interval(forRows: result.detected.count))
@@ -97,11 +99,17 @@ extension ParsingState {
 
         case .completed:
             phase = .finished
-            return .finish(found, rates)
+            return .exit(.finished(found, rates))
 
         case .readFailed(let failure):
             phase = .failed(failure)
             return nil
+
+        case .closeTapped:
+            return .exit(.cancelled)
+
+        case .chooseAnotherTapped:
+            return .exit(.chooseAnother)
         }
     }
 }

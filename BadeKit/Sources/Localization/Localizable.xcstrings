@@ -400,6 +400,38 @@
           }
         }
       }
+    },
+    "parsing.close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დახურვა"
+          }
+        }
+      }
+    },
+    "parsing.chooseAnother": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose another file"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "აირჩიეთ სხვა ფაილი"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

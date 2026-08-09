@@ -72,7 +72,7 @@ struct ParsingStateTests {
 
         let effect = state.apply(.completed)
         #expect(state.phase == .finished)
-        #expect(effect == .finish(state.found, state.rates))
+        #expect(effect == .exit(.finished(state.found, state.rates)))
     }
 
     @Test func progressWalksTheStatementMonths() {
@@ -95,7 +95,7 @@ struct ParsingStateTests {
         let effect = state.apply(.read(result(0)))
 
         #expect(state.phase == .finished)
-        #expect(effect == .finish([], state.rates))
+        #expect(effect == .exit(.finished([], state.rates)))
     }
 
     @Test(arguments: [ImportError.unreadableFile, .unrecognisedFormat, .tooFewTransactions])
@@ -117,6 +117,14 @@ struct ParsingStateTests {
         let effect = state.apply(.revealNext)
         #expect(state.revealedCount == 1)
         #expect(effect == nil)
+    }
+
+    @Test func leavingIsAnIntentLikeAnythingElse() {
+        var state = ParsingState(file: file())
+        _ = state.apply(.read(result(3)))
+
+        #expect(state.apply(.closeTapped) == .exit(.cancelled))
+        #expect(state.apply(.chooseAnotherTapped) == .exit(.chooseAnother))
     }
 
     @Test func pacingIsCappedForLongStatements() {

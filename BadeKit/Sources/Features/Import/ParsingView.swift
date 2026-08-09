@@ -13,6 +13,22 @@ public struct ParsingView: View {
     }
 
     public var body: some View {
+        NavigationStack {
+            content
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button { model.send(.closeTapped) } label: {
+                            Image(systemName: "xmark")
+                        }
+                        .accessibilityLabel(Text(.parsing.close))
+                    }
+                }
+                .toolbarTitleDisplayMode(.inline)
+        }
+        .tint(theme.accent)
+    }
+
+    private var content: some View {
         VStack(spacing: .zero) {
             StatementFileCard(
                 file: model.state.file,
@@ -20,16 +36,23 @@ public struct ParsingView: View {
                 transactionCount: model.state.transactionCount
             )
             .padding(.horizontal, .screenMargin)
-            .padding(.top, .sm)
+            .padding(.top, .xs)
 
             header
                 .padding(.horizontal, .screenMargin)
                 .padding(.top, .xxl)
 
-            foundList
-                .padding(.top, .lg)
+            if model.state.failure == nil {
+                foundList.padding(.top, .lg)
+            }
 
             Spacer(minLength: .zero)
+
+            if model.state.failure != nil {
+                Button { model.send(.chooseAnotherTapped) } label: { Text(.parsing.chooseAnother) }
+                    .buttonStyle(.badePrimary)
+                    .padding(.horizontal, .screenMargin)
+            }
 
             Text(.parsing.processedHere)
                 .font(.badeCaption)
@@ -39,6 +62,7 @@ public struct ParsingView: View {
         }
         .background(theme.surface, ignoresSafeAreaEdges: .all)
         .badeFeedback(.itemAppeared, trigger: model.state.revealedCount)
+        .badeFeedback(.failure, trigger: model.state.failure)
         .task { model.send(.appeared) }
         .onDisappear { model.cancel() }
     }
@@ -55,15 +79,16 @@ public struct ParsingView: View {
                     .font(.badeBody)
                     .foregroundStyle(theme.inkMuted)
                     .multilineTextAlignment(.center)
-            } else if let caption {
-                Text(caption)
-                    .font(.badeBody)
-                    .foregroundStyle(theme.inkMuted)
-                    .contentTransition(.numericText())
+            } else {
+                if let caption {
+                    Text(caption)
+                        .font(.badeBody)
+                        .foregroundStyle(theme.inkMuted)
+                        .contentTransition(.numericText())
+                }
+                BadeProgressBar(progress: model.state.progress, pace: model.state.revealPace)
+                    .padding(.top, .xxs)
             }
-
-            BadeProgressBar(progress: model.state.progress, pace: model.state.revealPace)
-                .padding(.top, .xxs)
         }
         .badeAnimation(.badeContent, value: model.state.revealedCount)
     }
@@ -92,7 +117,7 @@ public struct ParsingView: View {
                     ForEach(Array(model.state.revealedGroups.enumerated()), id: \.element.id) {
                         index, group in
                         FoundSubscriptionRow(group: group, settling: settling(at: index))
-                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                            .transition(.opacity.combined(with: .move(edge: .bottom)))
                     }
                 }
                 .padding(.horizontal, .screenMargin)
@@ -102,7 +127,6 @@ public struct ParsingView: View {
         .badeAnimation(.badeContent, value: model.state.revealedCount)
     }
 
-    /// The newest rows are dimmest, easing to solid a few rows back.
     private func settling(at index: Int) -> Double {
         let distanceFromNewest = model.state.revealedGroups.count - 1 - index
         return max(0, 1 - Double(distanceFromNewest) / 3)
