@@ -11,8 +11,8 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 ## Current step
 
 > Build order step: **8 — UI**. Steps 1–7 are done and the whole non-UI pipeline is proven
-> against a real statement. Within step 8: Welcome ✅, Parsing ✅, Review ▶ next,
-> then Subscriptions + TabView.
+> against a real statement. Within step 8: Welcome ✅, Parsing ✅, Review ✅,
+> Subscriptions + TabView ▶ next.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory and navigation model live in `NEXT-SESSION.md`.)
 
@@ -93,6 +93,8 @@ Every screen meets these. They are not negotiable per-screen; fix the token, not
 - **A screen exposes one outcome enum**, not a bag of `() -> Void` closures. Leaving is an intent.
 - **Structure:** `<Screen>View.swift` at the feature root, `Views/` for subviews, `Models/` for
   types, `<Screen>View+Previews.swift` for previews. No non-view types in a view file.
+  A module holding two screens nests one folder per screen (`Import/Parsing/`, `Import/Review/`)
+  and keeps only genuinely shared types at its root.
 - **Previews** cover both languages, both appearances and large text, and are explicitly typed —
   previews rewrite literals into `__designTimeString`, and inference through that defeats the compiler.
 - **Check every state has a way out.** A screen with no exit is a trapped user.

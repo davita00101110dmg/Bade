@@ -45,19 +45,19 @@
     }
 
     @MainActor
-    private func stubFailure() -> ParsingView {
+    private func stubFailure() -> some View {
         let file = StatementFile(name: "dummy.pdf", byteCount: 12_288, data: Data())
         let model = ParsingViewModel(
             file: file, importer: FailingImporter(), onOutcome: { _ in })
-        return ParsingView(model: model)
+        return NavigationStack { ParsingView(model: model) }
     }
 
     @MainActor
-    private func stubParsing() -> ParsingView {
+    private func stubParsing() -> some View {
         let file = StatementFile(name: "statement.pdf", byteCount: 1_258_291, data: Data())
         let model = ParsingViewModel(
             file: file, importer: StubImporter(), onOutcome: { _ in })
-        return ParsingView(model: model)
+        return NavigationStack { ParsingView(model: model) }
     }
 
     #Preview("Parsing") { stubParsing().badeTheme() }

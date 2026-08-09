@@ -1,6 +1,118 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "cadence.annual": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "annual"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "წლიური"
+          }
+        }
+      }
+    },
+    "cadence.monthly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "monthly"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ყოველთვიური"
+          }
+        }
+      }
+    },
+    "cadence.quarterly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "quarterly"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კვარტალური"
+          }
+        }
+      }
+    },
+    "cadence.semiannual": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "semiannual"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ნახევარწლიური"
+          }
+        }
+      }
+    },
+    "cadence.weekly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "weekly"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ყოველკვირეული"
+          }
+        }
+      }
+    },
+    "parsing.chooseAnother": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose another file"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "აირჩიეთ სხვა ფაილი"
+          }
+        }
+      }
+    },
+    "parsing.close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დახურვა"
+          }
+        }
+      }
+    },
     "parsing.failed": {
       "localizations": {
         "en": {
@@ -13,6 +125,54 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ამონაწერის წაკითხვა ვერ მოხერხდა"
+          }
+        }
+      }
+    },
+    "parsing.failure.tooFew": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Almost nothing could be read from that statement."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამონაწერიდან თითქმის ვერაფერი წაიკითხა."
+          }
+        }
+      }
+    },
+    "parsing.failure.unreadable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That file could not be opened."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფაილის გახსნა ვერ მოხერხდა."
+          }
+        }
+      }
+    },
+    "parsing.failure.unrecognised": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This does not look like a bank statement Bade can read yet."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ეს არ ჰგავს ამონაწერს, რომლის წაკითხვაც ბადეს ჯერ შეუძლია."
           }
         }
       }
@@ -125,6 +285,334 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ვამოწმებ ტრანზაქციებს"
+          }
+        }
+      }
+    },
+    "review.caption %lld %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@count@ · %2$@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg charge"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg charges"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%#@count@ · %2$@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "needs_review",
+                      "value": "%arg ჩამოჭრა"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "needs_review",
+                      "value": "%arg ჩამოჭრა"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "review.close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დახურვა"
+          }
+        }
+      }
+    },
+    "review.confirm %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm · %lld"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დადასტურება · %lld"
+          }
+        }
+      }
+    },
+    "review.isSubscription": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subscription"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გამოწერაა"
+          }
+        }
+      }
+    },
+    "review.notOne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not one"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "არ არის"
+          }
+        }
+      }
+    },
+    "review.priceChanged": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "price changed"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფასი შეიცვალა"
+          }
+        }
+      }
+    },
+    "review.saveFailed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't save. Try again."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ვერ შევინახეთ. სცადეთ ხელახლა."
+          }
+        }
+      }
+    },
+    "review.summary %lld %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@count@ · %2$@ a month"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg subscription"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg subscriptions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%#@count@ · %2$@ თვეში"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "needs_review",
+                      "value": "%arg გამოწერა"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "needs_review",
+                      "value": "%arg გამოწერა"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "review.tier.confident": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confident"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დარწმუნებული"
+          }
+        }
+      }
+    },
+    "review.tier.confidentHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3+ charges"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3+ ჩამოჭრა"
+          }
+        }
+      }
+    },
+    "review.tier.probable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Probably"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "სავარაუდოდ"
+          }
+        }
+      }
+    },
+    "review.tier.probableHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 charges"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "2 ჩამოჭრა"
+          }
+        }
+      }
+    },
+    "review.tier.uncertain": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not sure"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ეჭვქვეშ"
+          }
+        }
+      }
+    },
+    "review.tierCount %@ %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@ · %2$lld"
+          }
+        }
+      }
+    },
+    "review.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review what we found"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეამოწმეთ ნაპოვნი"
           }
         }
       }
@@ -349,86 +837,6 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "რამდენს იხდით თვეში?"
-          }
-        }
-      }
-    },
-    "parsing.failure.unreadable": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "That file could not be opened."
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "ფაილის გახსნა ვერ მოხერხდა."
-          }
-        }
-      }
-    },
-    "parsing.failure.unrecognised": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This does not look like a bank statement Bade can read yet."
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "ეს არ ჰგავს ამონაწერს, რომლის წაკითხვაც ბადეს ჯერ შეუძლია."
-          }
-        }
-      }
-    },
-    "parsing.failure.tooFew": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Almost nothing could be read from that statement."
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "ამონაწერიდან თითქმის ვერაფერი წაიკითხა."
-          }
-        }
-      }
-    },
-    "parsing.close": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close"
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "დახურვა"
-          }
-        }
-      }
-    },
-    "parsing.chooseAnother": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose another file"
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "აირჩიეთ სხვა ფაილი"
           }
         }
       }

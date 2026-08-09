@@ -67,18 +67,23 @@ extension Font {
 }
 
 extension View {
-    /// Uppercase section labels, with the tracking the design carries.
-    public func badeSectionLabel() -> some View { modifier(BadeSectionLabel()) }
+    /// Uppercase section labels, with the tracking the design carries. `tint` promotes a label the
+    /// design colours differently; the default is the quiet one.
+    public func badeSectionLabel(tint: Color? = nil) -> some View {
+        modifier(BadeSectionLabel(tint: tint))
+    }
 }
 
 private struct BadeSectionLabel: ViewModifier {
     @Environment(\.badeTheme) private var theme
+
+    let tint: Color?
 
     func body(content: Content) -> some View {
         content
             .font(.badeLabel)
             .textCase(.uppercase)
             .tracking(BadeTypography.labelTracking)
-            .foregroundStyle(theme.inkFaint)
+            .foregroundStyle(tint ?? theme.inkFaint)
     }
 }

@@ -43,6 +43,7 @@ let package = Package(
             name: "AppRoot",
             dependencies: [
                 "Core", "DesignSystem", "Localization", "Welcome", "Import", "Pipeline",
+                "Persistence",
             ],
             path: "Sources/App"),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),

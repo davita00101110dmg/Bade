@@ -4,6 +4,9 @@ import Foundation
 public protocol SubscriptionRepository: Sendable {
     func all() async throws -> [Subscription]
     func save(_ subscription: Subscription) async throws
+    /// Re-importing an overlapping statement must refresh a subscription, never duplicate it.
+    @discardableResult
+    func confirm(_ detected: [DetectedSubscription]) async throws -> [Subscription]
     func delete(id: UUID) async throws
     /// §10 requires a full delete in v1.
     func deleteAll() async throws

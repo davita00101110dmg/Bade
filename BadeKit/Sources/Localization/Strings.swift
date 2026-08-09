@@ -6,6 +6,8 @@ extension LocalizedStringResource {
     public static var welcome: WelcomeStrings { WelcomeStrings() }
     public static var exportGuide: ExportGuideStrings { ExportGuideStrings() }
     public static var parsing: ParsingStrings { ParsingStrings() }
+    public static var review: ReviewStrings { ReviewStrings() }
+    public static var cadence: CadenceStrings { CadenceStrings() }
 
     public struct WelcomeStrings {
         public var title: LocalizedStringResource { string("welcome.title") }
@@ -41,6 +43,42 @@ extension LocalizedStringResource {
         public func progress(_ month: String, _ percent: String) -> LocalizedStringResource {
             string("parsing.progress \(month) \(percent)")
         }
+    }
+
+    public struct ReviewStrings {
+        public var title: LocalizedStringResource { string("review.title") }
+        public var tierConfident: LocalizedStringResource { string("review.tier.confident") }
+        public var tierProbable: LocalizedStringResource { string("review.tier.probable") }
+        public var tierUncertain: LocalizedStringResource { string("review.tier.uncertain") }
+        public var confidentHint: LocalizedStringResource { string("review.tier.confidentHint") }
+        public var probableHint: LocalizedStringResource { string("review.tier.probableHint") }
+        public var priceChanged: LocalizedStringResource { string("review.priceChanged") }
+        public var isSubscription: LocalizedStringResource { string("review.isSubscription") }
+        public var notOne: LocalizedStringResource { string("review.notOne") }
+        public var saveFailed: LocalizedStringResource { string("review.saveFailed") }
+        public var close: LocalizedStringResource { string("review.close") }
+
+        public func summary(_ count: Int, _ monthly: String) -> LocalizedStringResource {
+            string("review.summary \(count) \(monthly)")
+        }
+        public func caption(_ charges: Int, _ detail: String) -> LocalizedStringResource {
+            string("review.caption \(charges) \(detail)")
+        }
+        public func confirm(_ count: Int) -> LocalizedStringResource {
+            string("review.confirm \(count)")
+        }
+        public func tierCount(_ tier: String, _ count: Int) -> LocalizedStringResource {
+            string("review.tierCount \(tier) \(count)")
+        }
+    }
+
+    /// Localization has no dependencies, so cadences are named rather than keyed off `Cadence`.
+    public struct CadenceStrings {
+        public var weekly: LocalizedStringResource { string("cadence.weekly") }
+        public var monthly: LocalizedStringResource { string("cadence.monthly") }
+        public var quarterly: LocalizedStringResource { string("cadence.quarterly") }
+        public var semiannual: LocalizedStringResource { string("cadence.semiannual") }
+        public var annual: LocalizedStringResource { string("cadence.annual") }
     }
 
     public struct ExportGuideStrings {

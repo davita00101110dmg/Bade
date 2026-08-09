@@ -13,22 +13,6 @@ public struct ParsingView: View {
     }
 
     public var body: some View {
-        NavigationStack {
-            content
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button { model.send(.closeTapped) } label: {
-                            Image(systemName: "xmark")
-                        }
-                        .accessibilityLabel(Text(.parsing.close))
-                    }
-                }
-                .toolbarTitleDisplayMode(.inline)
-        }
-        .tint(theme.accent)
-    }
-
-    private var content: some View {
         VStack(spacing: .zero) {
             StatementFileCard(
                 file: model.state.file,
@@ -63,6 +47,15 @@ public struct ParsingView: View {
         .background(theme.surface, ignoresSafeAreaEdges: .all)
         .badeFeedback(.itemAppeared, trigger: model.state.revealedCount)
         .badeFeedback(.failure, trigger: model.state.failure)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button { model.send(.closeTapped) } label: {
+                    Image(systemName: "xmark")
+                }
+                .accessibilityLabel(Text(.parsing.close))
+            }
+        }
+        .toolbarTitleDisplayMode(.inline)
         .task { model.send(.appeared) }
         .onDisappear { model.cancel() }
     }

@@ -1,14 +1,19 @@
 import Core
 import DesignSystem
 import Import
+import Persistence
 import Pipeline
 import SwiftUI
 import UniformTypeIdentifiers
 import Welcome
 
 public struct BadeRootView: View {
+    /// TODO: Settings (§10) will own this. GEL is the launch default until that screen exists.
+    private static let displayCurrency = "GEL"
+
     @State private var isPickingFile = false
     @State private var statement: StatementFile?
+    @State private var repository = Self.makeRepository()
 
     public init() {}
 
@@ -26,20 +31,24 @@ public struct BadeRootView: View {
             statement = StatementFile(contentsOf: url)
         }
         .badeCover(item: $statement) { file in
-            ParsingView(
-                model: ParsingViewModel(
-                    file: file, importer: StatementImporter(),
-                    onOutcome: handle)
+            ImportFlowView(
+                file: file, importer: StatementImporter(), repository: repository,
+                currency: Self.displayCurrency, onOutcome: handle
             )
             .badeTheme()
         }
     }
 
-    private func handle(_ outcome: ParsingOutcome) {
+    private func handle(_ outcome: ImportOutcome) {
         statement = nil
         switch outcome {
-        case .cancelled, .finished: break
+        case .cancelled, .foundNothing, .saved: break
         case .chooseAnother: isPickingFile = true
         }
+    }
+
+    /// A local store that cannot open is unrecoverable — there is no degraded mode to fall back to.
+    private static func makeRepository() -> any SubscriptionRepository {
+        SubscriptionStore(modelContainer: try! SubscriptionStore.container())
     }
 }
