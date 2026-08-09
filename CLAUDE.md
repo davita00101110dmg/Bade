@@ -8,7 +8,7 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **1 — Core domain model**
+> Build order step: **2 — Golden-test harness**
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.)
 
 ---

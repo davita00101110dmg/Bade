@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C5EF365430285962002CE2C5 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = C5EF365330285962002CE2C5 /* Core */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C5EF3606302851CB002CE2C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5EF365430285962002CE2C5 /* Core in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = Bade;
 			packageProductDependencies = (
+				C5EF365330285962002CE2C5 /* Core */,
 			);
 			productName = Bade;
 			productReference = C5EF35F8302851CA002CE2C5 /* Bade.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = C5EF35EF302851CA002CE2C5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C5EF365230285962002CE2C5 /* XCLocalSwiftPackageReference "BadeKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C5EF35F9302851CA002CE2C5 /* Products */;
 			projectDirPath = "";
@@ -615,6 +624,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		C5EF365230285962002CE2C5 /* XCLocalSwiftPackageReference "BadeKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = BadeKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C5EF365330285962002CE2C5 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C5EF35F0302851CA002CE2C5 /* Project object */;
 }
