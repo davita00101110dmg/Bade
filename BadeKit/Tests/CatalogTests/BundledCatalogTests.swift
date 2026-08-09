@@ -42,9 +42,15 @@ struct BundledCatalogTests {
         #expect(catalog.match(merchant: "  ", amount: 12, currency: "GEL") == .none)
     }
 
-    @Test(arguments: ["NETFLIX", "netflix.com", "Netflix ", "NETFLIX.COM 1082"])
+    /// Normalization cleans descriptions before the catalog sees them, so matching is exact.
+    @Test(arguments: ["NETFLIX", "netflix", "Netflix ", "net flix"])
     func matchesRegardlessOfCaseSpacingAndPunctuation(merchant: String) {
         #expect(catalog.entry(for: merchant)?.merchant == "Netflix")
+    }
+
+    @Test(arguments: ["ZOOMMER", "OPEN AIR", "NETFLIX.COM 1082"])
+    func doesNotMatchMerchantsThatMerelyContainABrand(merchant: String) {
+        #expect(catalog.entry(for: merchant) == nil)
     }
 
     @Test func matchesOnAlias() {

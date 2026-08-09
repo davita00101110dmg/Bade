@@ -40,6 +40,7 @@ public enum MerchantSeed {
     ]
 
     static let storage: [CatalogEntry] = [
+        .init("Apple", .monthly, aliases: ["applecombill", "applecom", "applebill"]),
         .init("iCloud", .monthly, aliases: ["appleicloud", "icloudplus"], pricePoints: [.monthly("0.99"), .monthly("2.99"), .monthly("9.99")]),
         .init("Google One", .monthly, aliases: ["googleone", "googlestorage"], pricePoints: [.monthly("1.99"), .monthly("2.99"), .monthly("9.99"), .annual("19.99")]),
         .init("Dropbox", .monthly, pricePoints: [.monthly("11.99"), .annual("119.88")]),
@@ -65,7 +66,7 @@ public enum MerchantSeed {
         .init("ClickUp", .monthly),
         .init("Miro", .monthly),
         .init("Figma", .monthly, pricePoints: [.monthly("12.00"), .monthly("15.00")]),
-        .init("Canva", .annual, pricePoints: [.monthly("14.99"), .annual("119.99")]),
+        .init("Canva", .annual, aliases: ["canvaptylim"], pricePoints: [.monthly("14.99"), .annual("119.99")]),
         .init("Grammarly", .monthly, pricePoints: [.monthly("12.00"), .monthly("30.00")]),
         .init("1Password", .annual, aliases: ["onepassword", "agilebits"], pricePoints: [.monthly("2.99"), .annual("35.88")]),
         .init("LastPass", .annual),

@@ -18,17 +18,11 @@ public struct BundledCatalog: SubscriptionCatalog {
         return .pricePoint(cadence: published.cadence)
     }
 
-    /// Longest matching token wins, so "GitHub Copilot" beats "GitHub" and "Dropbox" beats "Box".
+    /// Exact match only. Substring matching turned "ZOOMMER" into Zoom and "OPEN AIR" into
+    /// ChatGPT; a recurring charge is caught by interval detection anyway, so precision wins.
     public func entry(for merchant: String) -> CatalogEntry? {
         let folded = MerchantName.folded(merchant)
         guard !folded.isEmpty else { return nil }
-
-        var best: (entry: CatalogEntry, length: Int)?
-        for entry in entries {
-            let matched = entry.matchTokens.filter { !$0.isEmpty && folded.contains($0) }
-            guard let length = matched.map(\.count).max(), length > best?.length ?? 0 else { continue }
-            best = (entry, length)
-        }
-        return best?.entry
+        return entries.first { $0.matchTokens.contains(folded) }
     }
 }

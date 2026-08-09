@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "Detection", targets: ["Detection"]),
         .library(name: "Catalog", targets: ["Catalog"]),
         .library(name: "Ingestion", targets: ["Ingestion"]),
+        .library(name: "Normalization", targets: ["Normalization"]),
     ],
     targets: [
         .target(name: "Core"),
@@ -18,8 +19,13 @@ let package = Package(
         .testTarget(name: "DetectionTests", dependencies: ["Detection", "Core"]),
         .target(name: "Ingestion", dependencies: ["Core"]),
         .testTarget(name: "IngestionTests", dependencies: ["Ingestion", "Core"]),
+        .target(name: "Normalization", dependencies: ["Core"]),
+        .testTarget(name: "NormalizationTests", dependencies: ["Normalization", "Core"]),
         .target(name: "Catalog", dependencies: ["Core"]),
         .testTarget(name: "CatalogTests", dependencies: ["Catalog", "Detection", "Core"]),
+        .testTarget(
+            name: "PipelineTests",
+            dependencies: ["Ingestion", "Normalization", "Detection", "Catalog", "Core"]),
         .target(name: "TestSupport", dependencies: ["Core"]),
         .testTarget(name: "GoldenTests", dependencies: ["TestSupport", "Core"]),
     ]
