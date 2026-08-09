@@ -35,13 +35,3 @@ extension ReviewItem {
         return .badeLocalized(subscription.cadence.localizedName, in: locale)
     }
 }
-
-extension String {
-    /// Resolves against the view's locale rather than the process locale, so previews in Georgian
-    /// render Georgian.
-    static func badeLocalized(_ resource: LocalizedStringResource, in locale: Locale) -> String {
-        var resolved = resource
-        resolved.locale = locale
-        return String(localized: resolved)
-    }
-}

@@ -39,12 +39,14 @@
             priceChanges: changes)
     }
 
-    private struct StubRepository: SubscriptionRepository {
+    private struct StubRepository: SubscriptionRepository, RateRepository {
         func all() async throws -> [Subscription] { [] }
         func save(_ subscription: Subscription) async throws {}
         func confirm(_ detected: [DetectedSubscription]) async throws -> [Subscription] { [] }
         func delete(id: UUID) async throws {}
         func deleteAll() async throws {}
+        func observedRates() async throws -> RateBook { RateBook() }
+        func record(_ rates: RateBook) async throws {}
     }
 
     @MainActor
@@ -63,7 +65,8 @@
         ]
         let model = ReviewViewModel(
             detected: detected, rates: rates, currency: "GEL",
-            repository: StubRepository(), onOutcome: { _ in })
+            repository: StubRepository(), rateRepository: StubRepository(),
+            onOutcome: { _ in })
         return NavigationStack { ReviewView(model: model) }
     }
 

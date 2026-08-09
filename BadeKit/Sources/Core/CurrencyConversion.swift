@@ -33,6 +33,9 @@ public struct RateBook: Equatable, Sendable, Codable {
 
     public init() {}
 
+    /// Every observation, so a store can persist them and hand them back later.
+    public var observations: [ObservedRate] { observed.values.flatMap { $0 } }
+
     public mutating func record(_ rate: ObservedRate) {
         guard rate.rate > 0, rate.from != rate.to else { return }
         observed[Self.key(rate.from, rate.to), default: []].append(rate)

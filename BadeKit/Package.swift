@@ -36,14 +36,18 @@ let package = Package(
             name: "Import", dependencies: ["Core", "DesignSystem", "Localization"],
             path: "Sources/Features/Import"),
         .target(
+            name: "Subscriptions", dependencies: ["Core", "DesignSystem", "Localization"],
+            path: "Sources/Features/Subscriptions"),
+        .testTarget(name: "SubscriptionsTests", dependencies: ["Subscriptions", "Core"]),
+        .target(
             name: "Pipeline",
             dependencies: ["Core", "Ingestion", "Normalization", "Detection", "Catalog"]),
         .testTarget(name: "ImportTests", dependencies: ["Import", "Core"]),
         .target(
             name: "AppRoot",
             dependencies: [
-                "Core", "DesignSystem", "Localization", "Welcome", "Import", "Pipeline",
-                "Persistence",
+                "Core", "DesignSystem", "Localization", "Welcome", "Import", "Subscriptions",
+                "Pipeline", "Persistence",
             ],
             path: "Sources/App"),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),

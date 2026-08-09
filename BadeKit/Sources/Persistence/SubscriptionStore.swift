@@ -3,13 +3,33 @@ import Foundation
 import SwiftData
 
 @ModelActor
-public actor SubscriptionStore: SubscriptionRepository {
+public actor SubscriptionStore: SubscriptionRepository, RateRepository {
     /// Local store only — no CloudKit, no remote container (§10).
     public static func container(inMemory: Bool = false) throws -> ModelContainer {
         try ModelContainer(
-            for: SubscriptionRecord.self,
+            for: SubscriptionRecord.self, ObservedRateRecord.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: inMemory)
         )
+    }
+
+    public func observedRates() async throws -> RateBook {
+        var book = RateBook()
+        for record in try modelContext.fetch(FetchDescriptor<ObservedRateRecord>()) {
+            book.record(record.observed)
+        }
+        return book
+    }
+
+    /// Rates accumulate across imports: a statement arriving later can carry the rate that finally
+    /// converts a charge imported today.
+    public func record(_ rates: RateBook) async throws {
+        let existing = Set(
+            try modelContext.fetch(FetchDescriptor<ObservedRateRecord>()).map(\.identity))
+        for observed in rates.observations
+        where !existing.contains(ObservedRateRecord.identity(of: observed)) {
+            modelContext.insert(ObservedRateRecord(observed))
+        }
+        try modelContext.save()
     }
 
     public func all() async throws -> [Subscription] {
@@ -33,22 +53,50 @@ public actor SubscriptionStore: SubscriptionRepository {
         try modelContext.save()
     }
 
+    /// §10's delete-everything leaves nothing derived from a statement behind, rates included.
     public func deleteAll() async throws {
         try modelContext.delete(model: SubscriptionRecord.self)
+        try modelContext.delete(model: ObservedRateRecord.self)
         try modelContext.save()
     }
 
     /// Re-importing an overlapping statement must refresh a subscription, never duplicate it.
     public func confirm(_ detected: [DetectedSubscription]) async throws -> [Subscription] {
-        for candidate in detected.map({ Subscription(confirming: $0) }) {
-            if let existing = try record(matching: candidate.matchKey) {
+        var claimed: Set<UUID> = []
+        for (key, candidates) in Dictionary(
+            grouping: detected.map({ Subscription(confirming: $0) }), by: \.matchKey)
+        {
+            let stored = try records(matching: key)
+            for candidate in candidates {
+                guard
+                    let existing = pair(
+                        candidate, from: stored, isOnlyOneOfItsKind: candidates.count == 1,
+                        claimed: &claimed)
+                else {
+                    modelContext.insert(SubscriptionRecord(candidate))
+                    continue
+                }
                 existing.update(from: merging(candidate, into: existing.subscription))
-            } else {
-                modelContext.insert(SubscriptionRecord(candidate))
             }
         }
         try modelContext.save()
         return try await all()
+    }
+
+    /// One merchant can bill several subscriptions at once (§7.1), so merchant, currency and
+    /// cadence cannot say which stored row a charge belongs to — amount decides, and a row is
+    /// claimed only once per import. A lone incoming charge meeting a lone stored one merges
+    /// whatever the amount, because that is a price change and not a second subscription.
+    private func pair(
+        _ candidate: Subscription, from stored: [SubscriptionRecord], isOnlyOneOfItsKind: Bool,
+        claimed: inout Set<UUID>
+    ) -> SubscriptionRecord? {
+        let free = stored.filter { !claimed.contains($0.id) }
+        let match =
+            free.first { AmountTolerance.matches($0.amount, candidate.amount) }
+            ?? (isOnlyOneOfItsKind && free.count == 1 ? free.first : nil)
+        if let match { claimed.insert(match.id) }
+        return match
     }
 
     /// Keeps the stored identity and the widest known history; an older statement never rewinds
@@ -78,9 +126,9 @@ public actor SubscriptionStore: SubscriptionRepository {
         ).first
     }
 
-    private func record(matching key: String) throws -> SubscriptionRecord? {
+    private func records(matching key: String) throws -> [SubscriptionRecord] {
         try modelContext.fetch(
             FetchDescriptor<SubscriptionRecord>(predicate: #Predicate { $0.matchKey == key })
-        ).first
+        )
     }
 }

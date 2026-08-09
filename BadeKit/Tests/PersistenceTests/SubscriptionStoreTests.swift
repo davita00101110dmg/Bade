@@ -195,3 +195,54 @@ struct SubscriptionStoreTests {
         #expect(try await newStore().all().isEmpty)
     }
 }
+
+/// One merchant billing several subscriptions at once is the case `matchKey` alone cannot see:
+/// merchant, currency and cadence are identical, and only the amount tells them apart.
+@Suite("Concurrent subscriptions from one merchant", .serialized)
+struct ConcurrentSubscriptionTests {
+    private func apple(_ amount: String, dates: [String] = ["2026-06-01", "2026-07-01"])
+        -> DetectedSubscription
+    {
+        detected("Apple", amount: amount, dates: dates, next: "2026-08-01")
+    }
+
+    @Test func threeAppleSubscriptionsSaveAsThree() async throws {
+        let store = try newStore()
+
+        _ = try await store.confirm([apple("2.99"), apple("9.99"), apple("24.99")])
+
+        let all = try await store.all()
+        #expect(all.count == 3)
+        #expect(Set(all.map(\.amount)) == [Decimal(string: "2.99")!, 9.99, 24.99])
+    }
+
+    @Test func reimportingThemMatchesEachToItsOwnRow() async throws {
+        let store = try newStore()
+        let batch = [apple("2.99"), apple("9.99"), apple("24.99")]
+
+        _ = try await store.confirm(batch)
+        _ = try await store.confirm(batch)
+
+        #expect(try await store.all().count == 3)
+    }
+
+    @Test func aPriceRiseStillUpdatesRatherThanSplitting() async throws {
+        let store = try newStore()
+        _ = try await store.confirm([apple("2.99")])
+
+        _ = try await store.confirm([apple("4.99")])
+
+        let all = try await store.all()
+        #expect(all.count == 1)
+        #expect(all[0].amount == Decimal(string: "4.99")!)
+    }
+
+    @Test func aSecondSubscriptionAppearsWithoutDisturbingTheFirst() async throws {
+        let store = try newStore()
+        _ = try await store.confirm([apple("2.99")])
+
+        _ = try await store.confirm([apple("2.99"), apple("24.99")])
+
+        #expect(try await store.all().count == 2)
+    }
+}

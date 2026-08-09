@@ -11,7 +11,7 @@ public enum BadeFontFamily: Sendable, Equatable {
 public enum BadeTypography {
     public static let family: BadeFontFamily = .system
 
-    public static let totalSize: CGFloat = 56
+    public static let totalSize: CGFloat = 92
     public static let displaySize: CGFloat = 40
     public static let titleSize: CGFloat = 22
     public static let headlineSize: CGFloat = 17
@@ -60,6 +60,10 @@ extension Font {
     }
     public static var badeCaption: Font {
         BadeTypography.font(BadeTypography.captionSize, relativeTo: .caption)
+    }
+    /// A caption carrying the one word or figure that matters in its line.
+    public static var badeCaptionStrong: Font {
+        BadeTypography.font(BadeTypography.captionSize, relativeTo: .caption, weight: .semibold)
     }
     public static var badeLabel: Font {
         BadeTypography.font(BadeTypography.labelSize, relativeTo: .caption2, weight: .semibold)

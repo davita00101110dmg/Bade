@@ -10,6 +10,7 @@ public struct ImportFlowView: View {
     private let file: StatementFile
     private let importer: any StatementImporting
     private let repository: any SubscriptionRepository
+    private let rateRepository: any RateRepository
     private let currency: String
     private let onOutcome: (ImportOutcome) -> Void
 
@@ -19,12 +20,14 @@ public struct ImportFlowView: View {
         file: StatementFile,
         importer: any StatementImporting,
         repository: any SubscriptionRepository,
+        rateRepository: any RateRepository,
         currency: String,
         onOutcome: @escaping (ImportOutcome) -> Void
     ) {
         self.file = file
         self.importer = importer
         self.repository = repository
+        self.rateRepository = rateRepository
         self.currency = currency
         self.onOutcome = onOutcome
     }
@@ -44,7 +47,8 @@ public struct ImportFlowView: View {
         ReviewView(
             model: ReviewViewModel(
                 detected: statement.detected, rates: statement.rates, currency: currency,
-                repository: repository, onOutcome: handleReview)
+                repository: repository, rateRepository: rateRepository,
+                onOutcome: handleReview)
         )
     }
 

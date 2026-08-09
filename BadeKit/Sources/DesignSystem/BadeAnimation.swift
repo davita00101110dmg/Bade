@@ -13,6 +13,14 @@ extension Animation {
     public static let badeTransition: Animation = .smooth(duration: 0.4)
     /// The net dissolving as the app fills with data.
     public static let badeNet: Animation = .easeInOut(duration: 0.8)
+    /// The monthly total counting up — §14.7's arrival moment, and the one place the brief says
+    /// to spend animation budget. Eases out so it settles rather than stopping dead.
+    public static let badeTotalReveal: Animation = .easeOut(duration: BadeMotion.totalReveal)
+}
+
+/// Durations a view needs to know in seconds, because it has to wait for one to finish.
+public enum BadeMotion {
+    public static let totalReveal: TimeInterval = 0.9
 }
 
 extension View {

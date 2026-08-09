@@ -7,6 +7,7 @@ extension LocalizedStringResource {
     public static var parsing: ParsingStrings { ParsingStrings() }
     public static var review: ReviewStrings { ReviewStrings() }
     public static var cadence: CadenceStrings { CadenceStrings() }
+    public static var subscriptions: SubscriptionsStrings { SubscriptionsStrings() }
 
     public struct WelcomeStrings {
         public var title: LocalizedStringResource { string("welcome.title") }
@@ -75,6 +76,36 @@ extension LocalizedStringResource {
         }
     }
 
+    public struct SubscriptionsStrings {
+        public var perMonth: LocalizedStringResource { string("subscriptions.perMonth") }
+        public var all: LocalizedStringResource { string("subscriptions.all") }
+        public var sortByCost: LocalizedStringResource { string("subscriptions.sort.cost") }
+        public var sortByName: LocalizedStringResource { string("subscriptions.sort.name") }
+        public var sortByNextCharge: LocalizedStringResource {
+            string("subscriptions.sort.nextCharge")
+        }
+        public var sortLabel: LocalizedStringResource { string("subscriptions.sortLabel") }
+        public var importStatement: LocalizedStringResource { string("subscriptions.import") }
+        public var loadFailed: LocalizedStringResource { string("subscriptions.loadFailed") }
+        public var separator: LocalizedStringResource { string("subscriptions.separator") }
+        public var delete: LocalizedStringResource { string("subscriptions.delete") }
+        public var deleteAll: LocalizedStringResource { string("subscriptions.deleteAll") }
+        public var deleteAllTitle: LocalizedStringResource {
+            string("subscriptions.deleteAllTitle")
+        }
+        public var deleteAllMessage: LocalizedStringResource {
+            string("subscriptions.deleteAllMessage")
+        }
+        public var cancel: LocalizedStringResource { string("subscriptions.cancel") }
+
+        public func yearAndCount(_ annual: String, _ count: Int) -> LocalizedStringResource {
+            string("subscriptions.yearAndCount \(annual) \(count)")
+        }
+        public func unconvertible(_ count: Int) -> LocalizedStringResource {
+            string("subscriptions.unconvertible \(count)")
+        }
+    }
+
     /// Localization has no dependencies, so cadences are named rather than keyed off `Cadence`.
     public struct CadenceStrings {
         public var weekly: LocalizedStringResource { string("cadence.weekly") }
@@ -83,7 +114,19 @@ extension LocalizedStringResource {
         public var semiannual: LocalizedStringResource { string("cadence.semiannual") }
         public var annual: LocalizedStringResource { string("cadence.annual") }
     }
+}
 
+extension String {
+    /// Resolves against the view's locale rather than the process locale, so a preview in Georgian
+    /// renders Georgian. Needed wherever a localised value has to become a `String` to be
+    /// interpolated or styled.
+    public static func badeLocalized(_ resource: LocalizedStringResource, in locale: Locale)
+        -> String
+    {
+        var resolved = resource
+        resolved.locale = locale
+        return String(localized: resolved)
+    }
 }
 
 private func string(_ key: String.LocalizationValue) -> LocalizedStringResource {

@@ -8,6 +8,7 @@ public final class ReviewViewModel {
     public private(set) var state: ReviewState
 
     private let repository: any SubscriptionRepository
+    private let rateRepository: any RateRepository
     private let onOutcome: (ReviewOutcome) -> Void
     private var work: Task<Void, Never>?
 
@@ -16,10 +17,12 @@ public final class ReviewViewModel {
         rates: RateBook,
         currency: String,
         repository: any SubscriptionRepository,
+        rateRepository: any RateRepository,
         onOutcome: @escaping (ReviewOutcome) -> Void
     ) {
         state = ReviewState(detected: detected, rates: rates, currency: currency)
         self.repository = repository
+        self.rateRepository = rateRepository
         self.onOutcome = onOutcome
     }
 
@@ -33,6 +36,8 @@ public final class ReviewViewModel {
         case .save(let detected):
             do {
                 try await repository.confirm(detected)
+                // Kept whatever the user chose: a rate outlives the charge that revealed it.
+                try await rateRepository.record(state.rates)
                 send(.saved)
             } catch {
                 send(.saveFailed)
