@@ -10,7 +10,7 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **5 — Ingestion + BOG PDF parser**
+> Build order step: **6 — Normalization tier 1**
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.)
 
 ---
