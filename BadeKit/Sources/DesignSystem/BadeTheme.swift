@@ -15,6 +15,7 @@ public struct BadeTheme: Sendable, Equatable {
     public var net: Color
     public var positive: Color
     public var warning: Color
+    public var destructive: Color
 
     public init(scheme: ColorScheme) {
         surface = BadePalette.surface.color(for: scheme)
@@ -29,6 +30,7 @@ public struct BadeTheme: Sendable, Equatable {
         net = BadePalette.net.color(for: scheme)
         positive = BadePalette.positive.color(for: scheme)
         warning = BadePalette.warning.color(for: scheme)
+        destructive = BadePalette.destructive.color(for: scheme)
     }
 
     public static let light = BadeTheme(scheme: .light)

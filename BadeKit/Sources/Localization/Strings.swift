@@ -8,6 +8,26 @@ extension LocalizedStringResource {
     public static var review: ReviewStrings { ReviewStrings() }
     public static var cadence: CadenceStrings { CadenceStrings() }
     public static var subscriptions: SubscriptionsStrings { SubscriptionsStrings() }
+    public static var detail: DetailStrings { DetailStrings() }
+
+    public struct DetailStrings {
+        public var history: LocalizedStringResource { string("detail.history") }
+        public var nextCharge: LocalizedStringResource { string("detail.nextCharge") }
+        public var aYear: LocalizedStringResource { string("detail.aYear") }
+        public var firstCharge: LocalizedStringResource { string("detail.firstCharge") }
+        public var delete: LocalizedStringResource { string("detail.delete") }
+        public var deleteTitle: LocalizedStringResource { string("detail.deleteTitle") }
+        public var deleteMessage: LocalizedStringResource { string("detail.deleteMessage") }
+        public var cancel: LocalizedStringResource { string("detail.cancel") }
+        public var noHistory: LocalizedStringResource { string("detail.noHistory") }
+
+        public func billedIn(_ cadence: String, _ currency: String) -> LocalizedStringResource {
+            string("detail.billedIn \(cadence) \(currency)")
+        }
+        public func priceChange(_ month: String) -> LocalizedStringResource {
+            string("detail.priceChange \(month)")
+        }
+    }
 
     public struct WelcomeStrings {
         public var title: LocalizedStringResource { string("welcome.title") }
@@ -97,6 +117,17 @@ extension LocalizedStringResource {
             string("subscriptions.deleteAllMessage")
         }
         public var cancel: LocalizedStringResource { string("subscriptions.cancel") }
+        public var noLongerCharged: LocalizedStringResource {
+            string("subscriptions.noLongerCharged")
+        }
+        public var nothingCharging: LocalizedStringResource {
+            string("subscriptions.nothingCharging")
+        }
+        /// Shared with detail: the same act, offered from the list and from the screen itself.
+        public var markCancelled: LocalizedStringResource {
+            string("subscriptions.markCancelled")
+        }
+        public var markActive: LocalizedStringResource { string("subscriptions.markActive") }
 
         public func yearAndCount(_ annual: String, _ count: Int) -> LocalizedStringResource {
             string("subscriptions.yearAndCount \(annual) \(count)")

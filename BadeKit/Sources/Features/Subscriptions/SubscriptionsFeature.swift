@@ -22,11 +22,19 @@ public struct SubscriptionsState: Equatable {
         self.currency = currency
     }
 
-    /// Cancelled subscriptions are not spend. The total and the list agree by construction.
+    /// Cancelled subscriptions are not spend. The total and the live list agree by construction.
     private var active: [Subscription] { all.filter(\.isActive) }
 
-    public var rows: [SubscriptionRow] {
-        let rows = active.map { SubscriptionRow(subscription: $0, converted: monthly(of: $0)) }
+    public var rows: [SubscriptionRow] { sorted(active) }
+
+    /// Still listed, deliberately. Cancelling something must look different from deleting it, and
+    /// a screen that empties itself when everything is cancelled explains nothing.
+    public var cancelledRows: [SubscriptionRow] { sorted(all.filter { !$0.isActive }) }
+
+    private func sorted(_ subscriptions: [Subscription]) -> [SubscriptionRow] {
+        let rows = subscriptions.map {
+            SubscriptionRow(subscription: $0, converted: monthly(of: $0))
+        }
         switch sort {
         case .cost: return rows.sorted { $0.sortableMonthly > $1.sortableMonthly }
         case .name: return rows.sorted { $0.subscription.merchant < $1.subscription.merchant }
@@ -44,7 +52,6 @@ public struct SubscriptionsState: Equatable {
 
     public var annualTotal: Decimal { monthlyTotal * 12 }
     public var count: Int { active.count }
-    public var isEmpty: Bool { phase == .ready && active.isEmpty }
 
     private func monthly(of subscription: Subscription) -> Decimal? {
         rates.convert(
@@ -59,15 +66,17 @@ public enum SubscriptionsIntent: Equatable {
     case loadFailed
     case sortChanged(SubscriptionSort)
     case importTapped
+    case activeToggled(Subscription)
     case deleteTapped(Subscription)
     case deleteAllRequested
     case deleteAllConfirmed
     case confirmationDismissed
-    case deletionFinished
+    case storeChanged
 }
 
 public enum SubscriptionsEffect: Equatable {
     case load
+    case save(Subscription)
     case delete(UUID)
     case deleteEverything
     case exit(SubscriptionsOutcome)
@@ -83,7 +92,7 @@ extension SubscriptionsState {
             all = subscriptions
             self.rates = rates
             phase = .ready
-            // An empty store means Welcome again: this screen is only ever shown over data.
+            // An empty store means Welcome again — but a cancelled subscription is still data.
             return subscriptions.isEmpty ? .exit(.dataCleared) : nil
 
         case .loadFailed:
@@ -96,6 +105,11 @@ extension SubscriptionsState {
 
         case .importTapped:
             return .exit(.importStatement)
+
+        case .activeToggled(let subscription):
+            var updated = subscription
+            updated.isActive.toggle()
+            return .save(updated)
 
         case .deleteTapped(let subscription):
             return .delete(subscription.id)
@@ -112,7 +126,7 @@ extension SubscriptionsState {
             isConfirmingDeleteAll = false
             return nil
 
-        case .deletionFinished:
+        case .storeChanged:
             return .load
         }
     }

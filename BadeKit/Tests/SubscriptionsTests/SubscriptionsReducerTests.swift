@@ -61,8 +61,8 @@ struct SubscriptionsStateTests {
         #expect(subject.monthlyTotal == Decimal(string: "89.40")!)
     }
 
-    /// Cancelled subscriptions are not spend, and the list must agree with the number above it.
-    @Test func cancelledSubscriptionsLeaveBothTheListAndTheTotal() {
+    /// Cancelled subscriptions are not spend, so they leave the total and the live list.
+    @Test func cancelledSubscriptionsLeaveTheTotal() {
         let subject = state([
             subscription("Spotify", "15.00"),
             subscription("Netflix", "35.00", active: false),
@@ -71,6 +71,28 @@ struct SubscriptionsStateTests {
         #expect(subject.count == 1)
         #expect(subject.rows.map(\.subscription.merchant) == ["Spotify"])
         #expect(subject.monthlyTotal == 15)
+    }
+
+    /// But they are still listed. Cancelling must not look like deleting.
+    @Test func cancelledSubscriptionsAreStillShownSeparately() {
+        let subject = state([
+            subscription("Spotify", "15.00"),
+            subscription("Netflix", "35.00", active: false),
+        ])
+
+        #expect(subject.cancelledRows.map(\.subscription.merchant) == ["Netflix"])
+    }
+
+    /// Cancelling everything leaves a screen that explains itself rather than an empty one.
+    @Test func cancellingEverythingStillShowsEverything() {
+        let subject = state([
+            subscription("Spotify", "15.00", active: false),
+            subscription("Netflix", "35.00", active: false),
+        ])
+
+        #expect(subject.monthlyTotal == 0)
+        #expect(subject.rows.isEmpty)
+        #expect(subject.cancelledRows.count == 2)
     }
 
     @Test func costOrdersBiggestFirst() {
@@ -151,7 +173,7 @@ struct SubscriptionsStateTests {
 
         #expect(subject.apply(.loadFailed) == nil)
         #expect(subject.phase == .failed)
-        #expect(subject.isEmpty == false, "failure is not emptiness")
+        #expect(subject.rows.isEmpty, "nothing loaded, so nothing to show")
     }
 }
 
@@ -199,10 +221,27 @@ struct SubscriptionsDeletionTests {
         #expect(subject.isConfirmingDeleteAll == false)
     }
 
-    @Test func aDeletionReloadsRatherThanGuessingTheNewList() {
+    @Test func aChangeToTheStoreReloadsRatherThanGuessingTheNewList() {
         var subject = state([subscription("Spotify", "15.00")])
 
-        #expect(subject.apply(.deletionFinished) == .load)
+        #expect(subject.apply(.storeChanged) == .load)
+    }
+
+    /// The same act as Detail's button, reachable without opening the subscription first.
+    @Test func cancellingFromTheListSavesTheFlippedFlag() {
+        var subject = state([subscription("Spotify", "15.00")])
+        let live = subject.all[0]
+
+        let effect = subject.apply(.activeToggled(live))
+
+        #expect(effect == .save(live.withActive(false)))
+    }
+
+    @Test func reactivatingFromTheListSavesItBack() {
+        var subject = state([subscription("Netflix", "35.00", active: false)])
+        let cancelled = subject.all[0]
+
+        #expect(subject.apply(.activeToggled(cancelled)) == .save(cancelled.withActive(true)))
     }
 
     /// This screen is only ever shown over data; emptied, it hands the root back to Welcome.
@@ -210,5 +249,14 @@ struct SubscriptionsDeletionTests {
         var subject = SubscriptionsState(currency: "GEL")
 
         #expect(subject.apply(.loaded([], RateBook())) == .exit(.dataCleared))
+    }
+}
+
+
+extension Subscription {
+    fileprivate func withActive(_ isActive: Bool) -> Subscription {
+        var copy = self
+        copy.isActive = isActive
+        return copy
     }
 }

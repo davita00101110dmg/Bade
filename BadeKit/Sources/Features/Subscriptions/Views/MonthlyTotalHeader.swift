@@ -31,7 +31,8 @@ struct MonthlyTotalHeader: View {
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
 
-            Text(.subscriptions.yearAndCount(annualText, count))
+            // "₾0 a year · 0 subscriptions" restates the zero twice; say what it means instead.
+            Text(count == 0 ? .subscriptions.nothingCharging : .subscriptions.yearAndCount(annualText, count))
                 .font(.badeBody)
                 .foregroundStyle(theme.inkMuted)
 

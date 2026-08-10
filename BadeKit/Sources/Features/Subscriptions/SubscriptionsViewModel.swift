@@ -24,6 +24,15 @@ public final class SubscriptionsViewModel {
         self.onOutcome = onOutcome
     }
 
+    /// Detail belongs to this feature, so this is where it is composed. Anything it changes makes
+    /// the list behind it stale, which is why every outcome reloads.
+    public func detail(for subscription: Subscription) -> SubscriptionDetailViewModel {
+        SubscriptionDetailViewModel(
+            subscription: subscription, currency: state.currency, rates: state.rates,
+            repository: repository,
+            onOutcome: { [weak self] _ in self?.send(.appeared) })
+    }
+
     public func send(_ intent: SubscriptionsIntent) {
         guard let effect = state.apply(intent) else { return }
         work = Task { [weak self] in await self?.run(effect) }
@@ -38,13 +47,17 @@ public final class SubscriptionsViewModel {
                 send(.loadFailed)
             }
 
+        case .save(let subscription):
+            try? await repository.save(subscription)
+            send(.storeChanged)
+
         case .delete(let id):
             try? await repository.delete(id: id)
-            send(.deletionFinished)
+            send(.storeChanged)
 
         case .deleteEverything:
             try? await repository.deleteAll()
-            send(.deletionFinished)
+            send(.storeChanged)
 
         case .exit(let outcome):
             onOutcome(outcome)

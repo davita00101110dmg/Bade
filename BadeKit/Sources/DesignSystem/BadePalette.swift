@@ -35,6 +35,9 @@ public enum BadePalette {
 
     public static let positive = BadeColorPair(light: 0x1F_6F_5C, dark: 0x4F_A9_8F)
     public static let warning = BadeColorPair(light: 0xB4_6A_1E, dark: 0xE0_9A_4E)
+    /// Losing something, and money going the wrong way: a delete, a price rise. The design's
+    /// #E08060 for dark; darkened for light, where it would otherwise sit under the 4.5:1 floor.
+    public static let destructive = BadeColorPair(light: 0xB4_48_2A, dark: 0xE0_80_60)
 }
 
 extension Color {

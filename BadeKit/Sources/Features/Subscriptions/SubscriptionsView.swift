@@ -32,6 +32,7 @@ public struct SubscriptionsView: View {
         List {
             heroSection
             subscriptionsSection
+            cancelledSection
             failureSection
             clearEverythingSection
         }
@@ -62,16 +63,55 @@ public struct SubscriptionsView: View {
         }
     }
 
+    /// Gone entirely when nothing is live, header and sort control included: a section offering
+    /// to sort nothing is worse than no section.
+    @ViewBuilder
     private var subscriptionsSection: some View {
-        Section {
-            ForEach(model.state.rows) { row in
-                SubscriptionListRow(row: row, currency: model.state.currency)
+        if !model.state.rows.isEmpty {
+            Section {
+                ForEach(model.state.rows) { row in
+                    NavigationLink {
+                        SubscriptionDetailView(model: model.detail(for: row.subscription))
+                    } label: {
+                        SubscriptionListRow(row: row, currency: model.state.currency)
+                    }
                     .listRowBackground(theme.surfaceRaised)
+                    .swipeActions(edge: .leading) { activeAction(row.subscription) }
                     .swipeActions(edge: .trailing) { deleteAction(row.subscription) }
-                    .contextMenu { deleteAction(row.subscription) }
+                    .contextMenu {
+                        activeAction(row.subscription)
+                        deleteAction(row.subscription)
+                    }
+                }
+            } header: {
+                sectionHeader
             }
-        } header: {
-            sectionHeader
+        }
+    }
+
+    /// Dimmed and set apart rather than hidden: cancelling is a state, not a disappearance.
+    @ViewBuilder
+    private var cancelledSection: some View {
+        if !model.state.cancelledRows.isEmpty {
+            Section {
+                ForEach(model.state.cancelledRows) { row in
+                    NavigationLink {
+                        SubscriptionDetailView(model: model.detail(for: row.subscription))
+                    } label: {
+                        SubscriptionListRow(row: row, currency: model.state.currency)
+                            .opacity(SubscriptionsMetrics.cancelledRow)
+                    }
+                    .listRowBackground(theme.surfaceRaised)
+                    .swipeActions(edge: .leading) { activeAction(row.subscription) }
+                    .swipeActions(edge: .trailing) { deleteAction(row.subscription) }
+                    .contextMenu {
+                        activeAction(row.subscription)
+                        deleteAction(row.subscription)
+                    }
+                }
+            } header: {
+                Text(.subscriptions.noLongerCharged).badeSectionLabel()
+            }
         }
     }
 
@@ -96,6 +136,19 @@ public struct SubscriptionsView: View {
             }
             .listRowBackground(theme.surfaceRaised)
         }
+    }
+
+    /// Leading edge, away from delete: cancelling is reversible and must not sit under the same
+    /// thumb as the action that is not.
+    private func activeAction(_ subscription: Subscription) -> some View {
+        Button { model.send(.activeToggled(subscription)) } label: {
+            Label {
+                Text(subscription.isActive ? .subscriptions.markCancelled : .subscriptions.markActive)
+            } icon: {
+                Image(systemName: subscription.isActive ? "pause.circle" : "arrow.clockwise.circle")
+            }
+        }
+        .tint(theme.accent)
     }
 
     /// Offered on both a swipe and a long press, because neither is discoverable on its own.

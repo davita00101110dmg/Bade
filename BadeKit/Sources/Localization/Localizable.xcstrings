@@ -81,6 +81,182 @@
         }
       }
     },
+    "detail.aYear": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A year"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "წელიწადში"
+          }
+        }
+      }
+    },
+    "detail.billedIn %@ %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · billed in %2$@"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@ · ანგარიშსწორება %2$@-ში"
+          }
+        }
+      }
+    },
+    "detail.cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გაუქმება"
+          }
+        }
+      }
+    },
+    "detail.delete": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "წაშლა"
+          }
+        }
+      }
+    },
+    "detail.deleteMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importing the statement again will find it."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამონაწერის ხელახლა იმპორტი კვლავ იპოვის მას."
+          }
+        }
+      }
+    },
+    "detail.deleteTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete this subscription?"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "წავშალოთ ეს გამოწერა?"
+          }
+        }
+      }
+    },
+    "detail.firstCharge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First charge"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "პირველი ჩამოჭრა"
+          }
+        }
+      }
+    },
+    "detail.history": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last 12 months"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ბოლო 12 თვე"
+          }
+        }
+      }
+    },
+    "detail.nextCharge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next charge"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შემდეგი ჩამოჭრა"
+          }
+        }
+      }
+    },
+    "detail.noHistory": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No charges recorded yet."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჩამოჭრები ჯერ არ არის."
+          }
+        }
+      }
+    },
+    "detail.priceChange %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Price change · %@"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფასის ცვლილება · %@"
+          }
+        }
+      }
+    },
     "parsing.chooseAnother": {
       "localizations": {
         "en": {
@@ -741,6 +917,70 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "გამოწერების ჩატვირთვა ვერ მოხერხდა."
+          }
+        }
+      }
+    },
+    "subscriptions.markActive": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark as active"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მონიშნე აქტიურად"
+          }
+        }
+      }
+    },
+    "subscriptions.markCancelled": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark as cancelled"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მონიშნე გაუქმებულად"
+          }
+        }
+      }
+    },
+    "subscriptions.noLongerCharged": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No longer charged"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "აღარ ჩამოიჭრება"
+          }
+        }
+      }
+    },
+    "subscriptions.nothingCharging": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is charging you"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამჟამად არაფერი გიჭრით"
           }
         }
       }
