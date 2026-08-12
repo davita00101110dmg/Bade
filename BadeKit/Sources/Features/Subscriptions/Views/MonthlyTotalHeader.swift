@@ -17,6 +17,10 @@ struct MonthlyTotalHeader: View {
     let count: Int
     let unconvertibleCount: Int
 
+    /// Owned by the screen, not this row: a list row is destroyed when it scrolls away and
+    /// rebuilt when it comes back, which replayed the count-up and re-fired the haptic every time.
+    @Binding var hasArrived: Bool
+
     @State private var revealed: Double = 0
     @State private var hasLanded = false
 
@@ -52,17 +56,22 @@ struct MonthlyTotalHeader: View {
     }
 
     private func reveal() async {
-        guard total > 0 else { return revealed = 1 }
+        guard total > 0, !hasArrived else {
+            revealed = 1
+            return
+        }
         hasLanded = false
         revealed = 0
         guard !reduceMotion else {
             revealed = 1
             hasLanded = true
+            hasArrived = true
             return
         }
         withBadeAnimation(.badeTotalReveal, reduceMotion: reduceMotion) { revealed = 1 }
         try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
         hasLanded = true
+        hasArrived = true
     }
 
     private var annualText: String {
