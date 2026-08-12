@@ -27,6 +27,7 @@ public struct SettingsView: View {
         List {
             proSection
             displaySection
+            ratesSection
             dataSection
             aboutSection
         }
@@ -108,6 +109,18 @@ public struct SettingsView: View {
         }
     }
 
+    private var ratesSection: some View {
+        Section {
+            Toggle(isOn: rateFetchingBinding) { label(.settings.rates) }
+                .tint(theme.accent)
+                .listRowBackground(theme.surfaceRaised)
+        } footer: {
+            Text(.settings.ratesFooter)
+                .font(.badeCaption)
+                .foregroundStyle(theme.inkFaint)
+        }
+    }
+
     /// Export is offered only when there is something to export; a share sheet over an empty file
     /// is a dead end.
     private var dataSection: some View {
@@ -175,6 +188,10 @@ public struct SettingsView: View {
 
     private var textSizeBinding: Binding<BadeTextSize> {
         Binding(get: { model.state.textSize }, set: { model.send(.textSizeChanged($0)) })
+    }
+
+    private var rateFetchingBinding: Binding<Bool> {
+        Binding(get: { model.state.fetchesRates }, set: { model.send(.rateFetchingChanged($0)) })
     }
 
     private var weekStartBinding: Binding<BadeWeekStart> {

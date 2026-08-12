@@ -9,6 +9,7 @@ public final class SubscriptionsViewModel {
 
     private let repository: any SubscriptionRepository
     private let merchants: any MerchantSuggesting
+    private let officialRates: any OfficialRateSource
     private let rates: @Sendable () async -> RateBook
     private let onOutcome: (SubscriptionsOutcome) -> Void
     private var work: Task<Void, Never>?
@@ -17,12 +18,14 @@ public final class SubscriptionsViewModel {
         currency: String,
         repository: any SubscriptionRepository,
         merchants: any MerchantSuggesting = NoMerchantSuggestions(),
+        officialRates: any OfficialRateSource = NoOfficialRates(),
         rates: @escaping @Sendable () async -> RateBook,
         onOutcome: @escaping (SubscriptionsOutcome) -> Void
     ) {
         state = SubscriptionsState(currency: currency)
         self.repository = repository
         self.merchants = merchants
+        self.officialRates = officialRates
         self.rates = rates
         self.onOutcome = onOutcome
     }
@@ -32,7 +35,7 @@ public final class SubscriptionsViewModel {
     public func detail(for subscription: Subscription) -> SubscriptionDetailViewModel {
         SubscriptionDetailViewModel(
             subscription: subscription, currency: state.currency, rates: state.rates,
-            repository: repository, merchants: merchants,
+            repository: repository, merchants: merchants, officialRates: officialRates,
             onOutcome: { [weak self] _ in self?.send(.appeared) })
     }
 

@@ -9,6 +9,7 @@ public final class SubscriptionDetailViewModel {
 
     private let repository: any SubscriptionRepository
     private let merchants: any MerchantSuggesting
+    private let officialRates: any OfficialRateSource
     private let onOutcome: (DetailOutcome) -> Void
     private var work: Task<Void, Never>?
 
@@ -18,12 +19,14 @@ public final class SubscriptionDetailViewModel {
         rates: RateBook,
         repository: any SubscriptionRepository,
         merchants: any MerchantSuggesting = NoMerchantSuggestions(),
+        officialRates: any OfficialRateSource = NoOfficialRates(),
         onOutcome: @escaping (DetailOutcome) -> Void
     ) {
         state = SubscriptionDetailState(
             subscription: subscription, currency: currency, rates: rates)
         self.repository = repository
         self.merchants = merchants
+        self.officialRates = officialRates
         self.onOutcome = onOutcome
     }
 
@@ -43,6 +46,9 @@ public final class SubscriptionDetailViewModel {
 
     private func run(_ effect: SubscriptionDetailEffect) async {
         switch effect {
+        case .loadOfficialRates(let currency, let date):
+            send(.officialRatesLoaded(await officialRates.rates(for: [currency], on: [date])))
+
         case .save(let subscription):
             try? await repository.save(subscription)
             send(.saved(subscription))

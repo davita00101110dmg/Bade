@@ -11,6 +11,8 @@ public struct SettingsState: Equatable {
     public private(set) var weekStart: BadeWeekStart
     /// Whether the currency on screen was inferred from the statements rather than chosen.
     public let isCurrencyInferred: Bool
+    /// The only network Bade has. Off means the markup falls back to what statements printed.
+    public private(set) var fetchesRates: Bool
     /// Loaded so an export can be built the moment it is asked for; a share sheet cannot wait.
     public private(set) var subscriptions: [Subscription] = []
     public private(set) var isConfirmingDeleteAll = false
@@ -21,7 +23,8 @@ public struct SettingsState: Equatable {
         appearance: BadeAppearance = .system,
         textSize: BadeTextSize = .system,
         weekStart: BadeWeekStart = .system,
-        isCurrencyInferred: Bool = false
+        isCurrencyInferred: Bool = false,
+        fetchesRates: Bool = true
     ) {
         self.currency = currency
         self.language = language
@@ -29,6 +32,7 @@ public struct SettingsState: Equatable {
         self.textSize = textSize
         self.weekStart = weekStart
         self.isCurrencyInferred = isCurrencyInferred
+        self.fetchesRates = fetchesRates
     }
 
     /// Offered above the full list, exactly as the subscription form offers them.
@@ -48,6 +52,7 @@ public enum SettingsIntent: Equatable {
     case appearanceChanged(BadeAppearance)
     case textSizeChanged(BadeTextSize)
     case weekStartChanged(BadeWeekStart)
+    case rateFetchingChanged(Bool)
     case deleteAllRequested
     case deleteAllConfirmed
     case confirmationDismissed
@@ -94,6 +99,11 @@ extension SettingsState {
             guard start != weekStart else { return nil }
             weekStart = start
             return .report(.weekStartChanged(start))
+
+        case .rateFetchingChanged(let fetches):
+            guard fetches != fetchesRates else { return nil }
+            fetchesRates = fetches
+            return .report(.rateFetchingChanged(fetches))
 
         case .deleteAllRequested:
             isConfirmingDeleteAll = true

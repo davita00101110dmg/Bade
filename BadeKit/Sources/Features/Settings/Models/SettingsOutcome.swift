@@ -9,6 +9,7 @@ public enum SettingsOutcome: Equatable, Sendable {
     case appearanceChanged(BadeAppearance)
     case textSizeChanged(BadeTextSize)
     case weekStartChanged(BadeWeekStart)
+    case rateFetchingChanged(Bool)
     /// Nothing is stored any more, so the root belongs back on Welcome.
     case dataCleared
 }

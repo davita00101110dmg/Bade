@@ -26,6 +26,7 @@ public struct SubscriptionDetailView: View {
             // same name in one glance read as a mistake.
             .navigationTitle(Text(.detail.title))
             .toolbarTitleDisplayMode(.inline)
+            .onAppear { model.send(.appeared) }
     }
 
     private var content: some View {
@@ -33,6 +34,7 @@ public struct SubscriptionDetailView: View {
             VStack(alignment: .leading, spacing: .xxl) {
                 header
                 chart
+                exchange
                 facts
                 actions
             }
@@ -98,6 +100,17 @@ public struct SubscriptionDetailView: View {
                         .foregroundStyle(theme.inkMuted)
                 }
             }
+        }
+    }
+
+    /// Only for a subscription whose money crossed a currency; the rest never see it.
+    @ViewBuilder
+    private var exchange: some View {
+        if model.state.showsExchange {
+            ExchangeCard(
+                markup: model.state.markup,
+                isPaidWithoutConversion: model.state.isPaidWithoutConversion,
+                currency: model.state.subscription.currency)
         }
     }
 

@@ -1,6 +1,7 @@
 import Catalog
 import Core
 import DesignSystem
+import FX
 import Import
 import Localization
 import Persistence
@@ -20,6 +21,7 @@ public struct BadeRootView: View {
     @AppStorage("appearance") private var appearanceCode = BadeAppearance.system.rawValue
     @AppStorage("textSize") private var textSizeCode = BadeTextSize.system.rawValue
     @AppStorage("weekStart") private var weekStartCode = BadeWeekStart.system.rawValue
+    @AppStorage("fetchesRates") private var fetchesRates = true
 
     @State private var store = Self.makeStore()
     @State private var hasSubscriptions = false
@@ -44,6 +46,11 @@ public struct BadeRootView: View {
     private var appearance: BadeAppearance { BadeAppearance(rawValue: appearanceCode) ?? .system }
     private var textSize: BadeTextSize { BadeTextSize(rawValue: textSizeCode) ?? .system }
     private var weekStart: BadeWeekStart { BadeWeekStart(rawValue: weekStartCode) ?? .system }
+
+    /// The cache always answers; the network behind it is what the switch in Settings turns off.
+    private var officialRates: any OfficialRateSource {
+        CachedOfficialRates(store: store, network: fetchesRates ? NBGRateSource() : nil)
+    }
 
     public var body: some View {
         root
@@ -117,6 +124,7 @@ public struct BadeRootView: View {
         SubscriptionsView(
             model: SubscriptionsViewModel(
                 currency: currency, repository: store, merchants: merchants,
+                officialRates: officialRates,
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
                 onOutcome: handleSubscriptions))
     }
@@ -138,14 +146,14 @@ public struct BadeRootView: View {
             model: SettingsViewModel(
                 currency: currency, language: language, appearance: appearance,
                 textSize: textSize, weekStart: weekStart,
-                isCurrencyInferred: chosenCurrency.isEmpty, repository: store,
-                onOutcome: handleSettings))
+                isCurrencyInferred: chosenCurrency.isEmpty, fetchesRates: fetchesRates,
+                repository: store, onOutcome: handleSettings))
     }
 
     private func detail(for subscription: Subscription) -> SubscriptionDetailViewModel {
         SubscriptionDetailViewModel(
             subscription: subscription, currency: currency, rates: rates, repository: store,
-            merchants: merchants, onOutcome: { _ in })
+            merchants: merchants, officialRates: officialRates, onOutcome: { _ in })
     }
 
     /// The one form Welcome can reach. Saving from an empty app is what fills it, so the root
@@ -191,6 +199,7 @@ public struct BadeRootView: View {
         case .appearanceChanged(let appearance): appearanceCode = appearance.rawValue
         case .textSizeChanged(let size): textSizeCode = size.rawValue
         case .weekStartChanged(let start): weekStartCode = start.rawValue
+        case .rateFetchingChanged(let fetches): fetchesRates = fetches
         case .dataCleared: reload = UUID()
         }
     }

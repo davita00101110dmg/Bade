@@ -257,6 +257,134 @@
         }
       }
     },
+    "detail.fx.bankRate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your bank's rate"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შენი ბანკის კურსი"
+          }
+        }
+      }
+    },
+    "detail.fx.noConversion %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paid straight from your %@ balance, so nothing was converted and there is no markup."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გადახდილია პირდაპირ შენი %@ ბალანსიდან — კონვერტაცია არ მომხდარა და ზედნადებიც არ არის."
+          }
+        }
+      }
+    },
+    "detail.fx.noRate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No reference rate for that day yet."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "იმ დღის საორიენტაციო კურსი ჯერ არ არის."
+          }
+        }
+      }
+    },
+    "detail.fx.officialRate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "National Bank rate"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ეროვნული ბანკის კურსი"
+          }
+        }
+      }
+    },
+    "detail.fx.paid": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Left your account"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჩამოგეჭრა"
+          }
+        }
+      }
+    },
+    "detail.fx.rateGap": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Difference between the rates"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "სხვაობა კურსებს შორის"
+          }
+        }
+      }
+    },
+    "detail.fx.schemeRate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card scheme rate"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "საგადახდო სისტემის კურსი"
+          }
+        }
+      }
+    },
+    "detail.fx.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What the conversion cost"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "რა დაჯდა კონვერტაცია"
+          }
+        }
+      }
+    },
     "detail.history": {
       "localizations": {
         "en": {
@@ -1669,6 +1797,38 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "სისტემური"
+          }
+        }
+      }
+    },
+    "settings.rates": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fetch official rates"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ოფიციალური კურსების ჩამოტვირთვა"
+          }
+        }
+      }
+    },
+    "settings.ratesFooter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The only thing Bade ever sends. It asks the National Bank for a day's rates — no account data, no merchant names — and only when a statement did not print a rate to compare against."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ერთადერთი, რასაც Bade აგზავნის. ეროვნულ ბანკს ერთი დღის კურსებს ეკითხება — ანგარიშის მონაცემების და მაღაზიების სახელების გარეშე — და მხოლოდ მაშინ, როცა ამონაწერში შესადარებელი კურსი არ არის."
           }
         }
       }

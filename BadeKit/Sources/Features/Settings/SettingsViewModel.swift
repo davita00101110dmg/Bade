@@ -20,12 +20,14 @@ public final class SettingsViewModel {
         textSize: BadeTextSize = .system,
         weekStart: BadeWeekStart = .system,
         isCurrencyInferred: Bool = false,
+        fetchesRates: Bool = true,
         repository: any SubscriptionRepository,
         onOutcome: @escaping (SettingsOutcome) -> Void
     ) {
         state = SettingsState(
             currency: currency, language: language, appearance: appearance, textSize: textSize,
-            weekStart: weekStart, isCurrencyInferred: isCurrencyInferred)
+            weekStart: weekStart, isCurrencyInferred: isCurrencyInferred,
+            fetchesRates: fetchesRates)
         self.repository = repository
         self.onOutcome = onOutcome
     }

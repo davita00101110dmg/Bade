@@ -69,6 +69,8 @@ extension LocalizedStringResource {
         public var exportCSV: LocalizedStringResource { string("settings.exportCSV") }
         public var exportName: LocalizedStringResource { string("settings.exportName") }
         public var about: LocalizedStringResource { string("settings.about") }
+        public var rates: LocalizedStringResource { string("settings.rates") }
+        public var ratesFooter: LocalizedStringResource { string("settings.ratesFooter") }
         public var optionSystem: LocalizedStringResource { string("settings.option.system") }
         public var appearance: LocalizedStringResource { string("settings.appearance") }
         public var appearanceLight: LocalizedStringResource { string("settings.appearance.light") }
@@ -121,6 +123,17 @@ extension LocalizedStringResource {
         public var deleteMessage: LocalizedStringResource { string("detail.deleteMessage") }
         public var cancel: LocalizedStringResource { string("detail.cancel") }
         public var noHistory: LocalizedStringResource { string("detail.noHistory") }
+        public var fxTitle: LocalizedStringResource { string("detail.fx.title") }
+        public var fxPaid: LocalizedStringResource { string("detail.fx.paid") }
+        public var fxBankRate: LocalizedStringResource { string("detail.fx.bankRate") }
+        public var fxSchemeRate: LocalizedStringResource { string("detail.fx.schemeRate") }
+        public var fxOfficialRate: LocalizedStringResource { string("detail.fx.officialRate") }
+        public var fxRateGap: LocalizedStringResource { string("detail.fx.rateGap") }
+        public var fxNoRate: LocalizedStringResource { string("detail.fx.noRate") }
+
+        public func fxNoConversion(_ currency: String) -> LocalizedStringResource {
+            string("detail.fx.noConversion \(currency)")
+        }
 
         public func billedIn(_ cadence: String, _ currency: String) -> LocalizedStringResource {
             string("detail.billedIn \(cadence) \(currency)")
