@@ -10,12 +10,12 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **8 is done**; manual entry, Upcoming and Settings are **built but unverified
-> on device** — they compile, 339 tests pass, no screen has been looked at. Welcome ✅, Parsing ✅,
-> Review ✅, Subscriptions ✅, Detail ✅, Form ▲, Upcoming + TabView ▲, Settings ▲.
-> Next: run all three on device, fix what the review finds, then §8 NBG rates.
+> Build order step: **1–8 done. 9 built, measured and parked on branch `tier-2-normalization`.
+> 10 all but finished** — the FX engine and its section ship, but the money figures are withheld
+> until one question about BOG's conversion block is answered. Every screen exists and runs on the
+> device; Upcoming is behind the Pro lock. Next: make that lock beautiful, then §12 notifications.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
-> The screen inventory and navigation model live in `NEXT-SESSION.md`.)
+> The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 
 ---
 

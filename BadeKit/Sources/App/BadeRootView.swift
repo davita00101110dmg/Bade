@@ -22,6 +22,9 @@ public struct BadeRootView: View {
     @AppStorage("textSize") private var textSizeCode = BadeTextSize.system.rawValue
     @AppStorage("weekStart") private var weekStartCode = BadeWeekStart.system.rawValue
     @AppStorage("fetchesRates") private var fetchesRates = true
+    /// Stands in for a purchase until StoreKit exists (step 13). Everything gated reads this and
+    /// nothing else, so the day it becomes an entitlement only this line changes.
+    @AppStorage("isPro") private var isPro = false
 
     @State private var store = Self.makeStore()
     @State private var hasSubscriptions = false
@@ -36,6 +39,7 @@ public struct BadeRootView: View {
     @State private var rates = RateBook()
     @State private var reload = UUID()
     @State private var tab = Tabs.subscriptions
+    @State private var isShowingPro = false
 
     private let merchants = BundledCatalog()
 
@@ -74,6 +78,9 @@ public struct BadeRootView: View {
                 )
                 .badeTheme()
             }
+            .sheet(isPresented: $isShowingPro) {
+                NavigationStack { ProView() }.badeTheme()
+            }
             // Only Welcome opens it from here; once there is a list, the list presents its own.
             .sheet(isPresented: $isAddingManually) {
                 SubscriptionFormView(model: manualEntry()).badeTheme()
@@ -107,7 +114,9 @@ public struct BadeRootView: View {
             }
 
             Tab(value: Tabs.upcoming) {
-                NavigationStack { upcoming }.id(currency + weekStartCode)
+                NavigationStack { upcoming }
+                    .id(currency + weekStartCode)
+                    .badeLocked(!isPro) { isShowingPro = true }
             } label: {
                 Label { Text(.upcoming.title) } icon: { Image(systemName: "calendar") }
             }

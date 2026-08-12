@@ -14,6 +14,13 @@ extension LocalizedStringResource {
     public static var upcoming: UpcomingStrings { UpcomingStrings() }
     public static var settings: SettingsStrings { SettingsStrings() }
     public static var pro: ProStrings { ProStrings() }
+    public static var locked: LockedStrings { LockedStrings() }
+
+    /// Shown wherever a feature is held back for Bade Pro.
+    public struct LockedStrings {
+        public var title: LocalizedStringResource { string("locked.title") }
+        public var action: LocalizedStringResource { string("locked.action") }
+    }
 
     public struct ProStrings {
         public var title: LocalizedStringResource { string("pro.title") }

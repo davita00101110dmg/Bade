@@ -737,6 +737,38 @@
         }
       }
     },
+    "locked.action": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See what Pro adds"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ნახე, რას გაძლევს Pro"
+          }
+        }
+      }
+    },
+    "locked.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Part of Bade Pro"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade Pro-ს ნაწილი"
+          }
+        }
+      }
+    },
     "parsing.chooseAnother": {
       "localizations": {
         "en": {
