@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "Core", targets: ["Core"]),
         .library(name: "Detection", targets: ["Detection"]),
         .library(name: "Catalog", targets: ["Catalog"]),
+        .library(name: "FX", targets: ["FX"]),
         .library(name: "Ingestion", targets: ["Ingestion"]),
         .library(name: "Normalization", targets: ["Normalization"]),
         .library(name: "Persistence", targets: ["Persistence"]),
@@ -67,6 +68,8 @@ let package = Package(
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
         .target(name: "Persistence", dependencies: ["Core"]),
         .testTarget(name: "PersistenceTests", dependencies: ["Persistence", "Core"]),
+        .target(name: "FX", dependencies: ["Core"]),
+        .testTarget(name: "FXTests", dependencies: ["FX", "Core"]),
         .target(name: "Catalog", dependencies: ["Core"]),
         .testTarget(name: "CatalogTests", dependencies: ["Catalog", "Detection", "Core"]),
         .testTarget(

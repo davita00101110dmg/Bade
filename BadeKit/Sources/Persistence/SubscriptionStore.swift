@@ -3,13 +3,32 @@ import Foundation
 import SwiftData
 
 @ModelActor
-public actor SubscriptionStore: SubscriptionRepository, RateRepository {
+public actor SubscriptionStore: SubscriptionRepository, RateRepository, OfficialRateStore {
     /// Local store only — no CloudKit, no remote container (§10).
     public static func container(inMemory: Bool = false) throws -> ModelContainer {
         try ModelContainer(
-            for: SubscriptionRecord.self, ObservedRateRecord.self,
+            for: SubscriptionRecord.self, ObservedRateRecord.self, OfficialRateRecord.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: inMemory)
         )
+    }
+
+    /// Only the days asked for: the store holds every day ever fetched, and a screen wants a few.
+    public func officialRates(for currencies: Set<String>, on dates: Set<Date>) async throws
+        -> [OfficialRate]
+    {
+        let days = Set(dates.map(\.timeIntervalSince1970))
+        return try modelContext.fetch(FetchDescriptor<OfficialRateRecord>())
+            .filter { currencies.contains($0.currency) && days.contains($0.date.timeIntervalSince1970) }
+            .map(\.official)
+    }
+
+    public func record(_ rates: [OfficialRate]) async throws {
+        let existing = Set(
+            try modelContext.fetch(FetchDescriptor<OfficialRateRecord>()).map(\.identity))
+        for rate in rates where !existing.contains(OfficialRateRecord.identity(of: rate)) {
+            modelContext.insert(OfficialRateRecord(rate))
+        }
+        try modelContext.save()
     }
 
     public func observedRates() async throws -> RateBook {
@@ -57,6 +76,7 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository {
     public func deleteAll() async throws {
         try modelContext.delete(model: SubscriptionRecord.self)
         try modelContext.delete(model: ObservedRateRecord.self)
+        try modelContext.delete(model: OfficialRateRecord.self)
         try modelContext.save()
     }
 
