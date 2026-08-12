@@ -26,7 +26,7 @@ let package = Package(
         .testTarget(name: "IngestionTests", dependencies: ["Ingestion", "Core"]),
         .target(name: "Normalization", dependencies: ["Core"]),
         .testTarget(name: "NormalizationTests", dependencies: ["Normalization", "Core"]),
-        .target(name: "DesignSystem"),
+        .target(name: "DesignSystem", dependencies: ["Localization"]),
         .target(name: "Localization", resources: [.process("Localizable.xcstrings")]),
         .testTarget(name: "LocalizationTests", dependencies: ["Localization"]),
         .target(
@@ -40,6 +40,20 @@ let package = Package(
             path: "Sources/Features/Subscriptions"),
         .testTarget(name: "SubscriptionsTests", dependencies: ["Subscriptions", "Core"]),
         .target(
+            name: "Upcoming", dependencies: ["Core", "DesignSystem", "Localization"],
+            path: "Sources/Features/Upcoming"),
+        .testTarget(name: "UpcomingTests", dependencies: ["Upcoming", "Core"]),
+        .target(
+            name: "Settings", dependencies: ["Core", "DesignSystem", "Localization"],
+            path: "Sources/Features/Settings"),
+        .testTarget(name: "SettingsTests", dependencies: ["Settings", "Core"]),
+        // §11's snapshot pass. iOS-only inside; on macOS the whole file compiles away.
+        .testTarget(
+            name: "SnapshotTests",
+            dependencies: [
+                "Core", "DesignSystem", "Localization", "Subscriptions", "Upcoming", "Settings",
+            ]),
+        .target(
             name: "Pipeline",
             dependencies: ["Core", "Ingestion", "Normalization", "Detection", "Catalog"]),
         .testTarget(name: "ImportTests", dependencies: ["Import", "Core"]),
@@ -47,7 +61,7 @@ let package = Package(
             name: "AppRoot",
             dependencies: [
                 "Core", "DesignSystem", "Localization", "Welcome", "Import", "Subscriptions",
-                "Pipeline", "Persistence",
+                "Pipeline", "Persistence", "Catalog", "Upcoming", "Settings",
             ],
             path: "Sources/App"),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),

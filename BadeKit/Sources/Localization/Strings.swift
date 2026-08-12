@@ -9,8 +9,109 @@ extension LocalizedStringResource {
     public static var cadence: CadenceStrings { CadenceStrings() }
     public static var subscriptions: SubscriptionsStrings { SubscriptionsStrings() }
     public static var detail: DetailStrings { DetailStrings() }
+    public static var form: FormStrings { FormStrings() }
+    public static var currency: CurrencyStrings { CurrencyStrings() }
+    public static var upcoming: UpcomingStrings { UpcomingStrings() }
+    public static var settings: SettingsStrings { SettingsStrings() }
+    public static var pro: ProStrings { ProStrings() }
+
+    public struct ProStrings {
+        public var title: LocalizedStringResource { string("pro.title") }
+        public var tagline: LocalizedStringResource { string("pro.tagline") }
+        public var blurb: LocalizedStringResource { string("pro.blurb") }
+        public var unlock: LocalizedStringResource { string("pro.unlock") }
+        public var comingSoon: LocalizedStringResource { string("pro.comingSoon") }
+        public var included: LocalizedStringResource { string("pro.included") }
+        public var fx: LocalizedStringResource { string("pro.fx") }
+        public var fxDetail: LocalizedStringResource { string("pro.fxDetail") }
+        public var alerts: LocalizedStringResource { string("pro.alerts") }
+        public var alertsDetail: LocalizedStringResource { string("pro.alertsDetail") }
+        public var trends: LocalizedStringResource { string("pro.trends") }
+        public var trendsDetail: LocalizedStringResource { string("pro.trendsDetail") }
+        public var categories: LocalizedStringResource { string("pro.categories") }
+        public var categoriesDetail: LocalizedStringResource { string("pro.categoriesDetail") }
+        public var widgets: LocalizedStringResource { string("pro.widgets") }
+        public var widgetsDetail: LocalizedStringResource { string("pro.widgetsDetail") }
+        public var themes: LocalizedStringResource { string("pro.themes") }
+        public var themesDetail: LocalizedStringResource { string("pro.themesDetail") }
+    }
+
+    /// The currency picker is a shared control, so its copy is not any one screen's.
+    public struct CurrencyStrings {
+        public var title: LocalizedStringResource { string("currency.title") }
+        public var known: LocalizedStringResource { string("currency.known") }
+        public var all: LocalizedStringResource { string("currency.all") }
+        public var search: LocalizedStringResource { string("currency.search") }
+    }
+
+    public struct UpcomingStrings {
+        public var title: LocalizedStringResource { string("upcoming.title") }
+        public var thisMonth: LocalizedStringResource { string("upcoming.thisMonth") }
+        public var total: LocalizedStringResource { string("upcoming.total") }
+        public var showMonth: LocalizedStringResource { string("upcoming.showMonth") }
+        public var nothingThatDay: LocalizedStringResource { string("upcoming.nothingThatDay") }
+        public var nothing: LocalizedStringResource { string("upcoming.nothing") }
+        public var nothingEver: LocalizedStringResource { string("upcoming.nothingEver") }
+        public var previous: LocalizedStringResource { string("upcoming.previous") }
+        public var next: LocalizedStringResource { string("upcoming.next") }
+        public var loadFailed: LocalizedStringResource { string("upcoming.loadFailed") }
+    }
+
+    public struct SettingsStrings {
+        public var title: LocalizedStringResource { string("settings.title") }
+        public var display: LocalizedStringResource { string("settings.display") }
+        public var language: LocalizedStringResource { string("settings.language") }
+        /// Each language named in itself; the same word in either locale.
+        public var languageEnglish: LocalizedStringResource { string("settings.language.en") }
+        public var languageGeorgian: LocalizedStringResource { string("settings.language.ka") }
+        public var data: LocalizedStringResource { string("settings.data") }
+        public var exportJSON: LocalizedStringResource { string("settings.exportJSON") }
+        public var exportCSV: LocalizedStringResource { string("settings.exportCSV") }
+        public var exportName: LocalizedStringResource { string("settings.exportName") }
+        public var about: LocalizedStringResource { string("settings.about") }
+        public var optionSystem: LocalizedStringResource { string("settings.option.system") }
+        public var appearance: LocalizedStringResource { string("settings.appearance") }
+        public var appearanceLight: LocalizedStringResource { string("settings.appearance.light") }
+        public var appearanceDark: LocalizedStringResource { string("settings.appearance.dark") }
+        public var textSize: LocalizedStringResource { string("settings.textSize") }
+        public var textSizeSmallest: LocalizedStringResource { string("settings.textSize.smallest") }
+        public var textSizeSmaller: LocalizedStringResource { string("settings.textSize.smaller") }
+        public var textSizeStandard: LocalizedStringResource { string("settings.textSize.standard") }
+        public var textSizeLarger: LocalizedStringResource { string("settings.textSize.larger") }
+        public var textSizeLargest: LocalizedStringResource { string("settings.textSize.largest") }
+        public var weekStart: LocalizedStringResource { string("settings.weekStart") }
+        public var weekStartMonday: LocalizedStringResource { string("settings.weekStart.monday") }
+        public var weekStartSunday: LocalizedStringResource { string("settings.weekStart.sunday") }
+        public var defaultBadge: LocalizedStringResource { string("settings.defaultBadge") }
+        public var defaultFooter: LocalizedStringResource { string("settings.defaultFooter") }
+
+        public func version(_ version: String) -> LocalizedStringResource {
+            string("settings.version \(version)")
+        }
+    }
+
+    public struct FormStrings {
+        public var newTitle: LocalizedStringResource { string("form.title.new") }
+        public var editTitle: LocalizedStringResource { string("form.title.edit") }
+        public var save: LocalizedStringResource { string("form.save") }
+        public var cancel: LocalizedStringResource { string("form.cancel") }
+        public var service: LocalizedStringResource { string("form.service") }
+        public var servicePrompt: LocalizedStringResource { string("form.servicePrompt") }
+        public var suggestions: LocalizedStringResource { string("form.suggestions") }
+        public var price: LocalizedStringResource { string("form.price") }
+        public var amount: LocalizedStringResource { string("form.amount") }
+        public var billing: LocalizedStringResource { string("form.billing") }
+        public var cadence: LocalizedStringResource { string("form.cadence") }
+        public var active: LocalizedStringResource { string("form.active") }
+        public var activeFooter: LocalizedStringResource { string("form.activeFooter") }
+        public var discardTitle: LocalizedStringResource { string("form.discardTitle") }
+        public var discardMessage: LocalizedStringResource { string("form.discardMessage") }
+        public var discard: LocalizedStringResource { string("form.discard") }
+        public var keepEditing: LocalizedStringResource { string("form.keepEditing") }
+    }
 
     public struct DetailStrings {
+        public var title: LocalizedStringResource { string("detail.title") }
         public var history: LocalizedStringResource { string("detail.history") }
         public var nextCharge: LocalizedStringResource { string("detail.nextCharge") }
         public var aYear: LocalizedStringResource { string("detail.aYear") }
@@ -97,6 +198,7 @@ extension LocalizedStringResource {
     }
 
     public struct SubscriptionsStrings {
+        public var title: LocalizedStringResource { string("subscriptions.title") }
         public var perMonth: LocalizedStringResource { string("subscriptions.perMonth") }
         public var all: LocalizedStringResource { string("subscriptions.all") }
         public var sortByCost: LocalizedStringResource { string("subscriptions.sort.cost") }
@@ -106,6 +208,9 @@ extension LocalizedStringResource {
         }
         public var sortLabel: LocalizedStringResource { string("subscriptions.sortLabel") }
         public var importStatement: LocalizedStringResource { string("subscriptions.import") }
+        public var add: LocalizedStringResource { string("subscriptions.add") }
+        /// Shared with detail: the same act, offered from the list and from the screen itself.
+        public var edit: LocalizedStringResource { string("subscriptions.edit") }
         public var loadFailed: LocalizedStringResource { string("subscriptions.loadFailed") }
         public var separator: LocalizedStringResource { string("subscriptions.separator") }
         public var delete: LocalizedStringResource { string("subscriptions.delete") }

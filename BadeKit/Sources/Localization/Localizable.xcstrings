@@ -81,6 +81,70 @@
         }
       }
     },
+    "currency.all": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All currencies"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ყველა ვალუტა"
+          }
+        }
+      }
+    },
+    "currency.known": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In your subscriptions"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შენს გამოწერებში"
+          }
+        }
+      }
+    },
+    "currency.search": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ძებნა"
+          }
+        }
+      }
+    },
+    "currency.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Currency"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ვალუტა"
+          }
+        }
+      }
+    },
     "detail.aYear": {
       "localizations": {
         "en": {
@@ -253,6 +317,294 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ფასის ცვლილება · %@"
+          }
+        }
+      }
+    },
+    "detail.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დეტალები"
+          }
+        }
+      }
+    },
+    "form.active": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "აქტიური"
+          }
+        }
+      }
+    },
+    "form.activeFooter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A cancelled subscription stays in Bade but stops counting towards your total."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გაუქმებული გამოწერა რჩება Bade-ში, მაგრამ აღარ ითვლება ჯამში."
+          }
+        }
+      }
+    },
+    "form.amount": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amount"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "თანხა"
+          }
+        }
+      }
+    },
+    "form.billing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Billing"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გადახდა"
+          }
+        }
+      }
+    },
+    "form.cadence": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repeats"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "პერიოდულობა"
+          }
+        }
+      }
+    },
+    "form.cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გაუქმება"
+          }
+        }
+      }
+    },
+    "form.discard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "არ შეინახოს"
+          }
+        }
+      }
+    },
+    "form.discardMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What you typed will not be saved."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "აკრეფილი მონაცემები არ შეინახება."
+          }
+        }
+      }
+    },
+    "form.discardTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard changes?"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ცვლილებები არ შეინახოს?"
+          }
+        }
+      }
+    },
+    "form.keepEditing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep editing"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "რედაქტირების გაგრძელება"
+          }
+        }
+      }
+    },
+    "form.price": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Price"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფასი"
+          }
+        }
+      }
+    },
+    "form.save": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შენახვა"
+          }
+        }
+      }
+    },
+    "form.service": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Service"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "სერვისი"
+          }
+        }
+      }
+    },
+    "form.servicePrompt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დასახელება"
+          }
+        }
+      }
+    },
+    "form.suggestions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggestions"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შემოთავაზებები"
+          }
+        }
+      }
+    },
+    "form.title.edit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit subscription"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გამოწერის რედაქტირება"
+          }
+        }
+      }
+    },
+    "form.title.new": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add subscription"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გამოწერის დამატება"
           }
         }
       }
@@ -461,6 +813,294 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ვამოწმებ ტრანზაქციებს"
+          }
+        }
+      }
+    },
+    "pro.alerts": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Price-increase alerts"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფასის ზრდის შეტყობინებები"
+          }
+        }
+      }
+    },
+    "pro.alertsDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Told when a subscription quietly goes up, with the old price and the new one."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეიტყობ, როცა გამოწერა ჩუმად გაძვირდება — ძველ და ახალ ფასთან ერთად."
+          }
+        }
+      }
+    },
+    "pro.blurb": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An app that charges a subscription to track subscriptions is a punchline. Bade Pro is bought once and yours."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "აპლიკაცია, რომელიც გამოწერას ითხოვს გამოწერების თვალყურისთვის, სასაცილოა. Bade Pro ერთხელ იყიდება და შენია."
+          }
+        }
+      }
+    },
+    "pro.categories": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category analytics"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კატეგორიების ანალიტიკა"
+          }
+        }
+      }
+    },
+    "pro.categoriesDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How much of the total is streaming, software, or the gym."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჯამის რა ნაწილია სტრიმინგი, პროგრამები თუ სპორტდარბაზი."
+          }
+        }
+      }
+    },
+    "pro.comingSoon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchasing arrives with the App Store release."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეძენა App Store-ის გამოშვებასთან ერთად გახდება ხელმისაწვდომი."
+          }
+        }
+      }
+    },
+    "pro.fx": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FX markup breakdown"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ვალუტის კურსის ზედნადები"
+          }
+        }
+      }
+    },
+    "pro.fxDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The rate your bank really used, next to the official one, and what the gap costs you a year."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ბანკის რეალური კურსი ოფიციალურის გვერდით და რამდენი დაგიჯდება სხვაობა წელიწადში."
+          }
+        }
+      }
+    },
+    "pro.included": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What you get"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "რას მიიღებ"
+          }
+        }
+      }
+    },
+    "pro.tagline": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One payment. No subscription, ever."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ერთი გადახდა. არასდროს გამოწერა."
+          }
+        }
+      }
+    },
+    "pro.themes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themes and custom icons"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "თემები და ხატულები"
+          }
+        }
+      }
+    },
+    "pro.themesDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A different palette, and an app icon that is yours."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "სხვა პალიტრა და შენი აპლიკაციის ხატულა."
+          }
+        }
+      }
+    },
+    "pro.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bade Pro"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade Pro"
+          }
+        }
+      }
+    },
+    "pro.trends": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spending history and trends"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ხარჯების ისტორია და ტენდენციები"
+          }
+        }
+      }
+    },
+    "pro.trendsDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What you were paying a year ago, and the direction it has moved since."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "რამდენს იხდიდი წლის წინ და როგორ შეიცვალა მას შემდეგ."
+          }
+        }
+      }
+    },
+    "pro.unlock": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock Bade Pro"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade Pro-ს გახსნა"
+          }
+        }
+      }
+    },
+    "pro.widgets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ვიჯეტები"
+          }
+        }
+      }
+    },
+    "pro.widgetsDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The total and what is next, on your home screen."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჯამი და შემდეგი ჩამოჭრა მთავარ ეკრანზე."
           }
         }
       }
@@ -793,6 +1433,438 @@
         }
       }
     },
+    "settings.about": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "აპლიკაციის შესახებ"
+          }
+        }
+      }
+    },
+    "settings.appearance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "იერსახე"
+          }
+        }
+      }
+    },
+    "settings.appearance.dark": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მუქი"
+          }
+        }
+      }
+    },
+    "settings.appearance.light": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ნათელი"
+          }
+        }
+      }
+    },
+    "settings.data": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მონაცემები"
+          }
+        }
+      }
+    },
+    "settings.defaultBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chosen for you"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შერჩეულია ავტომატურად"
+          }
+        }
+      }
+    },
+    "settings.defaultFooter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marked values were chosen for you — the currency from your statements, the rest from your phone. Pick one and it stays picked."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მონიშნული მნიშვნელობები ავტომატურად შეირჩა — ვალუტა ამონაწერებიდან, დანარჩენი ტელეფონიდან. აირჩიე და შენარჩუნდება."
+          }
+        }
+      }
+    },
+    "settings.display": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Display"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჩვენება"
+          }
+        }
+      }
+    },
+    "settings.exportCSV": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export as CSV"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ექსპორტი CSV-ად"
+          }
+        }
+      }
+    },
+    "settings.exportJSON": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export as JSON"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ექსპორტი JSON-ად"
+          }
+        }
+      }
+    },
+    "settings.exportName": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bade subscriptions"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade-ის გამოწერები"
+          }
+        }
+      }
+    },
+    "settings.language": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ენა"
+          }
+        }
+      }
+    },
+    "settings.language.en": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "English"
+          }
+        }
+      }
+    },
+    "settings.language.ka": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ქართული"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ქართული"
+          }
+        }
+      }
+    },
+    "settings.option.system": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "სისტემური"
+          }
+        }
+      }
+    },
+    "settings.textSize": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text size"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ტექსტის ზომა"
+          }
+        }
+      }
+    },
+    "settings.textSize.larger": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Larger"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დიდი"
+          }
+        }
+      }
+    },
+    "settings.textSize.largest": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Largest"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ყველაზე დიდი"
+          }
+        }
+      }
+    },
+    "settings.textSize.smaller": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smaller"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "პატარა"
+          }
+        }
+      }
+    },
+    "settings.textSize.smallest": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smallest"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ყველაზე პატარა"
+          }
+        }
+      }
+    },
+    "settings.textSize.standard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ნაგულისხმევი"
+          }
+        }
+      }
+    },
+    "settings.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "პარამეტრები"
+          }
+        }
+      }
+    },
+    "settings.version %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ვერსია %@"
+          }
+        }
+      }
+    },
+    "settings.weekStart": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Week starts on"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კვირის დასაწყისი"
+          }
+        }
+      }
+    },
+    "settings.weekStart.monday": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monday"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ორშაბათი"
+          }
+        }
+      }
+    },
+    "settings.weekStart.sunday": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sunday"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კვირა"
+          }
+        }
+      }
+    },
+    "subscriptions.add": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add subscription"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გამოწერის დამატება"
+          }
+        }
+      }
+    },
     "subscriptions.all": {
       "localizations": {
         "en": {
@@ -885,6 +1957,22 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "წავშალოთ ყველაფერი?"
+          }
+        }
+      }
+    },
+    "subscriptions.edit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "რედაქტირება"
           }
         }
       }
@@ -1081,6 +2169,22 @@
         }
       }
     },
+    "subscriptions.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subscriptions"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გამოწერები"
+          }
+        }
+      }
+    },
     "subscriptions.unconvertible %lld": {
       "localizations": {
         "en": {
@@ -1197,6 +2301,166 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "upcoming.loadFailed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not read your subscriptions."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გამოწერების წაკითხვა ვერ მოხერხდა."
+          }
+        }
+      }
+    },
+    "upcoming.next": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next month"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შემდეგი თვე"
+          }
+        }
+      }
+    },
+    "upcoming.nothing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is charging this month."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამ თვეში ჩამოჭრა არ არის."
+          }
+        }
+      }
+    },
+    "upcoming.nothingEver": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is charging. Add a subscription or import a statement."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჩამოჭრები არ არის. დაამატე გამოწერა ან ატვირთე ამონაწერი."
+          }
+        }
+      }
+    },
+    "upcoming.nothingThatDay": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is charging that day."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "იმ დღეს ჩამოჭრა არ არის."
+          }
+        }
+      }
+    },
+    "upcoming.previous": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous month"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "წინა თვე"
+          }
+        }
+      }
+    },
+    "upcoming.showMonth": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the whole month"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მთელი თვის ჩვენება"
+          }
+        }
+      }
+    },
+    "upcoming.thisMonth": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This month"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამ თვეში"
+          }
+        }
+      }
+    },
+    "upcoming.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upcoming"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მოსალოდნელი"
+          }
+        }
+      }
+    },
+    "upcoming.total": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჯამი"
           }
         }
       }
