@@ -2,7 +2,7 @@ import Core
 import Foundation
 
 public struct BundledCatalog: SubscriptionCatalog {
-    private let entries: [CatalogEntry]
+    let entries: [CatalogEntry]
 
     public init(entries: [CatalogEntry] = MerchantSeed.entries) {
         self.entries = entries
