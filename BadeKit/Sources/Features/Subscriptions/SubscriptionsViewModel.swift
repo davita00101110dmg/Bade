@@ -8,6 +8,7 @@ public final class SubscriptionsViewModel {
     public private(set) var state: SubscriptionsState
 
     private let repository: any SubscriptionRepository
+    private let merchants: any MerchantSuggesting
     private let rates: @Sendable () async -> RateBook
     private let onOutcome: (SubscriptionsOutcome) -> Void
     private var work: Task<Void, Never>?
@@ -15,11 +16,13 @@ public final class SubscriptionsViewModel {
     public init(
         currency: String,
         repository: any SubscriptionRepository,
+        merchants: any MerchantSuggesting = NoMerchantSuggestions(),
         rates: @escaping @Sendable () async -> RateBook,
         onOutcome: @escaping (SubscriptionsOutcome) -> Void
     ) {
         state = SubscriptionsState(currency: currency)
         self.repository = repository
+        self.merchants = merchants
         self.rates = rates
         self.onOutcome = onOutcome
     }
@@ -29,8 +32,16 @@ public final class SubscriptionsViewModel {
     public func detail(for subscription: Subscription) -> SubscriptionDetailViewModel {
         SubscriptionDetailViewModel(
             subscription: subscription, currency: state.currency, rates: state.rates,
-            repository: repository,
+            repository: repository, merchants: merchants,
             onOutcome: { [weak self] _ in self?.send(.appeared) })
+    }
+
+    /// The same form whether it is filled in or blank; the store is written by the form itself.
+    public func form(for edit: SubscriptionEdit) -> SubscriptionFormViewModel {
+        SubscriptionFormViewModel(
+            editing: edit.subscription, currency: state.currency,
+            knownCurrencies: state.knownCurrencies, repository: repository, merchants: merchants,
+            onOutcome: { [weak self] outcome in self?.send(.formFinished(outcome)) })
     }
 
     public func send(_ intent: SubscriptionsIntent) {

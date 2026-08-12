@@ -2,8 +2,9 @@ import Core
 import Foundation
 import Localization
 
-/// Duplicated from Import rather than shared: feature modules never import each other, and
-/// `Localization` has no dependencies, so it cannot know what a `Cadence` is.
+/// Shared by Detail and the form, which is why it sits at the module root. Duplicated from Import
+/// rather than shared with it: feature modules never import each other, and `Localization` has no
+/// dependencies, so it cannot know what a `Cadence` is.
 extension Cadence {
     var localizedName: LocalizedStringResource {
         switch self {

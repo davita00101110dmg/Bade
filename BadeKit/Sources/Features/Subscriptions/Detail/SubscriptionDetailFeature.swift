@@ -6,6 +6,7 @@ public struct SubscriptionDetailState: Equatable {
     public let currency: String
     public let rates: RateBook
     public private(set) var isConfirmingDelete = false
+    public private(set) var isEditing = false
 
     public init(subscription: Subscription, currency: String, rates: RateBook) {
         self.subscription = subscription
@@ -94,6 +95,8 @@ extension Calendar {
 
 public enum SubscriptionDetailIntent: Equatable {
     case activeToggled
+    case editTapped
+    case formFinished(FormOutcome)
     case deleteRequested
     case deleteConfirmed
     case confirmationDismissed
@@ -116,6 +119,17 @@ extension SubscriptionDetailState {
             return .save(updated)
 
         case .saved(let updated):
+            subscription = updated
+            return .exit(.changed)
+
+        case .editTapped:
+            isEditing = true
+            return nil
+
+        // The form wrote it already; this screen only has to show what it wrote.
+        case .formFinished(let outcome):
+            isEditing = false
+            guard case .saved(let updated) = outcome else { return nil }
             subscription = updated
             return .exit(.changed)
 

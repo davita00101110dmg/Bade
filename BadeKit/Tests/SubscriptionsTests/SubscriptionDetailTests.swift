@@ -157,6 +157,27 @@ struct SubscriptionDetailTests {
         #expect(subject.isConfirmingDelete == false)
     }
 
+    @Test func editingOpensTheFormAndSavingShowsWhatItWrote() {
+        var subject = state(subscription(charges: [charge("2026-08-01", "10.00")]))
+        var amended = subject.subscription
+        amended.merchant = "Netflix Family"
+
+        #expect(subject.apply(.editTapped) == nil)
+        #expect(subject.isEditing)
+        #expect(subject.apply(.formFinished(.saved(amended))) == .exit(.changed))
+        #expect(subject.isEditing == false)
+        #expect(subject.subscription.merchant == "Netflix Family")
+    }
+
+    @Test func leavingTheFormAloneChangesNothingBehindIt() {
+        var subject = state(subscription(charges: [charge("2026-08-01", "10.00")]))
+        _ = subject.apply(.editTapped)
+
+        #expect(subject.apply(.formFinished(.cancelled)) == nil)
+        #expect(subject.isEditing == false)
+        #expect(subject.subscription.merchant == "Netflix")
+    }
+
     @Test func anythingThatChangedMakesTheListBehindItStale() {
         var subject = state(subscription(charges: [charge("2026-08-01", "10.00")]))
 

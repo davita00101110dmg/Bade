@@ -17,6 +17,7 @@ public struct SubscriptionsState: Equatable {
     /// Clearing everything is asked about; deleting one row is not. A swipe is already a
     /// deliberate act, and interrupting it with a modal makes the row spring shut underneath.
     public private(set) var isConfirmingDeleteAll = false
+    public private(set) var edit: SubscriptionEdit?
 
     public init(currency: String) {
         self.currency = currency
@@ -53,6 +54,12 @@ public struct SubscriptionsState: Equatable {
     public var annualTotal: Decimal { monthlyTotal * 12 }
     public var count: Int { active.count }
 
+    /// Currencies already being charged, offered before the full ISO list when one is picked.
+    public var knownCurrencies: [String] {
+        var seen: Set<String> = []
+        return all.map(\.currency).filter { seen.insert($0).inserted }
+    }
+
     private func monthly(of subscription: Subscription) -> Decimal? {
         rates.convert(
             subscription.monthlyAmount, from: subscription.currency, to: currency,
@@ -66,6 +73,9 @@ public enum SubscriptionsIntent: Equatable {
     case loadFailed
     case sortChanged(SubscriptionSort)
     case importTapped
+    case addTapped
+    case editTapped(Subscription)
+    case formFinished(FormOutcome)
     case activeToggled(Subscription)
     case deleteTapped(Subscription)
     case deleteAllRequested
@@ -105,6 +115,19 @@ extension SubscriptionsState {
 
         case .importTapped:
             return .exit(.importStatement)
+
+        case .addTapped:
+            edit = SubscriptionEdit(nil)
+            return nil
+
+        case .editTapped(let subscription):
+            edit = SubscriptionEdit(subscription)
+            return nil
+
+        // The form has already written to the store, so all that is left is to catch up with it.
+        case .formFinished(let outcome):
+            edit = nil
+            return outcome == .cancelled ? nil : .load
 
         case .activeToggled(let subscription):
             var updated = subscription

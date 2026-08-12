@@ -7,6 +7,8 @@ public struct SubscriptionsView: View {
     @Environment(\.badeTheme) private var theme
 
     @State private var model: SubscriptionsViewModel
+    /// Survives the hero row being recycled by scrolling, so §14.7's arrival happens once.
+    @State private var hasArrived = false
 
     public init(model: SubscriptionsViewModel) {
         _model = State(initialValue: model)
@@ -21,9 +23,17 @@ public struct SubscriptionsView: View {
                     }
                     .accessibilityLabel(Text(.subscriptions.importStatement))
                 }
+                ToolbarItem(placement: .primaryAction) {
+                    Button { model.send(.addTapped) } label: { Image(systemName: "plus") }
+                        .accessibilityLabel(Text(.subscriptions.add))
+                }
+            }
+            .sheet(item: editBinding) { edit in
+                SubscriptionFormView(model: model.form(for: edit))
             }
             .modifier(DeletionConfirmations(model: model))
-            .task { model.send(.appeared) }
+            // Reloaded on every appearance, not once: an edit made in another tab has to show.
+            .onAppear { model.send(.appeared) }
     }
 
     /// Split from `body` deliberately: the whole screen in one chain takes the type checker past
@@ -40,6 +50,7 @@ public struct SubscriptionsView: View {
         // A grouped list reserves space above its first section for a header it does not have.
         // Zeroed here so the gap above the total is only the padding the header itself asks for.
         .contentMargins(.top, .zero, for: .scrollContent)
+        .contentMargins(.bottom, .xxl, for: .scrollContent)
         .scrollContentBackground(.hidden)
         .background(theme.surface, ignoresSafeAreaEdges: .all)
         .badeAnimation(.badeContent, value: model.state.rows)
@@ -53,7 +64,8 @@ public struct SubscriptionsView: View {
                 annual: model.state.annualTotal,
                 currency: model.state.currency,
                 count: model.state.count,
-                unconvertibleCount: model.state.unconvertibleCount
+                unconvertibleCount: model.state.unconvertibleCount,
+                hasArrived: $hasArrived
             )
             .padding(.bottom, .lg)
             // Zeroed so the only space above the total is the one chosen here, not the list's.
@@ -76,9 +88,13 @@ public struct SubscriptionsView: View {
                         SubscriptionListRow(row: row, currency: model.state.currency)
                     }
                     .listRowBackground(theme.surfaceRaised)
-                    .swipeActions(edge: .leading) { activeAction(row.subscription) }
+                    .swipeActions(edge: .leading) {
+                        activeAction(row.subscription)
+                        editAction(row.subscription)
+                    }
                     .swipeActions(edge: .trailing) { deleteAction(row.subscription) }
                     .contextMenu {
+                        editAction(row.subscription)
                         activeAction(row.subscription)
                         deleteAction(row.subscription)
                     }
@@ -102,9 +118,13 @@ public struct SubscriptionsView: View {
                             .opacity(SubscriptionsMetrics.cancelledRow)
                     }
                     .listRowBackground(theme.surfaceRaised)
-                    .swipeActions(edge: .leading) { activeAction(row.subscription) }
+                    .swipeActions(edge: .leading) {
+                        activeAction(row.subscription)
+                        editAction(row.subscription)
+                    }
                     .swipeActions(edge: .trailing) { deleteAction(row.subscription) }
                     .contextMenu {
+                        editAction(row.subscription)
                         activeAction(row.subscription)
                         deleteAction(row.subscription)
                     }
@@ -151,6 +171,14 @@ public struct SubscriptionsView: View {
         .tint(theme.accent)
     }
 
+    /// Behind cancel on the swipe, so a full swipe still means what it meant before Edit existed.
+    private func editAction(_ subscription: Subscription) -> some View {
+        Button { model.send(.editTapped(subscription)) } label: {
+            Label { Text(.subscriptions.edit) } icon: { Image(systemName: "pencil") }
+        }
+        .tint(theme.inkMuted)
+    }
+
     /// Offered on both a swipe and a long press, because neither is discoverable on its own.
     private func deleteAction(_ subscription: Subscription) -> some View {
         Button(role: .destructive) { model.send(.deleteTapped(subscription)) } label: {
@@ -191,6 +219,13 @@ public struct SubscriptionsView: View {
 
     private var sortBinding: Binding<SubscriptionSort> {
         Binding(get: { model.state.sort }, set: { model.send(.sortChanged($0)) })
+    }
+
+    /// Swiping the sheet away is the same as tapping Cancel in it.
+    private var editBinding: Binding<SubscriptionEdit?> {
+        Binding(
+            get: { model.state.edit },
+            set: { if $0 == nil { model.send(.formFinished(.cancelled)) } })
     }
 }
 

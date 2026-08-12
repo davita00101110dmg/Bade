@@ -16,7 +16,15 @@ public struct SubscriptionDetailView: View {
     public var body: some View {
         content
             .modifier(DeleteConfirmation(model: model))
-            .navigationTitle(Text(verbatim: model.state.subscription.merchant))
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button { model.send(.editTapped) } label: { Text(.subscriptions.edit) }
+                }
+            }
+            .sheet(isPresented: editBinding) { SubscriptionFormView(model: model.form()) }
+            // Static, because the heading below already names the subscription and two of the
+            // same name in one glance read as a mistake.
+            .navigationTitle(Text(.detail.title))
             .toolbarTitleDisplayMode(.inline)
     }
 
@@ -30,7 +38,7 @@ public struct SubscriptionDetailView: View {
             }
             .padding(.horizontal, .screenMargin)
             .padding(.top, .md)
-            .padding(.bottom, .xxl)
+            .padding(.bottom, .xxxl)
         }
         .scrollBounceBehavior(.basedOnSize)
         .background(theme.surface, ignoresSafeAreaEdges: .all)
@@ -153,6 +161,13 @@ public struct SubscriptionDetailView: View {
                 .contentShape(.rect)
         }
         .buttonStyle(.plain)
+    }
+
+    /// Swiping the sheet away is the same as tapping Cancel in it.
+    private var editBinding: Binding<Bool> {
+        Binding(
+            get: { model.state.isEditing },
+            set: { if !$0 { model.send(.formFinished(.cancelled)) } })
     }
 
     private var monogram: String {

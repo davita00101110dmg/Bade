@@ -252,6 +252,57 @@ struct SubscriptionsDeletionTests {
     }
 }
 
+@Suite("Opening the form")
+struct SubscriptionsFormTests {
+    private func state(_ subscriptions: [Subscription]) -> SubscriptionsState {
+        var state = SubscriptionsState(currency: "GEL")
+        _ = state.apply(.loaded(subscriptions, rateBook()))
+        return state
+    }
+
+    @Test func addingOpensABlankForm() {
+        var subject = state([subscription("Netflix", "35.00")])
+
+        #expect(subject.apply(.addTapped) == nil)
+        #expect(subject.edit?.subscription == nil)
+        #expect(subject.edit?.id == "new")
+    }
+
+    @Test func editingOpensOnThatSubscription() {
+        var subject = state([subscription("Netflix", "35.00")])
+        let netflix = subject.all[0]
+
+        #expect(subject.apply(.editTapped(netflix)) == nil)
+        #expect(subject.edit?.subscription == netflix)
+    }
+
+    /// The form writes to the store itself, so the list only has to catch up with it.
+    @Test func savingClosesTheFormAndRereadsTheStore() {
+        var subject = state([subscription("Netflix", "35.00")])
+        _ = subject.apply(.addTapped)
+
+        #expect(subject.apply(.formFinished(.saved(subscription("Spotify", "15.20")))) == .load)
+        #expect(subject.edit == nil)
+    }
+
+    @Test func cancellingClosesTheFormAndReadsNothing() {
+        var subject = state([subscription("Netflix", "35.00")])
+        _ = subject.apply(.addTapped)
+
+        #expect(subject.apply(.formFinished(.cancelled)) == nil)
+        #expect(subject.edit == nil)
+    }
+
+    @Test func theCurrenciesAlreadyChargedAreOfferedToTheForm() {
+        let subject = state([
+            subscription("Netflix", "12.99", "USD"), subscription("Spotify", "15.20"),
+            subscription("ChatGPT", "20.00", "USD"),
+        ])
+
+        #expect(subject.knownCurrencies == ["USD", "GEL"])
+    }
+}
+
 
 extension Subscription {
     fileprivate func withActive(_ isActive: Bool) -> Subscription {
