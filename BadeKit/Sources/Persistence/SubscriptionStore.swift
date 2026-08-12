@@ -100,12 +100,13 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository {
     }
 
     /// Keeps the stored identity and the widest known history; an older statement never rewinds
-    /// the current amount or next charge.
+    /// the current amount or next charge. The name is the stored one whatever the statement says,
+    /// because it may be the one the user typed.
     private func merging(_ incoming: Subscription, into stored: Subscription) -> Subscription {
         let newest = incoming.lastChargeDate >= stored.lastChargeDate ? incoming : stored
         return Subscription(
             id: stored.id,
-            merchant: newest.merchant,
+            merchant: stored.merchant,
             amount: newest.amount,
             isVariableAmount: newest.isVariableAmount,
             currency: newest.currency,

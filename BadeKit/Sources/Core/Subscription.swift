@@ -72,6 +72,9 @@ public struct Subscription: Equatable, Sendable, Codable, Identifiable {
     /// Derived rather than stored, so it can never disagree with the history it counts.
     public var occurrenceCount: Int { charges.count }
 
-    /// Identity across imports: the same service billed the same way, whatever the id.
-    public var matchKey: String { "\(merchant)|\(currency)|\(cadence.rawValue)" }
+    /// Identity across imports: the same service billed the same way, whatever the id. Folded, so
+    /// a hand-typed "netflix " and a detected "Netflix" are one subscription rather than two.
+    public var matchKey: String {
+        "\(MerchantName.folded(merchant))|\(currency)|\(cadence.rawValue)"
+    }
 }

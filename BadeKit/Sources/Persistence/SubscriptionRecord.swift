@@ -39,6 +39,8 @@ final class SubscriptionRecord {
         matchKey = subscription.matchKey
     }
 
+    /// `matchKey` is deliberately absent: identity is set once, by whatever created the row, so
+    /// renaming a subscription cannot hide it from the next import of the same statement.
     func update(from subscription: Subscription) {
         merchant = subscription.merchant
         amount = subscription.amount
@@ -52,7 +54,6 @@ final class SubscriptionRecord {
         priceChanges = subscription.priceChanges
         isActive = subscription.isActive
         confidenceRaw = subscription.confidence.rawValue
-        matchKey = subscription.matchKey
     }
 
     var subscription: Subscription {

@@ -247,6 +247,87 @@ struct ConcurrentSubscriptionTests {
     }
 }
 
+/// A subscription typed in by hand has a price and a rhythm but no history, and the import that
+/// finally finds it must recognise it rather than list it twice.
+@Suite("Hand-entered subscriptions", .serialized)
+struct HandEnteredSubscriptionTests {
+    private func typed(
+        _ merchant: String, amount: String, currency: String = "GEL", cadence: Cadence = .monthly
+    ) -> Subscription {
+        Subscription(
+            merchant: merchant, amount: Decimal(string: amount)!, currency: currency,
+            cadence: cadence, firstChargeDate: day("2026-06-20"), lastChargeDate: day("2026-06-20"),
+            nextChargeDate: day("2026-07-20"), confidence: .confident)
+    }
+
+    @Test func oneWithNoChargesRoundTrips() async throws {
+        let store = try newStore()
+
+        try await store.save(typed("Netflix", amount: "35.99"))
+
+        let stored = try #require(try await store.all().first)
+        #expect(stored.charges.isEmpty)
+        #expect(stored.occurrenceCount == 0)
+        #expect(stored.amount == Decimal(string: "35.99")!)
+    }
+
+    @Test func alaterImportFindsItAndGivesItAHistory() async throws {
+        let store = try newStore()
+        let entered = typed("netflix ", amount: "35.99")
+        try await store.save(entered)
+
+        _ = try await store.confirm([
+            detected("Netflix", amount: "35.99", dates: ["2026-05-20", "2026-06-20"], next: "2026-07-20")
+        ])
+
+        let stored = try await store.all()
+        #expect(stored.count == 1)
+        #expect(stored[0].id == entered.id, "the row the user made is the row that survives")
+        #expect(stored[0].charges.count == 2)
+    }
+
+    /// An import never renames a row underneath the user, however sloppily they typed it.
+    @Test func theNameTheUserTypedSurvivesTheImport() async throws {
+        let store = try newStore()
+        try await store.save(typed("netflix", amount: "35.99"))
+
+        _ = try await store.confirm([
+            detected("Netflix", amount: "35.99", dates: ["2026-05-20", "2026-06-20"], next: "2026-07-20")
+        ])
+
+        #expect(try await store.all().map(\.merchant) == ["netflix"])
+    }
+
+    /// The identity is set once, so renaming cannot hide a subscription from the next import.
+    @Test func renamingKeepsItFindableByALaterImport() async throws {
+        let store = try newStore()
+        let batch = [
+            detected("Spotify", amount: "15.20", dates: ["2026-05-20", "2026-06-20"], next: "2026-07-20")
+        ]
+        _ = try await store.confirm(batch)
+
+        var stored = try await store.all()[0]
+        stored.merchant = "Spotify Family"
+        try await store.save(stored)
+        _ = try await store.confirm(batch)
+
+        let reloaded = try await store.all()
+        #expect(reloaded.count == 1)
+        #expect(reloaded[0].merchant == "Spotify Family")
+    }
+
+    @Test func aDifferentCadenceIsADifferentSubscription() async throws {
+        let store = try newStore()
+        try await store.save(typed("Netflix", amount: "35.99", cadence: .annual))
+
+        _ = try await store.confirm([
+            detected("Netflix", amount: "35.99", dates: ["2026-05-20", "2026-06-20"], next: "2026-07-20")
+        ])
+
+        #expect(try await store.all().count == 2)
+    }
+}
+
 /// Detail's history, the price timeline and §8's markup all read the charges rather than a count,
 /// so they have to outlive the import that found them.
 @Suite("Stored charges", .serialized)

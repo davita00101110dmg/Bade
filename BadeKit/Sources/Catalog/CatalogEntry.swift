@@ -56,18 +56,3 @@ public struct CatalogEntry: Equatable, Sendable {
 
     var matchTokens: [String] { ([merchant] + aliases).map(MerchantName.folded) }
 }
-
-/// Case, spacing and punctuation vary wildly across statements; compare on letters and digits only.
-enum MerchantName {
-    static func folded(_ value: String) -> String {
-        value.lowercased().filter { $0.isLetter || $0.isNumber }
-    }
-
-    /// Descriptors glue the brand to whatever else the processor felt like sending, and the joins
-    /// are punctuation as often as spaces: "CLAUDE.AI SUBSCRIPTION", "ANTHROPIC* CLAUDE SUB".
-    static func words(_ value: String) -> [String] {
-        value.split { !$0.isLetter && !$0.isNumber }
-            .map { folded(String($0)) }
-            .filter { !$0.isEmpty }
-    }
-}
