@@ -10,9 +10,10 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **8 — UI**. Steps 1–7 are done and the whole non-UI pipeline is proven
-> against a real statement. Within step 8: Welcome ✅, Parsing ✅, Review ✅,
-> Subscriptions + TabView ▶ next.
+> Build order step: **8 is done**; manual entry, Upcoming and Settings are **built but unverified
+> on device** — they compile, 339 tests pass, no screen has been looked at. Welcome ✅, Parsing ✅,
+> Review ✅, Subscriptions ✅, Detail ✅, Form ▲, Upcoming + TabView ▲, Settings ▲.
+> Next: run all three on device, fix what the review finds, then §8 NBG rates.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory and navigation model live in `NEXT-SESSION.md`.)
 
