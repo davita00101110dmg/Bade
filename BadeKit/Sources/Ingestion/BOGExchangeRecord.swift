@@ -20,7 +20,7 @@ enum BOGExchangeRecord {
     static func rates(in flat: String) -> [ObservedRate] {
         let days = flat.matches(of: datePattern)
             .compactMap { match -> (index: String.Index, date: Date)? in
-                date(day: match.1, month: match.2, year: match.3)
+                StatementDate.from(day: match.1, month: match.2, year: match.3)
                     .map { (match.range.lowerBound, $0) }
             }
 
@@ -42,12 +42,5 @@ enum BOGExchangeRecord {
 
     private static func amount(_ text: Substring) -> Decimal? {
         Decimal(string: text.replacingOccurrences(of: ",", with: ""))
-    }
-
-    private static func date(day: Substring, month: Substring, year: Substring) -> Date? {
-        guard let day = Int(day), let month = Int(month), let year = Int(year) else { return nil }
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        return calendar.date(from: DateComponents(year: year, month: month, day: day))
     }
 }

@@ -23,7 +23,7 @@ struct BOGPaymentRecord {
             let amount = Decimal(string: money.2.replacingOccurrences(of: ",", with: "")),
             let dateField = body.range(of: vocabulary.date),
             let stamp = try? Self.datePattern.firstMatch(in: body[dateField.upperBound...]),
-            let date = Self.date(day: stamp.1, month: stamp.2, year: stamp.3)
+            let date = StatementDate.from(day: stamp.1, month: stamp.2, year: stamp.3)
         else { return nil }
 
         transaction = RawTransaction(
@@ -52,13 +52,6 @@ struct BOGPaymentRecord {
         guard let pair, let bank = bank ?? scheme else { return nil }
         return CurrencyConversion(
             from: pair.0, to: pair.1, bankRate: bank, schemeRate: scheme)
-    }
-
-    private static func date(day: Substring, month: Substring, year: Substring) -> Date? {
-        guard let day = Int(day), let month = Int(month), let year = Int(year) else { return nil }
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        return calendar.date(from: DateComponents(year: year, month: month, day: day))
     }
 }
 

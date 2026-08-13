@@ -7,7 +7,7 @@ import Normalization
 import PDFKit
 
 public struct StatementImporter: StatementImporting {
-    private let parsers: [any StatementParser] = [BOGStatementParser()]
+    private let parsers: [any StatementParser] = [BOGStatementParser(), TBCStatementParser()]
     private let catalog = BundledCatalog()
 
     public init() {}

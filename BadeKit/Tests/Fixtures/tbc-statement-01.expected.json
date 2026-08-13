@@ -1,0 +1,78 @@
+[
+  {
+    "cadence" : "monthly",
+    "merchant" : "MERCHANT135",
+    "nextChargeDate" : "2026-08-01T00:00:00Z",
+    "confidence" : "probable",
+    "currency" : "GEL",
+    "priceChanges" : [
+
+    ],
+    "occurrences" : [
+      {
+        "currency" : "GEL",
+        "sourceLine" : "- MERCHANT135, 189.00 GEL, Jun 1 2026 03:12PM, ქალაქი, საქართველო, MCC: 7997, VI, 000000******0000 ბარათით გადახდა, TBCBGE22, GE00TB0000000000000000 189.00 0.00 02/06/2026",
+        "amount" : 189,
+        "date" : "2026-06-01T00:00:00Z",
+        "mcc" : "7997",
+        "rawDescription" : "MERCHANT135"
+      },
+      {
+        "currency" : "GEL",
+        "sourceLine" : "- MERCHANT135, 189.00 GEL, Jul 1 2026 03:12PM, ქალაქი, საქართველო, MCC: 7997, VI, 000000******0000 ბარათით გადახდა, TBCBGE22, GE00TB0000000000000000 189.00 0.00 02/07/2026",
+        "amount" : 189,
+        "date" : "2026-07-01T00:00:00Z",
+        "mcc" : "7997",
+        "rawDescription" : "MERCHANT135"
+      }
+    ],
+    "amount" : 189,
+    "isVariableAmount" : false
+  },
+  {
+    "cadence" : "monthly",
+    "merchant" : "Spotify",
+    "nextChargeDate" : "2026-09-01T00:00:00Z",
+    "confidence" : "confident",
+    "currency" : "USD",
+    "priceChanges" : [
+
+    ],
+    "occurrences" : [
+      {
+        "currency" : "USD",
+        "sourceLine" : "GEO - Spotify P1B2C3D4E5, 2.99 USD, Sep 6 2025 03:12PM, ქალაქი, საქართველო, MCC: 5815, VI, 000000******0000 ბარათით გადახდა, TBCBGE22, GE00TB0000000000000000 2.99 0.00 06/09/2025",
+        "amount" : 2.99,
+        "date" : "2025-09-06T00:00:00Z",
+        "mcc" : "5815",
+        "rawDescription" : "Spotify P1B2C3D4E5"
+      },
+      {
+        "currency" : "USD",
+        "sourceLine" : "- Spotify P2C3D4E5F6, 2.99 USD, Oct 4 2025 03:12PM, ქალაქი, საქართველო, MCC: 5815, VI, 000000******0000 ბარათით გადახდა, TBCBGE22, GE00TB0000000000000000 2.99 0.00 03/10/2025",
+        "amount" : 2.99,
+        "date" : "2025-10-04T00:00:00Z",
+        "mcc" : "5815",
+        "rawDescription" : "Spotify P2C3D4E5F6"
+      },
+      {
+        "currency" : "USD",
+        "sourceLine" : "GEO - SPOTIFY AB, 2.99 USD, Jul 1 2026 03:12PM, ქალაქი, საქართველო, MCC: 5815, VI, 000000******0000 ბარათით გადახდა, TBCBGE22, GE00TB0000000000000000 2.99 0.00 01/07/2026",
+        "amount" : 2.99,
+        "date" : "2026-07-01T00:00:00Z",
+        "mcc" : "5815",
+        "rawDescription" : "SPOTIFY AB"
+      },
+      {
+        "currency" : "USD",
+        "sourceLine" : "GEO - Spotify P3D4E5F6A7, 2.99 USD, Aug 1 2026 03:12PM, ქალაქი, საქართველო, MCC: 5815, VI, 000000******0000 ბარათით გადახდა, TBCBGE22, GE00TB0000000000000000 2.99 0.00 31/07/2026",
+        "amount" : 2.99,
+        "date" : "2026-08-01T00:00:00Z",
+        "mcc" : "5815",
+        "rawDescription" : "Spotify P3D4E5F6A7"
+      }
+    ],
+    "amount" : 2.99,
+    "isVariableAmount" : false
+  }
+]

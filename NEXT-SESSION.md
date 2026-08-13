@@ -3,22 +3,25 @@
 Read `CLAUDE.md` first for the working agreement, constraints and UI conventions.
 This file is the handoff: where the project is, what is next, and what is still open.
 
-Last updated: **2026-08-13**, end of "Bade part 4".
+Last updated: **2026-08-13**, end of "Bade part 5".
 
 ---
 
 ## Where it is
 
-**Steps 1–8, 12 and 13 done** (13's code is complete and tested; no purchase has ever round-tripped).
-**Step 9 built, measured and decided against. Step 10 all but finished.**
-Everything is committed on `main`; the working tree is clean and the app runs on the device.
+**Steps 1–8, 11, 12 and 13 done** (13's code is complete and tested; no purchase has ever
+round-tripped). **Step 9 built, measured and decided against. Step 10 all but finished.**
+Everything through the widget is committed and pushed; step 11 is built and running on the device
+but **not yet committed**.
 
 ```
 PDF → Ingestion → Normalization → Detection → Persistence → UI
-   326 transactions → 11 subscriptions → nothing unconvertible
+   BOG  326 transactions → 11 subscriptions → nothing unconvertible
+   TBC  770 transactions →  2 subscriptions (the largest of three)
 ```
 
-**435 tests, `swift test` ~0.7s, no simulator needed. iOS build green, no warnings.**
+**463 tests, `swift test` ~0.7s away from the statements, ~2s here where the PDFs exist.
+No simulator needed. iOS build green, no warnings.**
 
 ### Screens
 
@@ -64,7 +67,8 @@ Statement text is never printed into a session, so this cannot be settled from p
 ## Waiting on the user
 
 - **A list of UI comments**, outstanding since before step 9 and never collected. The oldest item.
-- **A real TBC statement**, which step 11 cannot start without.
+- **Whether the widget should name the month** ("AUGUST" rather than "THIS MONTH"), so its figure
+  cannot be misread as the list's levelled one. Proposed, never answered. One string.
 - **In Xcode:** target iPhone only (`TARGETED_DEVICE_FAMILY` is `1,2,7` and `SUPPORTED_PLATFORMS`
   includes `xros` and `macosx`), and set `ITSAppUsesNonExemptEncryption` so App Store Connect stops
   asking the export-compliance question on every upload.
@@ -95,10 +99,75 @@ What is gated, and where it is enforced:
 | Reminder settings | The row leads to `ProView` instead of the picker |
 | The permission ask | `askAboutReminders` requires `isPro` |
 
-**Then 14** the Georgian translation pass, and **11** whenever a TBC statement arrives.
+**Then 14**, the Georgian translation pass.
 
 Note the brief says renewal reminders and the calendar are free-forever core loop. Both are now
 Pro. That was a deliberate call by the user on 2026-08-13; the brief has not been rewritten.
+
+---
+
+## The statements
+
+Eight PDFs sit in the gitignored `statements/`: four BOG, **three TBC**, **one Liberty Bank**. The
+TBC and Liberty ones belong to **other people**, who agreed to this use. Nothing about them may be
+printed into a session, saved anywhere, or committed. Parse, take the subscriptions, nothing else.
+
+All extract as text through PDFKit — no scans, no OCR.
+
+### The TBC format, as built (step 11)
+
+Established by masked probing; no real line was ever read.
+
+- **A card purchase is `POS <location> - <merchant>, <amount> <CUR>, <Mon> <D> <YYYY> <HH:MM><AM|PM>,
+  <address>, MCC: <digits>, …`** — one intact run carrying everything Bade needs. The row's own
+  columns (BIC, IBAN, amount, balance) follow only **a quarter** of records, because extraction
+  emits them as separate blocks, so they are not read at all.
+- **`MCC:` appears once per card block and nowhere else**, which makes its count the exact number of
+  purchases in the file — the denominator the local suite checks against. All three parse **100%**.
+- **The location left of the dash takes one value in a whole statement** (empty for e-commerce), so
+  it identifies nothing and is dropped. The merchant is what follows ` - `.
+- **The purchase date is inside the record**; the `DD/MM/YYYY` in front is when TBC posted it.
+  The month is an **English abbreviation**, so no Georgian is parsed at all.
+- **`POS` also appears inside Georgian descriptions** — on the fee charged for a card operation
+  above all. 111 of 881 in the largest file. A body has to prove itself a record.
+- **The amount is in the currency the charge was made in**, which for this account is mostly GEL but
+  also USD and EUR. There is no second amount to pair it with, so `conversion` is always `nil` and
+  TBC contributes no markup data.
+- **A conversion the account holder made prints its rate** — `(… 1 USD = 2.7100 GEL)`, three to five
+  times in a year. `TBCExchangeRecord` reads them; the quantity is divided out.
+
+**`TBCBGE22` alone is not a signature.** A BOG statement prints it on any transfer to a TBC account,
+and a Liberty statement did too — all three were claimed by TBC until `canParse` also required one
+readable record. `claimsTheTBCStatementsAndNoOthers` guards this against every PDF in the folder.
+
+**Liberty has no parser.** One statement is not a format, and it is now correctly unrecognised
+rather than mis-claimed.
+
+### How to look at them without reading them
+
+`statements/shapes.swift` and `statements/facts.swift` (gitignored, kept beside the PDFs) print
+**masked shapes** and **statistics** — digits to `9`, Georgian to `ა`, Latin to `A` — so a layout can
+be designed without a value entering the session. Run with `swift statements/shapes.swift <file>`.
+Verify a parser by **counts only**: transactions parsed, date range, how many became subscriptions.
+Never a merchant list, never a counterparty.
+
+**A cross-file filter is not an anonymiser.** "Tokens frequent in every file" was used once to find
+format labels on the assumption the three TBC files were different people. They are the same person,
+and a name reached the session. Probe by **hypothesis instead**: supply the candidate string, get
+back a count and a masked shape, so nothing unknown is ever printed.
+
+### The golden fixture
+
+`Tests/Fixtures/tbc-statement-01.txt` is derived from the largest TBC statement: 770 real records,
+with real dates, amounts, currencies and MCCs. **Only a merchant the bundled catalog already knows
+survives verbatim** — six raw strings resolving to Apple and Spotify. The other 185 became
+`MERCHANT###`. IBAN, PAN, address and balances are fixed placeholders; the non-card rows around it
+were written by hand. `namesNoMerchantThatIsNotAlreadyPublic` enforces the rule permanently and
+reports a count rather than the offending name.
+
+It was written by a throwaway generator in `PipelineTests`, deleted once it had run. To rebuild it,
+write another: parse the statement, keep `catalog.entry(for:) != nil` merchants, replace the rest,
+re-render each record and re-parse to prove the rendering round-trips.
 
 ---
 
@@ -132,6 +201,12 @@ Pro. That was a deliberate call by the user on 2026-08-13; the brief has not bee
 11. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
 12. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
 13. **The end-to-end run** the user asked for has still not happened.
+14. **The monthly window is `28...31` days, and real subscriptions miss it.** In the largest TBC
+   statement, 13 merchants charge 3+ times in a category that can recur and only **2** are detected.
+   One candidate runs `[32, 32, 28, 31]` — plainly monthly, but two gaps of 32 fall outside the
+   window, so `uniformCadence` fails and the charges fall back to amount clustering. Another runs
+   `[40, 33, 28, 27, 25]`, which is genuinely irregular and rightly rejected. Widening the window
+   changes BOG's results too, so it was left alone — **a step-7 decision, not a parser one**.
 
 ### The widget
 
@@ -231,7 +306,7 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 435 tests, ~0.7s, no simulator
+cd BadeKit && swift test          # 463 tests, ~2s here, ~0.7s without the statements
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
@@ -306,6 +381,17 @@ corrupt store to prove the recovery path. The run still passes.
 - **SourceKit in this repo reports "No such module" for every new file.** Stale index, not a real
   error. `swift build` is the truth.
 - **The BOG parser flattens all whitespace before matching**, so line wrapping is already handled.
+- **`some Sequence` has no `first` property.** Returning an opaque `Sequence` from a helper and then
+  writing `.first != nil` binds to the unapplied `first(where:)` *method*, which is never nil — so
+  the guard was always true and `canParse` silently degenerated to its cheap half. It compiles, with
+  a warning that is easy to miss because an incremental build does not re-emit it. Return
+  `some Collection` when the caller needs `first`, and read the warnings on a forced rebuild.
+- **`Decimal`'s `description` drops a trailing zero**: `15.20` renders as `15.2`, which a
+  two-decimal grammar rejects. Rendering money for a fixture wants
+  `.formatted(.number.precision(.fractionLength(2)).grouping(.never).locale(.init(identifier: "en_US_POSIX")))`,
+  never string interpolation.
+- **A computed `static var` that opens PDFs re-opens them on every access.** Six local tests reading
+  four megabytes each turned a 0.7s suite into 5.2s. `static let` fixed it.
 
 ---
 

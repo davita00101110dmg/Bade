@@ -16,8 +16,10 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 > figures are withheld until one question about BOG's conversion block is answered. Upcoming and
 > reminders sit behind `@AppStorage("isPro")`, now a cache of the App Store entitlement.
 > The home screen widget ships too, though §13 lists widgets as out of scope for v1 — a deliberate
-> call, since the Pro page sells them. Next: **TestFlight, to verify a purchase**, then **14** the
-> Georgian pass.
+> call, since the Pro page sells them. **11 done** — `TBCStatementParser` reads every card purchase
+> in all three TBC statements, and a scrubbed golden fixture ships with them. The Liberty statement
+> has no parser and is not claimed by one. Next: **TestFlight, to verify a purchase**, then **14**
+> the Georgian pass.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 

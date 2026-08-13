@@ -83,7 +83,10 @@ let package = Package(
         .testTarget(name: "CatalogTests", dependencies: ["Catalog", "Detection", "Core"]),
         .testTarget(
             name: "PipelineTests",
-            dependencies: ["Pipeline", "Ingestion", "Normalization", "Detection", "Catalog", "Core"]),
+            dependencies: [
+                "Pipeline", "Ingestion", "Normalization", "Detection", "Catalog", "Core",
+                "TestSupport",
+            ]),
         .target(name: "TestSupport", dependencies: ["Core"]),
         .testTarget(name: "GoldenTests", dependencies: ["TestSupport", "Core"]),
     ]
