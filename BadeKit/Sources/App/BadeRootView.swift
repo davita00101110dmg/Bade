@@ -4,6 +4,7 @@ import DesignSystem
 import FX
 import Import
 import Localization
+import Notifications
 import Persistence
 import Pipeline
 import Settings
@@ -22,6 +23,10 @@ public struct BadeRootView: View {
     @AppStorage("textSize") private var textSizeCode = BadeTextSize.system.rawValue
     @AppStorage("weekStart") private var weekStartCode = BadeWeekStart.system.rawValue
     @AppStorage("fetchesRates") private var fetchesRates = true
+    @AppStorage("reminderLead") private var reminderLeadCode = ReminderLead.off.rawValue
+    @AppStorage("reminderTime") private var reminderTime = ReminderPreference.defaultTimeOfDay
+    /// Asked once and never again, whichever way it was answered.
+    @AppStorage("hasAskedAboutReminders") private var hasAskedAboutReminders = false
     /// Stands in for a purchase until StoreKit exists (step 13). Everything gated reads this and
     /// nothing else, so the day it becomes an entitlement only this line changes.
     @AppStorage("isPro") private var isPro = false
@@ -40,8 +45,10 @@ public struct BadeRootView: View {
     @State private var reload = UUID()
     @State private var tab = Tabs.subscriptions
     @State private var isShowingPro = false
+    @State private var isAskingAboutReminders = false
 
     private let merchants = BundledCatalog()
+    private let reminders = SystemReminders()
 
     public init() {}
 
@@ -50,6 +57,15 @@ public struct BadeRootView: View {
     private var appearance: BadeAppearance { BadeAppearance(rawValue: appearanceCode) ?? .system }
     private var textSize: BadeTextSize { BadeTextSize(rawValue: textSizeCode) ?? .system }
     private var weekStart: BadeWeekStart { BadeWeekStart(rawValue: weekStartCode) ?? .system }
+
+    /// Reminders are part of Pro, and no lead means nothing is ever scheduled — so this is the one
+    /// place the gate is enforced rather than at every call site. What was chosen is kept, and comes
+    /// back if Pro is bought.
+    private var reminderPreference: ReminderPreference {
+        ReminderPreference(
+            lead: isPro ? ReminderLead(rawValue: reminderLeadCode) ?? .off : .off,
+            timeOfDay: reminderTime)
+    }
 
     /// The cache always answers; the network behind it is what the switch in Settings turns off.
     private var officialRates: any OfficialRateSource {
@@ -80,6 +96,11 @@ public struct BadeRootView: View {
             }
             .sheet(isPresented: $isShowingPro) {
                 NavigationStack { ProView() }.badeTheme()
+            }
+            .sheet(isPresented: $isAskingAboutReminders) {
+                ReminderPromptView(onOutcome: handleReminderPrompt)
+                    .badeTheme()
+                    .presentationDetents([.medium])
             }
             // Only Welcome opens it from here; once there is a list, the list presents its own.
             .sheet(isPresented: $isAddingManually) {
@@ -158,7 +179,9 @@ public struct BadeRootView: View {
                 currency: currency, language: language, appearance: appearance,
                 textSize: textSize, weekStart: weekStart,
                 isCurrencyInferred: chosenCurrency.isEmpty, fetchesRates: fetchesRates,
-                repository: store, onOutcome: handleSettings))
+                isPro: isPro, reminder: reminderPreference, repository: store,
+                isReminderDenied: { [reminders] in await reminders.authorization() == .denied },
+                onOutcome: handleSettings))
     }
 
     private func detail(for subscription: Subscription) -> SubscriptionDetailViewModel {
@@ -185,6 +208,20 @@ public struct BadeRootView: View {
         inferredCurrency = stored.predominantCurrency ?? Self.localeCurrency
         rates = (try? await store.observedRates()) ?? RateBook()
         isReady = true
+        await reschedule(for: stored)
+    }
+
+    /// Every launch and every change reschedules from scratch: the plan is cheap, and a stale
+    /// reminder for a subscription that has been deleted or repriced is worse than none.
+    private func reschedule(for stored: [Subscription]) async {
+        await reminders.replace(
+            with: ReminderPlan.reminders(
+                for: stored, preference: reminderPreference, from: .now),
+            in: language.locale)
+    }
+
+    private func rescheduleFromStore() async {
+        await reschedule(for: (try? await store.all()) ?? [])
     }
 
     private func handleImport(_ outcome: ImportOutcome) {
@@ -192,7 +229,33 @@ public struct BadeRootView: View {
         switch outcome {
         case .cancelled, .foundNothing: break
         case .chooseAnother: isPickingFile = true
-        case .saved: reload = UUID()
+        case .saved:
+            reload = UUID()
+            askAboutReminders()
+        }
+    }
+
+    /// After the total has landed, never before it. Nothing is asked twice, nothing is asked at all
+    /// if iOS has already been answered, and nobody is asked for a permission they cannot yet use.
+    private func askAboutReminders() {
+        guard isPro, !hasAskedAboutReminders else { return }
+        Task {
+            guard await reminders.authorization() == .notDetermined else { return }
+            try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
+            hasAskedAboutReminders = true
+            isAskingAboutReminders = true
+        }
+    }
+
+    /// A yes here is what earns the system prompt. A no from iOS needs no handling: Settings reads
+    /// the answer for itself, and a lead with no permission behind it schedules nothing.
+    private func handleReminderPrompt(_ outcome: ReminderPromptOutcome) {
+        isAskingAboutReminders = false
+        guard outcome == .turnOn else { return }
+        Task {
+            guard await reminders.requestAuthorization() else { return }
+            reminderLeadCode = ReminderLead.oneDay.rawValue
+            await rescheduleFromStore()
         }
     }
 
@@ -211,6 +274,17 @@ public struct BadeRootView: View {
         case .textSizeChanged(let size): textSizeCode = size.rawValue
         case .weekStartChanged(let start): weekStartCode = start.rawValue
         case .rateFetchingChanged(let fetches): fetchesRates = fetches
+        case .reminderLeadChanged(let lead):
+            reminderLeadCode = lead.rawValue
+            Task {
+                // Turning them on here has to be able to ask iOS too: the prompt after the first
+                // import may have been declined, or never reached at all.
+                if lead.isOn { _ = await reminders.requestAuthorization() }
+                await rescheduleFromStore()
+            }
+        case .reminderTimeChanged(let minutes):
+            reminderTime = minutes
+            Task { await rescheduleFromStore() }
         case .dataCleared: reload = UUID()
         }
     }

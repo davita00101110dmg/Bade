@@ -3,13 +3,13 @@
 Read `CLAUDE.md` first for the working agreement, constraints and UI conventions.
 This file is the handoff: where the project is, what is next, and what is still open.
 
-Last updated: **2026-08-12**, end of "Bade part 3".
+Last updated: **2026-08-13**, end of "Bade part 4".
 
 ---
 
 ## Where it is
 
-**Build-order steps 1–8 done. Step 9 built, measured and parked. Step 10 all but finished.**
+**Build-order steps 1–8 and 12 done. Step 9 built, measured and parked. Step 10 all but finished.**
 Everything is committed on `main`; the working tree is clean and the app runs on the device.
 
 ```
@@ -17,7 +17,7 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    326 transactions → 11 subscriptions → nothing unconvertible
 ```
 
-**374 tests, `swift test` ~0.7s, no simulator needed. iOS build green, no warnings.**
+**394 tests, `swift test` ~0.7s, no simulator needed. iOS build green, no warnings.**
 
 ### Screens
 
@@ -27,11 +27,12 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
 | ② | Parsing | ✅ |
 | ③ | Review | ✅ three confidence tiers |
 | ④ | Subscriptions | ✅ `+`, Edit on swipe and long-press |
-| ⑥ | Detail | ✅ chart, FX section, Edit; chart is 2.5× taller than the design drew |
+| ⑥ | Detail | ✅ chart, FX section, Edit |
 | ⓜ | Manual entry / Edit | ✅ five entry points |
-| ⑤ | Upcoming + TabView | ✅ **now behind the Pro lock** |
-| ⑩ | Settings | ✅ currency, language, appearance, text size, week start, rates switch, export |
+| ⑤ | Upcoming + TabView | ✅ behind the Pro lock |
+| ⑩ | Settings | ✅ currency, language, appearance, text size, week start, rates, reminders, export |
 | ⑨ | Bade Pro | ✅ the pitch; the button is inert until StoreKit |
+| ⓡ | Reminder prompt | ✅ asked once, after the first import, Pro only |
 | ⑦ | FX breakdown | ▲ **on screen, but money figures deliberately withheld — see below** |
 
 ---
@@ -62,29 +63,32 @@ Statement text is never printed into a session, so this cannot be settled from p
 
 - **A list of UI comments**, outstanding since before step 9 and never collected. The oldest item.
 - **A real TBC statement**, which step 11 cannot start without.
-- **Whether to move the chart's readout above the plot.** The chart was made 2.5× taller because
-  values were hard to read while scrubbing — but the readout sits *below* the plot, so a hand
-  covers it. Height does not fix that; moving the readout does. Asked, not answered.
+- **Whether to move the chart's readout above the plot.** The chart is 2.5× taller than the design
+  drew it because values were hard to read while scrubbing — but the readout still sits *below* the
+  plot, so a hand covers it. Height does not fix that; moving the readout does. Asked twice, not
+  answered.
 
 ---
 
 ## Next up
 
-**Make the Pro lock beautiful.** The user's words: *"I like the idea, but you can make this more
-beautiful."* `BadeLock` in DesignSystem currently blurs the screen and puts a plain card over it —
-lock glyph, title, tagline, button. It works and it is dull. This is the first thing to do.
+**Step 13, StoreKit 2 one-time unlock.** `@AppStorage("isPro")` in `BadeRootView` is the **only**
+thing anything reads, so that one line becomes the entitlement and every gated feature follows.
+Flip it to `true` to see Upcoming and the reminder settings today.
 
-**Then step 12, notifications.** The calendar and detail parts of that step are already done.
+What is gated, and where it is enforced:
 
-After that: **13** StoreKit (see the Pro gate below), **14** the Georgian translation pass, and
-**11** whenever a TBC statement arrives.
+| Feature | Enforced by |
+|---|---|
+| Upcoming | `.badeLocked(!isPro)` in `BadeRootView` — blurs, inerts, offers Pro |
+| Reminders | `reminderPreference` resolves to lead `.off` unless `isPro`, so nothing schedules |
+| Reminder settings | The row leads to `ProView` instead of the picker |
+| The permission ask | `askAboutReminders` requires `isPro` |
 
-### The Pro gate
+**Then 14** the Georgian translation pass, and **11** whenever a TBC statement arrives.
 
-`@AppStorage("isPro")` in `BadeRootView`, default `false`, is the **only** thing anything reads.
-Upcoming is wrapped in `.badeLocked(!isPro) { … }`, which blurs it, makes it inert, and offers the
-Pro page as a sheet. When StoreKit lands, that one line becomes the entitlement and every gated
-feature follows. Flip it to `true` to see Upcoming again.
+Note the brief says renewal reminders and the calendar are free-forever core loop. Both are now
+Pro. That was a deliberate call by the user on 2026-08-13; the brief has not been rewritten.
 
 ---
 
@@ -101,15 +105,21 @@ feature follows. Flip it to `true` to see Upcoming again.
    containers; `SubscriptionStoreTests` already names the cause. `.serialized` only serialises
    within a suite, so the fix is a shared lock around container creation in the test helpers, or
    one parent suite spanning both files.
-4. **Bade Pro advertises six features and has none.** FX markup is closest and currently shows a
-   percentage with no money attached. Price alerts, trends, category analytics, widgets and themes
-   do not exist. Fine while it is unbuyable; not fine the moment StoreKit lands.
-5. **Re-importing the same statement is silent.** It merges correctly and duplicates nothing, but
+4. **`isPro` is injected into `SettingsViewModel` once**, at construction. Buy Pro from the row that
+   leads to `ProView` and the Settings screen behind it will not refresh until it is rebuilt.
+   Harmless while nothing can be purchased; **fix it in step 13**, with the same `scenePhase`
+   re-read the notification permission check already uses.
+5. **Bade Pro advertises seven features and one of them works.** Reminders ship. FX markup is
+   closest behind it and currently shows a percentage with no money attached. Price alerts, trends,
+   category analytics, widgets and themes do not exist. Fine while it is unbuyable; not fine the
+   moment StoreKit lands.
+6. **Tapping a reminder just opens the app.** No deep link to the charge or the calendar.
+7. **Re-importing the same statement is silent.** It merges correctly and duplicates nothing, but
    nothing says "you have already imported this".
-6. **`ImportOutcome.foundNothing` has no screen.**
-7. **Seven look-alike Apple charges are still seven cards** in Review's "Not sure" tier.
-8. **Every Georgian string is `needs_review`** — drafts, not a translator's work.
-9. **The end-to-end run** the user asked for has still not happened.
+8. **`ImportOutcome.foundNothing` has no screen.**
+9. **Seven look-alike Apple charges are still seven cards** in Review's "Not sure" tier.
+10. **Every Georgian string is `needs_review`** — drafts, not a translator's work. 186 keys.
+11. **The end-to-end run** the user asked for has still not happened.
 
 ---
 
@@ -133,16 +143,19 @@ feature follows. Flip it to `true` to see Upcoming again.
 ## Working with this user
 
 - **Show it running on the device before committing.** Build → install → launch → *then* ask.
+  The simulator is not wanted for this: device only, paired over WiFi.
 - **Never commit without asking.**
 - **Ask about UI behaviour per screen**, and batch the questions before a long build rather than
   interrupting through it. They will interrupt mid-turn with corrections; read those carefully.
 - **They will question the code and the numbers, and they are usually right.** The invented sticker
   price, the arrows that did not work, the haptic that re-fired — all found by them, not by tests.
-- **Verify claims before making them.** Two verification attempts this session were wrong before
-  they were right: check `Bade.debug.dylib`, not the thin launcher, and prove a fix rather than
-  assert it.
-- **Designs are a starting point.** Implement, then propose.
-- Simulator is theirs to drive. Build and run tests; do not attach to it without asking.
+- **Offer options before building anything visual.** Three or four genuinely different directions
+  with a recommendation, not variations on one. That is how the Pro lock was designed.
+- **Verify claims before making them.** Check `Bade.debug.dylib`, not the thin launcher, and prove
+  a fix rather than assert it.
+- **They will cut scope hard once they have seen it.** Three candidate chimes became one, and the
+  debug button that auditioned them was deleted the moment it had done its job. Build the scaffold,
+  expect to remove it.
 
 ---
 
@@ -164,8 +177,8 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 ```
 
 - **Never pass `--console`** — it ties the app's lifetime to the session.
-- *"Locked"* on launch means the phone is locked. `unavailable` in `devicectl list devices` means
-  it is off the network — a different problem, and nothing local will fix it.
+- *"Locked"* on launch means the phone is locked, and nothing local will fix it. `unavailable` in
+  `devicectl list devices` means it is off the network — a different problem.
 - **To check what is actually installed**, inspect `Bade.app/Bade.debug.dylib`, not `Bade.app/Bade`.
   The latter is a thin launcher containing none of the code, which makes every symbol check return
   zero and look alarming.
@@ -175,7 +188,7 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 374 tests, ~0.7s, no simulator
+cd BadeKit && swift test          # 394 tests, ~0.7s, no simulator
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
@@ -190,18 +203,24 @@ grep -rn "import UIKit" Sources/            # must stay empty
 grep -rn '"GEL"' Sources/ | grep -v Sources/App/ | grep -v Previews
 ```
 
-Screen snapshots — real iOS rendering, writes PNGs for a person to look at:
-
-```sh
-xcodebuild test -scheme BadeKit-Package \
-  -destination 'platform=iOS Simulator,id=<booted sim id>' -only-testing:SnapshotTests
-# then read BADE_SNAPSHOT_DIR from the output
-```
+Screen snapshots exist (`SnapshotTests`, real iOS rendering, writes PNGs) but need the simulator,
+which the user does not want driven. Judge UI on the device instead.
 
 ---
 
 ## Traps hit, so they are not hit again
 
+- **No localised string resolves outside an app bundle.** In `swift test` on the host, `pro.title`
+  comes back as `"pro.title"` — this is pre-existing and affects every key. Test the *choice* of
+  resource (`LocalizedStringResource` is `Equatable` and compares interpolated arguments), never the
+  resolved text. `ReminderText.titleResource(for:)` exists for exactly this reason.
+- **`UNNotificationSound` only looks in the app bundle root** and `Library/Sounds`. A file in a
+  SwiftPM resource bundle is invisible to it, which is why `bade-chime-rise.wav` lives in `Bade/`.
+- **`Bade/` is a `PBXFileSystemSynchronizedRootGroup`.** Files dropped into the folder join the app
+  target automatically — no Xcode step, no `.pbxproj` edit. Removing one cleans it out of the built
+  bundle too.
+- **`UNUserNotificationCenter` is not `Sendable`.** Fetch `.current()` per call; storing it breaks
+  a `Sendable` struct under strict concurrency.
 - **A platform-varying `some View` does not survive a module boundary.** Write platform shims as
   concrete `ViewModifier`s, as `badeAnimation` and `badeDecimalEntry` do.
 - **A modifier that branches on state changes the view's shape**, and changing shape above a
@@ -214,8 +233,9 @@ xcodebuild test -scheme BadeKit-Package \
   to the screen.
 - **Never step a date one period at a time.** Adding a month repeatedly from the 31st clamps to the
   28th and never recovers. Measure every period from a fixed anchor.
-- **`ForEach(_:id: \.self)` over strings silently collapses duplicates.** Two weekdays are "T" and
-  two are "S", so the calendar header lost two columns.
+- **A `ForEach` id that is really a coincidence collapses rows.** `\.self` over strings loses
+  duplicate weekdays; `ProView`'s features are keyed by SF Symbol name, so reusing `bell.badge`
+  would have silently dropped a row.
 - **`confirmationDialog` anchors to whatever triggered it.** Use `.alert` for destructive confirms.
 - **A grouped `List` reserves top space for a header it does not have.** `contentMargins(.top,
   .zero, for: .scrollContent)` removes it.

@@ -18,6 +18,7 @@ public struct ProView: View {
 
     private static let features: [Feature] = [
         Feature(symbol: "arrow.left.arrow.right", title: .pro.fx, detail: .pro.fxDetail),
+        Feature(symbol: "calendar.badge.clock", title: .pro.reminders, detail: .pro.remindersDetail),
         Feature(symbol: "bell.badge", title: .pro.alerts, detail: .pro.alertsDetail),
         Feature(symbol: "chart.line.uptrend.xyaxis", title: .pro.trends, detail: .pro.trendsDetail),
         Feature(symbol: "chart.pie", title: .pro.categories, detail: .pro.categoriesDetail),

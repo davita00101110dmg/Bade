@@ -11,6 +11,7 @@ let package = Package(
         .library(name: "Detection", targets: ["Detection"]),
         .library(name: "Catalog", targets: ["Catalog"]),
         .library(name: "FX", targets: ["FX"]),
+        .library(name: "Notifications", targets: ["Notifications"]),
         .library(name: "Ingestion", targets: ["Ingestion"]),
         .library(name: "Normalization", targets: ["Normalization"]),
         .library(name: "Persistence", targets: ["Persistence"]),
@@ -62,7 +63,7 @@ let package = Package(
             name: "AppRoot",
             dependencies: [
                 "Core", "DesignSystem", "Localization", "Welcome", "Import", "Subscriptions",
-                "Pipeline", "Persistence", "Catalog", "Upcoming", "Settings", "FX",
+                "Pipeline", "Persistence", "Catalog", "Upcoming", "Settings", "FX", "Notifications",
             ],
             path: "Sources/App"),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
@@ -70,6 +71,8 @@ let package = Package(
         .testTarget(name: "PersistenceTests", dependencies: ["Persistence", "Core"]),
         .target(name: "FX", dependencies: ["Core"]),
         .testTarget(name: "FXTests", dependencies: ["FX", "Core"]),
+        .target(name: "Notifications", dependencies: ["Core", "Localization"]),
+        .testTarget(name: "NotificationsTests", dependencies: ["Notifications", "Core"]),
         .target(name: "Catalog", dependencies: ["Core"]),
         .testTarget(name: "CatalogTests", dependencies: ["Catalog", "Detection", "Core"]),
         .testTarget(

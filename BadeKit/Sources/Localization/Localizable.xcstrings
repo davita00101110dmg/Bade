@@ -1009,6 +1009,22 @@
         }
       }
     },
+    "pro.badge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "PRO"
+          }
+        }
+      }
+    },
     "pro.blurb": {
       "localizations": {
         "en": {
@@ -1117,6 +1133,38 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "რას მიიღებ"
+          }
+        }
+      }
+    },
+    "pro.reminders": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renewal reminders"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "განახლების შეხსენებები"
+          }
+        }
+      }
+    },
+    "pro.remindersDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Told the day before a subscription renews, with what it is about to cost."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეიტყობ გამოწერის განახლებამდე ერთი დღით ადრე — და რამდენი დაგიჯდება."
           }
         }
       }
@@ -1261,6 +1309,118 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ჯამი და შემდეგი ჩამოჭრა მთავარ ეკრანზე."
+          }
+        }
+      }
+    },
+    "reminder.onDay %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging on %@"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@-ს ჩამოგეჭრება"
+          }
+        }
+      }
+    },
+    "reminder.today": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging today"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დღეს ჩამოგეჭრება"
+          }
+        }
+      }
+    },
+    "reminder.tomorrow": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging tomorrow"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ხვალ ჩამოგეჭრება"
+          }
+        }
+      }
+    },
+    "reminderPrompt.allow": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on reminders"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეხსენებების ჩართვა"
+          }
+        }
+      }
+    },
+    "reminderPrompt.blurb": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bade can tell you the day before a subscription renews, so a price you had forgotten about is never a surprise."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade შეგატყობინებს გამოწერის განახლებამდე ერთი დღით ადრე, რომ დავიწყებული ფასი მოულოდნელი არ იყოს."
+          }
+        }
+      }
+    },
+    "reminderPrompt.notNow": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not now"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ახლა არა"
+          }
+        }
+      }
+    },
+    "reminderPrompt.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Know before it charges"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეიტყვე ჩამოჭრამდე"
           }
         }
       }
@@ -1861,6 +2021,182 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ერთადერთი, რასაც Bade აგზავნის. ეროვნულ ბანკს ერთი დღის კურსებს ეკითხება — ანგარიშის მონაცემების და მაღაზიების სახელების გარეშე — და მხოლოდ მაშინ, როცა ამონაწერში შესადარებელი კურსი არ არის."
+          }
+        }
+      }
+    },
+    "settings.remindMe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remind me"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შემახსენე"
+          }
+        }
+      }
+    },
+    "settings.reminderOff": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გამორთული"
+          }
+        }
+      }
+    },
+    "settings.reminderOneDay": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 day before"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "1 დღით ადრე"
+          }
+        }
+      }
+    },
+    "settings.reminderSameDay": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On the day"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "იმავე დღეს"
+          }
+        }
+      }
+    },
+    "settings.reminderThreeDays": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 days before"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3 დღით ადრე"
+          }
+        }
+      }
+    },
+    "settings.reminderTime": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დროს"
+          }
+        }
+      }
+    },
+    "settings.reminderTwoDays": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 days before"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "2 დღით ადრე"
+          }
+        }
+      }
+    },
+    "settings.reminders": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminders"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეხსენებები"
+          }
+        }
+      }
+    },
+    "settings.remindersDenied": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications are turned off for Bade. Turn them on in iOS Settings › Notifications › Bade."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade-სთვის შეტყობინებები გამორთულია. ჩართე iOS-ის პარამეტრებში › შეტყობინებები › Bade."
+          }
+        }
+      }
+    },
+    "settings.remindersFooter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before a charge lands. Reminders are worked out on your phone; nothing is sent anywhere."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჩამოჭრამდე. შეხსენებები შენს ტელეფონში ითვლება — არსად არაფერი იგზავნება."
+          }
+        }
+      }
+    },
+    "settings.remindersPro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminders are part of Bade Pro."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეხსენებები Bade Pro-ს ნაწილია."
           }
         }
       }

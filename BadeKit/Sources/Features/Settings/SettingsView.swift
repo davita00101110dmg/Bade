@@ -6,6 +6,8 @@ import SwiftUI
 public struct SettingsView: View {
     @Environment(\.badeTheme) private var theme
     @Environment(\.locale) private var locale
+    @Environment(\.calendar) private var calendar
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var model: SettingsViewModel
 
@@ -19,6 +21,11 @@ public struct SettingsView: View {
             .modifier(DeletionConfirmation(model: model))
             // Reloaded on every appearance: an import in another tab changes what an export holds.
             .onAppear { model.send(.appeared) }
+            // And on coming back: notification permission can be changed in iOS Settings, or by
+            // the system prompt this screen just triggered, neither of which is an appearance.
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { model.send(.appeared) }
+            }
     }
 
     /// Split from `body` deliberately: the whole screen in one chain takes the type checker past
@@ -27,6 +34,7 @@ public struct SettingsView: View {
         List {
             proSection
             displaySection
+            remindersSection
             ratesSection
             dataSection
             aboutSection
@@ -107,6 +115,57 @@ public struct SettingsView: View {
                 .font(.badeCaption)
                 .foregroundStyle(theme.inkFaint)
         }
+    }
+
+    /// Without the purchase the row still says what it would do, and leads to the page that sells
+    /// it — the same bargain the locked screens make. The time is only offered once there is
+    /// something to time: "Off at 09:00" is not a setting.
+    private var remindersSection: some View {
+        Section {
+            if model.state.isPro {
+                picker(
+                    .settings.remindMe, ReminderLead.allCases, reminderLeadBinding, \.localizedName)
+
+                if model.state.reminder.isOn {
+                    DatePicker(
+                        selection: reminderTimeBinding, displayedComponents: .hourAndMinute
+                    ) {
+                        label(.settings.reminderTime)
+                    }
+                    .tint(theme.accent)
+                    .listRowBackground(theme.surfaceRaised)
+                }
+            } else {
+                proReminderRow
+            }
+        } header: {
+            Text(.settings.reminders).badeSectionLabel()
+        } footer: {
+            Text(remindersFooter)
+                .font(.badeCaption)
+                .foregroundStyle(isReminderDenied ? theme.warning : theme.inkFaint)
+        }
+    }
+
+    private var proReminderRow: some View {
+        NavigationLink { ProView() } label: {
+            LabeledContent {
+                Text(.pro.badge).badeSectionLabel(tint: theme.accent)
+            } label: {
+                label(.settings.remindMe)
+            }
+        }
+        .listRowBackground(theme.surfaceRaised)
+    }
+
+    private var remindersFooter: LocalizedStringResource {
+        guard model.state.isPro else { return .settings.remindersPro }
+        return isReminderDenied ? .settings.remindersDenied : .settings.remindersFooter
+    }
+
+    /// Only worth saying when reminders are meant to be arriving.
+    private var isReminderDenied: Bool {
+        model.state.isReminderDenied && model.state.reminder.isOn
     }
 
     private var ratesSection: some View {
@@ -192,6 +251,26 @@ public struct SettingsView: View {
 
     private var rateFetchingBinding: Binding<Bool> {
         Binding(get: { model.state.fetchesRates }, set: { model.send(.rateFetchingChanged($0)) })
+    }
+
+    private var reminderLeadBinding: Binding<ReminderLead> {
+        Binding(get: { model.state.reminder.lead }, set: { model.send(.reminderLeadChanged($0)) })
+    }
+
+    /// `DatePicker` deals in dates; the preference keeps minutes after midnight, which cannot hold
+    /// an hour without a minute or a time without a day.
+    private var reminderTimeBinding: Binding<Date> {
+        Binding(
+            get: {
+                calendar.date(
+                    bySettingHour: model.state.reminder.hour,
+                    minute: model.state.reminder.minute, second: 0, of: .now) ?? .now
+            },
+            set: { chosen in
+                let parts = calendar.dateComponents([.hour, .minute], from: chosen)
+                model.send(
+                    .reminderTimeChanged((parts.hour ?? 0) * 60 + (parts.minute ?? 0)))
+            })
     }
 
     private var weekStartBinding: Binding<BadeWeekStart> {

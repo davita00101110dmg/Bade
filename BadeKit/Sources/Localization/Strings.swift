@@ -15,6 +15,8 @@ extension LocalizedStringResource {
     public static var settings: SettingsStrings { SettingsStrings() }
     public static var pro: ProStrings { ProStrings() }
     public static var locked: LockedStrings { LockedStrings() }
+    public static var reminder: ReminderStrings { ReminderStrings() }
+    public static var reminderPrompt: ReminderPromptStrings { ReminderPromptStrings() }
 
     /// Shown wherever a feature is held back for Bade Pro.
     public struct LockedStrings {
@@ -24,6 +26,10 @@ extension LocalizedStringResource {
 
     public struct ProStrings {
         public var title: LocalizedStringResource { string("pro.title") }
+        /// Marks a row that leads here rather than doing anything itself.
+        public var badge: LocalizedStringResource { string("pro.badge") }
+        public var reminders: LocalizedStringResource { string("pro.reminders") }
+        public var remindersDetail: LocalizedStringResource { string("pro.remindersDetail") }
         public var tagline: LocalizedStringResource { string("pro.tagline") }
         public var blurb: LocalizedStringResource { string("pro.blurb") }
         public var unlock: LocalizedStringResource { string("pro.unlock") }
@@ -93,9 +99,39 @@ extension LocalizedStringResource {
         public var weekStartSunday: LocalizedStringResource { string("settings.weekStart.sunday") }
         public var defaultBadge: LocalizedStringResource { string("settings.defaultBadge") }
         public var defaultFooter: LocalizedStringResource { string("settings.defaultFooter") }
+        public var reminders: LocalizedStringResource { string("settings.reminders") }
+        public var remindMe: LocalizedStringResource { string("settings.remindMe") }
+        public var reminderTime: LocalizedStringResource { string("settings.reminderTime") }
+        public var remindersFooter: LocalizedStringResource { string("settings.remindersFooter") }
+        public var remindersPro: LocalizedStringResource { string("settings.remindersPro") }
+        public var remindersDenied: LocalizedStringResource { string("settings.remindersDenied") }
+        public var reminderOff: LocalizedStringResource { string("settings.reminderOff") }
+        public var reminderSameDay: LocalizedStringResource { string("settings.reminderSameDay") }
+        public var reminderOneDay: LocalizedStringResource { string("settings.reminderOneDay") }
+        public var reminderTwoDays: LocalizedStringResource { string("settings.reminderTwoDays") }
+        public var reminderThreeDays: LocalizedStringResource {
+            string("settings.reminderThreeDays")
+        }
 
         public func version(_ version: String) -> LocalizedStringResource {
             string("settings.version \(version)")
+        }
+    }
+
+    /// The ask, offered once the first import has landed and the total has been seen.
+    public struct ReminderPromptStrings {
+        public var title: LocalizedStringResource { string("reminderPrompt.title") }
+        public var blurb: LocalizedStringResource { string("reminderPrompt.blurb") }
+        public var allow: LocalizedStringResource { string("reminderPrompt.allow") }
+        public var notNow: LocalizedStringResource { string("reminderPrompt.notNow") }
+    }
+
+    /// A reminder's title says only when. What is charging, and for how much, is the body's job.
+    public struct ReminderStrings {
+        public var today: LocalizedStringResource { string("reminder.today") }
+        public var tomorrow: LocalizedStringResource { string("reminder.tomorrow") }
+        public func onDay(_ weekday: String) -> LocalizedStringResource {
+            string("reminder.onDay \(weekday)")
         }
     }
 

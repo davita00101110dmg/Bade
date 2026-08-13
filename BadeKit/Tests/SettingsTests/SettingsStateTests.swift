@@ -115,6 +115,40 @@ struct SubscriptionExportTests {
         #expect(text.split(separator: "\n")[1].split(separator: ",").count == 10)
     }
 
+    @Test func choosingAReminderLeadTellsTheAppThatSchedulesThem() {
+        var subject = state()
+
+        #expect(
+            subject.apply(.reminderLeadChanged(.twoDays))
+                == .report(.reminderLeadChanged(.twoDays)))
+        #expect(subject.reminder.lead == .twoDays)
+    }
+
+    @Test func choosingTheSameLeadReschedulesNothing() {
+        var subject = state()
+        _ = subject.apply(.reminderLeadChanged(.oneDay))
+
+        #expect(subject.apply(.reminderLeadChanged(.oneDay)) == nil)
+    }
+
+    @Test func choosingATimeKeepsItAsMinutesAfterMidnight() {
+        var subject = state()
+
+        #expect(
+            subject.apply(.reminderTimeChanged(21 * 60 + 30))
+                == .report(.reminderTimeChanged(21 * 60 + 30)))
+        #expect(subject.reminder.hour == 21)
+        #expect(subject.reminder.minute == 30)
+    }
+
+    /// Read back every time the screen returns, because iOS Settings can revoke it in between.
+    @Test func aBlockedPermissionIsRecordedWithoutTellingTheAppAnything() {
+        var subject = state()
+
+        #expect(subject.apply(.reminderAuthorizationChecked(true)) == nil)
+        #expect(subject.isReminderDenied)
+    }
+
     @Test func aquoteInAMerchantNameIsDoubled() {
         let text = SubscriptionCSV.text(for: [subscription("The \"Gym\"")])
 

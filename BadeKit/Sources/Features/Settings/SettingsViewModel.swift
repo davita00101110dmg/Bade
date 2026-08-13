@@ -10,6 +10,9 @@ public final class SettingsViewModel {
     public private(set) var state: SettingsState
 
     private let repository: any SubscriptionRepository
+    /// Asks iOS whether reminders are blocked. A closure, because only the root may touch the
+    /// notification centre and the answer is re-read every time the screen comes back.
+    private let isReminderDenied: () async -> Bool
     private let onOutcome: (SettingsOutcome) -> Void
     private var work: Task<Void, Never>?
 
@@ -21,14 +24,18 @@ public final class SettingsViewModel {
         weekStart: BadeWeekStart = .system,
         isCurrencyInferred: Bool = false,
         fetchesRates: Bool = true,
+        isPro: Bool = false,
+        reminder: ReminderPreference = ReminderPreference(),
         repository: any SubscriptionRepository,
+        isReminderDenied: @escaping () async -> Bool = { false },
         onOutcome: @escaping (SettingsOutcome) -> Void
     ) {
         state = SettingsState(
             currency: currency, language: language, appearance: appearance, textSize: textSize,
             weekStart: weekStart, isCurrencyInferred: isCurrencyInferred,
-            fetchesRates: fetchesRates)
+            fetchesRates: fetchesRates, isPro: isPro, reminder: reminder)
         self.repository = repository
+        self.isReminderDenied = isReminderDenied
         self.onOutcome = onOutcome
     }
 
@@ -41,6 +48,7 @@ public final class SettingsViewModel {
         switch effect {
         case .load:
             send(.loaded((try? await repository.all()) ?? []))
+            send(.reminderAuthorizationChecked(await isReminderDenied()))
 
         case .deleteEverything:
             try? await repository.deleteAll()

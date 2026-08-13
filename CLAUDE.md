@@ -10,10 +10,11 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **1–8 done. 9 built, measured and parked on branch `tier-2-normalization`.
-> 10 all but finished** — the FX engine and its section ship, but the money figures are withheld
-> until one question about BOG's conversion block is answered. Every screen exists and runs on the
-> device; Upcoming is behind the Pro lock. Next: make that lock beautiful, then §12 notifications.
+> Build order step: **1–8 and 12 done. 9 built, measured and parked on branch
+> `tier-2-normalization`. 10 all but finished** — the FX engine and its section ship, but the money
+> figures are withheld until one question about BOG's conversion block is answered. Every screen
+> exists and runs on the device. Upcoming and reminders are behind the Pro lock, which reads one
+> `@AppStorage("isPro")` flag. Next: **13, StoreKit** — that flag becomes the entitlement.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 
@@ -60,8 +61,9 @@ BadeKit/              all real code (SPM, one package, many targets)
     Catalog/          bundled merchant database.
     Persistence/      SwiftData. Sealed — no other module imports it.
     Pipeline/         composes ingestion → normalization → detection.
+    Notifications/    reminder planning (pure) + the one UserNotifications import.
     DesignSystem/     theme, type, spacing, motion, haptics, components.
-    Localization/     the one Localizable.xcstrings + typed constants.
+    Localization/     the one Localizable.xcstrings, typed constants, money format.
     Features/         Welcome, Import (Parsing + Review). One per feature.
     App/              composition root only. The one target the app links.
   Tests/

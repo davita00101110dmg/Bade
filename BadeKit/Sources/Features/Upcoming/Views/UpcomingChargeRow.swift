@@ -1,5 +1,6 @@
 import Core
 import DesignSystem
+import Localization
 import SwiftUI
 
 struct UpcomingChargeRow: View {

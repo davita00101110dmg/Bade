@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import DesignSystem
+@testable import Localization
 
 @Suite("Money formatting")
 struct MoneyTests {

@@ -1,3 +1,4 @@
+import Core
 import DesignSystem
 import Localization
 
@@ -10,6 +11,9 @@ public enum SettingsOutcome: Equatable, Sendable {
     case textSizeChanged(BadeTextSize)
     case weekStartChanged(BadeWeekStart)
     case rateFetchingChanged(Bool)
+    /// Both reschedule what iOS is holding, which only the root can do.
+    case reminderLeadChanged(ReminderLead)
+    case reminderTimeChanged(Int)
     /// Nothing is stored any more, so the root belongs back on Welcome.
     case dataCleared
 }

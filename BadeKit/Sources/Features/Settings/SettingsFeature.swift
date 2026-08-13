@@ -13,6 +13,12 @@ public struct SettingsState: Equatable {
     public let isCurrencyInferred: Bool
     /// The only network Bade has. Off means the markup falls back to what statements printed.
     public private(set) var fetchesRates: Bool
+    /// Reminders are behind the purchase, so the row that sets them leads to the pitch instead.
+    public let isPro: Bool
+    public private(set) var reminder: ReminderPreference
+    /// iOS has been asked and said no. Nothing in the app can undo that, so it has to be said.
+    /// Re-read rather than injected once: it can change in iOS Settings while Bade is not looking.
+    public private(set) var isReminderDenied: Bool
     /// Loaded so an export can be built the moment it is asked for; a share sheet cannot wait.
     public private(set) var subscriptions: [Subscription] = []
     public private(set) var isConfirmingDeleteAll = false
@@ -24,8 +30,12 @@ public struct SettingsState: Equatable {
         textSize: BadeTextSize = .system,
         weekStart: BadeWeekStart = .system,
         isCurrencyInferred: Bool = false,
-        fetchesRates: Bool = true
+        fetchesRates: Bool = true,
+        isPro: Bool = false,
+        reminder: ReminderPreference = ReminderPreference(),
+        isReminderDenied: Bool = false
     ) {
+        self.isPro = isPro
         self.currency = currency
         self.language = language
         self.appearance = appearance
@@ -33,6 +43,8 @@ public struct SettingsState: Equatable {
         self.weekStart = weekStart
         self.isCurrencyInferred = isCurrencyInferred
         self.fetchesRates = fetchesRates
+        self.reminder = reminder
+        self.isReminderDenied = isReminderDenied
     }
 
     /// Offered above the full list, exactly as the subscription form offers them.
@@ -53,6 +65,9 @@ public enum SettingsIntent: Equatable {
     case textSizeChanged(BadeTextSize)
     case weekStartChanged(BadeWeekStart)
     case rateFetchingChanged(Bool)
+    case reminderLeadChanged(ReminderLead)
+    case reminderTimeChanged(Int)
+    case reminderAuthorizationChecked(Bool)
     case deleteAllRequested
     case deleteAllConfirmed
     case confirmationDismissed
@@ -104,6 +119,20 @@ extension SettingsState {
             guard fetches != fetchesRates else { return nil }
             fetchesRates = fetches
             return .report(.rateFetchingChanged(fetches))
+
+        case .reminderLeadChanged(let lead):
+            guard lead != reminder.lead else { return nil }
+            reminder.lead = lead
+            return .report(.reminderLeadChanged(lead))
+
+        case .reminderTimeChanged(let minutes):
+            guard minutes != reminder.timeOfDay else { return nil }
+            reminder.timeOfDay = minutes
+            return .report(.reminderTimeChanged(minutes))
+
+        case .reminderAuthorizationChecked(let isDenied):
+            isReminderDenied = isDenied
+            return nil
 
         case .deleteAllRequested:
             isConfirmingDeleteAll = true
