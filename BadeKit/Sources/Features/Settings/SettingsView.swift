@@ -102,7 +102,7 @@ public struct SettingsView: View {
 
     private var proSection: some View {
         Section {
-            NavigationLink { ProView() } label: {
+            NavigationLink { ProView(model: model.pro()) } label: {
                 LabeledContent {
                     Image(systemName: "sparkles").foregroundStyle(theme.accent)
                 } label: {
@@ -148,7 +148,7 @@ public struct SettingsView: View {
     }
 
     private var proReminderRow: some View {
-        NavigationLink { ProView() } label: {
+        NavigationLink { ProView(model: model.pro()) } label: {
             LabeledContent {
                 Text(.pro.badge).badeSectionLabel(tint: theme.accent)
             } label: {

@@ -1,13 +1,18 @@
+import Core
 import DesignSystem
 import Localization
 import SwiftUI
 
-/// The pitch, and nothing that pretends to take money yet. StoreKit arrives with build step 13;
-/// until then the button is visibly inert rather than quietly broken.
+/// The pitch, and the one purchase Bade has. The price is never written here — it arrives from the
+/// store already formatted for wherever the buyer is.
 public struct ProView: View {
     @Environment(\.badeTheme) private var theme
 
-    public init() {}
+    @State private var model: ProViewModel
+
+    public init(model: ProViewModel = ProViewModel()) {
+        _model = State(initialValue: model)
+    }
 
     private struct Feature: Identifiable {
         let symbol: String
@@ -18,7 +23,8 @@ public struct ProView: View {
 
     private static let features: [Feature] = [
         Feature(symbol: "arrow.left.arrow.right", title: .pro.fx, detail: .pro.fxDetail),
-        Feature(symbol: "calendar.badge.clock", title: .pro.reminders, detail: .pro.remindersDetail),
+        Feature(
+            symbol: "calendar.badge.clock", title: .pro.reminders, detail: .pro.remindersDetail),
         Feature(symbol: "bell.badge", title: .pro.alerts, detail: .pro.alertsDetail),
         Feature(symbol: "chart.line.uptrend.xyaxis", title: .pro.trends, detail: .pro.trendsDetail),
         Feature(symbol: "chart.pie", title: .pro.categories, detail: .pro.categoriesDetail),
@@ -39,6 +45,9 @@ public struct ProView: View {
         .background(theme.surface, ignoresSafeAreaEdges: .all)
         .navigationTitle(Text(.pro.title))
         .toolbarTitleDisplayMode(.inline)
+        .badeAnimation(.badeContent, value: model.state)
+        .badeFeedback(.success, trigger: model.state.isEntitled)
+        .onAppear { model.send(.appeared) }
     }
 
     /// The net is the app's one piece of ornament and it already carries the arrival moment on
@@ -85,17 +94,62 @@ public struct ProView: View {
         .padding(.horizontal, .screenMargin)
     }
 
+    /// Owned, buyable, or unreachable — never a button that cannot say what it costs.
+    @ViewBuilder
     private var unlock: some View {
-        VStack(spacing: .sm) {
-            Button {} label: { Text(.pro.unlock) }
-                .buttonStyle(.badePrimary)
-                .disabled(true)
+        if model.state.isEntitled {
+            owned
+        } else {
+            purchase
+        }
+    }
 
-            Text(.pro.comingSoon)
+    private var owned: some View {
+        VStack(spacing: .xxs) {
+            Text(.pro.owned)
+                .font(.badeHeadline)
+                .foregroundStyle(theme.accent)
+            Text(.pro.ownedDetail)
                 .font(.badeCaption)
-                .foregroundStyle(theme.inkFaint)
-                .multilineTextAlignment(.center)
+                .foregroundStyle(theme.inkMuted)
+        }
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, .screenMargin)
+        .accessibilityElement(children: .combine)
+    }
+
+    private var purchase: some View {
+        VStack(spacing: .xs) {
+            Button { model.send(.buyTapped) } label: {
+                if let price = model.state.price {
+                    Text(.pro.unlockPrice(price))
+                } else {
+                    Text(.pro.unlock)
+                }
+            }
+            .buttonStyle(.badePrimary)
+            .disabled(model.state.isWorking || model.state.price == nil)
+
+            Button { model.send(.restoreTapped) } label: { Text(.pro.restore) }
+                .buttonStyle(.badeSecondary)
+                .disabled(model.state.isWorking)
+
+            if let note {
+                Text(note)
+                    .font(.badeCaption)
+                    .foregroundStyle(theme.warning)
+                    .multilineTextAlignment(.center)
+            }
         }
         .padding(.horizontal, .screenMargin)
+    }
+
+    /// One line at a time, and only when there is something the buyer has to know.
+    private var note: LocalizedStringResource? {
+        if model.state.hasFailed { return .pro.failed }
+        if model.state.foundNothingToRestore { return .pro.nothingToRestore }
+        if model.state.isStoreUnavailable { return .pro.storeUnavailable }
+        return nil
     }
 }

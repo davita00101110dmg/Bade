@@ -7,6 +7,7 @@ import Localization
 import Notifications
 import Persistence
 import Pipeline
+import Purchases
 import Settings
 import Subscriptions
 import SwiftUI
@@ -27,8 +28,9 @@ public struct BadeRootView: View {
     @AppStorage("reminderTime") private var reminderTime = ReminderPreference.defaultTimeOfDay
     /// Asked once and never again, whichever way it was answered.
     @AppStorage("hasAskedAboutReminders") private var hasAskedAboutReminders = false
-    /// Stands in for a purchase until StoreKit exists (step 13). Everything gated reads this and
-    /// nothing else, so the day it becomes an entitlement only this line changes.
+    /// Everything gated reads this and nothing else. It is a cache of the App Store entitlement,
+    /// written at launch and whenever one arrives, so a locked screen answers instantly and offline
+    /// rather than waiting on StoreKit.
     @AppStorage("isPro") private var isPro = false
 
     @State private var store = Self.makeStore()
@@ -49,6 +51,7 @@ public struct BadeRootView: View {
 
     private let merchants = BundledCatalog()
     private let reminders = SystemReminders()
+    private let purchases = StoreKitPro()
 
     public init() {}
 
@@ -80,6 +83,8 @@ public struct BadeRootView: View {
             .environment(\.calendar, weekStart.calendar)
             .modifier(TextSizeOverride(size: textSize))
             .task(id: reload) { await decideRoot() }
+            // A purchase made on another device, or an Ask to Buy approved later, arrives here.
+            .task { for await entitled in purchases.entitlementChanges() { isPro = entitled } }
             .fileImporter(
                 isPresented: $isPickingFile,
                 allowedContentTypes: [.pdf, .plainText, .commaSeparatedText]
@@ -95,7 +100,13 @@ public struct BadeRootView: View {
                 .badeTheme()
             }
             .sheet(isPresented: $isShowingPro) {
-                NavigationStack { ProView() }.badeTheme()
+                NavigationStack {
+                    ProView(
+                        model: ProViewModel(purchases: purchases, isEntitled: isPro) { outcome in
+                            if outcome == .unlocked { isPro = true }
+                        })
+                }
+                .badeTheme()
             }
             .sheet(isPresented: $isAskingAboutReminders) {
                 ReminderPromptView(onOutcome: handleReminderPrompt)
@@ -180,6 +191,7 @@ public struct BadeRootView: View {
                 textSize: textSize, weekStart: weekStart,
                 isCurrencyInferred: chosenCurrency.isEmpty, fetchesRates: fetchesRates,
                 isPro: isPro, reminder: reminderPreference, repository: store,
+                purchases: purchases,
                 isReminderDenied: { [reminders] in await reminders.authorization() == .denied },
                 onOutcome: handleSettings))
     }
@@ -208,6 +220,7 @@ public struct BadeRootView: View {
         inferredCurrency = stored.predominantCurrency ?? Self.localeCurrency
         rates = (try? await store.observedRates()) ?? RateBook()
         isReady = true
+        isPro = await purchases.isEntitled()
         await reschedule(for: stored)
     }
 
@@ -284,6 +297,10 @@ public struct BadeRootView: View {
             }
         case .reminderTimeChanged(let minutes):
             reminderTime = minutes
+            Task { await rescheduleFromStore() }
+        // Reminders were gated, so whatever lead was already chosen takes effect now.
+        case .proUnlocked:
+            isPro = true
             Task { await rescheduleFromStore() }
         case .dataCleared: reload = UUID()
         }

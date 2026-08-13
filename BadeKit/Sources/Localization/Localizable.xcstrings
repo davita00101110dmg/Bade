@@ -1073,18 +1073,18 @@
         }
       }
     },
-    "pro.comingSoon": {
+    "pro.failed": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Purchasing arrives with the App Store release."
+            "value": "That did not go through. Nothing was charged."
           }
         },
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "შეძენა App Store-ის გამოშვებასთან ერთად გახდება ხელმისაწვდომი."
+            "value": "ვერ განხორციელდა. თანხა არ ჩამოგეჭრა."
           }
         }
       }
@@ -1137,6 +1137,54 @@
         }
       }
     },
+    "pro.nothingToRestore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No earlier purchase was found on this Apple Account."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამ Apple Account-ზე ადრინდელი შენაძენი ვერ მოიძებნა."
+          }
+        }
+      }
+    },
+    "pro.owned": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bade Pro is yours."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade Pro შენია."
+          }
+        }
+      }
+    },
+    "pro.ownedDetail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bought once, on this Apple Account. Nothing recurring, nothing to cancel."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ერთხელ ნაყიდი, ამ Apple Account-ზე. არაფერი განმეორებადი, გასაუქმებელი არაფერი."
+          }
+        }
+      }
+    },
     "pro.reminders": {
       "localizations": {
         "en": {
@@ -1165,6 +1213,38 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "შეიტყობ გამოწერის განახლებამდე ერთი დღით ადრე — და რამდენი დაგიჯდება."
+          }
+        }
+      }
+    },
+    "pro.restore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore a purchase"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შენაძენის აღდგენა"
+          }
+        }
+      }
+    },
+    "pro.storeUnavailable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The App Store cannot be reached right now."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App Store ამჟამად მიუწვდომელია."
           }
         }
       }
@@ -1277,6 +1357,22 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Bade Pro-ს გახსნა"
+          }
+        }
+      }
+    },
+    "pro.unlockPrice %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock Bade Pro · %@"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade Pro-ს გახსნა · %@"
           }
         }
       }

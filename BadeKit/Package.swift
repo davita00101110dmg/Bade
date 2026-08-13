@@ -12,6 +12,7 @@ let package = Package(
         .library(name: "Catalog", targets: ["Catalog"]),
         .library(name: "FX", targets: ["FX"]),
         .library(name: "Notifications", targets: ["Notifications"]),
+        .library(name: "Purchases", targets: ["Purchases"]),
         .library(name: "Ingestion", targets: ["Ingestion"]),
         .library(name: "Normalization", targets: ["Normalization"]),
         .library(name: "Persistence", targets: ["Persistence"]),
@@ -64,6 +65,7 @@ let package = Package(
             dependencies: [
                 "Core", "DesignSystem", "Localization", "Welcome", "Import", "Subscriptions",
                 "Pipeline", "Persistence", "Catalog", "Upcoming", "Settings", "FX", "Notifications",
+                "Purchases",
             ],
             path: "Sources/App"),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
@@ -73,6 +75,7 @@ let package = Package(
         .testTarget(name: "FXTests", dependencies: ["FX", "Core"]),
         .target(name: "Notifications", dependencies: ["Core", "Localization"]),
         .testTarget(name: "NotificationsTests", dependencies: ["Notifications", "Core"]),
+        .target(name: "Purchases", dependencies: ["Core"]),
         .target(name: "Catalog", dependencies: ["Core"]),
         .testTarget(name: "CatalogTests", dependencies: ["Catalog", "Detection", "Core"]),
         .testTarget(

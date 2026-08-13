@@ -33,7 +33,17 @@ extension LocalizedStringResource {
         public var tagline: LocalizedStringResource { string("pro.tagline") }
         public var blurb: LocalizedStringResource { string("pro.blurb") }
         public var unlock: LocalizedStringResource { string("pro.unlock") }
-        public var comingSoon: LocalizedStringResource { string("pro.comingSoon") }
+        public var restore: LocalizedStringResource { string("pro.restore") }
+        public var owned: LocalizedStringResource { string("pro.owned") }
+        public var ownedDetail: LocalizedStringResource { string("pro.ownedDetail") }
+        public var failed: LocalizedStringResource { string("pro.failed") }
+        public var nothingToRestore: LocalizedStringResource { string("pro.nothingToRestore") }
+        public var storeUnavailable: LocalizedStringResource { string("pro.storeUnavailable") }
+
+        /// The store's own formatting, so no price is ever written into Bade.
+        public func unlockPrice(_ price: String) -> LocalizedStringResource {
+            string("pro.unlockPrice \(price)")
+        }
         public var included: LocalizedStringResource { string("pro.included") }
         public var fx: LocalizedStringResource { string("pro.fx") }
         public var fxDetail: LocalizedStringResource { string("pro.fxDetail") }

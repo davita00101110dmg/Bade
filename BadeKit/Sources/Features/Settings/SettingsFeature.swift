@@ -14,7 +14,8 @@ public struct SettingsState: Equatable {
     /// The only network Bade has. Off means the markup falls back to what statements printed.
     public private(set) var fetchesRates: Bool
     /// Reminders are behind the purchase, so the row that sets them leads to the pitch instead.
-    public let isPro: Bool
+    /// Re-read whenever the screen comes back: it can be bought from the page this screen pushes.
+    public private(set) var isPro: Bool
     public private(set) var reminder: ReminderPreference
     /// iOS has been asked and said no. Nothing in the app can undo that, so it has to be said.
     /// Re-read rather than injected once: it can change in iOS Settings while Bade is not looking.
@@ -68,6 +69,7 @@ public enum SettingsIntent: Equatable {
     case reminderLeadChanged(ReminderLead)
     case reminderTimeChanged(Int)
     case reminderAuthorizationChecked(Bool)
+    case proChecked(Bool)
     case deleteAllRequested
     case deleteAllConfirmed
     case confirmationDismissed
@@ -133,6 +135,13 @@ extension SettingsState {
         case .reminderAuthorizationChecked(let isDenied):
             isReminderDenied = isDenied
             return nil
+
+        /// Bought on the page this screen pushes, or redeemed with a promo code somewhere else
+        /// entirely. Either way the root has to store it, since it owns everything that is gated.
+        case .proChecked(let isPro):
+            guard isPro != self.isPro else { return nil }
+            self.isPro = isPro
+            return isPro ? .report(.proUnlocked) : nil
 
         case .deleteAllRequested:
             isConfirmingDeleteAll = true

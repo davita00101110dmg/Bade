@@ -10,6 +10,7 @@ public final class SettingsViewModel {
     public private(set) var state: SettingsState
 
     private let repository: any SubscriptionRepository
+    private let purchases: any ProPurchasing
     /// Asks iOS whether reminders are blocked. A closure, because only the root may touch the
     /// notification centre and the answer is re-read every time the screen comes back.
     private let isReminderDenied: () async -> Bool
@@ -27,6 +28,7 @@ public final class SettingsViewModel {
         isPro: Bool = false,
         reminder: ReminderPreference = ReminderPreference(),
         repository: any SubscriptionRepository,
+        purchases: any ProPurchasing = NoPurchases(),
         isReminderDenied: @escaping () async -> Bool = { false },
         onOutcome: @escaping (SettingsOutcome) -> Void
     ) {
@@ -35,8 +37,18 @@ public final class SettingsViewModel {
             weekStart: weekStart, isCurrencyInferred: isCurrencyInferred,
             fetchesRates: fetchesRates, isPro: isPro, reminder: reminder)
         self.repository = repository
+        self.purchases = purchases
         self.isReminderDenied = isReminderDenied
         self.onOutcome = onOutcome
+    }
+
+    /// The pitch, opened from here. Buying on it changes what this screen offers, so the answer
+    /// comes straight back rather than waiting for the screen to be rebuilt.
+    public func pro() -> ProViewModel {
+        ProViewModel(purchases: purchases, isEntitled: state.isPro) { [weak self] outcome in
+            guard outcome == .unlocked else { return }
+            self?.send(.proChecked(true))
+        }
     }
 
     public func send(_ intent: SettingsIntent) {
@@ -49,6 +61,7 @@ public final class SettingsViewModel {
         case .load:
             send(.loaded((try? await repository.all()) ?? []))
             send(.reminderAuthorizationChecked(await isReminderDenied()))
+            send(.proChecked(await purchases.isEntitled()))
 
         case .deleteEverything:
             try? await repository.deleteAll()
