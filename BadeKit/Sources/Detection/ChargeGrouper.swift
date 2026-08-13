@@ -7,15 +7,14 @@ struct ChargeGrouper {
 
     func clusters(for charges: [NormalizedTransaction]) -> [ChargeCluster] {
         let ordered = charges.sorted { $0.raw.date < $1.raw.date }
-        if let uniform = uniformTimeline(ordered) { return [uniform] }
+        if let rhythm = oneRhythm(ordered) { return [rhythm] }
         return amountClusters(of: ordered)
     }
 
-    /// One unbroken rhythm regardless of amount: a re-priced, trialled, or usage-based subscription.
-    private func uniformTimeline(_ charges: [NormalizedTransaction]) -> ChargeCluster? {
-        guard charges.count >= 2,
-            cadenceResolver.uniformCadence(for: charges.map(\.raw.date)) != nil
-        else { return nil }
+    /// One rhythm regardless of amount: a re-priced, trialled, or usage-based subscription, and a
+    /// resumed one — a missed period leaves the rhythm intact.
+    private func oneRhythm(_ charges: [NormalizedTransaction]) -> ChargeCluster? {
+        guard cadenceResolver.timelineCadence(for: charges.map(\.raw.date)) != nil else { return nil }
         return ChargeCluster(charges)
     }
 

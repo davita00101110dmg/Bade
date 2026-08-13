@@ -1,7 +1,7 @@
 public enum Cadence: String, Equatable, Sendable, Codable, CaseIterable {
     case weekly, monthly, quarterly, semiannual, annual
 
-    /// Day-delta window the detection engine clusters charge intervals into.
+    /// Day-delta window the detection engine votes a cadence into (spec §7.3).
     public var approximateDays: ClosedRange<Int> {
         switch self {
         case .weekly: 6...8

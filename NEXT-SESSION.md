@@ -11,8 +11,8 @@ Last updated: **2026-08-13**, end of "Bade part 5".
 
 **Steps 1–8, 11, 12 and 13 done** (13's code is complete and tested; no purchase has ever
 round-tripped). **Step 9 built, measured and decided against. Step 10 all but finished.**
-Everything through the widget is committed and pushed; step 11 is built and running on the device
-but **not yet committed**.
+Everything through step 11 is committed and pushed. The detection change that followed it is
+built and running on the device but **not yet committed**.
 
 ```
 PDF → Ingestion → Normalization → Detection → Persistence → UI
@@ -20,7 +20,7 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    TBC  770 transactions →  2 subscriptions (the largest of three)
 ```
 
-**463 tests, `swift test` ~0.7s away from the statements, ~2s here where the PDFs exist.
+**469 tests, `swift test` ~0.7s away from the statements, ~2s here where the PDFs exist.
 No simulator needed. iOS build green, no warnings.**
 
 ### Screens
@@ -201,12 +201,13 @@ re-render each record and re-parse to prove the rendering round-trips.
 11. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
 12. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
 13. **The end-to-end run** the user asked for has still not happened.
-14. **The monthly window is `28...31` days, and real subscriptions miss it.** In the largest TBC
-   statement, 13 merchants charge 3+ times in a category that can recur and only **2** are detected.
-   One candidate runs `[32, 32, 28, 31]` — plainly monthly, but two gaps of 32 fall outside the
-   window, so `uniformCadence` fails and the charges fall back to amount clustering. Another runs
-   `[40, 33, 28, 27, 25]`, which is genuinely irregular and rightly rejected. Widening the window
-   changes BOG's results too, so it was left alone — **a step-7 decision, not a parser one**.
+14. **Detection still finds far less than the statements contain, and the lapse rule is now the
+   binding constraint.** In the largest TBC statement, 14 merchants charge 3+ times in a category
+   that can recur; **1** becomes a subscription, **4** resolve a clean cadence and are then dropped
+   as lapsed, and 12 are rejected outright. The lapse rule is doing what it was written to do —
+   a subscription whose charges stopped is not current — but it means every cancelled subscription
+   vanishes rather than being reported as ended. **Whether an ended subscription should be shown as
+   ended is a product decision**, and it is the next real lever, ahead of any further cadence work.
 
 ### The widget
 
@@ -221,6 +222,30 @@ eight-line shell in the extension target, so everything real stays previewable i
   `store.changes()`, so an edit made deep inside a feature reaches the home screen.
 - The hero is **this calendar month**, matching the Upcoming tab, not the levelled "a month" the
   list shows. Only a real month can be half spent, which is what the bar means.
+
+### Cadence is fitted to a phase, not chained from gaps — a deliberate spec deviation
+
+**Spec §7.3 step 2 says "compute day-deltas between consecutive charges" and step 3 clusters those
+deltas into windows. `CadenceResolver.timelineCadence` no longer does that**, and the spec has not
+been amended. Update §7.3 or record the exception.
+
+A chain of deltas breaks on one late charge, and a subscription billing on the 31st produces gaps of
+28, 31 and 32 from the calendar alone. `timelineCadence` instead fits charges to a phase: projections
+are measured from a fixed anchor (every charge is tried as the anchor, since a trial or off-cycle
+first charge would throw them all out), and a charge counts when it lands within a few days of a
+projection **no other charge has taken** — which is what stops a burst of same-day charges reading as
+a rhythm. 80% must be on rhythm, so at four charges all four must be; the allowance opens at five.
+
+`CadenceResolver.cadence` — the majority vote over deltas, used per cluster once the grouper has
+settled — is **unchanged**, and `Cadence.approximateDays` still serves it. Replacing that one too
+merged Apple's one-off purchases into its subscription and lost MAGTICOM; the two functions answer
+different questions at different call sites.
+
+**What it actually bought:** on the three TBC statements, the subscription count did not move
+(0, 0, 2). Two timelines in the largest now survive the grouper intact where none did before, but
+both are dropped later as lapsed. The one user-visible gain is that Spotify's history is complete —
+five occurrences instead of four, with the trial recorded as a price change from 2.49 to 2.99, which
+is spec §7.6's trial-to-paid case working on real data for the first time. No regressions anywhere.
 
 ### Decided against
 
@@ -306,7 +331,7 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 463 tests, ~2s here, ~0.7s without the statements
+cd BadeKit && swift test          # 469 tests, ~2s here, ~0.7s without the statements
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
@@ -390,6 +415,10 @@ corrupt store to prove the recovery path. The run still passes.
   two-decimal grammar rejects. Rendering money for a fixture wants
   `.formatted(.number.precision(.fractionLength(2)).grouping(.never).locale(.init(identifier: "en_US_POSIX")))`,
   never string interpolation.
+- **Measuring a gate is not measuring the outcome.** A probe showed a new cadence test accepting
+  three timelines the old one rejected, which was reported as "roughly +3 subscriptions". The real
+  answer was **+0**: passing the grouper's gate says nothing about surviving lapse and confidence
+  afterwards. Measure end to end, at the number a user would actually see.
 - **A computed `static var` that opens PDFs re-opens them on every access.** Six local tests reading
   four megabytes each turned a 0.7s suite into 5.2s. `static let` fixed it.
 
