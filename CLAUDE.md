@@ -10,11 +10,12 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **1–8 and 12 done. 9 built, measured and parked on branch
-> `tier-2-normalization`. 10 all but finished** — the FX engine and its section ship, but the money
-> figures are withheld until one question about BOG's conversion block is answered. Every screen
-> exists and runs on the device. Upcoming and reminders are behind the Pro lock, which reads one
-> `@AppStorage("isPro")` flag. Next: **13, StoreKit** — that flag becomes the entitlement.
+> Build order step: **1–8, 12 and 13 done** — 13's code is complete and tested, but no purchase has
+> round-tripped, which needs the product in App Store Connect. **9 decided against** (measured, left
+> on a local branch). **10 all but finished** — the FX engine and its section ship, but the money
+> figures are withheld until one question about BOG's conversion block is answered. Upcoming and
+> reminders sit behind `@AppStorage("isPro")`, now a cache of the App Store entitlement.
+> Next: **TestFlight, to verify a purchase**, then **14** the Georgian pass.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 

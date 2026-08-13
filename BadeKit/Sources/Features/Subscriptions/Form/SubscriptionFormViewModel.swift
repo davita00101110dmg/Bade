@@ -10,7 +10,6 @@ public final class SubscriptionFormViewModel {
     private let repository: any SubscriptionRepository
     private let merchants: any MerchantSuggesting
     private let onOutcome: (FormOutcome) -> Void
-    private var work: Task<Void, Never>?
 
     public init(
         editing subscription: Subscription?,
@@ -29,7 +28,7 @@ public final class SubscriptionFormViewModel {
 
     public func send(_ intent: SubscriptionFormIntent) {
         guard let effect = state.apply(intent) else { return }
-        work = Task { [weak self] in await self?.run(effect) }
+        Task { [weak self] in await self?.run(effect) }
     }
 
     private func run(_ effect: SubscriptionFormEffect) async {

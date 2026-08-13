@@ -144,6 +144,7 @@ public enum UpcomingIntent: Equatable {
     case nextMonth
     case thisMonth
     case daySelected(Date)
+    case showDay(Date)
     case selectionCleared
 }
 
@@ -181,6 +182,13 @@ extension UpcomingState {
         case .thisMonth:
             month = calendar.startOfBadeMonth(for: today)
             selectedDay = nil
+            return nil
+
+        // Arrived at from outside — a tapped reminder — so the month moves too, or the day
+        // would be selected somewhere off screen.
+        case .showDay(let day):
+            month = calendar.startOfBadeMonth(for: day)
+            selectedDay = calendar.startOfDay(for: day)
             return nil
 
         // Tapping the selected day again clears it, so the grid is its own way out.

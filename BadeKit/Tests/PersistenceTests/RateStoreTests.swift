@@ -11,7 +11,7 @@ private func stamp(_ iso: String) -> Date {
 }
 
 private func newStore() throws -> SubscriptionStore {
-    SubscriptionStore(modelContainer: try SubscriptionStore.container(inMemory: true))
+    try TestContainers.store()
 }
 
 private func book(_ rates: [(String, String, String, Decimal)]) -> RateBook {

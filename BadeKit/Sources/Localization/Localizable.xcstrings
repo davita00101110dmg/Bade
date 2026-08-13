@@ -81,6 +81,22 @@
         }
       }
     },
+    "common.ok": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კარგი"
+          }
+        }
+      }
+    },
     "currency.all": {
       "localizations": {
         "en": {
@@ -737,6 +753,38 @@
         }
       }
     },
+    "import.nothingNewMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everything in this statement was already in Bade, so nothing new was added. Prices and dates were brought up to date."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამ ამონაწერში ყველაფერი უკვე იყო Bade-ში, ამიტომ ახალი არაფერი დაემატა. ფასები და თარიღები განახლდა."
+          }
+        }
+      }
+    },
+    "import.nothingNewTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Already imported"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "უკვე ატვირთულია"
+          }
+        }
+      }
+    },
     "locked.action": {
       "localizations": {
         "en": {
@@ -909,6 +957,38 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ნაპოვნია"
+          }
+        }
+      }
+    },
+    "parsing.nothingMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bade read the statement but found no charge that comes back on a rhythm. A longer statement — three months or more — gives it more to work with."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade-მ ამონაწერი წაიკითხა, მაგრამ განმეორებადი ჩამოჭრა ვერ აღმოაჩინა. უფრო ხანგრძლივი ამონაწერი — სამი თვე ან მეტი — მეტ მასალას მისცემს."
+          }
+        }
+      }
+    },
+    "parsing.nothingTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing repeating here"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "განმეორებადი ვერაფერი მოიძებნა"
           }
         }
       }
@@ -2469,6 +2549,38 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "კვირა"
+          }
+        }
+      }
+    },
+    "store.resetMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This version of Bade could not open what was stored on this phone, so it has started fresh. Nothing was deleted — the old data was set aside. Import your statement again."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade-ის ამ ვერსიამ ვერ გახსნა ტელეფონზე შენახული მონაცემები და თავიდან დაიწყო. არაფერი წაშლილა — ძველი მონაცემები გვერდით გადაინახა. ატვირთე ამონაწერი ხელახლა."
+          }
+        }
+      }
+    },
+    "store.resetTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your data could not be read"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შენი მონაცემები ვერ წაიკითხა"
           }
         }
       }

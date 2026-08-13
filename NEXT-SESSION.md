@@ -9,7 +9,8 @@ Last updated: **2026-08-13**, end of "Bade part 4".
 
 ## Where it is
 
-**Build-order steps 1–8 and 12 done. Step 9 built, measured and parked. Step 10 all but finished.**
+**Steps 1–8, 12 and 13 done** (13's code is complete and tested; no purchase has ever round-tripped).
+**Step 9 built, measured and decided against. Step 10 all but finished.**
 Everything is committed on `main`; the working tree is clean and the app runs on the device.
 
 ```
@@ -17,21 +18,21 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    326 transactions → 11 subscriptions → nothing unconvertible
 ```
 
-**394 tests, `swift test` ~0.7s, no simulator needed. iOS build green, no warnings.**
+**412 tests, `swift test` ~0.7s, no simulator needed. iOS build green, no warnings.**
 
 ### Screens
 
 | # | Screen | State |
 |---|---|---|
 | ① | Welcome | ✅ |
-| ② | Parsing | ✅ |
+| ② | Parsing | ✅ reading, unreadable, and read-but-empty |
 | ③ | Review | ✅ three confidence tiers |
 | ④ | Subscriptions | ✅ `+`, Edit on swipe and long-press |
-| ⑥ | Detail | ✅ chart, FX section, Edit |
+| ⑥ | Detail | ✅ chart with the readout above the plot, FX section, Edit |
 | ⓜ | Manual entry / Edit | ✅ five entry points |
-| ⑤ | Upcoming + TabView | ✅ behind the Pro lock |
+| ⑤ | Upcoming + TabView | ✅ behind the Pro lock; opens on a day when a reminder is tapped |
 | ⑩ | Settings | ✅ currency, language, appearance, text size, week start, rates, reminders, export |
-| ⑨ | Bade Pro | ✅ the pitch; the button is inert until StoreKit |
+| ⑨ | Bade Pro | ✅ real screen: price from the store, buy, restore, owned, failed |
 | ⓡ | Reminder prompt | ✅ asked once, after the first import, Pro only |
 | ⑦ | FX breakdown | ▲ **on screen, but money figures deliberately withheld — see below** |
 
@@ -63,18 +64,26 @@ Statement text is never printed into a session, so this cannot be settled from p
 
 - **A list of UI comments**, outstanding since before step 9 and never collected. The oldest item.
 - **A real TBC statement**, which step 11 cannot start without.
-- **Whether to move the chart's readout above the plot.** The chart is 2.5× taller than the design
-  drew it because values were hard to read while scrubbing — but the readout still sits *below* the
-  plot, so a hand covers it. Height does not fix that; moving the readout does. Asked twice, not
-  answered.
+- **In Xcode:** target iPhone only (`TARGETED_DEVICE_FAMILY` is `1,2,7` and `SUPPORTED_PLATFORMS`
+  includes `xros` and `macosx`), and set `ITSAppUsesNonExemptEncryption` so App Store Connect stops
+  asking the export-compliance question on every upload.
+- **In App Store Connect:** the `com.khvedelidze.Bade.pro` product at ₾24.99 / $9.99, App Privacy
+  answers ("Data Not Collected" is honest), a privacy policy URL, and a build number that is not `1`.
 
 ---
 
 ## Next up
 
-**Step 13, StoreKit 2 one-time unlock.** `@AppStorage("isPro")` in `BadeRootView` is the **only**
-thing anything reads, so that one line becomes the entitlement and every gated feature follows.
-Flip it to `true` to see Upcoming and the reminder settings today.
+**Finish step 13 by verifying it.** The code is done: `ProPurchasing` in `Core`, `StoreKitPro` in
+`Purchases`, and `@AppStorage("isPro")` as a cache of the entitlement, written at launch and from
+`Transaction.updates`. What has never happened is a purchase.
+
+- A **local `.storekit` config** only applies when Xcode launches the app (⌘R). Launched from the
+  home screen, the app talks to the real App Store, finds no product, and correctly says the store
+  cannot be reached. That is why Pro cannot be unlocked on the device by a config file alone.
+- **TestFlight is the way in.** Sandbox purchases there are free and they persist standalone, which
+  also solves giving Pro to friends. Promo codes need no code at all — a redemption arrives as an
+  ordinary transaction — but they require the app to be live first.
 
 What is gated, and where it is enforced:
 
@@ -94,32 +103,33 @@ Pro. That was a deliberate call by the user on 2026-08-13; the brief has not bee
 
 ## Open items
 
-1. **No SwiftData migration plan.** The schema has changed repeatedly and `container()` is behind
-   `try!`, so a mismatch crashes on launch rather than degrading. Survivable only because the user
-   deletes and reinstalls. **This has to land before anyone else installs the app** — that, not v1,
-   is its real deadline.
+1. **Bade Pro advertises seven features and two work.** Reminders ship; FX shows a percentage with
+   no money attached. Price alerts, trends, category analytics, widgets and themes do not exist.
+   Charging ₾24.99 for that page risks a 2.3.1 rejection for inaccurate metadata — trim the list or
+   mark the rest as coming. **Decide this before the listing is written.**
 2. **`matchKey` folds the merchant**, so rows stored before that change no longer match. **Delete
    and reinstall before testing an import**, or a re-import duplicates instead of merging and looks
    like a detection bug.
-3. **The test suite segfaults about one run in eight.** Parallel suites building SwiftData
-   containers; `SubscriptionStoreTests` already names the cause. `.serialized` only serialises
-   within a suite, so the fix is a shared lock around container creation in the test helpers, or
-   one parent suite spanning both files.
-4. **`isPro` is injected into `SettingsViewModel` once**, at construction. Buy Pro from the row that
-   leads to `ProView` and the Settings screen behind it will not refresh until it is rebuilt.
-   Harmless while nothing can be purchased; **fix it in step 13**, with the same `scenePhase`
-   re-read the notification permission check already uses.
-5. **Bade Pro advertises seven features and one of them works.** Reminders ship. FX markup is
-   closest behind it and currently shows a percentage with no money attached. Price alerts, trends,
-   category analytics, widgets and themes do not exist. Fine while it is unbuyable; not fine the
-   moment StoreKit lands.
-6. **Tapping a reminder just opens the app.** No deep link to the charge or the calendar.
-7. **Re-importing the same statement is silent.** It merges correctly and duplicates nothing, but
-   nothing says "you have already imported this".
-8. **`ImportOutcome.foundNothing` has no screen.**
-9. **Seven look-alike Apple charges are still seven cards** in Review's "Not sure" tier.
-10. **Every Georgian string is `needs_review`** — drafts, not a translator's work. 186 keys.
-11. **The end-to-end run** the user asked for has still not happened.
+3. **Seven look-alike Apple charges are still seven cards** in Review's "Not sure" tier.
+4. **Every Georgian string is a draft** — 199 keys, all `needs_review`, none seen by a translator.
+5. **A revoked entitlement seen by Settings does not reach the root's cache.** `.proChecked(false)`
+   updates the screen and reports nothing, so `isPro` stays true until the next launch. Refund-shaped.
+6. **Reminders run dry after about six months** of not opening the app: 64 pending notifications is
+   iOS's cap and rescheduling only happens on launch or on a change.
+7. **The `.storekit` config lives in `BadeTests/`.** The app target is a synchronized folder, so a
+   file placed beside the app is copied into the shipped bundle — pricing config included. The
+   scheme's `StoreKitConfigurationFileReference` points at it there. Odd home, deliberate reason.
+8. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
+9. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
+10. **The end-to-end run** the user asked for has still not happened.
+
+### Decided against
+
+**Tier 2 normalization (step 9) is not planned.** Built, measured, and left on the local branch
+`tier-2-normalization` (commit `d85f7c1`, never pushed): 0.23s per line at best, 128 lines
+qualifying, 79 of them worthless one-offs. Do not rebuild it as it stands. If merchant names are
+ever worth improving again, it wants a different shape — a batch pass over an import rather than a
+per-line call, or a bundled table rather than a model.
 
 ---
 
@@ -133,8 +143,6 @@ Pro. That was a deliberate call by the user on 2026-08-13; the brief has not bee
   Rates quoted per 10 or 100 must be divided by `quantity`, or a markup is overstated tenfold.
 - **The account is multi-currency.** A charge paid from a balance already in its own currency has
   no conversion, because none happened. That is not missing data.
-- **Tier 2 normalization was measured and parked** — see the `tier-2-normalization` branch. 0.23s
-  per line at best, 128 lines qualifying, 79 of them worthless one-offs. Do not rebuild it.
 - **Only `Google One` and `LTD KEEPZ.ME`** have ever been detected by interval at annual and
   semiannual cadence. Everything else annual is a single catalog-matched charge.
 
@@ -143,7 +151,7 @@ Pro. That was a deliberate call by the user on 2026-08-13; the brief has not bee
 ## Working with this user
 
 - **Show it running on the device before committing.** Build → install → launch → *then* ask.
-  The simulator is not wanted for this: device only, paired over WiFi.
+  The simulator is not wanted: device only, paired over WiFi.
 - **Never commit without asking.**
 - **Ask about UI behaviour per screen**, and batch the questions before a long build rather than
   interrupting through it. They will interrupt mid-turn with corrections; read those carefully.
@@ -152,10 +160,13 @@ Pro. That was a deliberate call by the user on 2026-08-13; the brief has not bee
 - **Offer options before building anything visual.** Three or four genuinely different directions
   with a recommendation, not variations on one. That is how the Pro lock was designed.
 - **Verify claims before making them.** Check `Bade.debug.dylib`, not the thin launcher, and prove
-  a fix rather than assert it.
+  a fix rather than assert it. When something is claimed to be flaky, run it ten times.
 - **They will cut scope hard once they have seen it.** Three candidate chimes became one, and the
   debug button that auditioned them was deleted the moment it had done its job. Build the scaffold,
   expect to remove it.
+- **They will take a recommendation or reject it outright, and either way it is settled.** The price
+  is ₾24.99 against advice; the secret unlock path was abandoned in favour of promo codes after one
+  sentence of pushback. Say the concern once, then build what was asked.
 
 ---
 
@@ -182,13 +193,21 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 - **To check what is actually installed**, inspect `Bade.app/Bade.debug.dylib`, not `Bade.app/Bade`.
   The latter is a thin launcher containing none of the code, which makes every symbol check return
   zero and look alarming.
+- **The app's own state can be read off the phone**, which settles arguments about what it thinks:
+  ```sh
+  xcrun devicectl device copy from --device $D --domain-type appDataContainer \
+    --domain-identifier com.khvedelidze.Bade \
+    --source Library/Preferences/com.khvedelidze.Bade.plist --destination ./prefs.plist
+  xcrun devicectl device info files --device $D --domain-type appDataContainer \
+    --domain-identifier com.khvedelidze.Bade --subdirectory "Library/Application Support"
+  ```
 
 ---
 
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 394 tests, ~0.7s, no simulator
+cd BadeKit && swift test          # 412 tests, ~0.7s, no simulator
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
@@ -203,24 +222,29 @@ grep -rn "import UIKit" Sources/            # must stay empty
 grep -rn '"GEL"' Sources/ | grep -v Sources/App/ | grep -v Previews
 ```
 
-Screen snapshots exist (`SnapshotTests`, real iOS rendering, writes PNGs) but need the simulator,
-which the user does not want driven. Judge UI on the device instead.
+`CoreData: error:` lines during a test run are expected: `StoreRecoveryTests` deliberately writes a
+corrupt store to prove the recovery path. The run still passes.
 
 ---
 
 ## Traps hit, so they are not hit again
 
 - **No localised string resolves outside an app bundle.** In `swift test` on the host, `pro.title`
-  comes back as `"pro.title"` — this is pre-existing and affects every key. Test the *choice* of
-  resource (`LocalizedStringResource` is `Equatable` and compares interpolated arguments), never the
-  resolved text. `ReminderText.titleResource(for:)` exists for exactly this reason.
+  comes back as `"pro.title"` — pre-existing, and true of every key. Test the *choice* of resource
+  (`LocalizedStringResource` is `Equatable` and compares interpolated arguments), never the resolved
+  text. `ReminderText.titleResource(for:)` exists for exactly this reason.
 - **`UNNotificationSound` only looks in the app bundle root** and `Library/Sounds`. A file in a
   SwiftPM resource bundle is invisible to it, which is why `bade-chime-rise.wav` lives in `Bade/`.
+- **iOS holds its notification delegate weakly.** `ReminderTaps` is kept alive by the root's
+  `@State`; drop that and taps stop arriving with no error anywhere.
 - **`Bade/` is a `PBXFileSystemSynchronizedRootGroup`.** Files dropped into the folder join the app
-  target automatically — no Xcode step, no `.pbxproj` edit. Removing one cleans it out of the built
-  bundle too.
+  target automatically — no Xcode step, no `.pbxproj` edit — and are copied into the bundle, which
+  is why dev-only files must live elsewhere. Removing one cleans it out of the bundle too.
 - **`UNUserNotificationCenter` is not `Sendable`.** Fetch `.current()` per call; storing it breaks
   a `Sendable` struct under strict concurrency.
+- **SwiftData registers stores process-wide.** Two suites building containers at the same instant
+  segfaulted the run about once in eight. `TestContainers` serialises creation only; 12 consecutive
+  runs are clean.
 - **A platform-varying `some View` does not survive a module boundary.** Write platform shims as
   concrete `ViewModifier`s, as `badeAnimation` and `badeDecimalEntry` do.
 - **A modifier that branches on state changes the view's shape**, and changing shape above a
@@ -236,6 +260,8 @@ which the user does not want driven. Judge UI on the device instead.
 - **A `ForEach` id that is really a coincidence collapses rows.** `\.self` over strings loses
   duplicate weekdays; `ProView`'s features are keyed by SF Symbol name, so reusing `bell.badge`
   would have silently dropped a row.
+- **A readout under a chart is under a hand.** Scrub readouts go above the plot; axis labels stay
+  below.
 - **`confirmationDialog` anchors to whatever triggered it.** Use `.alert` for destructive confirms.
 - **A grouped `List` reserves top space for a header it does not have.** `contentMargins(.top,
   .zero, for: .scrollContent)` removes it.

@@ -11,7 +11,6 @@ public final class SubscriptionDetailViewModel {
     private let merchants: any MerchantSuggesting
     private let officialRates: any OfficialRateSource
     private let onOutcome: (DetailOutcome) -> Void
-    private var work: Task<Void, Never>?
 
     public init(
         subscription: Subscription,
@@ -41,7 +40,7 @@ public final class SubscriptionDetailViewModel {
 
     public func send(_ intent: SubscriptionDetailIntent) {
         guard let effect = state.apply(intent) else { return }
-        work = Task { [weak self] in await self?.run(effect) }
+        Task { [weak self] in await self?.run(effect) }
     }
 
     private func run(_ effect: SubscriptionDetailEffect) async {

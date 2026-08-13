@@ -18,8 +18,9 @@ struct ChargeHistoryChart: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: .sm) {
-            plot
             readout
+            plot
+            axisLabels
         }
         .badeFeedback(.selection, trigger: scrubbed?.month)
     }
@@ -51,23 +52,23 @@ struct ChargeHistoryChart: View {
             .onEnded { _ in scrubbed = nil }
     }
 
-    /// The axis labels and the readout share one row, so nothing shifts when a month is touched.
-    @ViewBuilder
+    /// Above the plot, because a hand reading the bars covers everything below them. A space holds
+    /// the row's height open, so touching a month moves nothing.
     private var readout: some View {
-        if let scrubbed {
-            Text(verbatim: describe(scrubbed))
-                .font(.badeCaptionStrong)
-                .foregroundStyle(theme.ink)
-                .frame(maxWidth: .infinity)
-        } else {
-            HStack {
-                Text(verbatim: monthLabel(bars.first?.month))
-                Spacer()
-                Text(verbatim: monthLabel(bars.last?.month))
-            }
-            .font(.badeCaption)
-            .foregroundStyle(theme.inkFaint)
+        Text(verbatim: scrubbed.map(describe) ?? " ")
+            .font(.badeCaptionStrong)
+            .foregroundStyle(theme.ink)
+            .frame(maxWidth: .infinity)
+    }
+
+    private var axisLabels: some View {
+        HStack {
+            Text(verbatim: monthLabel(bars.first?.month))
+            Spacer()
+            Text(verbatim: monthLabel(bars.last?.month))
         }
+        .font(.badeCaption)
+        .foregroundStyle(theme.inkFaint)
     }
 
     private func bar(atX x: CGFloat) -> ChargeBar? {

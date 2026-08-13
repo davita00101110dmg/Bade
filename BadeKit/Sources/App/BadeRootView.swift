@@ -33,7 +33,11 @@ public struct BadeRootView: View {
     /// rather than waiting on StoreKit.
     @AppStorage("isPro") private var isPro = false
 
-    @State private var store = Self.makeStore()
+    /// Opened once, at launch, and it always opens: what cannot be read is set aside rather than
+    /// crashed on.
+    @State private var opened: OpenedStore
+    /// Seeded from that one opening rather than from a reload, so the notice appears exactly once.
+    @State private var isSayingStoreWasReset: Bool
     @State private var hasSubscriptions = false
     @State private var isReady = false
     @State private var isPickingFile = false
@@ -48,12 +52,23 @@ public struct BadeRootView: View {
     @State private var tab = Tabs.subscriptions
     @State private var isShowingPro = false
     @State private var isAskingAboutReminders = false
+    @State private var isSayingNothingWasNew = false
 
     private let merchants = BundledCatalog()
     private let reminders = SystemReminders()
     private let purchases = StoreKitPro()
+    /// Held here because iOS keeps its notification delegate weakly.
+    @State private var taps = ReminderTaps()
+    /// The day a tapped reminder was about, so Upcoming opens on it rather than on this month.
+    @State private var tappedDay: Date?
 
-    public init() {}
+    public init() {
+        let opened = SubscriptionStore.opened()
+        _opened = State(initialValue: opened)
+        _isSayingStoreWasReset = State(initialValue: opened.wasReset)
+    }
+
+    private var store: SubscriptionStore { opened.store }
 
     private var currency: String { chosenCurrency.isEmpty ? inferredCurrency : chosenCurrency }
     private var language: BadeLanguage { BadeLanguage(rawValue: languageCode) ?? .english }
@@ -85,6 +100,14 @@ public struct BadeRootView: View {
             .task(id: reload) { await decideRoot() }
             // A purchase made on another device, or an Ask to Buy approved later, arrives here.
             .task { for await entitled in purchases.entitlementChanges() { isPro = entitled } }
+            // A tapped reminder opens the calendar on the day it was announcing.
+            .task {
+                taps.startListening()
+                for await day in taps.days {
+                    tappedDay = day
+                    tab = .upcoming
+                }
+            }
             .fileImporter(
                 isPresented: $isPickingFile,
                 allowedContentTypes: [.pdf, .plainText, .commaSeparatedText]
@@ -117,6 +140,17 @@ public struct BadeRootView: View {
             .sheet(isPresented: $isAddingManually) {
                 SubscriptionFormView(model: manualEntry()).badeTheme()
             }
+            // Said once, and only when a reset actually happened.
+            .alert(Text(.store.resetTitle), isPresented: $isSayingStoreWasReset) {
+                Button { } label: { Text(.common.ok) }
+            } message: {
+                Text(.store.resetMessage)
+            }
+            .alert(Text(.importing.nothingNewTitle), isPresented: $isSayingNothingWasNew) {
+                Button { } label: { Text(.common.ok) }
+            } message: {
+                Text(.importing.nothingNewMessage)
+            }
     }
 
     /// Welcome is a gate, not a home: it is shown until the first subscription exists and never
@@ -147,7 +181,8 @@ public struct BadeRootView: View {
 
             Tab(value: Tabs.upcoming) {
                 NavigationStack { upcoming }
-                    .id(currency + weekStartCode)
+                    // A tapped reminder is a navigation, so the screen is rebuilt on its day.
+                    .id(currency + weekStartCode + (tappedDay?.description ?? ""))
                     .badeLocked(!isPro) { isShowingPro = true }
             } label: {
                 Label { Text(.upcoming.title) } icon: {
@@ -177,7 +212,8 @@ public struct BadeRootView: View {
     private var upcoming: some View {
         UpcomingView(
             model: UpcomingViewModel(
-                currency: currency, calendar: weekStart.calendar, repository: store,
+                currency: currency, calendar: weekStart.calendar, showing: tappedDay,
+                repository: store,
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() })
         ) { subscription in
             SubscriptionDetailView(model: detail(for: subscription))
@@ -237,14 +273,21 @@ public struct BadeRootView: View {
         await reschedule(for: (try? await store.all()) ?? [])
     }
 
+    /// An import that added nothing is not a failure, but it looks like one unless it is said:
+    /// everything in the statement was already here. That takes priority over asking about
+    /// reminders, which will come round again on the next import.
     private func handleImport(_ outcome: ImportOutcome) {
         statement = nil
         switch outcome {
-        case .cancelled, .foundNothing: break
+        case .cancelled: break
         case .chooseAnother: isPickingFile = true
-        case .saved:
+        case .saved(let addedCount):
             reload = UUID()
-            askAboutReminders()
+            if addedCount == 0 {
+                isSayingNothingWasNew = true
+            } else {
+                askAboutReminders()
+            }
         }
     }
 
@@ -311,10 +354,6 @@ public struct BadeRootView: View {
         Locale.current.currency?.identifier.uppercased() ?? "USD"
     }
 
-    /// A local store that cannot open is unrecoverable — there is no degraded mode to fall back to.
-    private static func makeStore() -> SubscriptionStore {
-        SubscriptionStore(modelContainer: try! SubscriptionStore.container())
-    }
 }
 
 /// `dynamicTypeSize` has no "leave it alone" value, so `system` reads what it inherited and hands

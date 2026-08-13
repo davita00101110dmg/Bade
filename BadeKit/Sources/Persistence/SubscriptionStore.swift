@@ -4,12 +4,51 @@ import SwiftData
 
 @ModelActor
 public actor SubscriptionStore: SubscriptionRepository, RateRepository, OfficialRateStore {
-    /// Local store only — no CloudKit, no remote container (§10).
-    public static func container(inMemory: Bool = false) throws -> ModelContainer {
-        try ModelContainer(
-            for: SubscriptionRecord.self, ObservedRateRecord.self, OfficialRateRecord.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: inMemory)
-        )
+    /// Local store only — no CloudKit, no remote container (§10). Versioned, so a schema change
+    /// meets a migration plan rather than a phone that will not launch.
+    /// `at` exists so the recovery path can be tested somewhere other than the real store.
+    public static func container(inMemory: Bool = false, at url: URL? = nil) throws -> ModelContainer
+    {
+        let schema = Schema(versionedSchema: BadeSchemaV1.self)
+        let configuration =
+            if let url {
+                ModelConfiguration(schema: schema, url: url)
+            } else {
+                ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
+            }
+        return try ModelContainer(
+            for: schema, migrationPlan: BadeMigrations.self, configurations: configuration)
+    }
+
+    /// The store, opened however it can be. What cannot be read is moved aside rather than deleted,
+    /// because a manual entry is the one thing in Bade that no statement can produce again.
+    public static func opened(at url: URL? = nil) -> OpenedStore {
+        if let container = try? container(at: url) {
+            return OpenedStore(store: SubscriptionStore(modelContainer: container), wasReset: false)
+        }
+
+        setAside(url ?? ModelConfiguration(isStoredInMemoryOnly: false).url)
+
+        // The second attempt writes where nothing readable remains, so it fails only if the device
+        // cannot store anything at all — and then memory is the only place left to work in.
+        let container = (try? container(at: url)) ?? (try! container(inMemory: true))
+        return OpenedStore(store: SubscriptionStore(modelContainer: container), wasReset: true)
+    }
+
+    /// Moved, never removed: a later version of Bade may be able to read what this one could not.
+    private static func setAside(_ store: URL) {
+        let manager = FileManager.default
+        let stamp = ISO8601DateFormatter.string(
+            from: .now, timeZone: .current, formatOptions: [.withFullDate])
+        let destination = store.deletingLastPathComponent().appending(path: "Unreadable \(stamp)")
+        try? manager.createDirectory(at: destination, withIntermediateDirectories: true)
+
+        // SwiftData keeps its write-ahead log beside the store; all three have to travel together.
+        for suffix in ["", "-shm", "-wal"] {
+            let file = URL(filePath: store.path() + suffix)
+            guard manager.fileExists(atPath: file.path()) else { continue }
+            try? manager.moveItem(at: file, to: destination.appending(path: file.lastPathComponent))
+        }
     }
 
     /// Only the days asked for: the store holds every day ever fetched, and a screen wants a few.

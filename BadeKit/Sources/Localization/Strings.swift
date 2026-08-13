@@ -16,6 +16,9 @@ extension LocalizedStringResource {
     public static var pro: ProStrings { ProStrings() }
     public static var locked: LockedStrings { LockedStrings() }
     public static var reminder: ReminderStrings { ReminderStrings() }
+    public static var store: StoreStrings { StoreStrings() }
+    public static var common: CommonStrings { CommonStrings() }
+    public static var importing: ImportStrings { ImportStrings() }
     public static var reminderPrompt: ReminderPromptStrings { ReminderPromptStrings() }
 
     /// Shown wherever a feature is held back for Bade Pro.
@@ -136,6 +139,23 @@ extension LocalizedStringResource {
         public var notNow: LocalizedStringResource { string("reminderPrompt.notNow") }
     }
 
+    /// Said once, when what was stored could not be read and the app had to start again.
+    public struct StoreStrings {
+        public var resetTitle: LocalizedStringResource { string("store.resetTitle") }
+        public var resetMessage: LocalizedStringResource { string("store.resetMessage") }
+    }
+
+    /// Words that belong to no one screen. Kept small on purpose.
+    public struct CommonStrings {
+        public var ok: LocalizedStringResource { string("common.ok") }
+    }
+
+    /// Said after an import that changed nothing, because silence reads as failure.
+    public struct ImportStrings {
+        public var nothingNewTitle: LocalizedStringResource { string("import.nothingNewTitle") }
+        public var nothingNewMessage: LocalizedStringResource { string("import.nothingNewMessage") }
+    }
+
     /// A reminder's title says only when. What is charging, and for how much, is the body's job.
     public struct ReminderStrings {
         public var today: LocalizedStringResource { string("reminder.today") }
@@ -221,6 +241,8 @@ extension LocalizedStringResource {
         public var failureUnreadable: LocalizedStringResource { string("parsing.failure.unreadable") }
         public var failureUnrecognised: LocalizedStringResource { string("parsing.failure.unrecognised") }
         public var failureTooFew: LocalizedStringResource { string("parsing.failure.tooFew") }
+        public var nothingTitle: LocalizedStringResource { string("parsing.nothingTitle") }
+        public var nothingMessage: LocalizedStringResource { string("parsing.nothingMessage") }
 
         public func occurrences(_ count: Int) -> LocalizedStringResource {
             string("parsing.occurrences \(count)")

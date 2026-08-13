@@ -7,6 +7,8 @@ public struct ParsingState: Equatable {
         case reading
         case revealing
         case finished
+        /// The file was read and understood; there was simply nothing recurring in it.
+        case foundNothing
         case failed(ImportError)
     }
 
@@ -30,6 +32,10 @@ public struct ParsingState: Equatable {
         if case .failed(let failure) = phase { return failure }
         return nil
     }
+
+    /// Nothing more will happen on this screen: it either could not read the file, or read it and
+    /// found nothing. Both stop the progress and offer another file instead.
+    public var hasStopped: Bool { failure != nil || phase == .foundNothing }
 
     public var progress: Double {
         guard !found.isEmpty else { return phase == .reading ? 0 : 1 }
@@ -82,9 +88,11 @@ extension ParsingState {
             period = result.period
             rates = result.rates
             found = result.detected
+            // Says so and stays put, rather than closing the flow on someone who is owed an
+            // explanation of what was read.
             guard !result.detected.isEmpty else {
-                phase = .finished
-                return .exit(.finished([], result.rates))
+                phase = .foundNothing
+                return nil
             }
             phase = .revealing
             return .scheduleReveal(ParsingTiming.interval(forRows: result.detected.count))

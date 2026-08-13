@@ -26,13 +26,13 @@ public struct ParsingView: View {
                 .padding(.horizontal, .screenMargin)
                 .padding(.top, .xxl)
 
-            if model.state.failure == nil {
+            if !model.state.hasStopped {
                 foundList.padding(.top, .lg)
             }
 
             Spacer(minLength: .zero)
 
-            if model.state.failure != nil {
+            if model.state.hasStopped {
                 Button { model.send(.chooseAnotherTapped) } label: { Text(.parsing.chooseAnother) }
                     .buttonStyle(.badePrimary)
                     .padding(.horizontal, .screenMargin)
@@ -62,13 +62,13 @@ public struct ParsingView: View {
 
     private var header: some View {
         VStack(spacing: .sm) {
-            Text(model.state.failure == nil ? .parsing.title : .parsing.failed)
+            Text(headline)
                 .font(.badeDisplay)
                 .foregroundStyle(theme.ink)
                 .multilineTextAlignment(.center)
 
-            if let failure = model.state.failure {
-                Text(failure.message)
+            if let explanation {
+                Text(explanation)
                     .font(.badeBody)
                     .foregroundStyle(theme.inkMuted)
                     .multilineTextAlignment(.center)
@@ -84,6 +84,19 @@ public struct ParsingView: View {
             }
         }
         .badeAnimation(.badeContent, value: model.state.revealedCount)
+    }
+
+    /// Reading, unreadable, or read and empty — the last is not a failure and does not say so.
+    private var headline: LocalizedStringResource {
+        if model.state.failure != nil { return .parsing.failed }
+        if model.state.phase == .foundNothing { return .parsing.nothingTitle }
+        return .parsing.title
+    }
+
+    private var explanation: LocalizedStringResource? {
+        if let failure = model.state.failure { return failure.message }
+        if model.state.phase == .foundNothing { return .parsing.nothingMessage }
+        return nil
     }
 
     private var caption: LocalizedStringResource? {

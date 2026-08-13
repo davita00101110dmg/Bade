@@ -6,9 +6,9 @@ import Foundation
 public enum ImportOutcome: Equatable, Sendable {
     case cancelled
     case chooseAnother
-    /// Parsed fine, but the statement held no recurring charges. Nothing was saved.
-    case foundNothing
-    case saved
+    /// `addedCount` is how many subscriptions were not already stored. Zero means the statement had
+    /// been imported before, which is worth saying out loud.
+    case saved(addedCount: Int)
 }
 
 /// What Parsing hands to Review. Identity is the push itself, so re-parsing pushes a fresh screen

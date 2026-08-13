@@ -137,7 +137,17 @@ struct ReviewStateTests {
         var subject = state([detection("Netflix", confidence: .confident)])
 
         #expect(subject.apply(.closeTapped) == .exit(.cancelled))
-        #expect(subject.apply(.saved) == .exit(.saved))
+        #expect(
+            subject.apply(.saved(addedCount: 1)) == .exit(.saved(addedCount: 1)))
+    }
+
+    /// Nothing new means the statement had been imported before, and the root says so rather than
+    /// leaving the silence to be read as failure.
+    @Test func savingNothingNewIsReportedAsSuch() {
+        var subject = state([detection("Netflix", confidence: .confident)])
+
+        #expect(subject.apply(.saved(addedCount: 0)) == .exit(.saved(addedCount: 0)))
+        #expect(!subject.isSaving)
     }
 
     @Test func theTotalUsesTheRateTheBankActuallyCharged() {

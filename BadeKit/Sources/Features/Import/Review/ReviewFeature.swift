@@ -55,7 +55,7 @@ public enum ReviewIntent: Equatable {
     case acceptedUncertain(Int)
     case rejectedUncertain(Int)
     case confirmTapped
-    case saved
+    case saved(addedCount: Int)
     case saveFailed
     case closeTapped
 }
@@ -86,9 +86,9 @@ extension ReviewState {
             didFailToSave = false
             return .save(selected)
 
-        case .saved:
+        case .saved(let addedCount):
             isSaving = false
-            return .exit(.saved)
+            return .exit(.saved(addedCount: addedCount))
 
         case .saveFailed:
             isSaving = false

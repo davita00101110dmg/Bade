@@ -90,12 +90,16 @@ struct ParsingStateTests {
         #expect(state.progress == 1)
     }
 
-    @Test func aStatementWithNothingFoundFinishesImmediately() {
+    /// Read, understood, and empty. That is not a failure and it is not an exit: the screen says so
+    /// and offers another file, because a flow that closes itself explains nothing.
+    @Test func aStatementWithNothingInItSaysSoAndStaysPut() {
         var state = ParsingState(file: file())
         let effect = state.apply(.read(result(0)))
 
-        #expect(state.phase == .finished)
-        #expect(effect == .exit(.finished([], state.rates)))
+        #expect(state.phase == .foundNothing)
+        #expect(effect == nil)
+        #expect(state.hasStopped)
+        #expect(state.failure == nil)
     }
 
     @Test(arguments: [ImportError.unreadableFile, .unrecognisedFormat, .tooFewTransactions])

@@ -52,13 +52,11 @@ public struct ImportFlowView: View {
         )
     }
 
-    /// An import that found nothing has nothing to review, so it ends the flow rather than pushing.
     private func handleParsing(_ outcome: ParsingOutcome) {
         switch outcome {
         case .cancelled: onOutcome(.cancelled)
         case .chooseAnother: onOutcome(.chooseAnother)
         case .finished(let detected, let rates):
-            guard !detected.isEmpty else { return onOutcome(.foundNothing) }
             found = DetectedStatement(detected: detected, rates: rates)
         }
     }
@@ -66,7 +64,7 @@ public struct ImportFlowView: View {
     private func handleReview(_ outcome: ReviewOutcome) {
         switch outcome {
         case .cancelled: onOutcome(.cancelled)
-        case .saved: onOutcome(.saved)
+        case .saved(let addedCount): onOutcome(.saved(addedCount: addedCount))
         }
     }
 }

@@ -15,7 +15,6 @@ public final class SettingsViewModel {
     /// notification centre and the answer is re-read every time the screen comes back.
     private let isReminderDenied: () async -> Bool
     private let onOutcome: (SettingsOutcome) -> Void
-    private var work: Task<Void, Never>?
 
     public init(
         currency: String,
@@ -53,7 +52,7 @@ public final class SettingsViewModel {
 
     public func send(_ intent: SettingsIntent) {
         guard let effect = state.apply(intent) else { return }
-        work = Task { [weak self] in await self?.run(effect) }
+        Task { [weak self] in await self?.run(effect) }
     }
 
     private func run(_ effect: SettingsEffect) async {

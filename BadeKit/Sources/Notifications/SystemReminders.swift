@@ -54,6 +54,8 @@ public struct SystemReminders: Sendable {
             content.title = text.title(for: reminder)
             content.body = text.body(for: reminder)
             content.sound = chime
+            // So a tap can open the calendar on the day being announced.
+            content.userInfo = [ReminderTaps.dayKey: reminder.chargeDate.timeIntervalSince1970]
             do {
                 try await center.add(
                     UNNotificationRequest(

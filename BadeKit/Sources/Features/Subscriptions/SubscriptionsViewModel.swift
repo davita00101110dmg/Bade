@@ -12,7 +12,6 @@ public final class SubscriptionsViewModel {
     private let officialRates: any OfficialRateSource
     private let rates: @Sendable () async -> RateBook
     private let onOutcome: (SubscriptionsOutcome) -> Void
-    private var work: Task<Void, Never>?
 
     public init(
         currency: String,
@@ -49,7 +48,7 @@ public final class SubscriptionsViewModel {
 
     public func send(_ intent: SubscriptionsIntent) {
         guard let effect = state.apply(intent) else { return }
-        work = Task { [weak self] in await self?.run(effect) }
+        Task { [weak self] in await self?.run(effect) }
     }
 
     private func run(_ effect: SubscriptionsEffect) async {

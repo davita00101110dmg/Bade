@@ -10,7 +10,6 @@ public final class ReviewViewModel {
     private let repository: any SubscriptionRepository
     private let rateRepository: any RateRepository
     private let onOutcome: (ReviewOutcome) -> Void
-    private var work: Task<Void, Never>?
 
     public init(
         detected: [DetectedSubscription],
@@ -28,17 +27,20 @@ public final class ReviewViewModel {
 
     public func send(_ intent: ReviewIntent) {
         guard let effect = state.apply(intent) else { return }
-        work = Task { [weak self] in await self?.run(effect) }
+        Task { [weak self] in await self?.run(effect) }
     }
 
     private func run(_ effect: ReviewEffect) async {
         switch effect {
         case .save(let detected):
             do {
-                try await repository.confirm(detected)
+                // Counted either side of the save: every confirmation either becomes a row or
+                // merges into one, so the difference is exactly what was new.
+                let before = try await repository.all().count
+                let after = try await repository.confirm(detected).count
                 // Kept whatever the user chose: a rate outlives the charge that revealed it.
                 try await rateRepository.record(state.rates)
-                send(.saved)
+                send(.saved(addedCount: after - before))
             } catch {
                 send(.saveFailed)
             }

@@ -9,7 +9,6 @@ public final class ProViewModel {
 
     private let purchases: any ProPurchasing
     private let onOutcome: (ProOutcome) -> Void
-    private var work: Task<Void, Never>?
 
     public init(
         purchases: any ProPurchasing = NoPurchases(),
@@ -23,7 +22,7 @@ public final class ProViewModel {
 
     public func send(_ intent: ProIntent) {
         guard let effect = state.apply(intent) else { return }
-        work = Task { [weak self] in await self?.run(effect) }
+        Task { [weak self] in await self?.run(effect) }
     }
 
     private func run(_ effect: ProEffect) async {
