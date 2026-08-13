@@ -18,7 +18,7 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    326 transactions → 11 subscriptions → nothing unconvertible
 ```
 
-**412 tests, `swift test` ~0.7s, no simulator needed. iOS build green, no warnings.**
+**435 tests, `swift test` ~0.7s, no simulator needed. iOS build green, no warnings.**
 
 ### Screens
 
@@ -35,6 +35,7 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
 | ⑨ | Bade Pro | ✅ real screen: price from the store, buy, restore, owned, failed |
 | ⓡ | Reminder prompt | ✅ asked once, after the first import, Pro only |
 | ⑦ | FX breakdown | ▲ **on screen, but money figures deliberately withheld — see below** |
+| ⓦ | Widget | ✅ small and medium: this month, spent/still coming, next three. Pro only |
 
 ---
 
@@ -116,12 +117,35 @@ Pro. That was a deliberate call by the user on 2026-08-13; the brief has not bee
    updates the screen and reports nothing, so `isPro` stays true until the next launch. Refund-shaped.
 6. **Reminders run dry after about six months** of not opening the app: 64 pending notifications is
    iOS's cap and rescheduling only happens on launch or on a change.
-7. **The `.storekit` config lives in `BadeTests/`.** The app target is a synchronized folder, so a
+7. **The widget's month total and the list's headline answer different questions.** The list levels
+   every cadence into "a month"; the widget shows this calendar month. They agree in a typical month
+   and diverge whenever one is not — an annual charge landing, or a month with none. Labelling the
+   widget with the month's name was proposed and never decided.
+8. **A stray store sits in the App Group container** on the device — the one the app used for two
+   hours before the path was pinned. Harmless, unread, and deletable by hand.
+9. **`isPro` is forced true in DEBUG.** `BadeRootView.isPro` answers yes in a debug build, because a
+   local StoreKit config only works when Xcode launches the app. The real entitlement is still
+   tracked in `hasEntitlement`. It means **the locked states cannot be seen on a debug build**.
+10. **The `.storekit` config lives in `BadeTests/`.** The app target is a synchronized folder, so a
    file placed beside the app is copied into the shipped bundle — pricing config included. The
    scheme's `StoreKitConfigurationFileReference` points at it there. Odd home, deliberate reason.
-8. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
-9. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
-10. **The end-to-end run** the user asked for has still not happened.
+11. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
+12. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
+13. **The end-to-end run** the user asked for has still not happened.
+
+### The widget
+
+Built although §13 of the spec lists widgets as out of scope for v1, because the Pro page sells them.
+`Widgets` holds the snapshot, the timeline and the views; `BadeWidget/BadeWidgetBundle.swift` is an
+eight-line shell in the extension target, so everything real stays previewable in the package.
+
+- The app publishes a **snapshot** — this month's total, what is still to come, the next three
+  charges, the display currency, the app's locale and `isPro` — into the App Group container. The
+  widget decodes it and computes nothing: no SwiftData, no rates, no StoreKit in that process.
+- Published from `.task(id: widgetKey)` on `currency | language | isPro | reload`, **and** from
+  `store.changes()`, so an edit made deep inside a feature reaches the home screen.
+- The hero is **this calendar month**, matching the Upcoming tab, not the levelled "a month" the
+  list shows. Only a real month can be half spent, which is what the bar means.
 
 ### Decided against
 
@@ -207,7 +231,7 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 412 tests, ~0.7s, no simulator
+cd BadeKit && swift test          # 435 tests, ~0.7s, no simulator
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
@@ -229,6 +253,17 @@ corrupt store to prove the recovery path. The run still passes.
 
 ## Traps hit, so they are not hit again
 
+- **An App Group moves the SwiftData store.** CoreData's default directory becomes the group
+  container the moment an app has one, so adding the widget's entitlement silently relocated the
+  store and left the data behind — on an existing install that reads as every subscription
+  vanishing. `SubscriptionStore.storeURL` pins the path to the app's own container. Never let the
+  store's location be decided by an entitlement.
+- **A next charge date is only true until it is not.** `nextChargeDate` is computed against the
+  statement, so a statement ending on the 7th leaves a charge due the 10th sitting in the past by
+  the 13th. Read it through `Subscription.nextCharge(onOrAfter:)`, never raw.
+- **Projections reach back to the start of this month, and no further.** A charge due after the
+  statement ended but before today belongs to neither half otherwise, and the month on screen ends
+  up with a hole where a charge plainly happened. Older months stay as recorded.
 - **No localised string resolves outside an app bundle.** In `swift test` on the host, `pro.title`
   comes back as `"pro.title"` — pre-existing, and true of every key. Test the *choice* of resource
   (`LocalizedStringResource` is `Equatable` and compares interpolated arguments), never the resolved

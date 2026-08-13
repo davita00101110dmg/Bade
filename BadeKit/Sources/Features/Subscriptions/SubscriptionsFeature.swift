@@ -18,9 +18,12 @@ public struct SubscriptionsState: Equatable {
     /// deliberate act, and interrupting it with a modal makes the row spring shut underneath.
     public private(set) var isConfirmingDeleteAll = false
     public private(set) var edit: SubscriptionEdit?
+    /// The day "next charge" is answered against. Injected so a test can stand somewhere fixed.
+    let today: Date
 
-    public init(currency: String) {
+    public init(currency: String, today: Date = .now) {
         self.currency = currency
+        self.today = today
     }
 
     /// Cancelled subscriptions are not spend. The total and the live list agree by construction.
@@ -34,13 +37,15 @@ public struct SubscriptionsState: Equatable {
 
     private func sorted(_ subscriptions: [Subscription]) -> [SubscriptionRow] {
         let rows = subscriptions.map {
-            SubscriptionRow(subscription: $0, converted: monthly(of: $0))
+            SubscriptionRow(
+                subscription: $0, converted: monthly(of: $0),
+                nextCharge: $0.nextCharge(onOrAfter: today))
         }
         switch sort {
         case .cost: return rows.sorted { $0.sortableMonthly > $1.sortableMonthly }
         case .name: return rows.sorted { $0.subscription.merchant < $1.subscription.merchant }
         case .nextCharge:
-            return rows.sorted { $0.subscription.nextChargeDate < $1.subscription.nextChargeDate }
+            return rows.sorted { $0.nextCharge < $1.nextCharge }
         }
     }
 

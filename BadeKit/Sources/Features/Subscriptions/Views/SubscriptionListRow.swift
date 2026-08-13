@@ -48,7 +48,7 @@ struct SubscriptionListRow: View {
         if row.showsBilledPrice(against: currency) {
             Text(billedAndDate)
         } else {
-            Text(row.subscription.nextChargeDate, format: .dateTime.month(.abbreviated).day())
+            Text(row.nextCharge, format: .dateTime.month(.abbreviated).day())
         }
     }
 
@@ -65,8 +65,7 @@ struct SubscriptionListRow: View {
     }
 
     private var nextChargeText: String {
-        row.subscription.nextChargeDate.formatted(
-            .dateTime.month(.abbreviated).day().locale(locale))
+        row.nextCharge.formatted(.dateTime.month(.abbreviated).day().locale(locale))
     }
 }
 

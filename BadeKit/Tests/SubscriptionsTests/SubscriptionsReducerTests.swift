@@ -29,9 +29,9 @@ private func rateBook() -> RateBook {
 @Suite("Subscriptions state")
 struct SubscriptionsStateTests {
     private func state(
-        _ stored: [Subscription], rates: RateBook = rateBook()
+        _ stored: [Subscription], rates: RateBook = rateBook(), today: Date = day("2026-08-13")
     ) -> SubscriptionsState {
-        var state = SubscriptionsState(currency: "GEL")
+        var state = SubscriptionsState(currency: "GEL", today: today)
         _ = state.apply(.loaded(stored, rates))
         return state
     }
@@ -130,6 +130,23 @@ struct SubscriptionsStateTests {
 
         _ = subject.apply(.sortChanged(.cost))
         #expect(subject.rows.map(\.subscription.merchant) == ["Zeta", "Alpha"])
+    }
+
+    /// A statement that ended on the 7th leaves a charge due the 10th in the past by the 13th. It
+    /// is still next month's charge, and it sorts as one rather than to the top of the list.
+    @Test func aChargeTheStatementNeverSawSortsByWhenItIsActuallyDue() {
+        let subject = state(
+            [
+                subscription("Setanta", "15.00", next: "2026-08-10"),
+                subscription("Spotify", "15.00", next: "2026-08-20"),
+            ],
+            today: day("2026-08-13"))
+
+        var sorted = subject
+        _ = sorted.apply(.sortChanged(.nextCharge))
+
+        #expect(sorted.rows.map(\.subscription.merchant) == ["Spotify", "Setanta"])
+        #expect(sorted.rows.last?.nextCharge == day("2026-09-10"))
     }
 
     /// Nothing is dropped for want of a rate — it is counted separately and said out loud.

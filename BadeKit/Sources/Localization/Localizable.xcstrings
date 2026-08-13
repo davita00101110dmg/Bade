@@ -3360,6 +3360,134 @@
           }
         }
       }
+    },
+    "widget.allCharged": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All charged"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ყველა ჩამოიჭრა"
+          }
+        }
+      }
+    },
+    "widget.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What your subscriptions cost a month, and what is charging next."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "რამდენი ჯდება გამოწერები თვეში და რა ჩამოგეჭრება შემდეგ."
+          }
+        }
+      }
+    },
+    "widget.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import a statement to see your total here."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ატვირთე ამონაწერი, რომ ჯამი აქ გამოჩნდეს."
+          }
+        }
+      }
+    },
+    "widget.locked": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets are part of Bade Pro."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ვიჯეტები Bade Pro-ს ნაწილია."
+          }
+        }
+      }
+    },
+    "widget.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly total"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "თვიური ჯამი"
+          }
+        }
+      }
+    },
+    "widget.stillComing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Still coming"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კიდევ მოსალოდნელი"
+          }
+        }
+      }
+    },
+    "widget.thisMonth": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This month"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამ თვეში"
+          }
+        }
+      }
+    },
+    "widget.toGo %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ to go"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დარჩა %@"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

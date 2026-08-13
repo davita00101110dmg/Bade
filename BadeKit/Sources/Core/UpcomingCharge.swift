@@ -23,25 +23,38 @@ public struct UpcomingCharge: Equatable, Sendable, Identifiable {
 }
 
 extension Collection<Subscription> {
-    /// Everything falling in a half-open window: what was actually charged up to today, and what
-    /// the rhythm says is coming after it.
+    /// Everything falling in a half-open window: what a statement recorded, and what the rhythm says
+    /// happened or is coming since.
     ///
-    /// The two never overlap and neither is guessed. A past month shows only what a statement
-    /// recorded — nothing is projected backwards, so a month Bade never saw stays empty rather
-    /// than being filled with charges nobody can vouch for. Recorded charges include subscriptions
-    /// since cancelled, because those charges still happened.
+    /// A statement ends before today does. A charge due in the days between belongs to neither half
+    /// — not recorded, not yet future — so the month on screen would have a hole in it. Projections
+    /// therefore reach back to the start of *this* month, and no further: an older month shows only
+    /// what was recorded, because a month Bade never saw should stay empty rather than be filled
+    /// with charges nobody can vouch for. Recorded charges include subscriptions since cancelled,
+    /// because those charges still happened; projections do not, because those never will.
     public func upcomingCharges(
         from start: Date, before end: Date, today: Date, calendar: Calendar = .current
     ) -> [UpcomingCharge] {
         // The split is the start of today, not the instant: a charge due today is still coming,
         // and putting the boundary mid-day would drop it from both halves.
         let boundary = calendar.startOfDay(for: today)
+        let thisMonth =
+            calendar.date(from: calendar.dateComponents([.year, .month], from: boundary)) ?? boundary
+
         var charges: [UpcomingCharge] = []
         for subscription in self {
-            charges += recorded(subscription, from: start, before: end, until: boundary)
+            let recorded = recorded(subscription, from: start, before: end, until: boundary)
+            charges += recorded
             guard subscription.isActive else { continue }
-            charges += projected(
-                subscription, from: Swift.max(start, boundary), before: end, calendar: calendar)
+
+            // A day a statement vouched for is never also guessed at.
+            let seen = Set(recorded.map { calendar.startOfDay(for: $0.date) })
+            charges +=
+                projected(
+                    subscription, from: Swift.max(start, thisMonth), before: end,
+                    calendar: calendar
+                )
+                .filter { !seen.contains(calendar.startOfDay(for: $0.date)) }
         }
         return charges.sorted {
             ($0.date, $0.subscription.merchant) < ($1.date, $1.subscription.merchant)

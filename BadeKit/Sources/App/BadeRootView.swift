@@ -14,6 +14,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import Upcoming
 import Welcome
+import Widgets
 
 public struct BadeRootView: View {
     private enum Tabs: Hashable { case subscriptions, upcoming, settings }
@@ -28,10 +29,9 @@ public struct BadeRootView: View {
     @AppStorage("reminderTime") private var reminderTime = ReminderPreference.defaultTimeOfDay
     /// Asked once and never again, whichever way it was answered.
     @AppStorage("hasAskedAboutReminders") private var hasAskedAboutReminders = false
-    /// Everything gated reads this and nothing else. It is a cache of the App Store entitlement,
-    /// written at launch and whenever one arrives, so a locked screen answers instantly and offline
-    /// rather than waiting on StoreKit.
-    @AppStorage("isPro") private var isPro = false
+    /// A cache of the App Store entitlement, written at launch and whenever one arrives, so a
+    /// locked screen answers instantly and offline rather than waiting on StoreKit.
+    @AppStorage("isPro") private var hasEntitlement = false
 
     /// Opened once, at launch, and it always opens: what cannot be read is set aside rather than
     /// crashed on.
@@ -70,6 +70,17 @@ public struct BadeRootView: View {
 
     private var store: SubscriptionStore { opened.store }
 
+    /// The one thing every gated feature reads. A debug build always answers yes: a local StoreKit
+    /// config only works when Xcode launches the app, so on a phone there is otherwise nothing to
+    /// buy with and no way to exercise what the purchase unlocks.
+    private var isPro: Bool {
+        #if DEBUG
+            true
+        #else
+            hasEntitlement
+        #endif
+    }
+
     private var currency: String { chosenCurrency.isEmpty ? inferredCurrency : chosenCurrency }
     private var language: BadeLanguage { BadeLanguage(rawValue: languageCode) ?? .english }
     private var appearance: BadeAppearance { BadeAppearance(rawValue: appearanceCode) ?? .system }
@@ -98,8 +109,17 @@ public struct BadeRootView: View {
             .environment(\.calendar, weekStart.calendar)
             .modifier(TextSizeOverride(size: textSize))
             .task(id: reload) { await decideRoot() }
+            .task(id: widgetKey) { await publishWidget() }
+            // A row deleted in the list, a price edited, a subscription paused: features write to
+            // the store directly, so the store is what says something changed.
+            .task {
+                for await _ in await store.changes() {
+                    await publishWidget()
+                    await rescheduleFromStore()
+                }
+            }
             // A purchase made on another device, or an Ask to Buy approved later, arrives here.
-            .task { for await entitled in purchases.entitlementChanges() { isPro = entitled } }
+            .task { for await e in purchases.entitlementChanges() { hasEntitlement = e } }
             // A tapped reminder opens the calendar on the day it was announcing.
             .task {
                 taps.startListening()
@@ -126,7 +146,7 @@ public struct BadeRootView: View {
                 NavigationStack {
                     ProView(
                         model: ProViewModel(purchases: purchases, isEntitled: isPro) { outcome in
-                            if outcome == .unlocked { isPro = true }
+                            if outcome == .unlocked { hasEntitlement = true }
                         })
                 }
                 .badeTheme()
@@ -256,8 +276,23 @@ public struct BadeRootView: View {
         inferredCurrency = stored.predominantCurrency ?? Self.localeCurrency
         rates = (try? await store.observedRates()) ?? RateBook()
         isReady = true
-        isPro = await purchases.isEntitled()
+        hasEntitlement = await purchases.isEntitled()
         await reschedule(for: stored)
+    }
+
+    /// The home screen cannot read the store, so it is handed figures instead. Keyed on everything
+    /// the snapshot is made of, so a display currency changed in Settings reaches the widget too —
+    /// which two hand-placed calls did not.
+    private var widgetKey: String { "\(currency)|\(languageCode)|\(isPro)|\(reload)" }
+
+    private func publishWidget() async {
+        let stored = (try? await store.all()) ?? []
+        let observed = (try? await store.observedRates()) ?? RateBook()
+        WidgetFeed()
+            .publish(
+                WidgetSnapshot(
+                    subscriptions: stored, currency: currency, rates: observed, isPro: isPro,
+                    localeIdentifier: language.locale.identifier))
     }
 
     /// Every launch and every change reschedules from scratch: the plan is cheap, and a stale
@@ -270,7 +305,8 @@ public struct BadeRootView: View {
     }
 
     private func rescheduleFromStore() async {
-        await reschedule(for: (try? await store.all()) ?? [])
+        let stored = (try? await store.all()) ?? []
+        await reschedule(for: stored)
     }
 
     /// An import that added nothing is not a failure, but it looks like one unless it is said:
@@ -343,7 +379,7 @@ public struct BadeRootView: View {
             Task { await rescheduleFromStore() }
         // Reminders were gated, so whatever lead was already chosen takes effect now.
         case .proUnlocked:
-            isPro = true
+            hasEntitlement = true
             Task { await rescheduleFromStore() }
         case .dataCleared: reload = UUID()
         }

@@ -25,6 +25,10 @@ public struct SubscriptionDetailState: Equatable {
     }
 
     public var displayAmount: Decimal { converted ?? subscription.amount }
+
+    /// As of today, not as of the statement: a charge due after the statement ended is already past,
+    /// and the list answers the same question the same way.
+    public var nextCharge: Date { subscription.nextCharge(onOrAfter: .now) }
     public var displayCurrency: String { converted == nil ? subscription.currency : currency }
     public var showsBilledPrice: Bool { subscription.currency != currency && converted != nil }
 

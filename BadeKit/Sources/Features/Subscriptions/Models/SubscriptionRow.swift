@@ -7,6 +7,9 @@ public struct SubscriptionRow: Equatable, Identifiable, Sendable {
     public let subscription: Subscription
     /// Monthly cost in the display currency, or `nil` when no rate covers this charge.
     public let converted: Decimal?
+    /// What is next as of today. A statement that ended before a charge was due leaves the stored
+    /// date in the past, and a past date is neither an answer nor a sort key.
+    public let nextCharge: Date
 
     public var id: UUID { subscription.id }
 

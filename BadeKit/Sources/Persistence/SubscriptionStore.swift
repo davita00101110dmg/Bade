@@ -4,17 +4,47 @@ import SwiftData
 
 @ModelActor
 public actor SubscriptionStore: SubscriptionRepository, RateRepository, OfficialRateStore {
+    /// Every listener that wants to know when the subscriptions change.
+    private var listeners: [AsyncStream<Void>.Continuation] = []
+
+    /// Announces writes, so whatever is derived from the store — the widget's snapshot, the reminder
+    /// schedule — is rebuilt without every screen that edits a row remembering to say so. A screen
+    /// deep in a feature can delete a subscription; only the store sees all of them.
+    public func changes() -> AsyncStream<Void> {
+        AsyncStream { continuation in
+            listeners.append(continuation)
+        }
+    }
+
+    private func announce() {
+        for listener in listeners { listener.yield() }
+    }
+
+    /// Where the store has always been, named rather than left to CoreData. Its default directory
+    /// becomes the App Group container the moment an app has one, so adding the widget's entitlement
+    /// silently moved the store and left every existing install's data behind it. Pinning the path
+    /// makes the location a decision instead of a side effect.
+    public static var storeURL: URL? {
+        try? FileManager.default.url(
+            for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil,
+            create: true
+        )
+        .appending(path: "default.store")
+    }
+
     /// Local store only — no CloudKit, no remote container (§10). Versioned, so a schema change
-    /// meets a migration plan rather than a phone that will not launch.
-    /// `at` exists so the recovery path can be tested somewhere other than the real store.
+    /// meets a migration plan rather than a phone that will not launch. `at` exists so the recovery
+    /// path can be tested somewhere other than the real store.
     public static func container(inMemory: Bool = false, at url: URL? = nil) throws -> ModelContainer
     {
         let schema = Schema(versionedSchema: BadeSchemaV1.self)
         let configuration =
-            if let url {
-                ModelConfiguration(schema: schema, url: url)
+            if inMemory {
+                ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+            } else if let file = url ?? storeURL {
+                ModelConfiguration(schema: schema, url: file)
             } else {
-                ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
+                ModelConfiguration(schema: schema)
             }
         return try ModelContainer(
             for: schema, migrationPlan: BadeMigrations.self, configurations: configuration)
@@ -27,7 +57,7 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository, Official
             return OpenedStore(store: SubscriptionStore(modelContainer: container), wasReset: false)
         }
 
-        setAside(url ?? ModelConfiguration(isStoredInMemoryOnly: false).url)
+        if let file = url ?? storeURL { setAside(file) }
 
         // The second attempt writes where nothing readable remains, so it fails only if the device
         // cannot store anything at all — and then memory is the only place left to work in.
@@ -103,12 +133,14 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository, Official
             modelContext.insert(SubscriptionRecord(subscription))
         }
         try modelContext.save()
+        announce()
     }
 
     public func delete(id: UUID) async throws {
         guard let existing = try record(id: id) else { return }
         modelContext.delete(existing)
         try modelContext.save()
+        announce()
     }
 
     /// §10's delete-everything leaves nothing derived from a statement behind, rates included.
@@ -117,6 +149,7 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository, Official
         try modelContext.delete(model: ObservedRateRecord.self)
         try modelContext.delete(model: OfficialRateRecord.self)
         try modelContext.save()
+        announce()
     }
 
     /// Re-importing an overlapping statement must refresh a subscription, never duplicate it.
@@ -139,6 +172,7 @@ public actor SubscriptionStore: SubscriptionRepository, RateRepository, Official
             }
         }
         try modelContext.save()
+        announce()
         return try await all()
     }
 

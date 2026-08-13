@@ -118,7 +118,7 @@ public struct SubscriptionDetailView: View {
     /// in width, so a column layout either wraps or leaves one of them stranded.
     private var facts: some View {
         VStack(spacing: .zero) {
-            fact(.detail.nextCharge, dateText(model.state.subscription.nextChargeDate))
+            fact(.detail.nextCharge, dateText(model.state.nextCharge))
             Divider().overlay(theme.border)
             fact(
                 .detail.aYear,

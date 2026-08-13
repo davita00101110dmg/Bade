@@ -15,7 +15,9 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 > on a local branch). **10 all but finished** — the FX engine and its section ship, but the money
 > figures are withheld until one question about BOG's conversion block is answered. Upcoming and
 > reminders sit behind `@AppStorage("isPro")`, now a cache of the App Store entitlement.
-> Next: **TestFlight, to verify a purchase**, then **14** the Georgian pass.
+> The home screen widget ships too, though §13 lists widgets as out of scope for v1 — a deliberate
+> call, since the Pro page sells them. Next: **TestFlight, to verify a purchase**, then **14** the
+> Georgian pass.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 
@@ -63,6 +65,8 @@ BadeKit/              all real code (SPM, one package, many targets)
     Persistence/      SwiftData. Sealed — no other module imports it.
     Pipeline/         composes ingestion → normalization → detection.
     Notifications/    reminder planning (pure) + the one UserNotifications import.
+    Purchases/        the one StoreKit import, behind Core's ProPurchasing.
+    Widgets/          the home screen snapshot, its timeline and its views.
     DesignSystem/     theme, type, spacing, motion, haptics, components.
     Localization/     the one Localizable.xcstrings, typed constants, money format.
     Features/         Welcome, Import (Parsing + Review). One per feature.

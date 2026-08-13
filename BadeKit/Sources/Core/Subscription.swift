@@ -72,6 +72,23 @@ public struct Subscription: Equatable, Sendable, Codable, Identifiable {
     /// Derived rather than stored, so it can never disagree with the history it counts.
     public var occurrenceCount: Int { charges.count }
 
+    /// What is next as of today, which is not always what the statement said. A statement that ends
+    /// on the 7th leaves a charge due on the 10th in the past by the time anyone looks — stored
+    /// faithfully, but no longer an answer to "when next".
+    ///
+    /// Measured from the stored date rather than stepped one period at a time, so a charge on the
+    /// 31st does not walk back to the 28th on its way through February.
+    public func nextCharge(onOrAfter day: Date, calendar: Calendar = .current) -> Date {
+        let boundary = calendar.startOfDay(for: day)
+        var date = nextChargeDate
+        var period = 0
+        while date < boundary, period < UpcomingCharge.projectionLimit {
+            period += 1
+            date = cadence.charge(after: nextChargeDate, periods: period, in: calendar)
+        }
+        return date
+    }
+
     /// Identity across imports: the same service billed the same way, whatever the id. Folded, so
     /// a hand-typed "netflix " and a detected "Netflix" are one subscription rather than two.
     public var matchKey: String {

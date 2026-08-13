@@ -18,6 +18,7 @@ extension LocalizedStringResource {
     public static var reminder: ReminderStrings { ReminderStrings() }
     public static var store: StoreStrings { StoreStrings() }
     public static var common: CommonStrings { CommonStrings() }
+    public static var widget: WidgetStrings { WidgetStrings() }
     public static var importing: ImportStrings { ImportStrings() }
     public static var reminderPrompt: ReminderPromptStrings { ReminderPromptStrings() }
 
@@ -148,6 +149,23 @@ extension LocalizedStringResource {
     /// Words that belong to no one screen. Kept small on purpose.
     public struct CommonStrings {
         public var ok: LocalizedStringResource { string("common.ok") }
+    }
+
+    /// The home screen widget, which has room for very little and must choose well.
+    public struct WidgetStrings {
+        /// Named for what it shows rather than for the app; the gallery already says "Bade".
+        public var name: LocalizedStringResource { string("widget.name") }
+        public var description: LocalizedStringResource { string("widget.description") }
+        public var thisMonth: LocalizedStringResource { string("widget.thisMonth") }
+        public var stillComing: LocalizedStringResource { string("widget.stillComing") }
+        public var locked: LocalizedStringResource { string("widget.locked") }
+        public var empty: LocalizedStringResource { string("widget.empty") }
+        /// Nothing left to be charged this month, which is worth saying rather than showing zero.
+        public var allCharged: LocalizedStringResource { string("widget.allCharged") }
+
+        public func toGo(_ amount: String) -> LocalizedStringResource {
+            string("widget.toGo \(amount)")
+        }
     }
 
     /// Said after an import that changed nothing, because silence reads as failure.

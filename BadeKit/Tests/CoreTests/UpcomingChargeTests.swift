@@ -76,12 +76,31 @@ struct UpcomingChargeTests {
         #expect(charges([subscription("Netflix", next: "2026-08-09", active: false)]).isEmpty)
     }
 
-    /// Nothing is projected backwards: a day already gone is only shown if a statement recorded it.
-    @Test func nothingIsProjectedIntoThePast() {
+    /// The real case: a statement ending on the 7th leaves a charge due the 10th belonging to
+    /// neither half, and the month on screen would have a hole where a charge plainly happened.
+    @Test func aChargeDueEarlierThisMonthIsStillShown() {
         let projected = charges(
-            [subscription("Netflix", next: "2026-08-09")], today: "2026-08-20")
+            [subscription("Setanta", next: "2026-08-10")], today: "2026-08-13")
 
-        #expect(projected.isEmpty)
+        #expect(projected.map(\.date) == [day("2026-08-10")])
+    }
+
+    /// But only this month. A statement months out of date does not get to fill the months in
+    /// between with charges nobody can vouch for.
+    @Test func anEarlierMonthIsNeverFilledIn() {
+        let stale = charges(
+            [subscription("Setanta", next: "2026-04-10")],
+            from: "2026-05-01", before: "2026-06-01", today: "2026-08-13")
+
+        #expect(stale.isEmpty)
+    }
+
+    /// The gap is closed from the anchor, so a long-abandoned statement still lands on the right day.
+    @Test func aLongGapStillLandsOnTheRhythmsDay() {
+        let projected = charges(
+            [subscription("Setanta", next: "2026-04-10")], today: "2026-08-13")
+
+        #expect(projected.map(\.date) == [day("2026-08-10")])
     }
 
     @Test func apastMonthShowsWhatWasActuallyCharged() {
