@@ -118,7 +118,9 @@ public struct BadeRootView: View {
                     .id(currency + weekStartCode)
                     .badeLocked(!isPro) { isShowingPro = true }
             } label: {
-                Label { Text(.upcoming.title) } icon: { Image(systemName: "calendar") }
+                Label { Text(.upcoming.title) } icon: {
+                    Image(systemName: isPro ? "calendar" : "calendar.badge.lock")
+                }
             }
 
             Tab(value: Tabs.settings) {

@@ -24,6 +24,9 @@
                 try await capture("form-new", variant) { form(editing: nil) }
                 try await capture("form-editing", variant) { form(editing: netflix()) }
                 try await capture("upcoming", variant) { await upcoming(stored()) }
+                try await capture("upcoming-locked", variant) {
+                    await upcoming(stored()).badeLocked(true) {}
+                }
                 try await capture("settings", variant) { await settings(stored()) }
                 try await capture("subscriptions", variant) { await subscriptions(stored()) }
             }
