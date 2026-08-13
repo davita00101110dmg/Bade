@@ -11,12 +11,25 @@ public struct ReviewItem: Equatable, Identifiable, Sendable {
     public let converted: Decimal?
 }
 
-/// A confidence tier with its rows. Empty tiers are dropped before the view sees them.
+/// A group of rows with its heading. Empty groups are dropped before the view sees them.
 public struct ReviewSection: Equatable, Identifiable, Sendable {
-    public let confidence: Confidence
+    /// What the rows have in common. Whether a subscription already stopped outranks how sure the
+    /// engine is that it existed: mixed into the tiers, an ended charge reads as money still going
+    /// out, which is the one thing it is not.
+    public enum Kind: Equatable, Sendable {
+        case tier(Confidence)
+        case ended
+    }
+
+    public let kind: Kind
     public let items: [ReviewItem]
 
-    public var id: String { confidence.rawValue }
+    public var id: String {
+        switch kind {
+        case .tier(let confidence): confidence.rawValue
+        case .ended: "ended"
+        }
+    }
 }
 
 extension Confidence {
@@ -26,19 +39,21 @@ extension Confidence {
 
 extension ReviewSection {
     var title: LocalizedStringResource {
-        switch confidence {
-        case .confident: .review.tierConfident
-        case .probable: .review.tierProbable
-        case .uncertain: .review.tierUncertain
+        switch kind {
+        case .tier(.confident): .review.tierConfident
+        case .tier(.probable): .review.tierProbable
+        case .tier(.uncertain): .review.tierUncertain
+        case .ended: .review.tierEnded
         }
     }
 
-    /// What earned the tier, stated plainly. "Not sure" speaks for itself.
+    /// What earned the group, stated plainly. "Not sure" speaks for itself.
     var hint: LocalizedStringResource? {
-        switch confidence {
-        case .confident: .review.confidentHint
-        case .probable: .review.probableHint
-        case .uncertain: nil
+        switch kind {
+        case .tier(.confident): .review.confidentHint
+        case .tier(.probable): .review.probableHint
+        case .tier(.uncertain): nil
+        case .ended: .review.endedHint
         }
     }
 }

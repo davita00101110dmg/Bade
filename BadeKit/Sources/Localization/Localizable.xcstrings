@@ -1693,6 +1693,22 @@
         }
       }
     },
+    "review.ended %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ended %1$@"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დასრულდა %1$@"
+          }
+        }
+      }
+    },
     "review.isSubscription": {
       "localizations": {
         "en": {
@@ -1845,6 +1861,38 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "3+ ჩამოჭრა"
+          }
+        }
+      }
+    },
+    "review.tier.ended": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Already ended"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "უკვე დასრულდა"
+          }
+        }
+      }
+    },
+    "review.tier.endedHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "charges stopped"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ჩამოჭრა შეწყდა"
           }
         }
       }

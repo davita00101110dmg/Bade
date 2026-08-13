@@ -36,9 +36,7 @@ public struct SubscriptionDetector: Sendable {
             merchant: account.merchant, amount: latest.amount, currency: account.currency)
 
         guard let cadence = cadence(for: cluster, match: match),
-            let confidence = scorer.confidence(occurrences: cluster.charges.count, catalog: match),
-            !SubscriptionLapse.hasLapsed(
-                since: latest.date, cadence: cadence, statementEnd: statementEnd)
+            let confidence = scorer.confidence(occurrences: cluster.charges.count, catalog: match)
         else { return nil }
 
         let occurrences = cluster.occurrences
@@ -52,7 +50,9 @@ public struct SubscriptionDetector: Sendable {
             occurrences: occurrences,
             nextChargeDate: ChargeCalendar.date(after: latest.date, cadence: cadence),
             confidence: confidence,
-            priceChanges: history.priceChanges
+            priceChanges: history.priceChanges,
+            hasEnded: SubscriptionLapse.hasLapsed(
+                since: latest.date, cadence: cadence, statementEnd: statementEnd)
         )
     }
 

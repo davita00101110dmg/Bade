@@ -45,7 +45,7 @@ struct ReviewSectionView: View {
     private var header: some View {
         HStack(alignment: .firstTextBaseline) {
             Text(.review.tierCount(.badeLocalized(section.title, in: locale), section.items.count))
-                .badeSectionLabel(tint: section.confidence == .confident ? theme.accent : nil)
+                .badeSectionLabel(tint: section.kind == .tier(.confident) ? theme.accent : nil)
             Spacer()
             if let hint = section.hint {
                 Text(hint)

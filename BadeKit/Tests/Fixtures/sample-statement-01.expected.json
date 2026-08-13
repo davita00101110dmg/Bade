@@ -30,7 +30,8 @@
         "currency": "GEL",
         "sourceLine": "2026-07-09,SP NETFLIX.COM 1082 LOS GATOS CA 4829,35.99,GEL"
       }
-    ]
+    ],
+    "hasEnded": false
   },
   {
     "merchant": "Spotify",
@@ -63,6 +64,7 @@
         "currency": "GEL",
         "sourceLine": "2026-07-14,SPOTIFY P0A1B2C3D4 STOCKHOLM SE,24.99,GEL"
       }
-    ]
+    ],
+    "hasEnded": false
   }
 ]

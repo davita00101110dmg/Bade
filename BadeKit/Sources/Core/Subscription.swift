@@ -65,6 +65,7 @@ public struct Subscription: Equatable, Sendable, Codable, Identifiable {
             nextChargeDate: detected.nextChargeDate,
             charges: detected.occurrences.map(Charge.init),
             priceChanges: detected.priceChanges,
+            isActive: !detected.hasEnded,
             confidence: detected.confidence
         )
     }

@@ -14,13 +14,17 @@ private func statementRunsUntil(_ iso: String) -> [NormalizedTransaction] {
 struct SubscriptionLapseTests {
     private let detector = SubscriptionDetector()
 
-    /// Fourteen months of Netflix, then six months of silence before the statement ends.
-    @Test func aSubscriptionThatStoppedMonthsAgoIsNotReported() {
+    /// Fourteen months of Netflix, then six months of silence before the statement ends. Reported,
+    /// and marked ended: a subscription somebody plainly paid for is worth seeing, and hiding it
+    /// left them unable to check that it really did stop.
+    @Test func aSubscriptionThatStoppedMonthsAgoIsReportedAsEnded() {
         let charges =
             monthlyCharges("Netflix", from: "2025-01-09", count: 14, amount: "35.99")
             + statementRunsUntil("2026-08-30")
 
-        #expect(detector.detect(charges).isEmpty)
+        let detected = detector.detect(charges)
+        #expect(detected.count == 1)
+        #expect(detected.first?.hasEnded == true)
     }
 
     @Test func theLastChargeStillCountsWhileTheCycleIsOpen() {
@@ -28,7 +32,7 @@ struct SubscriptionLapseTests {
             monthlyCharges("Netflix", from: "2026-01-09", count: 6, amount: "35.99")
             + statementRunsUntil("2026-06-28")
 
-        #expect(detector.detect(charges).count == 1)
+        #expect(detector.detect(charges).map(\.hasEnded) == [false])
     }
 
     /// A charge that posts late must not read as a cancellation — half a cycle of slack.
@@ -37,7 +41,7 @@ struct SubscriptionLapseTests {
             monthlyCharges("Netflix", from: "2026-01-09", count: 6, amount: "35.99")
             + statementRunsUntil("2026-07-20")
 
-        #expect(detector.detect(charges).count == 1)
+        #expect(detector.detect(charges).map(\.hasEnded) == [false])
     }
 
     /// The trap a flat "no charge in the last month or two" rule falls into.
@@ -50,15 +54,16 @@ struct SubscriptionLapseTests {
         let detected = detector.detect(charges)
         #expect(detected.count == 1)
         #expect(detected.first?.cadence == .annual)
+        #expect(detected.first?.hasEnded == false)
     }
 
-    @Test func anAnnualSubscriptionTwoYearsSilentHasLapsed() {
+    @Test func anAnnualSubscriptionTwoYearsSilentHasEnded() {
         let charges = [
             charge("Setapp", "2023-09-01", "120"),
             charge("Setapp", "2024-09-01", "120"),
         ] + statementRunsUntil("2026-08-01")
 
-        #expect(detector.detect(charges).isEmpty)
+        #expect(detector.detect(charges).map(\.hasEnded) == [true])
     }
 
     /// Judged against the statement, never against today — an old statement is not a cancellation.
@@ -68,12 +73,26 @@ struct SubscriptionLapseTests {
         #expect(detector.detect(charges).count == 1)
     }
 
-    @Test func oneLapsedSubscriptionDoesNotTakeTheLiveOnesWithIt() {
+    /// One ending does not mark the others: the judgement is per subscription, against the same
+    /// statement end.
+    @Test func onlyTheLapsedOneIsMarkedEnded() {
         let charges =
             monthlyCharges("Netflix", from: "2026-01-09", count: 3, amount: "35.99")
             + monthlyCharges("Spotify", from: "2026-01-20", count: 8, amount: "15.20")
 
         let detected = detector.detect(charges)
-        #expect(detected.map(\.merchant) == ["Spotify"])
+        #expect(detected.map(\.merchant) == ["Netflix", "Spotify"])
+        #expect(detected.map(\.hasEnded) == [true, false])
+    }
+
+    /// Confirming an ended detection stores it cancelled, which is what keeps it out of the
+    /// monthly total, out of Upcoming and out of the widget.
+    @Test func anEndedDetectionBecomesACancelledSubscription() {
+        let charges =
+            monthlyCharges("Netflix", from: "2025-01-09", count: 14, amount: "35.99")
+            + statementRunsUntil("2026-08-30")
+
+        let detected = try! #require(detector.detect(charges).first)
+        #expect(Subscription(confirming: detected).isActive == false)
     }
 }

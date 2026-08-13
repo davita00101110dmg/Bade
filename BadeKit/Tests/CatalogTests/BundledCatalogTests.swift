@@ -57,10 +57,17 @@ struct BundledCatalogTests {
         #expect(catalog.entry(for: merchant) != nil)
     }
 
-    /// A word either is the brand or it is not: "ZOOMMER" is one word, and it is not "zoom".
-    @Test(arguments: ["ZOOMMER", "OPEN AIR", "NETFLIXY", "SPOTIFYING"])
+    /// A word either is the brand or it is not.
+    @Test(arguments: ["OPEN AIR", "NETFLIXY", "SPOTIFYING"])
     func doesNotMatchMerchantsThatMerelyContainABrand(merchant: String) {
         #expect(catalog.entry(for: merchant) == nil)
+    }
+
+    /// "ZOOMMER" is one word and it is not "zoom" — it is a Georgian electronics chain that now has
+    /// an entry of its own. Containing a brand still must not resolve to it.
+    @Test func doesNotMistakeALongerWordForTheBrandInsideIt() {
+        #expect(catalog.entry(for: "ZOOMMER")?.merchant == "Zoommer")
+        #expect(catalog.entry(for: "ZOOMMER")?.merchant != "Zoom")
     }
 
     @Test func matchesOnAlias() {

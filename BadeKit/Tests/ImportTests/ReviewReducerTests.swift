@@ -12,7 +12,8 @@ struct ReviewStateTests {
         amount: Decimal = 10,
         currency: String = "GEL",
         occurrences: Int = 3,
-        priceChanges: [PriceChange] = []
+        priceChanges: [PriceChange] = [],
+        hasEnded: Bool = false
     ) -> DetectedSubscription {
         let start = Date(timeIntervalSince1970: 1_700_000_000)
         return DetectedSubscription(
@@ -28,7 +29,23 @@ struct ReviewStateTests {
             },
             nextChargeDate: start,
             confidence: confidence,
-            priceChanges: priceChanges)
+            priceChanges: priceChanges,
+            hasEnded: hasEnded)
+    }
+
+    /// An ended subscription says so instead of quoting a cadence, which would read as a live cost.
+    @Test func anEndedDetectionIsCaptionedByWhenItStopped() {
+        let locale = Locale(identifier: "en_US")
+        let ended = state([detection("Netflix", confidence: .confident, hasEnded: true)])
+            .sections[0].items[0]
+        let live = state([detection("Netflix", confidence: .confident)]).sections[0].items[0]
+        let month: String = ended.subscription.occurrences.map(\.date).max()!
+            .formatted(Date.FormatStyle.dateTime.month(.wide).locale(locale))
+
+        #expect(ended.caption(in: locale) != live.caption(in: locale))
+        #expect(
+            ended.caption(in: locale)
+                == .review.caption(3, .badeLocalized(.review.ended(month), in: locale)))
     }
 
     private func state(_ detected: [DetectedSubscription], rates: RateBook = RateBook())
@@ -78,7 +95,20 @@ struct ReviewStateTests {
         _ = subject.apply(.rejectedUncertain(1))
 
         #expect(subject.remainingCount == 1)
-        #expect(subject.sections.map(\.confidence) == [.confident])
+        #expect(subject.sections.map(\.kind) == [.tier(.confident)])
+    }
+
+    /// Ended sits apart from the tiers and last, so a stopped charge is never read as live money.
+    @Test func endedDetectionsGetTheirOwnSectionAfterTheTiers() {
+        let subject = state([
+            detection("Netflix", confidence: .confident, hasEnded: true),
+            detection("Spotify", confidence: .confident),
+            detection("Goodwill", confidence: .uncertain),
+        ])
+
+        #expect(subject.sections.map(\.kind) == [.tier(.confident), .tier(.uncertain), .ended])
+        #expect(subject.sections.last?.items.map(\.subscription.merchant) == ["Netflix"])
+        #expect(subject.sections.first?.items.map(\.subscription.merchant) == ["Spotify"])
     }
 
     @Test func sectionsRunMostCertainFirstAndDropEmptyTiers() {
@@ -87,7 +117,7 @@ struct ReviewStateTests {
             detection("Netflix", confidence: .confident),
         ])
 
-        #expect(subject.sections.map(\.confidence) == [.confident, .uncertain])
+        #expect(subject.sections.map(\.kind) == [.tier(.confident), .tier(.uncertain)])
     }
 
     @Test func togglingIsReversible() {

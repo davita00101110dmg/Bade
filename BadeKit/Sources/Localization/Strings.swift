@@ -281,9 +281,14 @@ extension LocalizedStringResource {
         public var tierConfident: LocalizedStringResource { string("review.tier.confident") }
         public var tierProbable: LocalizedStringResource { string("review.tier.probable") }
         public var tierUncertain: LocalizedStringResource { string("review.tier.uncertain") }
+        public var tierEnded: LocalizedStringResource { string("review.tier.ended") }
+        public var endedHint: LocalizedStringResource { string("review.tier.endedHint") }
         public var confidentHint: LocalizedStringResource { string("review.tier.confidentHint") }
         public var probableHint: LocalizedStringResource { string("review.tier.probableHint") }
         public var priceChanged: LocalizedStringResource { string("review.priceChanged") }
+        public func ended(_ month: String) -> LocalizedStringResource {
+            string("review.ended \(month)")
+        }
         public var isSubscription: LocalizedStringResource { string("review.isSubscription") }
         public var notOne: LocalizedStringResource { string("review.notOne") }
         public var saveFailed: LocalizedStringResource { string("review.saveFailed") }

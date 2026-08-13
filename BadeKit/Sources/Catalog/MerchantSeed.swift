@@ -2,11 +2,28 @@ import Core
 
 /// Seed of internationally-available subscription services. Prices are published list prices in
 /// their billing currency and drift over time; a stale price simply fails to match, which costs a
-/// confidence promotion and never produces a wrong one. Georgian services are deliberately absent
-/// until real local pricing is available — see CLAUDE.md.
+/// confidence promotion and never produces a wrong one.
+///
+/// Two rules govern price points here:
+///   1. Only USD list prices are seeded. `PricePoint` carries no currency, so a GEL amount would
+///      be compared against USD amounts and could promote confidence on a coincidental collision
+///      (Wolt+ at 8.99 GEL vs. a 8.99 USD merchant). Wrong promotions are the one failure mode
+///      this seed is designed to avoid.
+///   2. Merchants that bill in local currency per market (Wolt, Glovo, Bolt, Setanta, Megogo, and
+///      everything in `georgian`) are seeded with names and aliases only. Name matching still
+///      works; they simply never get a price-based promotion.
+///
+/// Georgian services are now present under `georgian` — see rule 2 above and CLAUDE.md.
+///
+/// Invariant: where one merchant's token is a substring of another's ("box" ⊂ "dropbox",
+/// "zoom" ⊂ "zoommer", "loom" ⊂ "bloomberg", "starlink" ⊂ "subarustarlink"), the *longer* token is
+/// always the correct merchant. The resolver must therefore match longest-token-first.
+/// `MerchantSeedTests` asserts this holds.
 public enum MerchantSeed {
-    public static let entries: [CatalogEntry] = video + music + storage + productivity + developer
-        + ai + gaming + fitness + education + news + social + commerce
+    public static let entries: [CatalogEntry] = [
+        video, music, storage, productivity, developer, ai, gaming, fitness, education, news,
+        social, commerce, creative, outdoors, telecom, automotive, georgian,
+    ].flatMap { $0 }
 
     static let video: [CatalogEntry] = [
         .init("Netflix", .monthly, pricePoints: [.monthly("7.99"), .monthly("17.99"), .monthly("24.99")]),
@@ -25,6 +42,23 @@ public enum MerchantSeed {
         .init("DAZN", .monthly),
         .init("Viaplay", .monthly),
         .init("Amazon Prime Video", .monthly, aliases: ["primevideo"]),
+        .init("ESPN Plus", .monthly, aliases: ["espnplus", "espn+"], pricePoints: [.monthly("11.99")]),
+        .init("Discovery Plus", .monthly, aliases: ["discoveryplus", "discovery+"]),
+        .init("AMC Plus", .monthly, aliases: ["amcplus", "amc+"]),
+        .init("Starz", .monthly),
+        .init("Sling TV", .monthly, aliases: ["slingtv", "sling"]),
+        .init("Philo", .monthly),
+        .init("SkyShowtime", .monthly),
+        .init("Plex Pass", .monthly, aliases: ["plexpass"], pricePoints: [.monthly("6.99"), .annual("69.99")]),
+        .init("Nebula", .annual, pricePoints: [.monthly("6.00"), .annual("50.00")]),
+        .init("Dropout", .monthly, aliases: ["dropouttv", "collegehumor"]),
+        .init("The Criterion Channel", .monthly, aliases: ["criterionchannel", "criterion"]),
+        .init("Rakuten Viki", .monthly, aliases: ["viki", "rakutenviki"]),
+        .init("JioHotstar", .annual, aliases: ["hotstar", "jiohotstar"]),
+        .init("iQIYI", .monthly, aliases: ["iqiyi"]),
+        // Regional pricing (GEL/UAH/KZT) — names and aliases only, per rule 2.
+        .init("Setanta Sports", .monthly, aliases: ["setanta", "setantasports", "adjarasport"]),
+        .init("Megogo", .monthly, aliases: ["megogo", "megopack"]),
     ]
 
     static let music: [CatalogEntry] = [
@@ -37,6 +71,10 @@ public enum MerchantSeed {
         .init("Audible", .monthly, pricePoints: [.monthly("14.95")]),
         .init("Amazon Music", .monthly, aliases: ["amazonmusic"]),
         .init("Pandora", .monthly),
+        .init("Qobuz", .monthly, pricePoints: [.monthly("12.99"), .annual("129.99")]),
+        .init("Endel", .annual),
+        .init("Shazam", .monthly),
+        .init("Beatport", .monthly, aliases: ["beatportstreaming"]),
     ]
 
     static let storage: [CatalogEntry] = [
@@ -51,6 +89,15 @@ public enum MerchantSeed {
         .init("pCloud", .annual),
         .init("Backblaze", .monthly, pricePoints: [.monthly("9.00")]),
         .init("Mega", .monthly),
+        .init("Sync.com", .annual, aliases: ["synccom"]),
+        .init("IDrive", .annual, aliases: ["idrive"]),
+        .init("Tresorit", .annual),
+        .init("Koofr", .annual),
+        .init("Filen", .annual),
+        .init("Jottacloud", .annual),
+        .init("Internxt", .annual),
+        .init("Carbonite", .annual),
+        .init("CrashPlan", .monthly, aliases: ["crashplan", "code42"]),
     ]
 
     static let productivity: [CatalogEntry] = [
@@ -78,6 +125,41 @@ public enum MerchantSeed {
         .init("ExpressVPN", .annual),
         .init("Surfshark", .annual),
         .init("Proton", .annual, aliases: ["protonmail", "protonvpn"]),
+        .init("Airtable", .monthly, pricePoints: [.monthly("20.00")]),
+        .init("Basecamp", .monthly),
+        .init("Coda", .monthly),
+        .init("Atlassian", .monthly, aliases: ["jira", "confluence", "atlassian"]),
+        .init("Obsidian", .annual, aliases: ["obsidiansync", "obsidianmd"], pricePoints: [.monthly("4.00")]),
+        .init("Craft Docs", .annual),
+        .init("Ulysses", .annual),
+        .init("Things", .monthly, aliases: ["culturedcode"], sellsOneOffs: true),
+        .init("Fantastical", .annual, aliases: ["flexibits"], pricePoints: [.annual("56.99")]),
+        .init("Readwise", .monthly, aliases: ["readwisereader"], pricePoints: [.monthly("7.99"), .monthly("9.99")]),
+        .init("Raycast", .monthly, pricePoints: [.monthly("8.00")]),
+        .init("CleanMyMac", .annual, aliases: ["macpaw", "cleanmymacx"]),
+        .init("TextExpander", .annual),
+        .init("Calendly", .monthly, pricePoints: [.monthly("10.00"), .monthly("16.00")]),
+        .init("Loom", .monthly, pricePoints: [.monthly("15.00")]),
+        .init("Otter.ai", .monthly, aliases: ["otterai", "otter"]),
+        .init("DocuSign", .monthly, pricePoints: [.monthly("15.00")]),
+        .init("Adobe Acrobat", .monthly, aliases: ["adobeacrobat", "acrobat"]),
+        .init("TickTick", .annual, aliases: ["ticktick"], pricePoints: [.annual("35.99")]),
+        .init("Any.do", .annual, aliases: ["anydo"]),
+        .init("Motion", .annual, aliases: ["usemotion"]),
+        .init("Sunsama", .monthly, pricePoints: [.monthly("20.00")]),
+        .init("Fastmail", .annual, pricePoints: [.monthly("5.00"), .annual("50.00")]),
+        .init("HEY.com", .annual, aliases: ["37signals"], pricePoints: [.annual("99.00")]),
+        .init("Spark Mail", .annual, aliases: ["sparkmail", "readdle"]),
+        .init("Zoho", .monthly, aliases: ["zohocorp"]),
+        .init("Typeform", .monthly, pricePoints: [.monthly("25.00")]),
+        .init("SurveyMonkey", .annual),
+        .init("Mullvad VPN", .monthly, aliases: ["mullvad"], pricePoints: [.monthly("5.00")]),
+        .init("Private Internet Access", .annual, aliases: ["privateinternetaccess", "piavpn"]),
+        .init("Windscribe", .annual),
+        .init("IVPN", .monthly),
+        .init("Tailscale", .monthly, pricePoints: [.monthly("6.00")]),
+        .init("NordPass", .annual),
+        .init("Keeper", .annual, aliases: ["keepersecurity"]),
     ]
 
     static let developer: [CatalogEntry] = [
@@ -96,6 +178,49 @@ public enum MerchantSeed {
         .init("Docker", .monthly),
         .init("Replit", .monthly, pricePoints: [.monthly("25.00")]),
         .init("Apple Developer Program", .annual, aliases: ["appledeveloper"], pricePoints: [.annual("99.00")]),
+        .init("Xcode Cloud", .monthly, aliases: ["xcodecloud"]),
+        .init("Firebase", .monthly, aliases: ["firebasegoogle"]),
+        .init("Supabase", .monthly, pricePoints: [.monthly("25.00")]),
+        .init("PlanetScale", .monthly),
+        .init("Railway", .monthly, pricePoints: [.monthly("5.00"), .monthly("20.00")]),
+        .init("Render", .monthly, aliases: ["rendercom"]),
+        .init("Fly.io", .monthly, aliases: ["flyio"]),
+        .init("Heroku", .monthly, aliases: ["salesforceheroku"]),
+        .init("Amazon Web Services", .monthly, aliases: ["awsamazon", "amazonwebservices"]),
+        .init("Google Cloud", .monthly, aliases: ["googlecloud", "gcp"]),
+        .init("Microsoft Azure", .monthly, aliases: ["azure", "msftazure"]),
+        .init("Linode", .monthly, aliases: ["akamailinode"]),
+        .init("Hetzner", .monthly, aliases: ["hetzneronline"]),
+        .init("Vultr", .monthly),
+        .init("Namecheap", .annual),
+        .init("GoDaddy", .annual),
+        .init("Bunny.net", .monthly, aliases: ["bunnynet", "bunnycdn"]),
+        .init("Fastly", .monthly),
+        .init("Datadog", .monthly),
+        .init("New Relic", .monthly, aliases: ["newrelic"]),
+        .init("LogRocket", .monthly),
+        .init("PostHog", .monthly),
+        .init("Mixpanel", .monthly),
+        .init("Amplitude", .monthly),
+        .init("Segment", .monthly, aliases: ["twiliosegment"]),
+        .init("RevenueCat", .monthly, aliases: ["revenuecat"]),
+        .init("Superwall", .monthly),
+        .init("Adapty", .monthly),
+        .init("AppsFlyer", .monthly),
+        .init("Adjust", .monthly, aliases: ["adjustgmbh"]),
+        .init("Bitrise", .monthly),
+        .init("CircleCI", .monthly, aliases: ["circleci"]),
+        .init("Codemagic", .monthly, aliases: ["codemagic", "nevercode"]),
+        .init("Emerge Tools", .monthly, aliases: ["emergetools"]),
+        .init("Snyk", .monthly),
+        .init("SonarQube", .monthly, aliases: ["sonarsource", "sonarcloud"]),
+        .init("Proxyman", .annual),
+        .init("Charles Proxy", .annual, aliases: ["charlesproxy", "xk72"]),
+        .init("Kaleidoscope", .annual, aliases: ["kaleidoscopeapp"]),
+        .init("RapidAPI", .monthly),
+        .init("Insomnia", .monthly, aliases: ["insomniarest", "kong"]),
+        .init("Tabnine", .monthly, pricePoints: [.monthly("12.00")]),
+        .init("Sourcegraph", .monthly, aliases: ["sourcegraph", "cody"]),
     ]
 
     static let ai: [CatalogEntry] = [
@@ -107,6 +232,27 @@ public enum MerchantSeed {
         .init("ElevenLabs", .monthly, pricePoints: [.monthly("5.00"), .monthly("22.00")]),
         .init("Runway", .monthly, pricePoints: [.monthly("15.00")]),
         .init("Cursor", .monthly, pricePoints: [.monthly("20.00")]),
+        .init("Google AI Pro", .monthly, aliases: ["googleai", "geminiadvanced", "googlegemini"], pricePoints: [.monthly("19.99")]),
+        .init("Microsoft Copilot Pro", .monthly, aliases: ["copilotpro", "microsoftcopilot"], pricePoints: [.monthly("20.00")]),
+        .init("Grok", .monthly, aliases: ["supergrok", "xai"], pricePoints: [.monthly("30.00")]),
+        .init("Mistral", .monthly, aliases: ["lechat", "mistralai"]),
+        .init("Suno", .monthly, pricePoints: [.monthly("10.00"), .monthly("30.00")]),
+        .init("Udio", .monthly, pricePoints: [.monthly("10.00")]),
+        .init("Luma AI", .monthly, aliases: ["lumaai", "dreammachine", "lumalabs"]),
+        .init("Kling AI", .monthly, aliases: ["klingai", "kuaishou"]),
+        .init("Higgsfield", .monthly, aliases: ["higgsfieldai"]),
+        .init("Ideogram", .monthly, pricePoints: [.monthly("8.00"), .monthly("20.00")]),
+        .init("Leonardo AI", .monthly, aliases: ["leonardoai"]),
+        .init("Freepik", .monthly),
+        .init("HeyGen", .monthly, pricePoints: [.monthly("29.00")]),
+        .init("Synthesia", .monthly),
+        .init("Character AI", .monthly, aliases: ["characterai", "cai"], pricePoints: [.monthly("9.99")]),
+        .init("v0 by Vercel", .monthly, aliases: ["v0dev", "vercelv0"], pricePoints: [.monthly("20.00")]),
+        .init("Lovable", .monthly, pricePoints: [.monthly("25.00")]),
+        .init("Windsurf", .monthly, aliases: ["codeium", "windsurfai"], pricePoints: [.monthly("15.00")]),
+        .init("Notion AI", .monthly, aliases: ["notionai"], pricePoints: [.monthly("10.00")]),
+        .init("Granola", .monthly, pricePoints: [.monthly("18.00")]),
+        .init("Wispr Flow", .monthly, aliases: ["wisprflow", "wispr"], pricePoints: [.monthly("15.00")]),
     ]
 
     static let gaming: [CatalogEntry] = [
@@ -119,6 +265,15 @@ public enum MerchantSeed {
         .init("Discord Nitro", .monthly, aliases: ["discord"], pricePoints: [.monthly("9.99"), .annual("99.99")]),
         .init("Twitch", .monthly),
         .init("Roblox Premium", .monthly, aliases: ["roblox"]),
+        .init("GeForce Now", .monthly, aliases: ["geforcenow", "nvidiageforce"], pricePoints: [.monthly("9.99"), .monthly("19.99")]),
+        .init("Amazon Luna", .monthly, aliases: ["amazonluna"]),
+        .init("Humble Choice", .monthly, aliases: ["humblebundle", "humblechoice"], pricePoints: [.monthly("11.99")]),
+        .init("Battle.net", .monthly, aliases: ["blizzard", "battlenet", "worldofwarcraft"], pricePoints: [.monthly("14.99")]),
+        .init("Final Fantasy XIV", .monthly, aliases: ["squareenix", "ffxiv"], pricePoints: [.monthly("12.99")]),
+        .init("Old School RuneScape", .monthly, aliases: ["jagex", "runescape"]),
+        .init("Minecraft Realms", .monthly, aliases: ["minecraft", "mojang"]),
+        .init("Boosteroid", .monthly),
+        .init("Shadow PC", .monthly, aliases: ["shadowtech", "shadowpc"]),
     ]
 
     static let fitness: [CatalogEntry] = [
@@ -131,6 +286,22 @@ public enum MerchantSeed {
         .init("Fitbit Premium", .monthly, aliases: ["fitbit"]),
         .init("Noom", .monthly),
         .init("Oura", .monthly, pricePoints: [.monthly("5.99")]),
+        .init("Apple Fitness Plus", .monthly, aliases: ["applefitness", "fitnessplus"], pricePoints: [.monthly("9.99"), .annual("79.99")]),
+        .init("Garmin Connect Plus", .monthly, aliases: ["garminconnect", "garmin"], pricePoints: [.monthly("6.99"), .annual("69.99")]),
+        .init("Zwift", .monthly, pricePoints: [.monthly("19.99")]),
+        .init("TrainerRoad", .monthly, aliases: ["trainerroad"], pricePoints: [.monthly("21.99"), .annual("219.00")]),
+        .init("Wahoo X", .monthly, aliases: ["wahoox", "wahoosystm", "wahoofitness"]),
+        .init("Runna", .monthly, pricePoints: [.monthly("19.99")]),
+        .init("Hevy", .annual, aliases: ["hevyapp"]),
+        .init("Strong", .annual, aliases: ["strongapp"]),
+        .init("Freeletics", .annual),
+        .init("Centr", .annual),
+        .init("Alo Moves", .annual, aliases: ["alomoves"]),
+        .init("Down Dog", .annual, aliases: ["downdogapp"]),
+        .init("Cronometer", .annual),
+        .init("YAZIO", .annual, aliases: ["yazio"]),
+        .init("Lose It", .annual, aliases: ["loseit"]),
+        .init("Eight Sleep", .monthly, aliases: ["eightsleep"]),
     ]
 
     static let education: [CatalogEntry] = [
@@ -142,6 +313,25 @@ public enum MerchantSeed {
         .init("Brilliant", .annual, pricePoints: [.annual("149.88")]),
         .init("Babbel", .annual),
         .init("LinkedIn Learning", .monthly, aliases: ["linkedinlearning"]),
+        .init("Pluralsight", .annual, pricePoints: [.annual("299.00")]),
+        .init("Codecademy", .annual, pricePoints: [.monthly("29.99")]),
+        .init("DataCamp", .annual, pricePoints: [.monthly("25.00")]),
+        .init("Frontend Masters", .monthly, aliases: ["frontendmasters"], pricePoints: [.monthly("39.00"), .annual("390.00")]),
+        .init("edX", .monthly, aliases: ["edx", "2uedx"]),
+        .init("Kodeco", .annual, aliases: ["kodeco", "raywenderlich"]),
+        .init("Hacking with Swift Plus", .annual, aliases: ["hackingwithswift", "hwsplus"]),
+        .init("Point-Free", .monthly, aliases: ["pointfree", "pointfreeco"], pricePoints: [.monthly("18.00"), .annual("168.00")]),
+        .init("Rosetta Stone", .annual, aliases: ["rosettastone"]),
+        .init("Busuu", .annual),
+        .init("Memrise", .annual),
+        .init("Blinkist", .annual),
+        .init("Shortform", .annual),
+        .init("Speechify", .annual),
+        .init("Everand", .monthly, aliases: ["everand", "scribd"], pricePoints: [.monthly("11.99")]),
+        .init("Kindle Unlimited", .monthly, aliases: ["kindleunlimited"], pricePoints: [.monthly("11.99")]),
+        .init("Quizlet", .annual),
+        .init("Wolfram Alpha", .monthly, aliases: ["wolframalpha", "wolfram"]),
+        .init("Chess.com", .annual, aliases: ["chesscom"]),
     ]
 
     static let news: [CatalogEntry] = [
@@ -153,6 +343,21 @@ public enum MerchantSeed {
         .init("The Guardian", .monthly, aliases: ["guardian"]),
         .init("Medium", .monthly, pricePoints: [.monthly("5.00"), .annual("50.00")]),
         .init("Substack", .monthly),
+        .init("Washington Post", .monthly, aliases: ["washingtonpost", "wapo"]),
+        .init("The Atlantic", .annual, aliases: ["theatlantic", "atlantic"]),
+        .init("The New Yorker", .annual, aliases: ["newyorker", "condenast"]),
+        .init("WIRED", .annual, aliases: ["wired"]),
+        .init("The Athletic", .monthly, aliases: ["theathletic"]),
+        .init("Apple News Plus", .monthly, aliases: ["applenews", "newsplus"], pricePoints: [.monthly("12.99")]),
+        .init("Reuters", .monthly),
+        .init("The Information", .annual, aliases: ["theinformation"], pricePoints: [.annual("399.00")]),
+        .init("Ars Technica", .annual, aliases: ["arstechnica"]),
+        .init("Foreign Affairs", .annual, aliases: ["foreignaffairs"]),
+        .init("Nature", .annual, aliases: ["springernature"]),
+        .init("Feedly", .monthly, pricePoints: [.monthly("8.00")]),
+        .init("Inoreader", .annual),
+        .init("Ghost", .monthly, aliases: ["ghostorg"]),
+        .init("beehiiv", .monthly, aliases: ["beehiiv"]),
     ]
 
     static let social: [CatalogEntry] = [
@@ -162,6 +367,13 @@ public enum MerchantSeed {
         .init("X Premium", .monthly, aliases: ["twitterblue", "xpremium"], pricePoints: [.monthly("8.00")]),
         .init("LinkedIn Premium", .monthly, aliases: ["linkedinpremium"]),
         .init("Reddit Premium", .monthly, aliases: ["redditpremium"], pricePoints: [.monthly("5.99")]),
+        .init("Telegram Premium", .monthly, aliases: ["telegrampremium", "telegram"], pricePoints: [.monthly("4.99"), .annual("44.99")]),
+        .init("Snapchat Plus", .monthly, aliases: ["snapchatplus", "snapchat"], pricePoints: [.monthly("3.99"), .annual("29.99")]),
+        .init("Grindr", .monthly),
+        .init("Match", .monthly, aliases: ["matchcom"]),
+        .init("OkCupid", .monthly),
+        .init("Coffee Meets Bagel", .monthly, aliases: ["coffeemeetsbagel"]),
+        .init("OnlyFans", .monthly, aliases: ["onlyfans"]),
     ]
 
     static let commerce: [CatalogEntry] = [
@@ -177,5 +389,164 @@ public enum MerchantSeed {
         .init("Mailchimp", .monthly),
         .init("Zapier", .monthly, pricePoints: [.monthly("19.99")]),
         .init("Setapp", .monthly, pricePoints: [.monthly("9.99")]),
+        // Local-currency memberships — names and aliases only, per rule 2.
+        .init(
+            "Wolt", .monthly, aliases: ["woltplus", "woltenterprises"],
+            pricePoints: [.monthly("8.99", "GEL")], sellsOneOffs: true),
+        .init("Glovo", .monthly, aliases: ["glovoprime", "glovoapp"], sellsOneOffs: true),
+        .init("Bolt", .monthly, aliases: ["boltfood", "boltplus", "bolteu"], sellsOneOffs: true),
+        .init("Deliveroo Plus", .monthly, aliases: ["deliverooplus", "deliveroo"]),
+        .init("Walmart Plus", .annual, aliases: ["walmartplus"], pricePoints: [.monthly("12.95"), .annual("98.00")]),
+        .init("Target Circle 360", .annual, aliases: ["targetcircle", "target360"]),
+        .init("Costco", .annual, aliases: ["costcomembership"]),
+        .init("Lyft Pink", .annual, aliases: ["lyftpink", "lyft"]),
+        .init("Grubhub Plus", .monthly, aliases: ["grubhubplus", "grubhub"]),
+        .init("HelloFresh", .monthly, aliases: ["hellofresh"]),
+        .init("Blue Apron", .monthly, aliases: ["blueapron"]),
+        .init("Chewy", .monthly, aliases: ["chewyautoship"]),
+        .init("Webflow", .monthly, pricePoints: [.monthly("14.00"), .monthly("23.00")]),
+        .init("Framer", .monthly, pricePoints: [.monthly("5.00"), .monthly("15.00")]),
+        .init("Kit", .monthly, aliases: ["convertkit", "kitcom"]),
+        .init("Klaviyo", .monthly),
+        .init("Buffer", .monthly, pricePoints: [.monthly("6.00")]),
+        .init("Hootsuite", .monthly),
+        .init("Later", .monthly, aliases: ["latercom"]),
+        .init("Gumroad", .monthly),
+        .init("Lemon Squeezy", .monthly, aliases: ["lemonsqueezy"]),
+        .init("Teachable", .monthly),
+        .init("Kajabi", .monthly),
+        .init("Podia", .monthly),
+    ]
+
+    /// Photo, video and design tooling. Deliberately excludes anything that bills through the
+    /// `Adobe Creative Cloud` entry (Lightroom, Premiere, Frame.io) — those descriptors resolve to
+    /// the `adobe` alias already and a second entry would make the match ambiguous.
+    static let creative: [CatalogEntry] = [
+        .init("Capture One", .annual, aliases: ["captureone", "phaseone"], pricePoints: [.monthly("24.00"), .annual("179.00")], sellsOneOffs: true),
+        .init("Adobe Stock", .monthly, aliases: ["adobestock"], pricePoints: [.monthly("29.99")]),
+        .init("Skylum", .annual, aliases: ["skylum", "luminar", "luminarneo"], sellsOneOffs: true),
+        .init("Topaz Labs", .annual, aliases: ["topazlabs", "topaz"], sellsOneOffs: true),
+        .init("DxO", .annual, aliases: ["dxo", "dxophotolab"], sellsOneOffs: true),
+        .init("Photo Mechanic", .annual, aliases: ["photomechanic", "camerabits"], sellsOneOffs: true),
+        .init("SmugMug", .annual),
+        .init("Flickr Pro", .annual, aliases: ["flickrpro", "flickr"]),
+        .init("500px", .annual, aliases: ["500px"]),
+        .init("Zenfolio", .annual),
+        .init("Pixieset", .annual),
+        .init("Format.com", .annual),
+        .init("Artlist", .annual, pricePoints: [.annual("199.00")]),
+        .init("Epidemic Sound", .monthly, aliases: ["epidemicsound"], pricePoints: [.monthly("14.99"), .annual("143.88")]),
+        .init("Musicbed", .annual),
+        .init("Soundstripe", .annual),
+        .init("Envato Elements", .monthly, aliases: ["envatoelements", "envato"], pricePoints: [.monthly("16.50")]),
+        .init("Motion Array", .annual, aliases: ["motionarray"]),
+        .init("Storyblocks", .annual),
+        .init("Shutterstock", .monthly),
+        .init("Getty Images", .monthly, aliases: ["gettyimages", "istock"]),
+        .init("Unsplash Plus", .annual, aliases: ["unsplashplus", "unsplash"]),
+        .init("Lux", .annual, aliases: ["halide", "kinoapp", "luxoptics"]),
+        .init("Darkroom", .annual, aliases: ["darkroomapp"]),
+        .init("VSCO", .annual),
+        .init("Photoroom", .annual),
+        .init("Dehancer", .annual, sellsOneOffs: true),
+        .init("Filmic Pro", .annual, aliases: ["filmicpro", "filmic"]),
+        .init("CapCut Pro", .monthly, aliases: ["capcut", "bytedance"]),
+        .init("Splice", .monthly, aliases: ["splicecom"], pricePoints: [.monthly("9.99")]),
+        .init("Pixelmator Pro", .annual, aliases: ["pixelmator"], sellsOneOffs: true),
+        .init("Affinity", .annual, aliases: ["affinity", "serif"], sellsOneOffs: true),
+    ]
+
+    /// Navigation, weather and backcountry services. Satellite messaging plans (Garmin inReach,
+    /// ZOLEO, Spot) are seeded because they suspend and resume seasonally, which reads as a
+    /// cancelled subscription unless the merchant is known.
+    static let outdoors: [CatalogEntry] = [
+        .init("AllTrails", .annual, aliases: ["alltrails"], pricePoints: [.annual("35.99")]),
+        .init("Gaia GPS", .annual, aliases: ["gaiagps", "outsideinc"], pricePoints: [.annual("39.99")]),
+        .init("onX Backcountry", .annual, aliases: ["onxmaps", "onxbackcountry"]),
+        .init("Komoot", .annual, aliases: ["komoot"], sellsOneOffs: true),
+        .init("Wikiloc", .annual),
+        .init("PeakVisor", .annual),
+        .init("Windy", .annual, aliases: ["windycom", "windyapp"]),
+        .init("meteoblue", .annual, aliases: ["meteoblue"]),
+        .init("Slopes", .annual, aliases: ["slopesapp", "curated"], pricePoints: [.annual("29.99")]),
+        .init("FATMAP", .annual, aliases: ["fatmap"]),
+        .init("Garmin inReach", .monthly, aliases: ["garmininreach", "inreach"]),
+        .init("ZOLEO", .monthly, aliases: ["zoleo"]),
+        // Named "SPOT Satellite" rather than "SPOT": the bare token is a substring of "Spotify".
+        .init("SPOT Satellite", .annual, aliases: ["spotgen", "globalstar"]),
+        .init("CARROT Weather", .annual, aliases: ["carrotweather", "grailrgames"]),
+    ]
+
+    static let telecom: [CatalogEntry] = [
+        .init("Starlink", .monthly, aliases: ["starlinkspacex", "spacex"]),
+        .init("Airalo", .monthly, aliases: ["airalo"], sellsOneOffs: true),
+        .init("Google Fi", .monthly, aliases: ["googlefi", "googlefiwireless"]),
+        .init("Mint Mobile", .monthly, aliases: ["mintmobile"]),
+        .init("Visible", .monthly, aliases: ["visiblewireless"]),
+        .init("Nomad eSIM", .monthly, aliases: ["nomadesim", "getnomad"], sellsOneOffs: true),
+    ]
+
+    /// Connected-car and in-car services. Note that `Subaru Starlink` and SpaceX `Starlink` are
+    /// unrelated merchants that share a brand name — keep the aliases disjoint.
+    static let automotive: [CatalogEntry] = [
+        .init("Subaru Starlink", .annual, aliases: ["subarustarlink", "subaru"]),
+        .init("Tesla Premium Connectivity", .monthly, aliases: ["teslapremiumconnectivity", "teslamotors"], pricePoints: [.monthly("9.99")]),
+        .init("BMW ConnectedDrive", .annual, aliases: ["bmwconnecteddrive", "bmwconnected"]),
+        .init("SiriusXM", .monthly, aliases: ["siriusxm", "sirius"]),
+    ]
+
+    /// Georgian merchants. All bill in GEL, so none carry price points — see rule 2 in the type
+    /// doc. Georgian-script aliases assume the descriptor normaliser is Unicode-safe (Mkhedruli is
+    /// caseless, so lowercasing is a no-op, but a normaliser that strips non-ASCII would drop
+    /// them). Verify before relying on those aliases.
+    static let georgian: [CatalogEntry] = [
+        // Telecom, ISP and TV
+        .init("Magti", .monthly, aliases: ["magticom", "magtifix", "magtitv", "მაგთიკომი"]),
+        .init("Silknet", .monthly, aliases: ["silknet", "silktv", "silkgo", "geocell", "სილქნეტი"]),
+        .init("Cellfie Mobile", .monthly, aliases: ["cellfie", "cellfiemobile", "beeline"]),
+        .init("Caucasus Online", .monthly, aliases: ["caucasusonline"]),
+
+        // Media and streaming
+        .init("MyVideo", .monthly, aliases: ["myvideo", "myvideoge"]),
+        .init("Adjaranet", .monthly, aliases: ["adjaranet", "adjaracom"]),
+        .init("Imedi TV", .monthly, aliases: ["imeditv"]),
+
+        // Marketplaces and delivery
+        .init("Extra.ge", .monthly, aliases: ["extrage"], sellsOneOffs: true),
+        .init("Veli Store", .monthly, aliases: ["velistore", "velige"], sellsOneOffs: true),
+        .init("Zoommer", .monthly, aliases: ["zoommerge"], sellsOneOffs: true),
+        .init("Elit Electronics", .monthly, aliases: ["elitelectronics"], sellsOneOffs: true),
+
+        // Ticketing
+        .init("TKT.ge", .monthly, aliases: ["tktge", "tkt"], sellsOneOffs: true),
+        .init("Biletebi.ge", .monthly, aliases: ["biletebige", "biletebi"], sellsOneOffs: true),
+
+        // Premium banking packages
+        .init("Solo by Bank of Georgia", .monthly, aliases: ["bogsolo", "solobog", "bankofgeorgiasolo"]),
+        .init("TBC Concept", .monthly, aliases: ["tbcconcept", "conceptbytbc"]),
+        // Named "Space Bank" rather than "Space": the bare token is a substring of "Squarespace".
+        .init("Space Bank", .monthly, aliases: ["spacege", "spacebank"]),
+
+        // Fitness clubs
+        .init("World Class Georgia", .monthly, aliases: ["worldclassgeorgia", "worldclassge", "georgianfitnessgroup"]),
+        .init("Oktopus Fitness", .monthly, aliases: ["oktopusfitness", "oktopus"]),
+        .init("Snap Fitness Georgia", .monthly, aliases: ["snapfitnessge", "snapfitness"]),
+        .init("Aspria Fitness", .monthly, aliases: ["aspriafitness", "aspria"]),
+        .init("Gymnasia", .monthly, aliases: ["gymnasiage", "gymnasia"]),
+        .init("Reform Sport Club", .monthly, aliases: ["reformsportclub", "reformsport"]),
+        .init("Prime Fit", .monthly, aliases: ["primefit", "primefitge"]),
+        .init("Vake Pool", .monthly, aliases: ["vakepool", "vakeauzi"]),
+
+        // Health and insurance
+        .init("Aldagi", .monthly, aliases: ["aldagi", "ალდაგი"]),
+        .init("GPI Holding", .monthly, aliases: ["gpiholding", "gpi"]),
+        .init("Imedi L", .monthly, aliases: ["imedil"]),
+        .init("Ardi Insurance", .monthly, aliases: ["ardiinsurance"]),
+        .init("Aversi", .monthly, aliases: ["aversi", "aversiclinic"]),
+
+        // Hosting and domains
+        .init("Hoster.ge", .annual, aliases: ["hosterge", "hoster"]),
+        .init("Proservice", .annual, aliases: ["proservicege", "proservice"]),
+        .init("Domenebi.ge", .annual, aliases: ["domenebige", "domenebi"]),
     ]
 }

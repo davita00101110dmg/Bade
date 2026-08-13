@@ -21,9 +21,14 @@ extension ReviewItem {
         .review.caption(subscription.occurrences.count, detail(in: locale))
     }
 
-    /// A price rise is the most useful thing to say; two charges are better described by when they
-    /// landed than by a cadence guessed from one interval.
+    /// That it stopped outranks everything else: a row saying "monthly" for something last charged
+    /// in February reads as a live cost, which is the one thing it is not.
     private func detail(in locale: Locale) -> String {
+        if subscription.hasEnded {
+            let last = subscription.occurrences.map(\.date).max() ?? subscription.nextChargeDate
+            return .badeLocalized(
+                .review.ended(last.formatted(.dateTime.month(.wide).locale(locale))), in: locale)
+        }
         if !subscription.priceChanges.isEmpty {
             return .badeLocalized(.review.priceChanged, in: locale)
         }

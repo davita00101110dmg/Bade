@@ -13,6 +13,10 @@ public struct DetectedSubscription: Equatable, Sendable, Codable {
     public let nextChargeDate: Date
     public let confidence: Confidence
     public let priceChanges: [PriceChange]
+    /// The charges stopped before the statement did. Still a subscription, and still worth
+    /// reporting — dropping it left the user unable to see a thing they had plainly been paying
+    /// for, which is the opposite of what a spend tracker is for.
+    public let hasEnded: Bool
 
     public init(
         merchant: String,
@@ -23,8 +27,10 @@ public struct DetectedSubscription: Equatable, Sendable, Codable {
         occurrences: [RawTransaction],
         nextChargeDate: Date,
         confidence: Confidence,
-        priceChanges: [PriceChange]
+        priceChanges: [PriceChange],
+        hasEnded: Bool = false
     ) {
+        self.hasEnded = hasEnded
         self.merchant = merchant
         self.amount = amount
         self.isVariableAmount = isVariableAmount

@@ -17,19 +17,30 @@ public struct ReviewState: Equatable {
         decisions = detected.map { ReviewDecision(startingFrom: $0.confidence) }
     }
 
+    /// The live tiers first, then anything that has already stopped, kept apart from them.
     public var sections: [ReviewSection] {
-        Confidence.reviewOrder.compactMap { confidence in
-            let items = detected.indices
-                .filter { detected[$0].confidence == confidence && decisions[$0] != .dismissed }
-                .map {
-                    ReviewItem(
-                        id: $0, subscription: detected[$0], decision: decisions[$0],
-                        converted: rates.convert(
-                            detected[$0].amount, from: detected[$0].currency, to: currency,
-                            on: detected[$0].nextChargeDate))
+        let tiers = Confidence.reviewOrder.map(ReviewSection.Kind.tier) + [.ended]
+        return tiers.compactMap { kind in
+            let items = self.items { detected in
+                switch kind {
+                case .ended: detected.hasEnded
+                case .tier(let confidence): !detected.hasEnded && detected.confidence == confidence
                 }
-            return items.isEmpty ? nil : ReviewSection(confidence: confidence, items: items)
+            }
+            return items.isEmpty ? nil : ReviewSection(kind: kind, items: items)
         }
+    }
+
+    private func items(where isIncluded: (DetectedSubscription) -> Bool) -> [ReviewItem] {
+        detected.indices
+            .filter { decisions[$0] != .dismissed && isIncluded(detected[$0]) }
+            .map {
+                ReviewItem(
+                    id: $0, subscription: detected[$0], decision: decisions[$0],
+                    converted: rates.convert(
+                        detected[$0].amount, from: detected[$0].currency, to: currency,
+                        on: detected[$0].nextChargeDate))
+            }
     }
 
     public var selectedCount: Int { decisions.count { $0 == .included } }

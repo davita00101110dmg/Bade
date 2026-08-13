@@ -28,7 +28,7 @@ enum LocalPipeline {
 struct RealStatementPipelineTests {
     @Test(arguments: [
         ("Spotify", "15.20"), ("Adobe Creative Cloud", "19.99"), ("Epidemic Sound", "8.99"),
-        ("SETANTA", "14.99"), ("MAGTICOM", "35"),
+        ("Setanta Sports", "14.99"), ("Magti", "35"),
     ])
     func findsKnownMonthlySubscriptions(merchant: String, amount: String) throws {
         let match = try #require(LocalPipeline.subscriptions().first { $0.merchant == merchant })
