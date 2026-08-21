@@ -36,8 +36,10 @@ public struct StatementImporter: StatementImporting {
 
         let dates = transactions.map(\.date)
         let normalized = MerchantNormalizer(directory: catalog).normalize(transactions)
+        let outcome = SubscriptionDetector(catalog: catalog).analyse(normalized)
         return ImportResult(
-            detected: SubscriptionDetector(catalog: catalog).detect(normalized),
+            detected: outcome.subscriptions,
+            candidates: outcome.candidates,
             rates: rates,
             transactionCount: transactions.count,
             period: dates.min().flatMap { low in dates.max().map { low...$0 } })

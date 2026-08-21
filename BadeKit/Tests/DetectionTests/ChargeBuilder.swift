@@ -12,7 +12,8 @@ func charge(
     _ iso: String,
     _ amount: String,
     currency: String = "GEL",
-    rawDescription: String? = nil
+    rawDescription: String? = nil,
+    mcc: String? = nil
 ) -> NormalizedTransaction {
     let description = rawDescription ?? "SP \(merchant.uppercased()) REF001"
     return NormalizedTransaction(
@@ -21,7 +22,8 @@ func charge(
             rawDescription: description,
             amount: Decimal(string: amount)!,
             currency: currency,
-            sourceLine: "\(iso) \(description) \(amount) \(currency)"
+            sourceLine: "\(iso) \(description) \(amount) \(currency)",
+            mcc: mcc
         ),
         merchant: merchant,
         merchantConfidence: 1

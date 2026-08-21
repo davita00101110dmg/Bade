@@ -14,18 +14,45 @@ public struct SubscriptionDetector: Sendable {
         self.catalog = catalog
     }
 
+    /// Charges at one merchant, in one currency, before this many are just shopping.
+    private static let minimumRepeats = 3
+
     public func detect(_ transactions: [NormalizedTransaction]) -> [DetectedSubscription] {
-        guard let statementEnd = transactions.map(\.raw.date).max() else { return [] }
+        analyse(transactions).subscriptions
+    }
+
+    /// What was found, and what repeated often enough to be worth asking about. One pass: the
+    /// grouping either side of the question is the same work.
+    public func analyse(_ transactions: [NormalizedTransaction]) -> DetectionOutcome {
+        guard let statementEnd = transactions.map(\.raw.date).max() else { return .empty }
         let recurring = deduplicator.deduplicate(transactions)
             .filter { MerchantCategory.canRecur($0.raw) }
 
-        return Dictionary(grouping: recurring, by: Account.init)
-            .sorted { $0.key < $1.key }
-            .flatMap { account, charges in
-                grouper.clusters(for: charges).compactMap {
-                    subscription(for: account, from: $0, statementEnd: statementEnd)
-                }
+        var subscriptions: [DetectedSubscription] = []
+        var candidates: [RepeatCandidate] = []
+        for (account, charges) in Dictionary(grouping: recurring, by: Account.init)
+            .sorted(by: { $0.key < $1.key })
+        {
+            let found = grouper.clusters(for: charges).compactMap {
+                subscription(for: account, from: $0, statementEnd: statementEnd)
             }
+            subscriptions += found
+            // Only when nothing was found: a merchant already reported needs no second answer.
+            guard found.isEmpty, charges.count >= Self.minimumRepeats else { continue }
+            candidates.append(Self.candidate(for: account, from: charges))
+        }
+        return DetectionOutcome(subscriptions: subscriptions, candidates: candidates)
+    }
+
+    private static func candidate(for account: Account, from charges: [NormalizedTransaction])
+        -> RepeatCandidate
+    {
+        let latest = charges.max { $0.raw.date < $1.raw.date }
+        return RepeatCandidate(
+            merchant: account.merchant,
+            currency: account.currency,
+            amount: latest?.raw.amount ?? 0,
+            occurrences: charges.map(\.raw).sorted { $0.date < $1.date })
     }
 
     private func subscription(

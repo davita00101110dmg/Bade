@@ -44,10 +44,14 @@ enum LocalTBC {
         TBCStatementParser.flatten(text).components(separatedBy: "MCC:").count - 1
     }
 
-    static func subscriptions(in text: String) throws -> [DetectedSubscription] {
+    static func outcome(in text: String) throws -> DetectionOutcome {
         let catalog = BundledCatalog()
         return SubscriptionDetector(catalog: catalog)
-            .detect(MerchantNormalizer(directory: catalog).normalize(try parser.parse(text)))
+            .analyse(MerchantNormalizer(directory: catalog).normalize(try parser.parse(text)))
+    }
+
+    static func subscriptions(in text: String) throws -> [DetectedSubscription] {
+        try outcome(in: text).subscriptions
     }
 }
 
@@ -131,7 +135,8 @@ struct TBCLocalStatementTests {
                 (\(candidates.count) in a category that can recur) · \
                 \(LocalTBC.parser.exchangeRates(in: text).count) rates · \
                 \(detected.count) subscriptions \
-                (\(detected.filter { $0.confidence == .confident }.count) confident)
+                (\(detected.filter { $0.confidence == .confident }.count) confident) · \
+                \(try LocalTBC.outcome(in: text).candidates.count) to ask about
                 """)
         }
     }

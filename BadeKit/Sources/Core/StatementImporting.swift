@@ -3,16 +3,19 @@ import Foundation
 /// What one import produced. Rates come from the statement itself, so totals can span currencies.
 public struct ImportResult: Equatable, Sendable {
     public let detected: [DetectedSubscription]
+    /// Merchants charged repeatedly that no cadence explained. Worth asking about, never assumed.
+    public let candidates: [RepeatCandidate]
     public let rates: RateBook
     public let transactionCount: Int
     /// The span the statement covers, used to show progress through it.
     public let period: ClosedRange<Date>?
 
     public init(
-        detected: [DetectedSubscription], rates: RateBook, transactionCount: Int,
-        period: ClosedRange<Date>? = nil
+        detected: [DetectedSubscription], candidates: [RepeatCandidate] = [], rates: RateBook,
+        transactionCount: Int, period: ClosedRange<Date>? = nil
     ) {
         self.detected = detected
+        self.candidates = candidates
         self.rates = rates
         self.transactionCount = transactionCount
         self.period = period
