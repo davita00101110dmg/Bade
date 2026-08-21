@@ -21,6 +21,13 @@ extension LocalizedStringResource {
     public static var widget: WidgetStrings { WidgetStrings() }
     public static var importing: ImportStrings { ImportStrings() }
     public static var reminderPrompt: ReminderPromptStrings { ReminderPromptStrings() }
+    public static var app: AppStrings { AppStrings() }
+
+    /// The wordmark. Localised like everything else, because "Bade" is ბადე — the app is named for
+    /// the net, and whether the Georgian build says so is a decision, not an accident.
+    public struct AppStrings {
+        public var name: LocalizedStringResource { string("app.name") }
+    }
 
     /// Shown wherever a feature is held back for Bade Pro.
     public struct LockedStrings {
@@ -49,8 +56,11 @@ extension LocalizedStringResource {
             string("pro.unlockPrice \(price)")
         }
         public var included: LocalizedStringResource { string("pro.included") }
+        public var calendar: LocalizedStringResource { string("pro.calendar") }
+        public var calendarDetail: LocalizedStringResource { string("pro.calendarDetail") }
         public var fx: LocalizedStringResource { string("pro.fx") }
         public var fxDetail: LocalizedStringResource { string("pro.fxDetail") }
+        // Parked with the features they describe: nothing lists them until they exist.
         public var alerts: LocalizedStringResource { string("pro.alerts") }
         public var alertsDetail: LocalizedStringResource { string("pro.alertsDetail") }
         public var trends: LocalizedStringResource { string("pro.trends") }
@@ -149,6 +159,8 @@ extension LocalizedStringResource {
     /// Words that belong to no one screen. Kept small on purpose.
     public struct CommonStrings {
         public var ok: LocalizedStringResource { string("common.ok") }
+        /// What a progress bar reads as when there is no fraction to announce yet.
+        public var working: LocalizedStringResource { string("common.working") }
     }
 
     /// The home screen widget, which has room for very little and must choose well.
@@ -162,6 +174,13 @@ extension LocalizedStringResource {
         public var empty: LocalizedStringResource { string("widget.empty") }
         /// Nothing left to be charged this month, which is worth saying rather than showing zero.
         public var allCharged: LocalizedStringResource { string("widget.allCharged") }
+        /// The same news in the column that lists the charges themselves.
+        public var nothingLeft: LocalizedStringResource { string("widget.nothingLeft") }
+        /// The month's whole cost, kept under the headline so what is left has something to be
+        /// left *of* — the bar alone cannot say how big the month was.
+        public func ofMonth(_ amount: String) -> LocalizedStringResource {
+            string("widget.ofMonth \(amount)")
+        }
 
         public func toGo(_ amount: String) -> LocalizedStringResource {
             string("widget.toGo \(amount)")
@@ -251,6 +270,13 @@ extension LocalizedStringResource {
 
     public struct ParsingStrings {
         public var title: LocalizedStringResource { string("parsing.title") }
+        /// Said while the PDF is being opened and parsed, which is real work and takes a second or
+        /// two on a year of transactions. Without it the screen is a headline over an empty bar.
+        public var reading: LocalizedStringResource { string("parsing.reading") }
+        /// Two banks are understood and a format can change under Bade at any time. Better said
+        /// here, on the screen where it would go wrong, than discovered in a review.
+        public var beta: LocalizedStringResource { string("parsing.beta") }
+        public var betaNote: LocalizedStringResource { string("parsing.betaNote") }
         public var found: LocalizedStringResource { string("parsing.found") }
         public var processedHere: LocalizedStringResource { string("parsing.processedHere") }
         public var failed: LocalizedStringResource { string("parsing.failed") }

@@ -103,6 +103,8 @@ public struct BadeRootView: View {
 
     public var body: some View {
         root
+            .badeAnimation(.badeTransition, value: hasSubscriptions)
+            .badeAnimation(.badeTransition, value: isReady)
             .preferredColorScheme(appearance.colorScheme)
             .badeTheme()
             .environment(\.locale, language.locale)
@@ -138,7 +140,8 @@ public struct BadeRootView: View {
             .badeCover(item: $statement) { file in
                 ImportFlowView(
                     file: file, importer: StatementImporter(), repository: store,
-                    rateRepository: store, currency: currency, onOutcome: handleImport
+                    rateRepository: store, currency: currency,
+                    isCurrencyInferred: chosenCurrency.isEmpty, onOutcome: handleImport
                 )
                 .badeTheme()
             }
@@ -176,25 +179,32 @@ public struct BadeRootView: View {
     /// Welcome is a gate, not a home: it is shown until the first subscription exists and never
     /// returned to. Deciding takes a local read, so nothing is drawn until it is known — a flash
     /// of Welcome on every launch would be worse than a blank moment.
+    /// Cross-faded rather than swapped: the way out of the tabs is deleting everything, and a hard
+    /// cut from a list of subscriptions to an empty screen reads as a crash.
     @ViewBuilder
     private var root: some View {
         if !isReady {
-            LoadingSurface()
+            LoadingSurface().transition(.opacity)
         } else if hasSubscriptions {
-            tabs.id(reload)
+            // Never keyed on `reload`: rebuilding the tabs to refresh them threw away everything
+            // the screens had loaded, replayed the hero's arrival count-up, and cross-faded the
+            // whole thing. Each tab reloads itself on appearance, which is all that was needed.
+            tabs.transition(.opacity)
         } else {
             WelcomeView(
-                onImport: { isPickingFile = true }, onAddManually: { isAddingManually = true })
+                onImport: { isPickingFile = true }, onAddManually: { isAddingManually = true }
+            )
+            .transition(.opacity)
         }
     }
 
     /// Import is an action rather than a tab, so it is not here: it lives on Subscriptions.
-    /// The two data tabs are keyed by the display currency, so changing it in Settings rebuilds
-    /// them without throwing the user out of the screen they changed it on.
+    /// Subscriptions takes the display currency as a value it watches; Upcoming is still keyed by
+    /// it, along with the week start and a tapped day, which do change what it has to compute.
     private var tabs: some View {
         TabView(selection: $tab) {
             Tab(value: Tabs.subscriptions) {
-                NavigationStack { subscriptions }.id(currency)
+                NavigationStack { subscriptions }
             } label: {
                 Label { Text(.subscriptions.title) } icon: { Image(systemName: "repeat") }
             }
@@ -224,7 +234,8 @@ public struct BadeRootView: View {
                 currency: currency, repository: store, merchants: merchants,
                 officialRates: officialRates,
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
-                onOutcome: handleSubscriptions))
+                onOutcome: handleSubscriptions),
+            currency: currency)
     }
 
     /// Upcoming may not import Subscriptions, so the destination behind one of its rows is
@@ -319,6 +330,9 @@ public struct BadeRootView: View {
         case .chooseAnother: isPickingFile = true
         case .saved(let addedCount):
             reload = UUID()
+            // What was just imported is on the list, so that is where an import ends — not on
+            // whichever tab happened to be open when the statement was picked.
+            tab = .subscriptions
             if addedCount == 0 {
                 isSayingNothingWasNew = true
             } else {
@@ -354,7 +368,7 @@ public struct BadeRootView: View {
     private func handleSubscriptions(_ outcome: SubscriptionsOutcome) {
         switch outcome {
         case .importStatement: isPickingFile = true
-        case .dataCleared: reload = UUID()
+        case .dataCleared: clearedEverything()
         }
     }
 
@@ -381,7 +395,17 @@ public struct BadeRootView: View {
         case .proUnlocked:
             hasEntitlement = true
             Task { await rescheduleFromStore() }
-        case .dataCleared: reload = UUID()
+        case .dataCleared: clearedEverything()
+        }
+    }
+
+    /// The list is already emptying and the total is already counting down to nothing. Welcome
+    /// waits for it: cutting to an empty screen mid-count is what made deleting everything feel
+    /// like something had gone wrong rather than like something had been done.
+    private func clearedEverything() {
+        Task {
+            try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
+            reload = UUID()
         }
     }
 
@@ -405,8 +429,31 @@ private struct TextSizeOverride: ViewModifier {
     }
 }
 
+/// The first frame the app draws, held while a local read decides between Welcome and the tabs.
+/// The net weaves itself across the whole screen under the name — `badeNet` was written for this
+/// and had never once been used — so opening Bade begins with Bade rather than with a blank screen.
+/// The system's own launch image is generated and can show nothing, so this is the only chance.
 private struct LoadingSurface: View {
     @Environment(\.badeTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    var body: some View { theme.surface.ignoresSafeArea() }
+    @State private var strength: Double = 0
+
+    var body: some View {
+        Text(.app.name)
+            .font(.badeTotal(size: BadeTypography.wordmarkSize))
+            .foregroundStyle(theme.ink)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                NetBackground(
+                    strength: strength, peakOpacity: NetMetrics.launchOpacity,
+                    reachFactor: NetMetrics.launchReach
+                )
+                .ignoresSafeArea()
+            )
+            .background(theme.surface, ignoresSafeAreaEdges: .all)
+            .task {
+                withBadeAnimation(.badeNet, reduceMotion: reduceMotion) { strength = 1 }
+            }
+    }
 }

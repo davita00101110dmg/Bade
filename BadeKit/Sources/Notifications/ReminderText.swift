@@ -7,7 +7,9 @@ import Localization
 struct ReminderText {
     let locale: Locale
 
-    func title(for reminder: ChargeReminder) -> String { resolved(titleResource(for: reminder)) }
+    func title(for reminder: ChargeReminder) -> String {
+        "\(ReminderMark.mark(for: reminder)) \(resolved(titleResource(for: reminder)))"
+    }
 
     /// The title says when and nothing else. Lead decides how: the day itself, the day before, or a
     /// weekday by name — never ambiguous within the three days a lead can reach.

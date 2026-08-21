@@ -21,19 +21,29 @@ struct MonthlyTotalHeader: View {
     /// rebuilt when it comes back, which replayed the count-up and re-fired the haptic every time.
     @Binding var hasArrived: Bool
 
-    @State private var revealed: Double = 0
+    /// Every tap on the figure itself. What the screen counts them for is its own business.
+    let onTotalTapped: () -> Void
+
+    @State private var countingFrom: Decimal = 0
+    @State private var counted: Double = 0
     @State private var hasLanded = false
+    /// A currency change re-denominates the same money; it must not be counted through, or picking
+    /// dollars looks like the total moving.
+    @State private var countedCurrency = ""
 
     var body: some View {
         VStack(spacing: .xxs) {
             Text(.subscriptions.perMonth)
                 .badeSectionLabel()
 
-            CountingTotal(revealed: revealed, total: total, currency: currency)
-                .font(.badeTotal(size: totalSize))
-                .foregroundStyle(theme.accent)
+            CountingTotal(
+                counted: counted, from: countingFrom, to: total, currency: currency, size: totalSize
+            )
+            .foregroundStyle(theme.accent)
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
+                .contentShape(.rect)
+                .onTapGesture(perform: onTotalTapped)
 
             // "₾0 a year · 0 subscriptions" restates the zero twice; say what it means instead.
             Text(count == 0 ? .subscriptions.nothingCharging : .subscriptions.yearAndCount(annualText, count))
@@ -50,27 +60,28 @@ struct MonthlyTotalHeader: View {
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text(total, format: .badeMoneyWhole(currency)))
+        .accessibilityLabel(Text(total, format: .badeMoney(currency)))
         .badeFeedback(.itemAppeared, trigger: hasLanded)
-        .task(id: total) { await reveal() }
+        .task(id: total) { await count() }
     }
 
-    private func reveal() async {
-        guard total > 0, !hasArrived else {
-            revealed = 1
-            return
+    /// Counts from whatever was on screen to whatever is now true — up when an import lands, down
+    /// to nothing when everything is deleted. Only the arrival fires the haptic; a total moving
+    /// because the data moved is information, not an event.
+    private func count() async {
+        let isRedenomination = !countedCurrency.isEmpty && countedCurrency != currency
+        countedCurrency = currency
+
+        if !isRedenomination && !reduceMotion {
+            counted = 0
+            withBadeAnimation(.badeTotalReveal, reduceMotion: reduceMotion) { counted = 1 }
+            try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
         }
-        hasLanded = false
-        revealed = 0
-        guard !reduceMotion else {
-            revealed = 1
-            hasLanded = true
-            hasArrived = true
-            return
-        }
-        withBadeAnimation(.badeTotalReveal, reduceMotion: reduceMotion) { revealed = 1 }
-        try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
-        hasLanded = true
+        countingFrom = total
+        counted = 1
+
+        guard !isRedenomination else { return }
+        hasLanded = !hasArrived
         hasArrived = true
     }
 
@@ -79,19 +90,23 @@ struct MonthlyTotalHeader: View {
     }
 }
 
-/// Counts from nothing up to the total. `revealed` is a unitless 0–1 fraction rather than the
-/// money itself, so the amount stays `Decimal` throughout and only the progress is a Double.
+/// Counts from one figure to another. `counted` is a unitless 0–1 fraction rather than the money
+/// itself, so the amount stays `Decimal` throughout and only the progress is a Double.
 private struct CountingTotal: View, Animatable {
-    var revealed: Double
-    let total: Decimal
+    var counted: Double
+    let from: Decimal
+    let to: Decimal
     let currency: String
+    let size: CGFloat
 
     nonisolated var animatableData: Double {
-        get { revealed }
-        set { revealed = newValue }
+        get { counted }
+        set { counted = newValue }
     }
 
     var body: some View {
-        Text(total * Decimal(revealed), format: .badeMoneyWhole(currency))
+        BadeMoneyText(showing, currency: currency, size: size, shimmers: true)
     }
+
+    private var showing: Decimal { from + (to - from) * Decimal(counted) }
 }

@@ -1,6 +1,23 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "app.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bade."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bade."
+          }
+        }
+      }
+    },
     "cadence.annual": {
       "localizations": {
         "en": {
@@ -93,6 +110,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "კარგი"
+          }
+        }
+      }
+    },
+    "common.working": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Working"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მუშაობს"
           }
         }
       }
@@ -817,6 +851,40 @@
         }
       }
     },
+    "parsing.beta": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BETA"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "BETA"
+          }
+        }
+      }
+    },
+    "parsing.betaNote": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reads Bank of Georgia and TBC statements. A bank can change its format without warning."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კითხულობს საქართველოს ბანკისა და თიბისის ამონაწერებს. ბანკმა შეიძლება ფორმატი გაფრთხილების გარეშე შეცვალოს."
+          }
+        }
+      }
+    },
     "parsing.chooseAnother": {
       "localizations": {
         "en": {
@@ -1041,6 +1109,23 @@
         }
       }
     },
+    "parsing.reading": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opening the file"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ფაილი იხსნება"
+          }
+        }
+      }
+    },
     "parsing.title": {
       "localizations": {
         "en": {
@@ -1121,6 +1206,40 @@
         }
       }
     },
+    "pro.calendar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upcoming charges"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მომავალი გადახდები"
+          }
+        }
+      }
+    },
+    "pro.calendarDetail": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A calendar of what is due, and what each day costs."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კალენდარი იმისა, რაც უნდა გადაიხადოთ, და რა ღირს თითოეული დღე."
+          }
+        }
+      }
+    },
     "pro.categories": {
       "localizations": {
         "en": {
@@ -1190,13 +1309,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The rate your bank really used, next to the official one, and what the gap costs you a year."
+            "value": "The rate your bank really used, next to the card scheme's, on every foreign charge."
           }
         },
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ბანკის რეალური კურსი ოფიციალურის გვერდით და რამდენი დაგიჯდება სხვაობა წელიწადში."
+            "value": "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით."
           }
         }
       }
@@ -3485,6 +3604,40 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "თვიური ჯამი"
+          }
+        }
+      }
+    },
+    "widget.nothingLeft": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing left this month"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ამ თვეში აღარაფერია"
+          }
+        }
+      }
+    },
+    "widget.ofMonth %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "of %@ this month"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@-დან ამ თვეში"
           }
         }
       }

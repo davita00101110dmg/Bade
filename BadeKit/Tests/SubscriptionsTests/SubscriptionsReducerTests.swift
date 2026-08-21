@@ -52,6 +52,26 @@ struct SubscriptionsStateTests {
         #expect(subject.annualTotal == 240)
     }
 
+    /// Settings changes the currency under a screen that is already open. It used to be rebuilt
+    /// around the new one, which threw away everything it had loaded and replayed the arrival.
+    @Test func changingTheCurrencyReconvertsWithoutReloading() {
+        var subject = state([
+            subscription("ChatGPT", "20.00", "USD"),
+            subscription("MAGTICOM", "35.00"),
+        ])
+
+        #expect(subject.apply(.currencyChanged("USD")) == nil)
+
+        #expect(subject.currency == "USD")
+        #expect(subject.phase == .ready)
+        #expect(subject.rows.count == 2)
+
+        var total = subject.monthlyTotal
+        var shown = Decimal()
+        NSDecimalRound(&shown, &total, 2, .plain)
+        #expect(shown == Decimal(string: "32.87")!)
+    }
+
     @Test func theTotalConvertsForeignChargesAtTheObservedRate() {
         let subject = state([
             subscription("ChatGPT", "20.00", "USD"),

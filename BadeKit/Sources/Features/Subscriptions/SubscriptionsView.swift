@@ -5,13 +5,21 @@ import SwiftUI
 
 public struct SubscriptionsView: View {
     @Environment(\.badeTheme) private var theme
+    @Environment(\.locale) private var locale
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var model: SubscriptionsViewModel
     /// Survives the hero row being recycled by scrolling, so §14.7's arrival happens once.
     @State private var hasArrived = false
+    @State private var rapidTaps = 0
+    @State private var lastTap = Date.distantPast
+    @State private var isRaining = false
+    /// Watched rather than owned: Settings can change it while this screen is on screen.
+    private let currency: String
 
-    public init(model: SubscriptionsViewModel) {
+    public init(model: SubscriptionsViewModel, currency: String) {
         _model = State(initialValue: model)
+        self.currency = currency
     }
 
     public var body: some View {
@@ -32,8 +40,34 @@ public struct SubscriptionsView: View {
                 SubscriptionFormView(model: model.form(for: edit))
             }
             .modifier(DeletionConfirmations(model: model))
+            .overlay {
+                if isRaining {
+                    BadeMoneyRain(symbol: .badeCurrencySymbol(model.state.currency, in: locale))
+                        .transition(.opacity)
+                }
+            }
+            // Clears itself once every note has finished its fall, through the transition rather
+            // than by cutting: without an animation around it the whole rain blinked out at once.
+            .task(id: isRaining) {
+                guard isRaining else { return }
+                try? await Task.sleep(for: BadeMoneyRainMetrics.lifetime)
+                withBadeAnimation(.badeNet, reduceMotion: reduceMotion) { isRaining = false }
+            }
             // Reloaded on every appearance, not once: an edit made in another tab has to show.
             .onAppear { model.send(.appeared) }
+            .task(id: currency) { model.send(.currencyChanged(currency)) }
+    }
+
+    /// Five quick taps on the total and it rains. Kept in the view rather than the reducer:
+    /// it changes nothing about the subscriptions, so that state is nobody else's business.
+    private func countTap() {
+        let now = Date.now
+        rapidTaps =
+            now.timeIntervalSince(lastTap) < SubscriptionsMetrics.rainTapWindow ? rapidTaps + 1 : 1
+        lastTap = now
+        guard rapidTaps >= SubscriptionsMetrics.tapsForRain else { return }
+        rapidTaps = 0
+        withBadeAnimation(.badeNet, reduceMotion: reduceMotion) { isRaining = true }
     }
 
     /// Split from `body` deliberately: the whole screen in one chain takes the type checker past
@@ -65,7 +99,8 @@ public struct SubscriptionsView: View {
                 currency: model.state.currency,
                 count: model.state.count,
                 unconvertibleCount: model.state.unconvertibleCount,
-                hasArrived: $hasArrived
+                hasArrived: $hasArrived,
+                onTotalTapped: countTap
             )
             .padding(.bottom, .lg)
             // Zeroed so the only space above the total is the one chosen here, not the list's.
@@ -87,6 +122,7 @@ public struct SubscriptionsView: View {
                     } label: {
                         SubscriptionListRow(row: row, currency: model.state.currency)
                     }
+                    .badeListRow()
                     .listRowBackground(theme.surfaceRaised)
                     .swipeActions(edge: .leading) {
                         activeAction(row.subscription)
@@ -117,6 +153,7 @@ public struct SubscriptionsView: View {
                         SubscriptionListRow(row: row, currency: model.state.currency)
                             .opacity(SubscriptionsMetrics.cancelledRow)
                     }
+                    .badeListRow()
                     .listRowBackground(theme.surfaceRaised)
                     .swipeActions(edge: .leading) {
                         activeAction(row.subscription)

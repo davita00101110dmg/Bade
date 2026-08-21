@@ -36,17 +36,20 @@ public struct BadeWidgetView: View {
         }
     }
 
+    /// What is still to leave the account this month, not what the month costs. The month's whole
+    /// cost is underneath, because a figure that shrinks to nothing needs something to be a share of.
     private var month: some View {
         VStack(alignment: .leading, spacing: .xs) {
-            Text(.widget.thisMonth).badeSectionLabel()
+            Text(.widget.stillComing).badeSectionLabel()
 
             Spacer(minLength: .zero)
 
-            Text(snapshot.monthTotal, format: .badeMoneyWhole(snapshot.currency))
-                .font(.badeDisplay)
-                .foregroundStyle(theme.ink)
-                .minimumScaleFactor(WidgetMetrics.totalScale)
-                .lineLimit(1)
+            BadeMoneyText(
+                snapshot.remaining, currency: snapshot.currency, size: BadeTypography.displaySize
+            )
+            .foregroundStyle(theme.ink)
+            .minimumScaleFactor(WidgetMetrics.totalScale)
+            .lineLimit(1)
 
             BadeProgressBar(progress: snapshot.spentFraction)
 
@@ -65,12 +68,21 @@ public struct BadeWidgetView: View {
             .frame(width: WidgetMetrics.dividerWidth)
     }
 
+    /// This month only, like the bar beside it. Late in a month there may be one charge left or
+    /// none, and saying so is the point — borrowing next month's to fill the rows is what made the
+    /// column disagree with its own heading.
+    /// No heading of its own: the divider and the figure to its left already say what these are,
+    /// and repeating "still coming" over them wasted the one line the rows could have used.
     private var coming: some View {
         VStack(alignment: .leading, spacing: .xs) {
-            Text(.widget.stillComing).badeSectionLabel()
-
-            ForEach(snapshot.upcoming) { charge in
-                ChargeRow(charge: charge)
+            if snapshot.upcoming.isEmpty {
+                Text(.widget.nothingLeft)
+                    .font(.badeCaption)
+                    .foregroundStyle(theme.inkMuted)
+            } else {
+                ForEach(snapshot.upcoming) { charge in
+                    ChargeRow(charge: charge)
+                }
             }
 
             Spacer(minLength: .zero)
@@ -78,12 +90,12 @@ public struct BadeWidgetView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// What is left, or that nothing is — a month with everything already charged is good news and
-    /// should read as such rather than as a zero.
+    /// What the month costs in total, or — when nothing is left to pay — that it is all done, which
+    /// is good news and should read as such rather than as a zero with no comment.
     private var remainder: LocalizedStringResource {
         guard snapshot.remaining > 0 else { return .widget.allCharged }
-        return .widget.toGo(
-            snapshot.remaining.formatted(.badeMoneyWhole(snapshot.currency).locale(locale)))
+        return .widget.ofMonth(
+            snapshot.monthTotal.formatted(.badeMoney(snapshot.currency).locale(locale)))
     }
 
     private var locked: some View {
@@ -123,7 +135,7 @@ private struct ChargeRow: View {
                 .font(.badeCaption)
                 .foregroundStyle(theme.inkFaint)
 
-            Text(charge.amount, format: .badeMoneyWhole(charge.currency))
+            Text(charge.amount, format: .badeMoney(charge.currency))
                 .font(.badeCaption)
                 .foregroundStyle(theme.inkMuted)
                 .monospacedDigit()

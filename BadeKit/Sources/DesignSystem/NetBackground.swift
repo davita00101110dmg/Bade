@@ -2,24 +2,37 @@ import SwiftUI
 
 /// The brand motif: ბადე means "net". Each segment fades by its own distance from the centre, so
 /// the mesh dissolves into nothing rather than ending at an edge.
-public struct NetBackground: View {
+public struct NetBackground: View, Animatable {
     @Environment(\.badeTheme) private var theme
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
-    private let pitch: CGFloat = 17
+    private let pitch = NetMetrics.pitch
     private let center = UnitPoint(x: 0.5, y: 0.46)
-
-    // The three numbers worth tuning. Opacity at the centre, how far the mesh reaches before it
-    // is gone, and how early the fade starts biting.
-    private let peakOpacity: Double = 0.17
-    private let reachFactor: CGFloat = 0.42
     private let fadeBias: Double = 1
+
+    private let peakOpacity: Double
+    private let reachFactor: CGFloat
 
     /// 0 hides the net, 1 shows it at full strength.
     public var strength: Double
 
-    public init(strength: Double = 1) {
+    /// Behind a title block the mesh is texture and stays quiet; on the launch screen it is the
+    /// picture, so both how dark it gets and how far it spreads are the caller's to say.
+    public init(
+        strength: Double = 1,
+        peakOpacity: Double = NetMetrics.peakOpacity,
+        reachFactor: CGFloat = NetMetrics.reachFactor
+    ) {
         self.strength = strength
+        self.peakOpacity = peakOpacity
+        self.reachFactor = reachFactor
+    }
+
+    /// So the mesh can be woven in rather than switched on: a `Canvas` redraws per frame, but only
+    /// if something tells SwiftUI the value between two strengths is worth interpolating.
+    nonisolated public var animatableData: Double {
+        get { strength }
+        set { strength = newValue }
     }
 
     public var body: some View {
@@ -98,6 +111,17 @@ public struct NetBackground: View {
         NetPreview().badeTheme().preferredColorScheme(.dark)
     }
 #endif
+
+/// The mesh's own dimensions. Its business, not the spacing scale's.
+public enum NetMetrics {
+    public static let pitch: CGFloat = 17
+    /// Quiet enough behind a title block that it reads as texture rather than as graph paper.
+    public static let peakOpacity = 0.17
+    public static let reachFactor: CGFloat = 0.42
+    /// On the launch screen the net is the whole picture, so it is darker and spreads much wider.
+    public static let launchOpacity = 0.5
+    public static let launchReach: CGFloat = 0.95
+}
 
 /// The net as a bounded panel, used behind a screen's title block rather than the whole page.
 public struct NetPanel<Content: View>: View {

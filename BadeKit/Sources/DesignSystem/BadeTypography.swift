@@ -12,6 +12,9 @@ public enum BadeTypography {
     public static let family: BadeFontFamily = .system
 
     public static let totalSize: CGFloat = 92
+    /// The name on the launch screen: bigger than any heading, smaller than the one total that
+    /// outranks it.
+    public static let wordmarkSize: CGFloat = 64
     public static let displaySize: CGFloat = 40
     public static let titleSize: CGFloat = 22
     public static let headlineSize: CGFloat = 17
@@ -19,6 +22,8 @@ public enum BadeTypography {
     public static let captionSize: CGFloat = 13
     public static let labelSize: CGFloat = 11
     public static let labelTracking: CGFloat = 1.2
+    /// How much smaller the tetri are set than the lari beside them.
+    public static let fractionScale: CGFloat = 0.6
 
     /// System styles scale with Dynamic Type on their own; a custom family scales via `relativeTo`.
     static func font(

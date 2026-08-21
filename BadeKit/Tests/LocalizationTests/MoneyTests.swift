@@ -15,6 +15,16 @@ struct MoneyTests {
         #expect(!formatted.contains(code), "\(code) fell back to its ISO code")
     }
 
+    /// The symbol on its own comes out of the same format a total is rendered with, so the two can
+    /// never disagree — and it must survive the locale putting the symbol at either end.
+    @Test(arguments: ["en_US", "ka_GE"])
+    func liftsTheSymbolOutOfTheFormat(identifier: String) {
+        let locale = Locale(identifier: identifier)
+
+        #expect(String.badeCurrencySymbol("GEL", in: locale) == "₾")
+        #expect(String.badeCurrencySymbol("USD", in: locale) == "$")
+    }
+
     @Test func placementFollowsTheLocale() {
         let english = amount.formatted(.badeMoney("GEL").locale(Locale(identifier: "en_US")))
         let georgian = amount.formatted(.badeMoney("GEL").locale(Locale(identifier: "ka_GE")))
