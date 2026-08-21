@@ -34,7 +34,7 @@
         let model = SettingsViewModel(
             currency: "GEL", language: .english, repository: StubRepository(subscriptions: stored),
             onOutcome: { _ in })
-        return NavigationStack { SettingsView(model: model) }
+        return NavigationStack { SettingsView(model: model, isPro: true) }
     }
 
     @MainActor

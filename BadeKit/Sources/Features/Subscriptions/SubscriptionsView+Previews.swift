@@ -54,7 +54,9 @@
         let model = SubscriptionsViewModel(
             currency: "GEL", repository: StubRepository(subscriptions: stored),
             rates: { rates }, onOutcome: { _ in })
-        return NavigationStack { SubscriptionsView(model: model, currency: "GEL") }
+        return NavigationStack {
+            SubscriptionsView(model: model, currency: "GEL", isPro: true, onUnlock: {})
+        }
     }
 
     #Preview("Subscriptions") { stubSubscriptions().badeTheme() }

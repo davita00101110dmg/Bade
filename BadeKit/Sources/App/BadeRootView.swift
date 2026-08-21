@@ -70,12 +70,18 @@ public struct BadeRootView: View {
 
     private var store: SubscriptionStore { opened.store }
 
-    /// The one thing every gated feature reads. A debug build always answers yes: a local StoreKit
-    /// config only works when Xcode launches the app, so on a phone there is otherwise nothing to
-    /// buy with and no way to exercise what the purchase unlocks.
+    #if DEBUG
+        /// SCAFFOLD — delete before shipping, with `ProLockToggle`. Flips the debug answer, so the
+        /// locked states can be looked at on a phone instead of only imagined.
+        @AppStorage("debugLocksPro") private var debugLocksPro = false
+    #endif
+
+    /// The one thing every gated feature reads. A debug build answers yes unless it is told
+    /// otherwise: a local StoreKit config only works when Xcode launches the app, so on a phone
+    /// there is otherwise nothing to buy with and no way to exercise what the purchase unlocks.
     private var isPro: Bool {
         #if DEBUG
-            true
+            !debugLocksPro
         #else
             hasEntitlement
         #endif
@@ -221,7 +227,11 @@ public struct BadeRootView: View {
             }
 
             Tab(value: Tabs.settings) {
-                NavigationStack { settings }
+                #if DEBUG
+                    NavigationStack { settings.modifier(ProLockToggle(isLocked: $debugLocksPro)) }
+                #else
+                    NavigationStack { settings }
+                #endif
             } label: {
                 Label { Text(.settings.title) } icon: { Image(systemName: "gearshape") }
             }
@@ -235,7 +245,7 @@ public struct BadeRootView: View {
                 officialRates: officialRates,
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
                 onOutcome: handleSubscriptions),
-            currency: currency)
+            currency: currency, isPro: isPro, onUnlock: { isShowingPro = true })
     }
 
     /// Upcoming may not import Subscriptions, so the destination behind one of its rows is
@@ -247,7 +257,9 @@ public struct BadeRootView: View {
                 repository: store,
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() })
         ) { subscription in
-            SubscriptionDetailView(model: detail(for: subscription))
+            SubscriptionDetailView(
+                model: detail(for: subscription), isPro: isPro,
+                onUnlock: { isShowingPro = true })
         }
     }
 
@@ -260,7 +272,8 @@ public struct BadeRootView: View {
                 isPro: isPro, reminder: reminderPreference, repository: store,
                 purchases: purchases,
                 isReminderDenied: { [reminders] in await reminders.authorization() == .denied },
-                onOutcome: handleSettings))
+                onOutcome: handleSettings),
+            isPro: isPro)
     }
 
     private func detail(for subscription: Subscription) -> SubscriptionDetailViewModel {
@@ -457,3 +470,23 @@ private struct LoadingSurface: View {
             }
     }
 }
+
+#if DEBUG
+    /// SCAFFOLD — delete before shipping, with `debugLocksPro`. A debug build cannot buy anything,
+    /// so it answers yes to Pro and every locked state is invisible. This flips that answer from
+    /// the Settings tab, which is the one place all of them can be reached from.
+    private struct ProLockToggle: ViewModifier {
+        @Binding var isLocked: Bool
+
+        func body(content: Content) -> some View {
+            content.toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button { isLocked.toggle() } label: {
+                        Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
+                    }
+                    .accessibilityLabel(Text(verbatim: isLocked ? "Unlock Pro" : "Lock Pro"))
+                }
+            }
+        }
+    }
+#endif
