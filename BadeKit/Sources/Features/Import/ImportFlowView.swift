@@ -12,6 +12,10 @@ public struct ImportFlowView: View {
     private let repository: any SubscriptionRepository
     private let rateRepository: any RateRepository
     private let currency: String
+    /// True while nobody has picked a currency in Settings. It matters here more than anywhere:
+    /// on a first import nothing is stored yet, so the app's guess is the phone's locale — and a
+    /// Georgian statement was being totalled in dollars on the one screen that decides everything.
+    private let isCurrencyInferred: Bool
     private let onOutcome: (ImportOutcome) -> Void
 
     @State private var found: DetectedStatement?
@@ -22,6 +26,7 @@ public struct ImportFlowView: View {
         repository: any SubscriptionRepository,
         rateRepository: any RateRepository,
         currency: String,
+        isCurrencyInferred: Bool,
         onOutcome: @escaping (ImportOutcome) -> Void
     ) {
         self.file = file
@@ -29,6 +34,7 @@ public struct ImportFlowView: View {
         self.repository = repository
         self.rateRepository = rateRepository
         self.currency = currency
+        self.isCurrencyInferred = isCurrencyInferred
         self.onOutcome = onOutcome
     }
 
@@ -46,10 +52,18 @@ public struct ImportFlowView: View {
     private func review(_ statement: DetectedStatement) -> some View {
         ReviewView(
             model: ReviewViewModel(
-                detected: statement.detected, rates: statement.rates, currency: currency,
+                detected: statement.detected, rates: statement.rates,
+                currency: displayCurrency(for: statement.detected),
                 repository: repository, rateRepository: rateRepository,
                 onOutcome: handleReview)
         )
+    }
+
+    /// A chosen currency is honoured; a guessed one defers to whatever the statement is mostly
+    /// priced in, since that is the money actually in front of the reader.
+    private func displayCurrency(for detected: [DetectedSubscription]) -> String {
+        guard isCurrencyInferred else { return currency }
+        return detected.predominantCurrency ?? currency
     }
 
     private func handleParsing(_ outcome: ParsingOutcome) {

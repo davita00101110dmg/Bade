@@ -58,10 +58,52 @@ struct MonthlyTotalTests {
         let result = [
             subscription("SETANTA", "14.99", "GEL", .monthly),
             subscription("Adobe", "19.99", "USD", .monthly),
-        ].monthlyTotal(in: "GEL", rates: rates)
+        ].monthlyTotal(in: "GEL", rates: rates, on: anyDay)
 
         #expect(result.unconvertible.isEmpty)
         #expect(result.total == Decimal(string: "14.99")! + Decimal(string: "19.99")! * Decimal(string: "2.6716")!)
+    }
+
+    /// What an import has just detected has to be able to answer this too. On a first import
+    /// nothing is stored yet, so a statement priced in lari was being totalled in the phone's
+    /// locale currency on the one screen where the whole import is decided.
+    @Test func detectionsAnswerWhatToTotalInBeforeAnythingIsStored() {
+        let detected = [
+            DetectedSubscription(
+                merchant: "MAGTICOM", amount: 35, currency: "GEL", cadence: .monthly,
+                occurrences: [], nextChargeDate: .distantPast, confidence: .confident,
+                priceChanges: []),
+            DetectedSubscription(
+                merchant: "Spotify", amount: 15, currency: "GEL", cadence: .monthly,
+                occurrences: [], nextChargeDate: .distantPast, confidence: .confident,
+                priceChanges: []),
+            DetectedSubscription(
+                merchant: "ChatGPT", amount: 20, currency: "USD", cadence: .monthly,
+                occurrences: [], nextChargeDate: .distantPast, confidence: .confident,
+                priceChanges: []),
+        ]
+
+        #expect(detected.predominantCurrency == "GEL")
+        #expect([DetectedSubscription]().predominantCurrency == nil)
+    }
+
+    /// One date for the whole sum, not each subscription's own history. Rates are chosen by nearest
+    /// observation, so converting line by line at each last charge made this total and the
+    /// calendar's disagree by a few tetri — with nothing on either screen to explain the gap.
+    @Test func everyLineIsConvertedAtOneDate() {
+        let january = Date(timeIntervalSince1970: 1_767_225_600)
+        let august = Date(timeIntervalSince1970: 1_785_542_400)
+        var rates = RateBook()
+        rates.record(ObservedRate(date: january, from: "USD", to: "GEL", rate: 2))
+        rates.record(ObservedRate(date: august, from: "USD", to: "GEL", rate: 3))
+
+        let charges = [
+            subscription("Old", "10.00", "USD", .monthly),
+            subscription("New", "10.00", "USD", .monthly),
+        ]
+
+        #expect(charges.monthlyTotal(in: "GEL", rates: rates, on: january).total == 40)
+        #expect(charges.monthlyTotal(in: "GEL", rates: rates, on: august).total == 60)
     }
 
     /// A currency the statement never converted must be reported, never silently dropped.
@@ -72,7 +114,7 @@ struct MonthlyTotalTests {
         let result = [
             subscription("SETANTA", "10.00", "GEL", .monthly),
             subscription("Epidemic", "8.99", "EUR", .monthly),
-        ].monthlyTotal(in: "GEL", rates: rates)
+        ].monthlyTotal(in: "GEL", rates: rates, on: anyDay)
 
         #expect(result.total == 10)
         #expect(result.unconvertible.map(\.merchant) == ["Epidemic"])
@@ -80,7 +122,7 @@ struct MonthlyTotalTests {
 
     @Test func cancelledSubscriptionsDoNotCount() {
         let result = [subscription("X", "10.00", "GEL", .monthly, active: false)]
-            .monthlyTotal(in: "GEL", rates: RateBook())
+            .monthlyTotal(in: "GEL", rates: RateBook(), on: anyDay)
         #expect(result.total == 0)
     }
 

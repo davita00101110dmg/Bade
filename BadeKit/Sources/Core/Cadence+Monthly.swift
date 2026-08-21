@@ -44,26 +44,41 @@ extension Subscription {
     public var monthlyAmount: Decimal { cadence.monthlyEquivalent(of: amount) }
 }
 
-extension Collection<Subscription> {
-    /// The currency most subscriptions are billed in, which is the one worth totalling in: it
-    /// leaves the fewest charges needing a rate that may not exist. Ties break alphabetically so
-    /// the answer does not depend on what order the store handed them over.
+/// Anything that carries a price in a currency. Two things do — what is stored, and what an import
+/// has just detected — and both have to be able to answer what currency a screen should total in.
+public protocol Priced {
+    var currency: String { get }
+}
+
+extension Subscription: Priced {}
+extension DetectedSubscription: Priced {}
+
+extension Collection where Element: Priced {
+    /// The currency most of them are billed in, which is the one worth totalling in: it leaves the
+    /// fewest charges needing a rate that may not exist. Ties break alphabetically so the answer
+    /// does not depend on what order they arrived in.
     public var predominantCurrency: String? {
         let counts = reduce(into: [String: Int]()) { $0[$1.currency, default: 0] += 1 }
         return counts.max { ($0.value, $1.key) < ($1.value, $0.key) }?.key
     }
+}
 
+extension Collection<Subscription> {
     /// The headline figure: every active subscription normalised to a monthly cost in one currency.
     /// Anything that cannot be converted is reported separately rather than silently dropped.
-    public func monthlyTotal(in currency: String, rates: RateBook) -> (
+    ///
+    /// `on` is the date the rates are read at, and it is one date for the whole sum rather than each
+    /// subscription's own history. Rates are picked by nearest observation, so converting each line
+    /// at a different date made this total and the calendar's disagree by a few tetri for no reason
+    /// a reader could ever see. Money still to be paid is worth what today's rate says it is.
+    public func monthlyTotal(in currency: String, rates: RateBook, on date: Date) -> (
         total: Decimal, unconvertible: [Subscription]
     ) {
         var total = Decimal(0)
         var unconvertible: [Subscription] = []
         for subscription in self where subscription.isActive {
             if let converted = rates.convert(
-                subscription.monthlyAmount, from: subscription.currency, to: currency,
-                on: subscription.lastChargeDate)
+                subscription.monthlyAmount, from: subscription.currency, to: currency, on: date)
             {
                 total += converted
             } else {
