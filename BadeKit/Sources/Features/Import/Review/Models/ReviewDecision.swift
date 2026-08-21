@@ -10,8 +10,15 @@ public enum ReviewDecision: Equatable, Sendable {
     /// Uncertain only, answered "not one": gone from the list.
     case dismissed
 
-    init(startingFrom confidence: Confidence) {
-        switch confidence {
+    /// Anything already ended starts unticked, whatever the engine made of it. Nothing that stopped
+    /// should be added to a list of what someone pays without them saying so — and it keeps that
+    /// section to one kind of row, since `undecided` is what draws the two-way card.
+    init(startingFrom detected: DetectedSubscription) {
+        guard !detected.hasEnded else {
+            self = .excluded
+            return
+        }
+        switch detected.confidence {
         case .confident: self = .included
         case .probable: self = .excluded
         case .uncertain: self = .undecided

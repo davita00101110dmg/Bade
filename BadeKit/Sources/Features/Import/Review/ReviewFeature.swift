@@ -14,7 +14,7 @@ public struct ReviewState: Equatable {
         self.detected = detected
         self.rates = rates
         self.currency = currency
-        decisions = detected.map { ReviewDecision(startingFrom: $0.confidence) }
+        decisions = detected.map(ReviewDecision.init(startingFrom:))
     }
 
     /// The live tiers first, then anything that has already stopped, kept apart from them.
@@ -46,18 +46,15 @@ public struct ReviewState: Equatable {
     public var selectedCount: Int { decisions.count { $0 == .included } }
     public var canConfirm: Bool { selectedCount > 0 && !isSaving }
 
-    /// The findings summary, which "not one" shrinks but unticking a box does not.
-    public var remainingCount: Int { decisions.count { $0 != .dismissed } }
-
+    /// What ticking adds up to, so the header, the button and the total after saving all state the
+    /// same figure. Something already ended is confirmed as cancelled, so it moves the count and
+    /// not the money — a subscription that stopped is a record, not spend.
     public var monthlyTotal: Decimal {
-        kept.map { Subscription(confirming: $0) }.monthlyTotal(in: currency, rates: rates).total
+        selected.map { Subscription(confirming: $0) }.monthlyTotal(in: currency, rates: rates).total
     }
 
-    var selected: [DetectedSubscription] { pick { $0 == .included } }
-    private var kept: [DetectedSubscription] { pick { $0 != .dismissed } }
-
-    private func pick(_ isWanted: (ReviewDecision) -> Bool) -> [DetectedSubscription] {
-        detected.indices.filter { isWanted(decisions[$0]) }.map { detected[$0] }
+    var selected: [DetectedSubscription] {
+        detected.indices.filter { decisions[$0] == .included }.map { detected[$0] }
     }
 }
 

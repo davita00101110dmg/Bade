@@ -38,18 +38,20 @@ public struct ReviewView: View {
         .badeHidesBackButton()
     }
 
-    /// The findings, stated once. The button below tracks what the user does with them.
+    /// What is being added, not what was found: the figure here is the one the home screen shows
+    /// once this is confirmed, and it moves with every tick.
     private var header: some View {
         VStack(alignment: .leading, spacing: .xs) {
             Text(.review.title)
                 .font(.badeTitle)
                 .foregroundStyle(theme.ink)
-            Text(.review.summary(model.state.remainingCount, monthlyTotal))
+            Text(.review.summary(model.state.selectedCount, monthlyTotal))
                 .font(.badeBody)
                 .foregroundStyle(theme.inkMuted)
                 .contentTransition(.numericText())
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .badeAnimation(.badeSelection, value: model.state.selectedCount)
     }
 
     private var monthlyTotal: String {

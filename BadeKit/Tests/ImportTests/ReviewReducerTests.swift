@@ -85,17 +85,38 @@ struct ReviewStateTests {
         #expect(subject.decisions == [.excluded])
     }
 
-    @Test func notOneRemovesItFromTheListAndTheSummary() {
+    @Test func notOneRemovesItFromTheList() {
         var subject = state([
             detection("Netflix", confidence: .confident),
             detection("Goodwill", confidence: .uncertain),
         ])
-        #expect(subject.remainingCount == 2)
 
         _ = subject.apply(.rejectedUncertain(1))
 
-        #expect(subject.remainingCount == 1)
         #expect(subject.sections.map(\.kind) == [.tier(.confident)])
+    }
+
+    /// Ended rows are all one kind and none are ticked. Mixed with the tiers they inherited both
+    /// the checkbox and the two-way card, which put two different questions in one section.
+    @Test func nothingEndedArrivesTickedOrAsAQuestion() {
+        let subject = state([
+            detection("Netflix", confidence: .confident, hasEnded: true),
+            detection("Setapp", confidence: .probable, hasEnded: true),
+            detection("Goodwill", confidence: .uncertain, hasEnded: true),
+        ])
+
+        #expect(subject.sections.map(\.kind) == [.ended])
+        #expect(subject.decisions == [.excluded, .excluded, .excluded])
+        #expect(subject.selectedCount == 0)
+    }
+
+    /// Ticking one is still allowed: unticked is a starting point, not a rule.
+    @Test func anEndedRowCanStillBeTickedByHand() {
+        var subject = state([detection("Netflix", confidence: .confident, hasEnded: true)])
+
+        _ = subject.apply(.toggled(0))
+
+        #expect(subject.decisions == [.included])
     }
 
     /// Ended sits apart from the tiers and last, so a stopped charge is never read as live money.
@@ -195,15 +216,42 @@ struct ReviewStateTests {
         #expect(subject.monthlyTotal == Decimal(string: "97.30")!)
     }
 
-    @Test func aDismissedRowLeavesTheTotal() {
+    /// The header counts what is ticked and nothing else, so it agrees with the button beneath it
+    /// and with the total the home screen shows a moment later.
+    @Test func theTotalCountsOnlyWhatIsTicked() {
         var subject = state([
             detection("Netflix", confidence: .confident, amount: 35),
             detection("Goodwill", confidence: .uncertain, amount: 25),
         ])
+        #expect(subject.monthlyTotal == 35)
+
+        _ = subject.apply(.acceptedUncertain(1))
+
         #expect(subject.monthlyTotal == 60)
+        #expect(subject.selectedCount == 2)
+    }
 
-        _ = subject.apply(.rejectedUncertain(1))
+    @Test func untickingARowTakesItsMoneyBackOut() {
+        var subject = state([detection("Netflix", confidence: .confident, amount: 35)])
 
+        _ = subject.apply(.toggled(0))
+
+        #expect(subject.monthlyTotal == 0)
+        #expect(subject.selectedCount == 0)
+    }
+
+    /// Ticking something that already stopped keeps it as a record, not as spend: the count moves
+    /// and the money does not.
+    @Test func anEndedRowAddsToTheCountButNotTheTotal() {
+        var subject = state([
+            detection("Netflix", confidence: .confident, amount: 35),
+            detection("Setapp", confidence: .confident, amount: 25, hasEnded: true),
+        ])
+        #expect(subject.monthlyTotal == 35)
+
+        _ = subject.apply(.toggled(1))
+
+        #expect(subject.selectedCount == 2)
         #expect(subject.monthlyTotal == 35)
     }
 
