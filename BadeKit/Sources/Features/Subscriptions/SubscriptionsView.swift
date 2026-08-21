@@ -14,6 +14,10 @@ public struct SubscriptionsView: View {
     @State private var rapidTaps = 0
     @State private var lastTap = Date.distantPast
     @State private var isRaining = false
+    /// Whether the hero is still on screen. The number the app exists to show should not leave it.
+    @State private var isShowingHero = true
+    /// How far the list has been dragged past its own top. Nothing refreshes; the net stretches.
+    @State private var pull: CGFloat = 0
     /// Watched rather than owned: Settings can change it while this screen is on screen.
     private let currency: String
     /// Only forwarded: this screen locks nothing itself, but the detail behind a row does.
@@ -33,6 +37,17 @@ public struct SubscriptionsView: View {
     public var body: some View {
         list
             .toolbar {
+                // Only once the hero has gone: two copies of the same figure on one screen is one
+                // too many, and the point is that it never leaves rather than that it is repeated.
+                ToolbarItem(placement: .principal) {
+                    // Always present, faded rather than added and removed: a toolbar does not
+                    // reliably rebuild itself when its content appears out of a condition.
+                    Text(model.state.monthlyTotal, format: .badeMoney(model.state.currency))
+                        .font(.badeHeadline)
+                        .foregroundStyle(theme.accent)
+                        .opacity(isShowingHero ? 0 : 1)
+                        .accessibilityHidden(isShowingHero)
+                }
                 ToolbarItem(placement: .primaryAction) {
                     Button { model.send(.importTapped) } label: {
                         Image(systemName: "square.and.arrow.down")
@@ -44,6 +59,10 @@ public struct SubscriptionsView: View {
                         .accessibilityLabel(Text(.subscriptions.add))
                 }
             }
+            // The screen has no title of its own, but putting the total in the bar gives it title
+            // content — and without this the bar lays itself out for a large one, which is the gap
+            // that appeared above the hero.
+            .toolbarTitleDisplayMode(.inline)
             .sheet(item: editBinding) { edit in
                 SubscriptionFormView(model: model.form(for: edit))
             }
@@ -97,6 +116,19 @@ public struct SubscriptionsView: View {
         .background(theme.surface, ignoresSafeAreaEdges: .all)
         .badeAnimation(.badeContent, value: model.state.rows)
         .badeFeedback(.selection, trigger: model.state.sort)
+        // Read off the scroll itself rather than from the hero's own visibility: inside a `List`
+        // that never reported, and an offset is a number this can reason about anyway.
+        .onScrollGeometryChange(for: CGFloat.self) { geometry in
+            geometry.contentOffset.y + geometry.contentInsets.top
+        } action: { _, offset in
+            // Dragged past the top, the offset goes negative; that distance is the pull.
+            pull = max(0, -offset)
+
+            let isShowing = offset < SubscriptionsMetrics.heroLeavesAt
+            guard isShowing != isShowingHero else { return }
+            withBadeAnimation(.badeContent, reduceMotion: reduceMotion) { isShowingHero = isShowing }
+        }
+        .overlay(alignment: .top) { BadePullNet(pull: pull) }
     }
 
     private var heroSection: some View {
