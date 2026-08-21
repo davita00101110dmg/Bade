@@ -10,10 +10,17 @@ public struct ReviewState: Equatable {
     public private(set) var isSaving = false
     public private(set) var didFailToSave = false
 
-    public init(detected: [DetectedSubscription], rates: RateBook, currency: String) {
+    /// The one date every figure on this screen is converted at, so the rows visibly add up to the
+    /// header. Injected so a test can stand somewhere fixed.
+    let today: Date
+
+    public init(
+        detected: [DetectedSubscription], rates: RateBook, currency: String, today: Date = .now
+    ) {
         self.detected = detected
         self.rates = rates
         self.currency = currency
+        self.today = today
         decisions = detected.map(ReviewDecision.init(startingFrom:))
     }
 
@@ -33,13 +40,12 @@ public struct ReviewState: Equatable {
 
     private func items(where isIncluded: (DetectedSubscription) -> Bool) -> [ReviewItem] {
         detected.indices
-            .filter { decisions[$0] != .dismissed && isIncluded(detected[$0]) }
+            .filter { isIncluded(detected[$0]) }
             .map {
                 ReviewItem(
                     id: $0, subscription: detected[$0], decision: decisions[$0],
                     converted: rates.convert(
-                        detected[$0].amount, from: detected[$0].currency, to: currency,
-                        on: detected[$0].nextChargeDate))
+                        detected[$0].amount, from: detected[$0].currency, to: currency, on: today))
             }
     }
 
@@ -50,7 +56,8 @@ public struct ReviewState: Equatable {
     /// same figure. Something already ended is confirmed as cancelled, so it moves the count and
     /// not the money — a subscription that stopped is a record, not spend.
     public var monthlyTotal: Decimal {
-        selected.map { Subscription(confirming: $0) }.monthlyTotal(in: currency, rates: rates).total
+        selected.map { Subscription(confirming: $0) }
+            .monthlyTotal(in: currency, rates: rates, on: today).total
     }
 
     var selected: [DetectedSubscription] {
@@ -60,8 +67,6 @@ public struct ReviewState: Equatable {
 
 public enum ReviewIntent: Equatable {
     case toggled(Int)
-    case acceptedUncertain(Int)
-    case rejectedUncertain(Int)
     case confirmTapped
     case saved(addedCount: Int)
     case saveFailed
@@ -78,14 +83,6 @@ extension ReviewState {
         switch intent {
         case .toggled(let id):
             decisions[id] = decisions[id] == .included ? .excluded : .included
-            return nil
-
-        case .acceptedUncertain(let id):
-            decisions[id] = .included
-            return nil
-
-        case .rejectedUncertain(let id):
-            decisions[id] = .dismissed
             return nil
 
         case .confirmTapped:

@@ -104,8 +104,12 @@ public struct UpcomingState: Equatable {
         return (weekday - calendar.firstWeekday + 7) % 7
     }
 
+    /// Converted at today's rate rather than each charge's own date. Rates are picked by nearest
+    /// observation, so per-charge dates made the day totals, the month total and the list's headline
+    /// disagree by a few tetri — a difference no reader could account for. What a charge in this
+    /// month costs is a question about today.
     public func converted(_ charge: UpcomingCharge) -> Decimal? {
-        rates.convert(charge.amount, from: charge.currency, to: currency, on: charge.date)
+        rates.convert(charge.amount, from: charge.currency, to: currency, on: today)
     }
 
     public func amount(of charge: UpcomingCharge) -> Decimal {

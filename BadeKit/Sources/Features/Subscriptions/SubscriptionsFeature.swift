@@ -8,8 +8,9 @@ public struct SubscriptionsState: Equatable {
         case failed
     }
 
-    /// What totals are shown in. Supplied by the composition root until Settings owns it (§10).
-    public let currency: String
+    /// What totals are shown in. Settings owns it, so it changes under a screen that is already
+    /// open rather than being fixed when one is built.
+    public private(set) var currency: String
     public private(set) var phase: Phase = .loading
     public private(set) var all: [Subscription] = []
     public private(set) var rates = RateBook()
@@ -49,11 +50,13 @@ public struct SubscriptionsState: Equatable {
         }
     }
 
-    public var monthlyTotal: Decimal { active.monthlyTotal(in: currency, rates: rates).total }
+    public var monthlyTotal: Decimal {
+        active.monthlyTotal(in: currency, rates: rates, on: today).total
+    }
 
     /// Reported rather than dropped: a subscription nobody can convert must still be visible (§7).
     public var unconvertibleCount: Int {
-        active.monthlyTotal(in: currency, rates: rates).unconvertible.count
+        active.monthlyTotal(in: currency, rates: rates, on: today).unconvertible.count
     }
 
     public var annualTotal: Decimal { monthlyTotal * 12 }
@@ -77,6 +80,7 @@ public enum SubscriptionsIntent: Equatable {
     case loaded([Subscription], RateBook)
     case loadFailed
     case sortChanged(SubscriptionSort)
+    case currencyChanged(String)
     case importTapped
     case addTapped
     case editTapped(Subscription)
@@ -116,6 +120,12 @@ extension SubscriptionsState {
 
         case .sortChanged(let sort):
             self.sort = sort
+            return nil
+
+        // Every figure is converted on read, so a new currency needs no reload — only the totals
+        // recomputing. Rebuilding the screen instead replayed the arrival count-up from zero.
+        case .currencyChanged(let code):
+            currency = code
             return nil
 
         case .importTapped:

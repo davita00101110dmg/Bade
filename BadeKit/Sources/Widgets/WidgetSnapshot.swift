@@ -89,17 +89,19 @@ extension WidgetSnapshot {
         let month = subscriptions.upcomingCharges(
             from: monthStart, before: monthEnd, today: now, calendar: calendar)
 
-        // Two months out so three rows can be filled even when subscriptions are sparse — but one
-        // row per subscription, or a monthly charge would take two of the three saying the same name.
-        let horizon = calendar.date(byAdding: .month, value: 2, to: now) ?? now
+        // This month and no further. The widget is headed "this month" and the bar beside these rows
+        // measures this month, so filling them from the next one contradicted both. One row per
+        // subscription, or a monthly charge would take two of the three saying the same name.
         var seen: Set<UUID> = []
         let next = subscriptions.upcomingCharges(
-            from: today, before: horizon, today: now, calendar: calendar
+            from: today, before: monthEnd, today: now, calendar: calendar
         )
         .filter { seen.insert($0.subscription.id).inserted }
 
+        // Today's rate for every line, exactly as the calendar screen does it, so the home screen
+        // and the app never state the same month at two different figures.
         func converted(_ charge: UpcomingCharge) -> Decimal? {
-            rates.convert(charge.amount, from: charge.currency, to: currency, on: charge.date)
+            rates.convert(charge.amount, from: charge.currency, to: currency, on: now)
         }
 
         self.init(
