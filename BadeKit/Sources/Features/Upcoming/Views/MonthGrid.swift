@@ -86,7 +86,7 @@ struct MonthGrid: View {
                     .background(
                         Circle().fill(isCancelled(index, in: cell) ? .clear : mark(cell))
                     )
-                    .frame(width: UpcomingMetrics.dotSize, height: UpcomingMetrics.dotSize)
+                    .frame(width: dotSize(cell), height: dotSize(cell))
             }
             if cell.charges > UpcomingMetrics.visibleDots {
                 Image(systemName: "plus")
@@ -94,7 +94,15 @@ struct MonthGrid: View {
                     .foregroundStyle(mark(cell))
             }
         }
-        .frame(height: UpcomingMetrics.dotSize)
+        // Reserved at the largest a dot can be, so a heavy day does not shove the date above it.
+        .frame(height: UpcomingMetrics.heaviestDot)
+    }
+
+    /// Sized by what the day cost against the heaviest day of the month, so a glance at the grid
+    /// finds the expensive days rather than merely the busy ones.
+    private func dotSize(_ cell: UpcomingCell) -> CGFloat {
+        UpcomingMetrics.lightestDot
+            + (UpcomingMetrics.heaviestDot - UpcomingMetrics.lightestDot) * cell.weight
     }
 
     /// The live charges are drawn first, so the hollow ones fall at the end of the row.

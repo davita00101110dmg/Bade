@@ -33,7 +33,10 @@ struct FoundSubscriptionRow: View {
         .background(
             RoundedRectangle(cornerRadius: BadeRadius.lg, style: .continuous)
                 .fill(theme.surfaceRaised))
-        .opacity(1 - settling * 0.65)
+        // Lands faint and slightly small, then firms up and settles to size as later rows push it
+        // down the list — so the newest one always reads as the thing that just arrived.
+        .opacity(1 - settling * ParsingMetrics.settleFade)
+        .scaleEffect(1 - settling * ParsingMetrics.settleScale)
         .accessibilityElement(children: .combine)
     }
 }

@@ -3,7 +3,9 @@ import DesignSystem
 
 /// The grid's own dimensions, which are its business and not the spacing scale's.
 enum UpcomingMetrics {
-    static let dotSize: CGFloat = 5
+    /// A day's dots are sized by what it cost against the month's heaviest day, between these.
+    static let lightestDot: CGFloat = 4
+    static let heaviestDot: CGFloat = 9
     /// A cancelled charge's dot is an outline rather than a disc.
     static let hollowDot: CGFloat = 1
     static let cellHeight: CGFloat = 44

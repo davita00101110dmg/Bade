@@ -158,7 +158,7 @@ public struct ParsingView: View {
                 }
             }
         }
-        .badeAnimation(.badeContent, value: model.state.revealedCount)
+        .badeAnimation(.badeCatch, value: model.state.revealedCount)
     }
 
     private func settling(at index: Int) -> Double {

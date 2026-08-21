@@ -54,7 +54,7 @@ public struct SubscriptionDetailView: View {
 
     private var header: some View {
         HStack(spacing: .md) {
-            MerchantMonogram(letter: monogram)
+            MerchantMonogram(letter: monogram, merchant: model.state.subscription.merchant)
 
             VStack(alignment: .leading, spacing: .xxs) {
                 Text(verbatim: model.state.subscription.merchant)
@@ -101,9 +101,11 @@ public struct SubscriptionDetailView: View {
                     ChargeHistoryChart(
                         bars: model.state.history, currency: model.state.displayCurrency)
                 } else {
-                    Text(.detail.noHistory)
-                        .font(.badeBody)
-                        .foregroundStyle(theme.inkMuted)
+                    BadeEmptyNet {
+                        Text(.detail.noHistory)
+                            .font(.badeBody)
+                            .foregroundStyle(theme.inkMuted)
+                    }
                 }
             }
         }

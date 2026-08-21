@@ -13,6 +13,12 @@ extension Animation {
     public static let badeTransition: Animation = .smooth(duration: 0.4)
     /// The net dissolving as the app fills with data.
     public static let badeNet: Animation = .easeInOut(duration: 0.8)
+    /// Something landing in the net and settling: it overshoots a little, which is what tells the
+    /// eye the row arrived rather than appeared.
+    public static let badeCatch: Animation = .spring(response: 0.34, dampingFraction: 0.58)
+    /// Rows changing places. Damped harder than a catch — the point is watching a row travel to
+    /// where it now belongs, and a bounce at the end of that journey only obscures it.
+    public static let badeReorder: Animation = .spring(response: 0.42, dampingFraction: 0.86)
     /// The monthly total counting up — §14.7's arrival moment, and the one place the brief says
     /// to spend animation budget. Eases out so it settles rather than stopping dead.
     public static let badeTotalReveal: Animation = .easeOut(duration: BadeMotion.totalReveal)

@@ -70,6 +70,25 @@ struct UpcomingStateTests {
         #expect(subject.cells.first { $0.date == day("2026-08-09") }?.charges == 0)
     }
 
+    /// The grid marks where the money is, not merely where charges are: a day is weighed against
+    /// the heaviest day of its own month, so the scale is the month's rather than absolute.
+    @Test func aDayIsWeighedAgainstTheHeaviestDayOfItsMonth() {
+        let subject = state([
+            subscription("Big", next: "2026-08-10", amount: "100.00"),
+            subscription("Half", next: "2026-08-14", amount: "50.00"),
+            subscription("Small", next: "2026-08-18", amount: "10.00"),
+        ])
+
+        func weight(_ iso: String) -> Double? {
+            subject.cells.first { $0.date == day(iso) }?.weight
+        }
+
+        #expect(weight("2026-08-10") == 1)
+        #expect(weight("2026-08-14") == 0.5)
+        #expect(weight("2026-08-18") == 0.1)
+        #expect(weight("2026-08-11") == 0)
+    }
+
     @Test func aLiveDayIsNotMarkedCancelled() {
         let subject = state([subscription("Spotify", next: "2026-08-20", amount: "15.00")])
         let twentieth = subject.cells.first { $0.date == day("2026-08-20") }

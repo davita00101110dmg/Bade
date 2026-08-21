@@ -254,6 +254,10 @@ public struct SubscriptionsView: View {
             }
             .pickerStyle(.inline)
         } label: {
+            // This label clips for a beat when the sort changes — see NEXT-SESSION.md. It happens
+            // with the reorder animation removed too, so it is the section header being remeasured
+            // by the list rather than anything here; fixedSize, a nil transaction and an identity
+            // content transition were all tried and none of them touched it.
             HStack(spacing: .xxs) {
                 Text(model.state.sort.title)
                 Image(systemName: "chevron.down")
@@ -267,7 +271,17 @@ public struct SubscriptionsView: View {
     }
 
     private var sortBinding: Binding<SubscriptionSort> {
-        Binding(get: { model.state.sort }, set: { model.send(.sortChanged($0)) })
+        // The animation goes on the change, not on the List. Keying `.animation` to the rows array
+        // asks SwiftUI to animate a structural change from outside the list, which fights the
+        // list's own update: it took sometimes, and when it did not, a row was left clipped until
+        // the next relayout repaired it. Wrapping the mutation lets the list perform the move.
+        Binding(
+            get: { model.state.sort },
+            set: { sort in
+                withBadeAnimation(.badeReorder, reduceMotion: reduceMotion) {
+                    model.send(.sortChanged(sort))
+                }
+            })
     }
 
     /// Swiping the sheet away is the same as tapping Cancel in it.

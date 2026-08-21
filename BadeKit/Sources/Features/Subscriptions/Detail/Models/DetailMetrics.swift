@@ -9,4 +9,7 @@ enum DetailMetrics {
     static let emptyBarHeight = BadeSpacing.xxs
     /// Months either side of the one being read out; faded, not hidden.
     static let dimmedBar = 0.25
+    /// How long after its neighbour each bar starts growing, so the year assembles left to right
+    /// rather than arriving all at once. Twelve of these is the whole run, so it stays short.
+    static let barStagger = 0.035
 }

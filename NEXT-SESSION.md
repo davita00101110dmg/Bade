@@ -173,6 +173,16 @@ re-render each record and re-parse to prove the rendering round-trips.
 
 ## Open items
 
+0. **The sort label on Subscriptions clips for a second when it changes.** Pick a different sort
+   and the menu's label — "By cost" / "By name" / "By next charge" — arrives with letters half
+   drawn at both ends, then repairs itself. **Not caused by the reorder spring:** it does it with
+   that animation removed, verified on device. So it is the `List` remeasuring its section header
+   during its own animated batch update, which is where the control lives.
+   Tried and did nothing: `.fixedSize()`, `.transaction { $0.animation = nil }`,
+   `.contentTransition(.identity)` on both the text and the chevron. Modifiers do not reach it.
+   The next move is structural — move the sort control out of the section header, most likely into
+   the toolbar beside import and add — not a fourth modifier.
+
 1. **Bade Pro advertises seven features and two work.** Reminders ship; FX shows a percentage with
    no money attached. Price alerts, trends, category analytics, widgets and themes do not exist.
    Charging ₾24.99 for that page risks a 2.3.1 rejection for inaccurate metadata — trim the list or

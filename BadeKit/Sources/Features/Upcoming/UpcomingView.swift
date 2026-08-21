@@ -191,13 +191,16 @@ public struct UpcomingView<Destination: View>: View {
     private var emptySection: some View {
         if model.state.phase == .ready && model.state.isEmpty && model.state.selectedDay == nil {
             Section {
-                Text(model.state.subscriptions.isEmpty ? .upcoming.nothingEver : .upcoming.nothing)
+                BadeEmptyNet {
+                    Text(
+                        model.state.subscriptions.isEmpty
+                            ? .upcoming.nothingEver : .upcoming.nothing
+                    )
                     .font(.badeTitle)
                     .foregroundStyle(theme.inkMuted)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, .xl)
-                    .listRowBackground(Color.clear)
+                }
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
             }
         }
     }

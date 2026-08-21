@@ -78,6 +78,10 @@ public struct UpcomingState: Equatable {
     /// The grid, padded to whole weeks so the columns line up under their weekday headings.
     public var cells: [UpcomingCell] {
         let byDay = Dictionary(grouping: charges) { calendar.startOfDay(for: $0.date) }
+        let totals = byDay.mapValues { day in
+            day.reduce(Decimal(0)) { running, charge in running + (converted(charge) ?? 0) }
+        }
+        let heaviest = totals.values.max() ?? 0
         let leading = leadingBlanks
         let length = calendar.range(of: .day, in: .month, for: month)?.count ?? 0
         let total = Int((Double(leading + length) / 7).rounded(.up)) * 7
@@ -85,18 +89,26 @@ public struct UpcomingState: Equatable {
         return (0..<total).map { index in
             guard index >= leading, index < leading + length else {
                 return UpcomingCell(
-                    id: index, date: nil, charges: 0, cancelledCharges: 0, isToday: false,
-                    isSelected: false)
+                    id: index, date: nil, charges: 0, cancelledCharges: 0, weight: 0,
+                    isToday: false, isSelected: false)
             }
             let date =
                 calendar.date(byAdding: .day, value: index - leading, to: month) ?? month
-            let onDay = byDay[calendar.startOfDay(for: date)] ?? []
+            let startOfDay = calendar.startOfDay(for: date)
+            let onDay = byDay[startOfDay] ?? []
             return UpcomingCell(
                 id: index, date: date, charges: onDay.count,
                 cancelledCharges: onDay.count { !$0.subscription.isActive },
+                weight: Self.share(of: totals[startOfDay] ?? 0, of: heaviest),
                 isToday: calendar.isDate(date, inSameDayAs: today),
                 isSelected: selectedDay.map { calendar.isDate($0, inSameDayAs: date) } ?? false)
         }
+    }
+
+    /// A dot's weight is a proportion, not an amount; the money either side of it stays `Decimal`.
+    private static func share(of value: Decimal, of heaviest: Decimal) -> Double {
+        guard heaviest > 0, value > 0 else { return 0 }
+        return Double(truncating: (value / heaviest) as NSDecimalNumber)
     }
 
     /// How far the first of the month sits from the start of its week, in the locale's terms —
@@ -141,6 +153,9 @@ public struct UpcomingCell: Equatable, Sendable, Identifiable {
     /// Of those, how many belong to a subscription since cancelled. The money still left the
     /// account, so it still counts — but a day made only of them is not money going out again.
     public let cancelledCharges: Int
+    /// What this day cost against the heaviest day in the month, 0 to 1. A calendar that marks
+    /// every day identically says where charges are; this is what lets it say where the money is.
+    public let weight: Double
     public let isToday: Bool
     public let isSelected: Bool
 

@@ -15,6 +15,7 @@ struct ChargeHistoryChart: View {
 
     @State private var scrubbed: ChargeBar?
     @State private var width: CGFloat = 0
+    @State private var grown = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: .sm) {
@@ -23,16 +24,26 @@ struct ChargeHistoryChart: View {
             axisLabels
         }
         .badeFeedback(.selection, trigger: scrubbed?.month)
+        .task { grown = true }
     }
 
+    /// Nothing under Reduce Motion: the bars are simply their height from the first frame.
+    private func growth(at index: Int) -> Animation? {
+        guard !reduceMotion else { return nil }
+        return .badeContent.delay(Double(index) * DetailMetrics.barStagger)
+    }
+
+    /// The bars grow out of the baseline, each a beat after the one to its left, so opening a
+    /// subscription draws its year rather than presenting it finished.
     private var plot: some View {
         HStack(alignment: .bottom, spacing: .xxs) {
-            ForEach(bars) { bar in
+            ForEach(Array(bars.enumerated()), id: \.element.id) { index, bar in
                 RoundedRectangle(cornerRadius: BadeRadius.sm, style: .continuous)
                     .fill(colour(for: bar))
-                    .frame(height: height(for: bar))
+                    .frame(height: grown ? height(for: bar) : 0)
                     .frame(maxWidth: .infinity)
                     .opacity(dimmed(bar) ? DetailMetrics.dimmedBar : 1)
+                    .animation(growth(at: index), value: grown)
                     .accessibilityLabel(Text(verbatim: describe(bar)))
             }
         }

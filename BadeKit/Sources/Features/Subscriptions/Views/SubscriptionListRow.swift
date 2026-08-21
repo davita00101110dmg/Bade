@@ -16,7 +16,7 @@ struct SubscriptionListRow: View {
     /// is what a tappable list row is supposed to be.
     var body: some View {
         HStack(spacing: .sm) {
-            MerchantMonogram(letter: row.monogram)
+            MerchantMonogram(letter: row.monogram, merchant: row.subscription.merchant)
 
             VStack(alignment: .leading, spacing: .xxs) {
                 Text(row.subscription.merchant)
@@ -69,21 +69,23 @@ struct SubscriptionListRow: View {
 }
 
 /// The brief asks for logos where they exist and a clean monogram where they do not. Nothing
-/// bundles logos yet, so every row gets the monogram and the list stays consistent.
+/// bundles logos yet, so every row gets the monogram — but each in its merchant's own colour,
+/// worked out from the name, so a column of them is scannable rather than thirty identical tiles.
 struct MerchantMonogram: View {
-    @Environment(\.badeTheme) private var theme
-
     let letter: String
+    let merchant: String
 
     var body: some View {
         Text(letter)
             .font(.badeHeadline)
-            .foregroundStyle(theme.accent)
+            .foregroundStyle(colour)
             .frame(width: MonogramMetrics.size, height: MonogramMetrics.size)
             .background(
                 RoundedRectangle(cornerRadius: MonogramMetrics.cornerRadius, style: .continuous)
-                    .fill(theme.surfaceSunken)
+                    .fill(colour.opacity(BadeMerchantMetrics.tintOpacity))
             )
             .accessibilityHidden(true)
     }
+
+    private var colour: Color { .badeMerchant(folded: MerchantName.folded(merchant)) }
 }
