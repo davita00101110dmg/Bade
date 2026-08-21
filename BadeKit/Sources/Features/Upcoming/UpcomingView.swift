@@ -141,7 +141,8 @@ public struct UpcomingView<Destination: View>: View {
                         UpcomingChargeRow(
                             merchant: charge.subscription.merchant,
                             amount: model.state.amount(of: charge),
-                            currency: model.state.currencyCode(of: charge))
+                            currency: model.state.currencyCode(of: charge),
+                            isCancelled: !charge.subscription.isActive)
                     }
                     .badeListRow()
                     .listRowBackground(theme.surfaceRaised)

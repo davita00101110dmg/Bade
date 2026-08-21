@@ -45,6 +45,40 @@ private func state(
 
 @Suite("Upcoming")
 struct UpcomingStateTests {
+    /// A subscription marked cancelled stops being projected, but a charge it already took is a
+    /// fact and stays counted — which is why this month can be larger than what the list says you
+    /// pay. The calendar has to be able to say which charges those were.
+    @Test func aCancelledSubscriptionKeepsTheChargeItAlreadyTook() {
+        var netflix = subscription("Netflix", next: "2026-08-09", amount: "35.00", active: false)
+        netflix.charges = [
+            Charge(date: day("2026-08-05"), amount: 35, currency: "GEL", conversion: nil)
+        ]
+        // Late in the month, so the 5th is genuinely behind us: a charge recorded ahead of today
+        // is not a record of anything, and is rightly ignored.
+        let subject = state(
+            [netflix, subscription("Spotify", next: "2026-08-20", amount: "15.00")],
+            today: "2026-08-22")
+
+        #expect(subject.monthTotal == 50)
+
+        let fifth = subject.cells.first { $0.date == day("2026-08-05") }
+        #expect(fifth?.charges == 1)
+        #expect(fifth?.cancelledCharges == 1)
+        #expect(fifth?.isEntirelyCancelled == true)
+
+        // And nothing was projected forward for it: the 9th is empty.
+        #expect(subject.cells.first { $0.date == day("2026-08-09") }?.charges == 0)
+    }
+
+    @Test func aLiveDayIsNotMarkedCancelled() {
+        let subject = state([subscription("Spotify", next: "2026-08-20", amount: "15.00")])
+        let twentieth = subject.cells.first { $0.date == day("2026-08-20") }
+
+        #expect(twentieth?.charges == 1)
+        #expect(twentieth?.cancelledCharges == 0)
+        #expect(twentieth?.isEntirelyCancelled == false)
+    }
+
     @Test func itOpensOnThisMonth() {
         let subject = state([])
 

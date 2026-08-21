@@ -58,6 +58,8 @@ extension LocalizedStringResource {
         public var included: LocalizedStringResource { string("pro.included") }
         public var calendar: LocalizedStringResource { string("pro.calendar") }
         public var calendarDetail: LocalizedStringResource { string("pro.calendarDetail") }
+        public var export: LocalizedStringResource { string("pro.export") }
+        public var exportDetail: LocalizedStringResource { string("pro.exportDetail") }
         public var fx: LocalizedStringResource { string("pro.fx") }
         public var fxDetail: LocalizedStringResource { string("pro.fxDetail") }
         // Parked with the features they describe: nothing lists them until they exist.
@@ -87,6 +89,9 @@ extension LocalizedStringResource {
         public var total: LocalizedStringResource { string("upcoming.total") }
         public var showMonth: LocalizedStringResource { string("upcoming.showMonth") }
         public var nothingThatDay: LocalizedStringResource { string("upcoming.nothingThatDay") }
+        /// On a charge that happened before its subscription was marked cancelled. The money left,
+        /// so it is still counted; this says why it is not in the list's total any more.
+        public var cancelled: LocalizedStringResource { string("upcoming.cancelled") }
         public var nothing: LocalizedStringResource { string("upcoming.nothing") }
         public var nothingEver: LocalizedStringResource { string("upcoming.nothingEver") }
         public var previous: LocalizedStringResource { string("upcoming.previous") }
@@ -240,6 +245,24 @@ extension LocalizedStringResource {
         public var fxOfficialRate: LocalizedStringResource { string("detail.fx.officialRate") }
         public var fxRateGap: LocalizedStringResource { string("detail.fx.rateGap") }
         public var fxNoRate: LocalizedStringResource { string("detail.fx.noRate") }
+        public var fxShowRates: LocalizedStringResource { string("detail.fx.showRates") }
+
+        /// The gap said in a sentence, in terms of what it cost rather than of how wide a rate was.
+        /// Four of them, because which reference the bank was judged against changes the wording and
+        /// so does which way the gap fell — costing less is a real outcome and reads as good news,
+        /// which it is. The caller picks: this module depends on nothing and cannot see Core.
+        public func fxCostMoreScheme(_ percentage: String) -> LocalizedStringResource {
+            string("detail.fx.costMoreScheme \(percentage)")
+        }
+        public func fxCostLessScheme(_ percentage: String) -> LocalizedStringResource {
+            string("detail.fx.costLessScheme \(percentage)")
+        }
+        public func fxCostMoreOfficial(_ percentage: String) -> LocalizedStringResource {
+            string("detail.fx.costMoreOfficial \(percentage)")
+        }
+        public func fxCostLessOfficial(_ percentage: String) -> LocalizedStringResource {
+            string("detail.fx.costLessOfficial \(percentage)")
+        }
 
         public func fxNoConversion(_ currency: String) -> LocalizedStringResource {
             string("detail.fx.noConversion \(currency)")

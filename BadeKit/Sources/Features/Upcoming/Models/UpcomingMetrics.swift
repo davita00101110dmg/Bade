@@ -4,6 +4,8 @@ import DesignSystem
 /// The grid's own dimensions, which are its business and not the spacing scale's.
 enum UpcomingMetrics {
     static let dotSize: CGFloat = 5
+    /// A cancelled charge's dot is an outline rather than a disc.
+    static let hollowDot: CGFloat = 1
     static let cellHeight: CGFloat = 44
     static let tileRadius = BadeRadius.md
     static let selectionWidth: CGFloat = 2

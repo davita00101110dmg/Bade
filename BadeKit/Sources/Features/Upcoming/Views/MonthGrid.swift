@@ -73,11 +73,19 @@ struct MonthGrid: View {
     }
 
     /// Three dots and then a plus: past three the count stops meaning anything at this size.
+    /// A charge from a subscription since cancelled is drawn hollow — it happened, so the day is
+    /// not empty, but it is not money going out again either.
     private func dots(_ cell: UpcomingCell) -> some View {
         HStack(spacing: .xxs) {
-            ForEach(0..<min(cell.charges, UpcomingMetrics.visibleDots), id: \.self) { _ in
+            ForEach(0..<min(cell.charges, UpcomingMetrics.visibleDots), id: \.self) { index in
                 Circle()
-                    .fill(mark(cell))
+                    .strokeBorder(
+                        mark(cell),
+                        lineWidth: isCancelled(index, in: cell) ? UpcomingMetrics.hollowDot : .zero
+                    )
+                    .background(
+                        Circle().fill(isCancelled(index, in: cell) ? .clear : mark(cell))
+                    )
                     .frame(width: UpcomingMetrics.dotSize, height: UpcomingMetrics.dotSize)
             }
             if cell.charges > UpcomingMetrics.visibleDots {
@@ -87,6 +95,11 @@ struct MonthGrid: View {
             }
         }
         .frame(height: UpcomingMetrics.dotSize)
+    }
+
+    /// The live charges are drawn first, so the hollow ones fall at the end of the row.
+    private func isCancelled(_ index: Int, in cell: UpcomingCell) -> Bool {
+        index >= cell.charges - cell.cancelledCharges
     }
 
     private func fill(_ cell: UpcomingCell) -> Color {

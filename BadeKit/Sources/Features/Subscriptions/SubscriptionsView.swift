@@ -16,10 +16,18 @@ public struct SubscriptionsView: View {
     @State private var isRaining = false
     /// Watched rather than owned: Settings can change it while this screen is on screen.
     private let currency: String
+    /// Only forwarded: this screen locks nothing itself, but the detail behind a row does.
+    private let isPro: Bool
+    private let onUnlock: () -> Void
 
-    public init(model: SubscriptionsViewModel, currency: String) {
+    public init(
+        model: SubscriptionsViewModel, currency: String, isPro: Bool,
+        onUnlock: @escaping () -> Void
+    ) {
         _model = State(initialValue: model)
         self.currency = currency
+        self.isPro = isPro
+        self.onUnlock = onUnlock
     }
 
     public var body: some View {
@@ -118,7 +126,9 @@ public struct SubscriptionsView: View {
             Section {
                 ForEach(model.state.rows) { row in
                     NavigationLink {
-                        SubscriptionDetailView(model: model.detail(for: row.subscription))
+                        SubscriptionDetailView(
+                            model: model.detail(for: row.subscription), isPro: isPro,
+                            onUnlock: onUnlock)
                     } label: {
                         SubscriptionListRow(row: row, currency: model.state.currency)
                     }
@@ -148,10 +158,12 @@ public struct SubscriptionsView: View {
             Section {
                 ForEach(model.state.cancelledRows) { row in
                     NavigationLink {
-                        SubscriptionDetailView(model: model.detail(for: row.subscription))
+                        SubscriptionDetailView(
+                            model: model.detail(for: row.subscription), isPro: isPro,
+                            onUnlock: onUnlock)
                     } label: {
                         SubscriptionListRow(row: row, currency: model.state.currency)
-                            .opacity(SubscriptionsMetrics.cancelledRow)
+                            .opacity(BadeListRowMetrics.cancelledOpacity)
                     }
                     .badeListRow()
                     .listRowBackground(theme.surfaceRaised)

@@ -77,8 +77,7 @@ public struct UpcomingState: Equatable {
 
     /// The grid, padded to whole weeks so the columns line up under their weekday headings.
     public var cells: [UpcomingCell] {
-        let counts = Dictionary(grouping: charges) { calendar.startOfDay(for: $0.date) }
-            .mapValues(\.count)
+        let byDay = Dictionary(grouping: charges) { calendar.startOfDay(for: $0.date) }
         let leading = leadingBlanks
         let length = calendar.range(of: .day, in: .month, for: month)?.count ?? 0
         let total = Int((Double(leading + length) / 7).rounded(.up)) * 7
@@ -86,12 +85,15 @@ public struct UpcomingState: Equatable {
         return (0..<total).map { index in
             guard index >= leading, index < leading + length else {
                 return UpcomingCell(
-                    id: index, date: nil, charges: 0, isToday: false, isSelected: false)
+                    id: index, date: nil, charges: 0, cancelledCharges: 0, isToday: false,
+                    isSelected: false)
             }
             let date =
                 calendar.date(byAdding: .day, value: index - leading, to: month) ?? month
+            let onDay = byDay[calendar.startOfDay(for: date)] ?? []
             return UpcomingCell(
-                id: index, date: date, charges: counts[calendar.startOfDay(for: date)] ?? 0,
+                id: index, date: date, charges: onDay.count,
+                cancelledCharges: onDay.count { !$0.subscription.isActive },
                 isToday: calendar.isDate(date, inSameDayAs: today),
                 isSelected: selectedDay.map { calendar.isDate($0, inSameDayAs: date) } ?? false)
         }
@@ -136,8 +138,14 @@ public struct UpcomingCell: Equatable, Sendable, Identifiable {
     public let id: Int
     public let date: Date?
     public let charges: Int
+    /// Of those, how many belong to a subscription since cancelled. The money still left the
+    /// account, so it still counts — but a day made only of them is not money going out again.
+    public let cancelledCharges: Int
     public let isToday: Bool
     public let isSelected: Bool
+
+    /// Every charge on this day is from something no longer paid for.
+    public var isEntirelyCancelled: Bool { charges > 0 && charges == cancelledCharges }
 }
 
 public enum UpcomingIntent: Equatable {

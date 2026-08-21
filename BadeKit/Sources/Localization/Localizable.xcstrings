@@ -323,6 +323,74 @@
         }
       }
     },
+    "detail.fx.costLessOfficial %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your bank's rate cost you %@ less than the National Bank's."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "თქვენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით იაფი დაგიჯდათ."
+          }
+        }
+      }
+    },
+    "detail.fx.costLessScheme %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your bank's rate cost you %@ less than the card network's."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "თქვენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით იაფი დაგიჯდათ."
+          }
+        }
+      }
+    },
+    "detail.fx.costMoreOfficial %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your bank's rate cost you %@ more than the National Bank's."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "თქვენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით ძვირი დაგიჯდათ."
+          }
+        }
+      }
+    },
+    "detail.fx.costMoreScheme %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your bank's rate cost you %@ more than the card network's."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "თქვენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით ძვირი დაგიჯდათ."
+          }
+        }
+      }
+    },
     "detail.fx.noConversion %@": {
       "localizations": {
         "en": {
@@ -415,6 +483,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "საგადახდო სისტემის კურსი"
+          }
+        }
+      }
+    },
+    "detail.fx.showRates": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the rates"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "კურსების ჩვენება"
           }
         }
       }
@@ -1272,6 +1357,40 @@
         }
       }
     },
+    "pro.export": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export your data"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მონაცემების ექსპორტი"
+          }
+        }
+      }
+    },
+    "pro.exportDetail": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everything Bade found, as CSV or JSON, whenever you want it."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ყველაფერი, რაც Bade-მ იპოვა, CSV ან JSON ფორმატში, როცა გინდათ."
+          }
+        }
+      }
+    },
     "pro.failed": {
       "localizations": {
         "en": {
@@ -1453,13 +1572,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "One payment. No subscription, ever."
+            "value": "One payment.\nNo subscription, ever."
           }
         },
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ერთი გადახდა. არასდროს გამოწერა."
+            "value": "ერთი გადახდა.\nარასოდეს გამოწერა."
           }
         }
       }
@@ -3204,6 +3323,23 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "upcoming.cancelled": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelled"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გაუქმებული"
           }
         }
       }
