@@ -41,6 +41,8 @@ public enum BadeButtonMetrics {
     public static let primaryVerticalPadding = BadeSpacing.md
     public static let secondaryVerticalPadding = BadeSpacing.md
     public static let cornerRadius = BadeRadius.xl
+    public static let compactHorizontalPadding = BadeSpacing.md
+    public static let compactVerticalPadding = BadeSpacing.xs
 }
 
 public enum BadeStepMetrics {
@@ -59,4 +61,6 @@ public enum BadeLayout {
 public enum BadeListRowMetrics {
     public static let verticalInset = BadeSpacing.xs
     public static let horizontalInset = BadeSpacing.md
+    /// A row for something no longer paid for: legible, plainly not counted among the rest.
+    public static let cancelledOpacity = 0.45
 }

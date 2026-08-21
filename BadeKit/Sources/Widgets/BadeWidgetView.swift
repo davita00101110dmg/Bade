@@ -20,12 +20,23 @@ public struct BadeWidgetView: View {
         if !snapshot.isPro {
             locked
         } else if !snapshot.hasData {
-            empty
+            empty.background(net)
         } else if family == .systemMedium {
-            medium
+            medium.background(net)
         } else {
-            month
+            month.background(net)
         }
+    }
+
+    /// The same mesh whether the tile is locked or bought — it is the app's motif, not a lock.
+    ///
+    /// A shorter reach than anywhere else in the app: the falloff is measured against the widest
+    /// side, and a widget is far wider than it is tall, so at the usual reach the mesh was still at
+    /// strength when the tile ran out and it ended on a cut. Here it is spent well inside the edge.
+    private var net: some View {
+        NetBackground(strength: WidgetMetrics.lockedNet, reachFactor: WidgetMetrics.netReach)
+            .padding(-BadeLockMetrics.cardBleed)
+            .clipped(antialiased: true)
     }
 
     private var medium: some View {
@@ -98,14 +109,28 @@ public struct BadeWidgetView: View {
             snapshot.monthTotal.formatted(.badeMoney(snapshot.currency).locale(locale)))
     }
 
+    /// Caught in the net, like every other locked thing in the app: a plausible total behind the
+    /// mesh, unreadable but plainly there. A tile that only says "buy Pro" sells nothing, because
+    /// it never shows what it is holding.
     private var locked: some View {
-        VStack(alignment: .leading, spacing: .xxs) {
-            Text(.pro.badge).badeSectionLabel(tint: theme.accent)
+        VStack(alignment: .leading, spacing: .xs) {
+            Text(.widget.thisMonth).badeSectionLabel()
+
+            Spacer(minLength: .zero)
+
+            Text(verbatim: WidgetMetrics.lockedFigure)
+                .font(.badeDisplay)
+                .foregroundStyle(theme.ink)
+                .redacted(reason: .placeholder)
+                .blur(radius: WidgetMetrics.lockedBlur)
+
             Text(.widget.locked)
                 .font(.badeCaption)
-                .foregroundStyle(theme.inkMuted)
+                .foregroundStyle(theme.accent)
+                .lineLimit(2)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(net)
     }
 
     private var empty: some View {
@@ -157,4 +182,11 @@ public enum WidgetMetrics {
     /// How far the total may shrink before it wraps — a five-figure sum still has to fit.
     public static let totalScale = 0.5
     public static let dividerWidth: CGFloat = 1
+    /// Stands in for the figure a buyer would see. Redacted and blurred, so it reads as withheld
+    /// rather than as a number anyone should try to make out.
+    public static let lockedFigure = "000.00"
+    public static let lockedBlur: CGFloat = 3
+    public static let lockedNet = 0.6
+    /// How far the mesh spreads before it is gone, against the tile's widest side.
+    public static let netReach: CGFloat = 0.26
 }

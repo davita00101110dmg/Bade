@@ -40,8 +40,34 @@ public struct BadeSecondaryButtonStyle: ButtonStyle {
     }
 }
 
+/// The primary action at the size a card can carry: filled and accented like its full-width
+/// sibling, but hugging its own text rather than claiming the width of whatever it sits in.
+public struct BadeCompactButtonStyle: ButtonStyle {
+    @Environment(\.badeTheme) private var theme
+
+    public init() {}
+
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.badeCaptionStrong)
+            .foregroundStyle(.white)
+            .padding(.horizontal, BadeButtonMetrics.compactHorizontalPadding)
+            .padding(.vertical, BadeButtonMetrics.compactVerticalPadding)
+            .background(
+                Capsule().fill(configuration.isPressed ? theme.accentPressed : theme.accent)
+            )
+            .contentShape(.capsule)
+            .scaleEffect(configuration.isPressed ? 0.985 : 1)
+            .badeAnimation(.badePress, value: configuration.isPressed)
+    }
+}
+
 extension ButtonStyle where Self == BadePrimaryButtonStyle {
     public static var badePrimary: BadePrimaryButtonStyle { BadePrimaryButtonStyle() }
+}
+
+extension ButtonStyle where Self == BadeCompactButtonStyle {
+    public static var badeCompact: BadeCompactButtonStyle { BadeCompactButtonStyle() }
 }
 
 extension ButtonStyle where Self == BadeSecondaryButtonStyle {
