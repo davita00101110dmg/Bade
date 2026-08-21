@@ -35,7 +35,6 @@ struct SubscriptionListRow: View {
                 .font(.badeAmount)
                 .foregroundStyle(theme.ink)
         }
-        .padding(.vertical, .xxs)
         .frame(minHeight: BadeLayout.minimumTapTarget)
         .contentShape(.rect)
     }

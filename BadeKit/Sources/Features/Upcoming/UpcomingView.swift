@@ -8,6 +8,7 @@ import SwiftUI
 public struct UpcomingView<Destination: View>: View {
     @Environment(\.badeTheme) private var theme
     @Environment(\.locale) private var locale
+    @ScaledMetric(relativeTo: .largeTitle) private var monthTotalSize = BadeTypography.displaySize
 
     @State private var model: UpcomingViewModel
     private let destination: (Subscription) -> Destination
@@ -23,6 +24,9 @@ public struct UpcomingView<Destination: View>: View {
     public var body: some View {
         list
             .navigationTitle(Text(.upcoming.title))
+            // Inline: a large title spends most of the screen's top on a word the tab bar already
+            // says, and the calendar is what the screen is for.
+            .toolbarTitleDisplayMode(.inline)
             // Reloaded on every appearance, not once: an edit made in another tab has to show.
             .onAppear { model.send(.appeared) }
     }
@@ -72,13 +76,15 @@ public struct UpcomingView<Destination: View>: View {
 
             Spacer()
 
+            // Never disabled on the current month: a disabled plain button dims its own label, so
+            // the month you are on read greyer than the ones you are not. Returning to a month you
+            // are already in changes nothing, which is the whole cost of leaving it tappable.
             Button { model.send(.thisMonth) } label: {
                 Text(monthName)
                     .font(.badeTitle)
                     .foregroundStyle(theme.ink)
             }
             .buttonStyle(.plain)
-            .disabled(model.state.isShowingThisMonth)
             .accessibilityLabel(Text(.upcoming.thisMonth))
 
             Spacer()
@@ -110,9 +116,12 @@ public struct UpcomingView<Destination: View>: View {
     private var total: some View {
         VStack(spacing: .xxs) {
             Text(.upcoming.total).badeSectionLabel()
-            Text(model.state.monthTotal, format: .badeMoneyWhole(model.state.currency))
-                .font(.badeTitle)
-                .foregroundStyle(theme.ink)
+            BadeMoneyText(
+                model.state.monthTotal, currency: model.state.currency, size: monthTotalSize
+            )
+            .foregroundStyle(theme.ink)
+            .minimumScaleFactor(0.5)
+            .lineLimit(1)
             if model.state.unconvertibleCount > 0 {
                 Text(.subscriptions.unconvertible(model.state.unconvertibleCount))
                     .font(.badeCaption)
@@ -134,6 +143,7 @@ public struct UpcomingView<Destination: View>: View {
                             amount: model.state.amount(of: charge),
                             currency: model.state.currencyCode(of: charge))
                     }
+                    .badeListRow()
                     .listRowBackground(theme.surfaceRaised)
                 }
             } header: {

@@ -49,10 +49,18 @@ public struct WelcomeView: View {
         .background(theme.surface, ignoresSafeAreaEdges: .all)
     }
 
+    /// The badge rides on the button rather than under it: reading a statement is the one part of
+    /// Bade that depends on a bank not changing its export, and this is where that promise is made.
     private var actions: some View {
         VStack(spacing: .xs) {
-            Button(action: onImport) { Text(.welcome.importStatement) }
-                .buttonStyle(.badePrimary)
+            Button(action: onImport) {
+                HStack(spacing: .xs) {
+                    Text(.welcome.importStatement)
+                    BadeBadge(.parsing.beta, tint: theme.surface)
+                }
+            }
+            .buttonStyle(.badePrimary)
+
             Button(action: onAddManually) { Text(.welcome.addManually) }
                 .buttonStyle(.badeSecondary)
         }

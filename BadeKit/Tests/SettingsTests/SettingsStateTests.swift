@@ -73,7 +73,17 @@ struct SettingsStateTests {
         #expect(subject.apply(.deleteAllConfirmed) == .deleteEverything)
         #expect(subject.isConfirmingDeleteAll == false)
         #expect(subject.apply(.storeCleared) == .report(.dataCleared))
-        #expect(subject.hasData == false)
+    }
+
+    /// The screen keeps what it was showing rather than emptying itself. The root is already on
+    /// its way to Welcome, and blanking the data section first made it vanish out from under the
+    /// reader a moment before the screen it belonged to did.
+    @Test func clearingLeavesTheScreenAsItWasUntilTheRootMovesOn() {
+        var subject = state([subscription("Netflix")])
+
+        _ = subject.apply(.storeCleared)
+
+        #expect(subject.hasData)
     }
 
     @Test func backingOutOfTheConfirmationDeletesNothing() {

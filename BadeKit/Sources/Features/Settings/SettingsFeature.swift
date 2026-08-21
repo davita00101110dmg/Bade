@@ -155,8 +155,10 @@ extension SettingsState {
             isConfirmingDeleteAll = false
             return nil
 
+        // Deliberately keeps what it was showing. The root is already on its way to Welcome, and
+        // emptying this state first made the whole data section vanish out from under the reader
+        // a moment before the screen it belonged to did.
         case .storeCleared:
-            subscriptions = []
             return .report(.dataCleared)
         }
     }

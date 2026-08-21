@@ -38,7 +38,10 @@ public struct ReminderPromptView: View {
                 .padding(.horizontal, .screenMargin)
                 .padding(.top, .xl)
         }
-        .frame(maxHeight: .infinity, alignment: .center)
+        // Sat centred in a medium sheet, which left as much empty below the buttons as above the
+        // net. The slack belongs above: it puts the answer where a thumb already is.
+        .padding(.bottom, .xl)
+        .frame(maxHeight: .infinity, alignment: .bottom)
         .background(theme.surface, ignoresSafeAreaEdges: .all)
     }
 

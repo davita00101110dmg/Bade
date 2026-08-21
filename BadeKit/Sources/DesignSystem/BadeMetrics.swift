@@ -53,3 +53,10 @@ public enum BadeStepMetrics {
 public enum BadeLayout {
     public static let minimumTapTarget: CGFloat = 44
 }
+
+/// The space around a list row. The tap target inside it is the floor and never moves; this is
+/// what decides whether a list of rows reads dense or airy, and every list reads the same.
+public enum BadeListRowMetrics {
+    public static let verticalInset = BadeSpacing.xs
+    public static let horizontalInset = BadeSpacing.md
+}

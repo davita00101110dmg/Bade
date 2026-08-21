@@ -21,15 +21,15 @@ public struct ProView: View {
         var id: String { symbol }
     }
 
+    /// Only what the app does today. Price alerts, trends, category analytics and themes were
+    /// listed here before any of them existed, which is both a promise Bade could not keep and a
+    /// 2.3.1 rejection waiting to happen. Their strings are kept for when they ship.
     private static let features: [Feature] = [
-        Feature(symbol: "arrow.left.arrow.right", title: .pro.fx, detail: .pro.fxDetail),
+        Feature(symbol: "calendar", title: .pro.calendar, detail: .pro.calendarDetail),
         Feature(
             symbol: "calendar.badge.clock", title: .pro.reminders, detail: .pro.remindersDetail),
-        Feature(symbol: "bell.badge", title: .pro.alerts, detail: .pro.alertsDetail),
-        Feature(symbol: "chart.line.uptrend.xyaxis", title: .pro.trends, detail: .pro.trendsDetail),
-        Feature(symbol: "chart.pie", title: .pro.categories, detail: .pro.categoriesDetail),
         Feature(symbol: "square.grid.2x2", title: .pro.widgets, detail: .pro.widgetsDetail),
-        Feature(symbol: "paintpalette", title: .pro.themes, detail: .pro.themesDetail),
+        Feature(symbol: "arrow.left.arrow.right", title: .pro.fx, detail: .pro.fxDetail),
     ]
 
     public var body: some View {
@@ -66,6 +66,9 @@ public struct ProView: View {
             .padding(.horizontal, .xl)
             .padding(.vertical, .xxl)
         }
+        // The panel hugs its content and the column around it aligns leading, so without this the
+        // net and the tagline sat against the left edge while reading as centred text.
+        .frame(maxWidth: .infinity)
     }
 
     private var features: some View {

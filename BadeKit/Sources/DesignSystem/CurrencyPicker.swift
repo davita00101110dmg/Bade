@@ -50,6 +50,7 @@ public struct CurrencyPicker: View {
                         row(code)
                     }
                     .buttonStyle(.plain)
+                    .badeListRow()
                     .listRowBackground(theme.surfaceRaised)
                 }
             } header: {

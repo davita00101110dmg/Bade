@@ -37,8 +37,11 @@ public struct ParsingState: Equatable {
     /// found nothing. Both stop the progress and offer another file instead.
     public var hasStopped: Bool { failure != nil || phase == .foundNothing }
 
-    public var progress: Double {
-        guard !found.isEmpty else { return phase == .reading ? 0 : 1 }
+    /// `nil` while the file is still being opened: reading a year of PDF takes a second or two and
+    /// there is no fraction to report, so the bar sweeps instead of sitting at nought.
+    public var progress: Double? {
+        guard phase != .reading else { return nil }
+        guard !found.isEmpty else { return 1 }
         return Double(revealedCount) / Double(found.count)
     }
 
@@ -50,7 +53,7 @@ public struct ParsingState: Equatable {
     }
 
     public var currentMonth: Date? {
-        guard let period, let monthCount, monthCount > 0 else { return nil }
+        guard let period, let monthCount, monthCount > 0, let progress else { return nil }
         let step = min(Int(progress * Double(monthCount)), monthCount - 1)
         return Calendar.current.date(byAdding: .month, value: step, to: period.lowerBound)
     }

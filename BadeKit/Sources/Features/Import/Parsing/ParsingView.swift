@@ -5,6 +5,7 @@ import SwiftUI
 
 public struct ParsingView: View {
     @Environment(\.badeTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var model: ParsingViewModel
 
@@ -38,11 +39,16 @@ public struct ParsingView: View {
                     .padding(.horizontal, .screenMargin)
             }
 
-            Text(.parsing.processedHere)
-                .font(.badeCaption)
-                .foregroundStyle(theme.inkFaint)
-                .padding(.top, .xl)
-                .padding(.bottom, .lg)
+            VStack(spacing: .xxs) {
+                Text(.parsing.betaNote)
+                    .multilineTextAlignment(.center)
+                Text(.parsing.processedHere)
+            }
+            .font(.badeCaption)
+            .foregroundStyle(theme.inkFaint)
+            .padding(.horizontal, .screenMargin)
+            .padding(.top, .xl)
+            .padding(.bottom, .lg)
         }
         .background(theme.surface, ignoresSafeAreaEdges: .all)
         .badeFeedback(.itemAppeared, trigger: model.state.revealedCount)
@@ -62,6 +68,10 @@ public struct ParsingView: View {
 
     private var header: some View {
         VStack(spacing: .sm) {
+            // Two banks are understood, and either could change its export without telling anyone.
+            // Saying so on the screen where it would break is cheaper than a one-star review.
+            BadeBadge(.parsing.beta)
+
             Text(headline)
                 .font(.badeDisplay)
                 .foregroundStyle(theme.ink)
@@ -100,10 +110,15 @@ public struct ParsingView: View {
     }
 
     private var caption: LocalizedStringResource? {
-        guard let month = model.state.currentMonth else { return nil }
+        // Reading a year of PDF takes a second or two before the first month can be named, and an
+        // empty bar under a headline reads as a hang rather than as work.
+        if model.state.phase == .reading { return .parsing.reading }
+        guard let month = model.state.currentMonth, let progress = model.state.progress else {
+            return nil
+        }
         return .parsing.progress(
             month.formatted(.dateTime.month(.wide).year()),
-            model.state.progress.formatted(.percent.precision(.fractionLength(0))))
+            progress.formatted(.percent.precision(.fractionLength(0))))
     }
 
     private var foundList: some View {
@@ -118,17 +133,30 @@ public struct ParsingView: View {
             }
             .padding(.horizontal, .screenMargin)
 
-            ScrollView {
-                VStack(spacing: .xs) {
-                    ForEach(Array(model.state.revealedGroups.enumerated()), id: \.element.id) {
-                        index, group in
-                        FoundSubscriptionRow(group: group, settling: settling(at: index))
-                            .transition(.opacity.combined(with: .move(edge: .bottom)))
+            // Fills from the top and only starts following once there are more rows than fit.
+            // Anchoring the scroll view to its bottom did follow them, but it also pinned a short
+            // list to the foot of the space, so the first few rows arrived from underneath.
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: .xs) {
+                        ForEach(Array(model.state.revealedGroups.enumerated()), id: \.element.id) {
+                            index, group in
+                            FoundSubscriptionRow(group: group, settling: settling(at: index))
+                                .id(group.id)
+                                .transition(.opacity.combined(with: .move(edge: .bottom)))
+                        }
+                    }
+                    .padding(.horizontal, .screenMargin)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                }
+                .scrollBounceBehavior(.basedOnSize)
+                .onChange(of: model.state.revealedCount) {
+                    guard let last = model.state.revealedGroups.last else { return }
+                    withBadeAnimation(.badeContent, reduceMotion: reduceMotion) {
+                        proxy.scrollTo(last.id, anchor: .bottom)
                     }
                 }
-                .padding(.horizontal, .screenMargin)
             }
-            .scrollBounceBehavior(.basedOnSize)
         }
         .badeAnimation(.badeContent, value: model.state.revealedCount)
     }

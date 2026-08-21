@@ -18,6 +18,7 @@ public struct SettingsView: View {
     public var body: some View {
         list
             .navigationTitle(Text(.settings.title))
+            .toolbarTitleDisplayMode(.inline)
             .modifier(DeletionConfirmation(model: model))
             // Reloaded on every appearance: an import in another tab changes what an export holds.
             .onAppear { model.send(.appeared) }
@@ -40,6 +41,8 @@ public struct SettingsView: View {
             aboutSection
         }
         .badeGroupedList()
+        // A grouped list reserves space above its first section for a header it does not have.
+        .contentMargins(.top, .zero, for: .scrollContent)
         .contentMargins(.bottom, .xxl, for: .scrollContent)
         .scrollContentBackground(.hidden)
         .background(theme.surface, ignoresSafeAreaEdges: .all)
@@ -149,10 +152,13 @@ public struct SettingsView: View {
 
     private var proReminderRow: some View {
         NavigationLink { ProView(model: model.pro()) } label: {
-            LabeledContent {
-                Text(.pro.badge).badeSectionLabel(tint: theme.accent)
-            } label: {
+            // An HStack rather than LabeledContent: that aligns its two halves on their first
+            // baseline, which left a small uppercase badge sitting high against a chevron the row
+            // centres. Here both are centred on the row, like everything else in it.
+            HStack {
                 label(.settings.remindMe)
+                Spacer(minLength: .xs)
+                Text(.pro.badge).badeSectionLabel(tint: theme.accent)
             }
         }
         .listRowBackground(theme.surfaceRaised)
@@ -218,7 +224,7 @@ public struct SettingsView: View {
         Section {
             Text(.settings.version(Self.version))
                 .font(.badeBody)
-                .foregroundStyle(theme.inkMuted)
+                .foregroundStyle(theme.ink)
                 .listRowBackground(theme.surfaceRaised)
         } header: {
             Text(.settings.about).badeSectionLabel()
@@ -233,8 +239,10 @@ public struct SettingsView: View {
         }
     }
 
+    /// Full ink, like the value beside it. A muted label under a full-strength value inverted the
+    /// hierarchy: the setting read quieter than the answer to it.
     private func label(_ title: LocalizedStringResource) -> some View {
-        Text(title).font(.badeBody).foregroundStyle(theme.inkMuted)
+        Text(title).font(.badeBody).foregroundStyle(theme.ink)
     }
 
     private var languageBinding: Binding<BadeLanguage> {
