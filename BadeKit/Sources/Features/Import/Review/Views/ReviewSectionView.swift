@@ -18,17 +18,14 @@ struct ReviewSectionView: View {
                 .padding(.horizontal, .xxs)
 
             VStack(spacing: .zero) {
+                // One control on every row, whatever tier it sits in. An uncertain detection used
+                // to ask its question in its own words, which meant two things to learn on one
+                // screen; the tier already says how sure Bade is, so leaving a box unticked says
+                // "not one" perfectly well.
                 ForEach(section.items) { item in
-                    if item.decision == .undecided {
-                        UncertainCard(
-                            item: item, currency: currency,
-                            onAccept: { send(.acceptedUncertain(item.id)) },
-                            onReject: { send(.rejectedUncertain(item.id)) })
-                    } else {
-                        ReviewRow(
-                            item: item, currency: currency,
-                            onToggle: { send(.toggled(item.id)) })
-                    }
+                    ReviewRow(
+                        item: item, currency: currency,
+                        onToggle: { send(.toggled(item.id)) })
                     if item.id != section.items.last?.id {
                         Divider().overlay(theme.border).padding(.leading, .md)
                     }

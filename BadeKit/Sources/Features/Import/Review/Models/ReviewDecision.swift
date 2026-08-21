@@ -1,27 +1,15 @@
 import Core
 
-/// What the user has said about one detection. Confident arrives `included`, probable `excluded`,
-/// uncertain `undecided` — the brief forbids silently adding anything the engine is unsure of.
+/// What the user has said about one detection: ticked, or not. Every row asks the same way, so
+/// there is nothing else to be.
 public enum ReviewDecision: Equatable, Sendable {
     case included
     case excluded
-    /// Uncertain only: shown as a two-way choice rather than a checkbox.
-    case undecided
-    /// Uncertain only, answered "not one": gone from the list.
-    case dismissed
 
-    /// Anything already ended starts unticked, whatever the engine made of it. Nothing that stopped
-    /// should be added to a list of what someone pays without them saying so — and it keeps that
-    /// section to one kind of row, since `undecided` is what draws the two-way card.
+    /// Only what the engine is sure of arrives ticked. The brief forbids silently adding anything
+    /// weaker than that, and anything already ended is a record rather than a cost, whatever
+    /// confidence it reached.
     init(startingFrom detected: DetectedSubscription) {
-        guard !detected.hasEnded else {
-            self = .excluded
-            return
-        }
-        switch detected.confidence {
-        case .confident: self = .included
-        case .probable: self = .excluded
-        case .uncertain: self = .undecided
-        }
+        self = detected.confidence == .confident && !detected.hasEnded ? .included : .excluded
     }
 }

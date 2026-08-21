@@ -61,7 +61,7 @@ struct ReviewStateTests {
             detection("Goodwill", confidence: .uncertain),
         ])
 
-        #expect(subject.decisions == [.included, .excluded, .undecided])
+        #expect(subject.decisions == [.included, .excluded, .excluded])
         #expect(subject.selectedCount == 1)
     }
 
@@ -74,10 +74,12 @@ struct ReviewStateTests {
         #expect(subject.isSaving == false)
     }
 
-    @Test func answeringUncertainTurnsItIntoAnOrdinaryRow() {
+    /// Every row answers the same way, whatever tier it is in: an uncertain one is ticked and
+    /// unticked exactly like a confident one, and its tier is what says how sure Bade was.
+    @Test func anUncertainRowIsTickedLikeAnyOther() {
         var subject = state([detection("Goodwill", confidence: .uncertain)])
 
-        _ = subject.apply(.acceptedUncertain(0))
+        _ = subject.apply(.toggled(0))
         #expect(subject.decisions == [.included])
         #expect(subject.sections.first?.items.first?.decision == .included)
 
@@ -85,15 +87,15 @@ struct ReviewStateTests {
         #expect(subject.decisions == [.excluded])
     }
 
-    @Test func notOneRemovesItFromTheList() {
-        var subject = state([
+    /// Nothing leaves the list any more. A row you do not want is simply left unticked, which keeps
+    /// what was found on screen instead of making a rejection look like a disappearance.
+    @Test func everyDetectionStaysOnScreenHoweverItIsAnswered() {
+        let subject = state([
             detection("Netflix", confidence: .confident),
             detection("Goodwill", confidence: .uncertain),
         ])
 
-        _ = subject.apply(.rejectedUncertain(1))
-
-        #expect(subject.sections.map(\.kind) == [.tier(.confident)])
+        #expect(subject.sections.map(\.kind) == [.tier(.confident), .tier(.uncertain)])
     }
 
     /// Ended rows are all one kind and none are ticked. Mixed with the tiers they inherited both
@@ -225,7 +227,7 @@ struct ReviewStateTests {
         ])
         #expect(subject.monthlyTotal == 35)
 
-        _ = subject.apply(.acceptedUncertain(1))
+        _ = subject.apply(.toggled(1))
 
         #expect(subject.monthlyTotal == 60)
         #expect(subject.selectedCount == 2)
