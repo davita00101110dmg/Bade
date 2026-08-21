@@ -30,6 +30,7 @@ public struct ProView: View {
             symbol: "calendar.badge.clock", title: .pro.reminders, detail: .pro.remindersDetail),
         Feature(symbol: "square.grid.2x2", title: .pro.widgets, detail: .pro.widgetsDetail),
         Feature(symbol: "arrow.left.arrow.right", title: .pro.fx, detail: .pro.fxDetail),
+        Feature(symbol: "square.and.arrow.up", title: .pro.export, detail: .pro.exportDetail),
     ]
 
     public var body: some View {

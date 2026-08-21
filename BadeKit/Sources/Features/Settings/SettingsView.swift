@@ -10,9 +10,13 @@ public struct SettingsView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var model: SettingsViewModel
+    /// Watched rather than owned. Whole sections appear and disappear with it, and this screen is
+    /// built once — so without this an entitlement that arrives, or goes, never reaches it.
+    private let isPro: Bool
 
-    public init(model: SettingsViewModel) {
+    public init(model: SettingsViewModel, isPro: Bool) {
         _model = State(initialValue: model)
+        self.isPro = isPro
     }
 
     public var body: some View {
@@ -22,6 +26,7 @@ public struct SettingsView: View {
             .modifier(DeletionConfirmation(model: model))
             // Reloaded on every appearance: an import in another tab changes what an export holds.
             .onAppear { model.send(.appeared) }
+            .task(id: isPro) { model.send(.proChecked(isPro)) }
             // And on coming back: notification permission can be changed in iOS Settings, or by
             // the system prompt this screen just triggered, neither of which is an appearance.
             .onChange(of: scenePhase) { _, phase in
@@ -113,19 +118,16 @@ public struct SettingsView: View {
                 }
             }
             .listRowBackground(theme.surfaceRaised)
-        } footer: {
-            Text(.pro.tagline)
-                .font(.badeCaption)
-                .foregroundStyle(theme.inkFaint)
         }
     }
 
-    /// Without the purchase the row still says what it would do, and leads to the page that sells
-    /// it — the same bargain the locked screens make. The time is only offered once there is
-    /// something to time: "Off at 09:00" is not a setting.
+    /// Gone entirely without Pro, rather than shown as a row that leads to a shop. What it offers a
+    /// Pro user is real: how many days ahead, and at what time. The time is only offered once there
+    /// is something to time — "Off at 09:00" is not a setting.
+    @ViewBuilder
     private var remindersSection: some View {
-        Section {
-            if model.state.isPro {
+        if model.state.isPro {
+            Section {
                 picker(
                     .settings.remindMe, ReminderLead.allCases, reminderLeadBinding, \.localizedName)
 
@@ -138,30 +140,14 @@ public struct SettingsView: View {
                     .tint(theme.accent)
                     .listRowBackground(theme.surfaceRaised)
                 }
-            } else {
-                proReminderRow
-            }
-        } header: {
-            Text(.settings.reminders).badeSectionLabel()
-        } footer: {
-            Text(remindersFooter)
-                .font(.badeCaption)
-                .foregroundStyle(isReminderDenied ? theme.warning : theme.inkFaint)
-        }
-    }
-
-    private var proReminderRow: some View {
-        NavigationLink { ProView(model: model.pro()) } label: {
-            // An HStack rather than LabeledContent: that aligns its two halves on their first
-            // baseline, which left a small uppercase badge sitting high against a chevron the row
-            // centres. Here both are centred on the row, like everything else in it.
-            HStack {
-                label(.settings.remindMe)
-                Spacer(minLength: .xs)
-                Text(.pro.badge).badeSectionLabel(tint: theme.accent)
+            } header: {
+                Text(.settings.reminders).badeSectionLabel()
+            } footer: {
+                Text(remindersFooter)
+                    .font(.badeCaption)
+                    .foregroundStyle(isReminderDenied ? theme.warning : theme.inkFaint)
             }
         }
-        .listRowBackground(theme.surfaceRaised)
     }
 
     private var remindersFooter: LocalizedStringResource {
@@ -190,7 +176,10 @@ public struct SettingsView: View {
     /// is a dead end.
     private var dataSection: some View {
         Section {
-            if model.state.hasData {
+            // Part of Pro, and simply absent without it rather than shown behind a badge: a row
+            // that exists only to say you cannot have it is an advert, not a setting. Deleting
+            // everything is never gated — that one belongs to whoever's data it is.
+            if model.state.hasData && model.state.isPro {
                 shareLink(.json, title: .settings.exportJSON, icon: "curlybraces")
                 shareLink(.csv, title: .settings.exportCSV, icon: "tablecells")
             }
