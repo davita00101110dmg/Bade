@@ -54,7 +54,7 @@
         let model = SubscriptionDetailViewModel(
             subscription: subscription, currency: "GEL", rates: rates,
             repository: StubRepository(), onOutcome: { _ in })
-        return NavigationStack { SubscriptionDetailView(model: model) }
+        return NavigationStack { SubscriptionDetailView(model: model, isPro: true, onUnlock: {}) }
     }
 
     #Preview("Detail · foreign") { stubDetail(currency: "USD", months: 12).badeTheme() }

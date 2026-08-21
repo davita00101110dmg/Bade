@@ -8,9 +8,15 @@ public struct SubscriptionDetailView: View {
     @Environment(\.locale) private var locale
 
     @State private var model: SubscriptionDetailViewModel
+    /// Passed in rather than read here: this module may not import the one that owns the Pro page,
+    /// so the composition root supplies both the answer and the way to change it.
+    private let isPro: Bool
+    private let onUnlock: () -> Void
 
-    public init(model: SubscriptionDetailViewModel) {
+    public init(model: SubscriptionDetailViewModel, isPro: Bool, onUnlock: @escaping () -> Void) {
         _model = State(initialValue: model)
+        self.isPro = isPro
+        self.onUnlock = onUnlock
     }
 
     public var body: some View {
@@ -103,14 +109,17 @@ public struct SubscriptionDetailView: View {
         }
     }
 
-    /// Only for a subscription whose money crossed a currency; the rest never see it.
+    /// Only for a subscription whose money crossed a currency; the rest never see it. Part of Pro,
+    /// so without it the card is there but not readable — which is the offer.
     @ViewBuilder
     private var exchange: some View {
         if model.state.showsExchange {
             ExchangeCard(
                 markup: model.state.markup,
                 isPaidWithoutConversion: model.state.isPaidWithoutConversion,
-                currency: model.state.subscription.currency)
+                currency: model.state.subscription.currency
+            )
+            .badeLocked(!isPro, scale: .card, onUnlock: onUnlock)
         }
     }
 

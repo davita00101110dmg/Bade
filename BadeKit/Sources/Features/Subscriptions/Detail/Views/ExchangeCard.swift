@@ -20,13 +20,16 @@ struct ExchangeCard: View {
     let isPaidWithoutConversion: Bool
     let currency: String
 
+    @State private var isShowingRates = false
+
     var body: some View {
         BadeCard {
             VStack(alignment: .leading, spacing: .md) {
                 Text(.detail.fxTitle).badeSectionLabel()
 
                 if let markup {
-                    breakdown(markup)
+                    sentence(markup)
+                    rates(markup)
                 } else {
                     Text(explanation)
                         .font(.badeBody)
@@ -34,6 +37,43 @@ struct ExchangeCard: View {
                 }
             }
         }
+    }
+
+    /// The finding, in a sentence. Two four-decimal rates and a bare percentage are the working-out,
+    /// and almost nobody reading this knows what a card scheme is; the sentence is what the section
+    /// is actually for, and the numbers behind it are for whoever wants to check them.
+    @ViewBuilder
+    private func sentence(_ markup: FXMarkup) -> some View {
+        if let gap = markup.fraction {
+            Text(wording(gap, reference: markup.reference))
+                .font(.badeBody)
+                .foregroundStyle(theme.ink)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func wording(_ gap: Decimal, reference: FXMarkup.Reference) -> LocalizedStringResource {
+        let size = abs(gap).formatted(.percent.precision(.fractionLength(2)).locale(locale))
+        switch (reference, gap > 0) {
+        case (.cardScheme, true): return .detail.fxCostMoreScheme(size)
+        case (.cardScheme, false): return .detail.fxCostLessScheme(size)
+        case (.official, true): return .detail.fxCostMoreOfficial(size)
+        case (.official, false): return .detail.fxCostLessOfficial(size)
+        }
+    }
+
+    /// Folded away by default and remembered by nobody: opening it is a one-off curiosity, not a
+    /// preference worth storing.
+    private func rates(_ markup: FXMarkup) -> some View {
+        DisclosureGroup(isExpanded: $isShowingRates) {
+            breakdown(markup)
+        } label: {
+            Text(.detail.fxShowRates)
+                .font(.badeCaption)
+                .foregroundStyle(theme.inkMuted)
+        }
+        .tint(theme.accent)
+        .badeAnimation(.badeContent, value: isShowingRates)
     }
 
     /// Nothing converted is good news and says so; a missing rate is a gap and says that instead.
@@ -52,15 +92,6 @@ struct ExchangeCard: View {
             line(.detail.fxBankRate) { rate(markup.bankRate) }
             divider
             line(reference(markup.reference)) { rate(markup.referenceRate) }
-
-            if let gap = markup.fraction {
-                divider
-                line(.detail.fxRateGap) {
-                    Text(gap, format: .percent.precision(.fractionLength(2)))
-                        .font(.badeAmount)
-                        .foregroundStyle(gap > 0 ? theme.destructive : theme.positive)
-                }
-            }
         }
     }
 
