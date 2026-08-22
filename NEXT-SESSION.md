@@ -44,19 +44,44 @@ warnings. All five quality gates in §Verifying clean** — bar one pre-existing
 
 ### Teaching the gestures — new, outside the build order
 
-Decided on 2026-08-22 against onboarding screens and against coach marks. **Nothing is taught up
-front and nothing is dimmed.** A single line sits exactly where a hidden gesture lives and leaves for
-good the first time that gesture is performed — never on a timer and never on a sighting count,
-because Bade is opened rarely and a hint spent in March is no use in June. Someone who never swipes
-keeps the line; they are the one person still to learn it.
+Decided on 2026-08-22 against onboarding screens and against coach marks over every page. **Nothing
+is taught up front and nothing is dimmed.** What is actually undiscoverable here is a handful of
+gestures, not the idea.
 
-`DesignSystem/BadeHint.swift` holds both: `BadeHint(.swipeARow)` renders it, `BadeHint.retire(_:)`
-earns it. Storage is `@AppStorage` under a `hint.` namespace — `BadeHintTests` pins that, because
-the root keeps `isPro` and `language` in the same store and a collision would read as a preference
-resetting itself.
+An earlier attempt used a quiet inline line that only left once the gesture was performed. On a
+phone it read as furniture and would not go away while browsing, so it was replaced by **TipKit**:
+a popover with an arrow, anchored to the thing itself, with three ways out — close it, perform the
+gesture, or tap elsewhere.
 
-| Where | Line | Retired by |
+`DesignSystem/BadeTip.swift` holds the two tips and `BadeTipStyle`. `Tips.configure` is called once
+from the root, pinned to `.applicationDefault` — never the App Group, because a framework choosing
+its own store location is exactly how the SwiftData store silently moved.
+
+| Where | Anchored to | Retired by |
 |---|---|---|
+| ④ Subscriptions | the first row | any of the three row actions, by swipe or long press |
+| ⑤ Upcoming | the first day of the month that costs something | selecting any day |
+| ③ Review | — a permanent line under the header, not a tip | **never** |
+
+**The style carries the palette and the language as values**, read in the presenting view rather
+than through the environment. A tip is system-presented in its own popover, and presented content
+inherits nothing — the same boundary that once ran the whole import flow in English.
+
+**One bug found on device and fixed here.** The ④ tip appeared on first entry and dismissed itself a
+second later, then behaved on every later visit. The hero total counts up for `BadeMotion.totalReveal`
+and writes `hasArrived` back to the screen when it lands, which re-renders the list and takes the
+anchor out from under the popover. On a later visit `.task(id: total)` never re-runs, which is why it
+looked like a first-entry-only fault. The tip now waits for that write.
+
+The Review line is not a tip and has no storage. `ReviewDecision(startingFrom:)` ticks only
+`.confident && !hasEnded`, so on the second BOG statement that is **1 ticked against 27** — an empty
+box reads as a verdict Bade reached rather than the question it is. True of every import, which is
+why it never goes away.
+
+**Deliberately not taught:** the pull-net (it does nothing) and the five-tap money rain (it is meant
+to be found).
+
+---|---|---|
 | ④ under the first row | Swipe a row to edit it or mark it cancelled. | any of the three row actions, by swipe or long press |
 | ⑤ foot of the calendar block | Tap a day to see just that day. | selecting any day |
 | ③ under the header | Only what Bade was sure of is ticked. Tick anything else you recognise. | **never — permanent** |
@@ -101,18 +126,18 @@ Statement text is never printed into a session, so this cannot be settled from p
 
 ## Waiting on the user
 
-- **In Xcode, two settings — not four.** This note used to say the app target was `1,2,7` on
-  `TARGETED_DEVICE_FAMILY` with `xros` and `macosx` in `SUPPORTED_PLATFORMS`. **That was wrong**, and
-  it was wrong because the values were grepped without being attributed to a target: they belong to
-  `BadeTests` and `BadeUITests`, which never ship. The app itself is already `1` and iOS-only.
-  What actually needs doing:
-  - **BadeWidgetExtension** is `TARGETED_DEVICE_FAMILY = "1,2"` and must be `1`. An extension's
-    device family has to be a subset of its host app's, and the mismatch can fail upload validation.
-  - **Bade** needs `INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO`. `GENERATE_INFOPLIST_FILE` is
-    `YES`, so there is no plist to edit — it goes in the Info tab or Build Settings. `NO` is correct:
-    the only network call is HTTPS to NBG, which is exempt.
-- **In App Store Connect:** the `com.khvedelidze.Bade.pro` product at ₾24.99 / $9.99, App Privacy
-  answers ("Data Not Collected" is honest), a privacy policy URL, and a build number that is not `1`.
+- ~~Xcode settings.~~ **Done.** Widget device family narrowed to `1` to match the app — an
+  extension's family must be a subset of its host's or validation can reject the upload — and
+  `ITSAppUsesNonExemptEncryption = NO` set. Verified in the built Release plist: `UIDeviceFamily [1]`,
+  encryption `false`, widget embedded, `.storekit` config **not** shipped, and zero occurrences of
+  the debug Pro symbols. (An earlier version of this note claimed the *app* target needed narrowing.
+  It did not — those values belonged to the two test targets, which never ship.)
+- ~~App Store Connect.~~ **Done:** app record, agreements active, IAP created with review screenshot,
+  App Privacy answered "Data Not Collected", accessibility labels declared, listing copy written,
+  privacy and support pages published from the repo root via GitHub Pages.
+- **A purchase still has not round-tripped.** The IAP was created 2026-08-22 and the store reported
+  unavailable on first try, which is normal propagation for a new product rather than a fault. This
+  is the last unverified thing in the app and the single biggest risk left.
 - **The Georgian wordmark.** `app.name` ships as "Bade." in both languages, marked `needs_review`.
   *Bade* is ბადე — the net the app is named for — so whether the Georgian build shows the Latin
   wordmark is a branding call, not a translation one.
@@ -239,17 +264,21 @@ re-render each record and re-parse to prove the rendering round-trips.
 
 ## Open items
 
-0. **The sort label on Subscriptions clips for a second when it changes.** Pick a different sort
-   and the menu's label — "By cost" / "By name" / "By next charge" — arrives with letters half
-   drawn at both ends, then repairs itself. **Not caused by the reorder spring:** it does it with
-   that animation removed, verified on device. So it is the `List` remeasuring its section header
-   during its own animated batch update, which is where the control lives.
-   Tried and did nothing: `.fixedSize()`, `.transaction { $0.animation = nil }`,
-   `.contentTransition(.identity)` on both the text and the chevron. Modifiers do not reach it.
-   The next move is structural — move the sort control out of the section header, most likely into
-   the toolbar beside import and add — not a fourth modifier.
+0. ~~The sort label on Subscriptions clips when it changes.~~ **Fixed, 2026-08-22, structurally.**
+   The control is in the toolbar now, as an `arrow.up.arrow.down` menu beside import and add. The
+   cause was the `List` remeasuring its own section header during the same animated batch update
+   that reorders the rows, so nothing *inside* the list could ever have been safe — which is why
+   `.fixedSize()`, a nil transaction and `.contentTransition(.identity)` all did nothing. Out of
+   the list, the list cannot touch it. The trade is that the current order is no longer legible at
+   a glance; the tick inside the menu says it instead, and the button carries it as an
+   accessibility value.
 
-1. **The repeat candidates are computed and nothing shows them.** `SubscriptionDetector.analyse`
+1. **Decided against for now, 2026-08-22 — but the code still computes them.** A screen to ask
+   about candidates was scoped and deliberately not built. The cost is below and is real: roughly
+   half of what the engine noticed is discarded at the last step. Revisit after TestFlight, when
+   there is evidence about whether anybody notices the gap unprompted.
+
+   **The repeat candidates are computed and nothing shows them.** `SubscriptionDetector.analyse`
    reports merchants charged 3+ times in a recurring-capable category that no cadence explained;
    they reach `ImportResult.candidates` and stop. The gap is the argument for building the screen:
    11 candidates against 22 detections on one BOG statement, **16 against 28** on the other — where
@@ -299,15 +328,21 @@ re-render each record and re-parse to prove the rendering round-trips.
 
    **So VoiceOver can be declared** in App Store Connect's accessibility labels, alongside Dark
    Interface, Larger Text, Reduced Motion and Differentiate Without Colour Alone. Two still cannot:
-   **Voice Control**, which rides on the same labels and probably works but has not been tried, and
-   **Sufficient Contrast**, which is a straight no — that label is about supporting the Increase
-   Contrast setting, and the palette never reads `colorSchemeContrast`.
+   **Voice Control has since been tried and works**, so six labels are declared. The one that
+   cannot be is
+   **Sufficient Contrast** — that label is about supporting the Increase Contrast setting, and the
+   palette never reads `colorSchemeContrast`. A missing feature rather than an untested one.
 
    What remains open: nothing protects any of this. There are no snapshot or UI tests (item 11), so
    the next label removed by accident is found by ear or not at all. And iOS has no Georgian
    VoiceOver voice, so a Georgian reader hears Georgian text spoken by an English voice — Apple's
    limit, not Bade's, but worth knowing before promising anything to Georgian users specifically.
-11. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
+11. **Snapshot tests — wanted, 2026-08-22.** 527 tests and not one touches a view: every UI
+   regression this project has had was caught by somebody looking at a phone. They need a simulator,
+   which is not wanted for *testing* — but the same objection did not survive screenshots, where the
+   simulator is simply the tool. Worth revisiting on the same grounds. Start with the five screens
+   in both languages, both appearances and at `.accessibility2`, which is what the previews already
+   cover by eye.
 12. ~~The end-to-end run, and §14.7's cold start.~~ **Both done, 2026-08-22.** Run on the device
    from an empty state, and the monthly total was reached in under sixty seconds. §14.7 is
    satisfied by measurement rather than by assumption. The figure itself was not recorded, so if a

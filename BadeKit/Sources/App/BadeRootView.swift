@@ -20,6 +20,22 @@ import Widgets
 public struct BadeRootView: View {
     private enum Tabs: Hashable { case subscriptions, upcoming, settings }
 
+    /// Everything the root can put on top of itself, as one value rather than seven flags.
+    ///
+    /// Seven independent booleans let two presentations be asked for at once, and SwiftUI drops the
+    /// loser without saying so — leaving its flag set. Every later request then set `true` to
+    /// `true`, which is not a change, so nothing presented and nothing happened. Import died
+    /// permanently after a statement failed to parse, and only a relaunch brought it back.
+    private enum Presentation: Equatable {
+        case pickingFile
+        case importing(StatementFile)
+        case pro
+        case askingAboutReminders
+        case addingManually
+        case storeWasReset
+        case nothingWasNew
+    }
+
     @AppStorage("displayCurrency") private var chosenCurrency = ""
     @AppStorage("language") private var languageCode = BadeLanguage.matchingDevice.rawValue
     @AppStorage("appearance") private var appearanceCode = BadeAppearance.system.rawValue
@@ -37,13 +53,11 @@ public struct BadeRootView: View {
     /// Opened once, at launch, and it always opens: what cannot be read is set aside rather than
     /// crashed on.
     @State private var opened: OpenedStore
-    /// Seeded from that one opening rather than from a reload, so the notice appears exactly once.
-    @State private var isSayingStoreWasReset: Bool
+    /// The one thing on top of the app, or nothing. Seeded from that single opening rather than
+    /// from a reload, so the reset notice appears exactly once.
+    @State private var presented: Presentation?
     @State private var hasSubscriptions = false
     @State private var isReady = false
-    @State private var isPickingFile = false
-    @State private var isAddingManually = false
-    @State private var statement: StatementFile?
     /// What the data says to total in until Settings is used to say otherwise.
     @State private var inferredCurrency = Self.localeCurrency
     /// Held here only for the Detail screen opened from Upcoming, which is composed here and so
@@ -51,9 +65,6 @@ public struct BadeRootView: View {
     @State private var rates = RateBook()
     @State private var reload = UUID()
     @State private var tab = Tabs.subscriptions
-    @State private var isShowingPro = false
-    @State private var isAskingAboutReminders = false
-    @State private var isSayingNothingWasNew = false
 
     private let merchants = BundledCatalog()
     private let reminders = SystemReminders()
@@ -66,27 +77,55 @@ public struct BadeRootView: View {
     public init() {
         let opened = SubscriptionStore.opened()
         _opened = State(initialValue: opened)
-        _isSayingStoreWasReset = State(initialValue: opened.wasReset)
+        _presented = State(initialValue: opened.wasReset ? .storeWasReset : nil)
     }
 
     private var store: SubscriptionStore { opened.store }
 
-    #if DEBUG
-        /// SCAFFOLD — delete before shipping, with `ProLockToggle`. Flips the debug answer, so the
-        /// locked states can be looked at on a phone instead of only imagined.
-        @AppStorage("debugLocksPro") private var debugLocksPro = false
-    #endif
-
-    /// The one thing every gated feature reads. A debug build answers yes unless it is told
-    /// otherwise: a local StoreKit config only works when Xcode launches the app, so on a phone
-    /// there is otherwise nothing to buy with and no way to exercise what the purchase unlocks.
-    private var isPro: Bool {
-        #if DEBUG
-            !debugLocksPro
-        #else
-            hasEntitlement
-        #endif
+    /// Asking for something while something else is up is the case that used to break: SwiftUI
+    /// cannot present into a view that is still going away, so it silently does nothing.
+    ///
+    /// So the current one is dismissed first and the new one follows a beat later. Asking for what
+    /// is already showing works too, and deliberately — that is the recovery path if a presentation
+    /// was ever dropped, and it is what a second tap on a dead Import button should do.
+    private func present(_ next: Presentation) {
+        guard presented != nil else {
+            presented = next
+            return
+        }
+        presented = nil
+        Task { @MainActor in
+            try? await Task.sleep(for: Self.dismissalGap)
+            presented = next
+        }
     }
+
+    /// Long enough for a sheet or a cover to finish leaving. Shorter and the replacement lands
+    /// while the old one is still on screen, which is the thing being fixed.
+    private static let dismissalGap = Duration.milliseconds(350)
+
+    /// A `Bool` binding onto one case, so `sheet` and `alert` can drive off a single value.
+    private func showing(_ kind: Presentation) -> Binding<Bool> {
+        Binding(
+            get: { presented == kind },
+            set: { if !$0, presented == kind { presented = nil } })
+    }
+
+    /// The cover takes an item rather than a flag, because what it shows is the statement itself.
+    private var importing: Binding<StatementFile?> {
+        Binding(
+            get: {
+                guard case .importing(let file) = presented else { return nil }
+                return file
+            },
+            set: { if $0 == nil { presented = nil } })
+    }
+
+    /// The one thing every gated feature reads, in every configuration. A debug build used to
+    /// answer yes unconditionally, with a padlock in the Settings toolbar to flip it, because
+    /// nothing could be bought on a phone and every locked state was otherwise invisible.
+    /// TestFlight buys for free in sandbox, so the scaffold has done its job and is gone.
+    private var isPro: Bool { hasEntitlement }
 
     private var currency: String { chosenCurrency.isEmpty ? inferredCurrency : chosenCurrency }
     private var language: BadeLanguage { BadeLanguage(rawValue: languageCode) ?? .english }
@@ -144,13 +183,19 @@ public struct BadeRootView: View {
                 }
             }
             .fileImporter(
-                isPresented: $isPickingFile,
+                isPresented: showing(.pickingFile),
                 allowedContentTypes: [.pdf, .plainText, .commaSeparatedText]
             ) { result in
-                guard case .success(let url) = result else { return }
-                statement = StatementFile(contentsOf: url)
+                guard case .success(let url) = result, let file = StatementFile(contentsOf: url)
+                else {
+                    presented = nil
+                    return
+                }
+                // Straight across rather than through `present`: the importer is already gone by
+                // the time this runs, so there is nothing to wait for.
+                presented = .importing(file)
             }
-            .badeCover(item: $statement) { file in
+            .badeCover(item: importing) { file in
                 ImportFlowView(
                     file: file, importer: StatementImporter(), repository: store,
                     rateRepository: store, currency: currency,
@@ -158,7 +203,7 @@ public struct BadeRootView: View {
                 )
                 .modifier(appEnvironment)
             }
-            .sheet(isPresented: $isShowingPro) {
+            .sheet(isPresented: showing(.pro)) {
                 NavigationStack {
                     ProView(
                         model: ProViewModel(purchases: purchases, isEntitled: isPro) { outcome in
@@ -167,22 +212,22 @@ public struct BadeRootView: View {
                 }
                 .modifier(appEnvironment)
             }
-            .sheet(isPresented: $isAskingAboutReminders) {
+            .sheet(isPresented: showing(.askingAboutReminders)) {
                 ReminderPromptView(onOutcome: handleReminderPrompt)
                     .modifier(appEnvironment)
                     .presentationDetents([.medium])
             }
             // Only Welcome opens it from here; once there is a list, the list presents its own.
-            .sheet(isPresented: $isAddingManually) {
+            .sheet(isPresented: showing(.addingManually)) {
                 SubscriptionFormView(model: manualEntry()).modifier(appEnvironment)
             }
             // Said once, and only when a reset actually happened.
-            .alert(Text(.store.resetTitle), isPresented: $isSayingStoreWasReset) {
+            .alert(Text(.store.resetTitle), isPresented: showing(.storeWasReset)) {
                 Button { } label: { Text(.common.ok) }
             } message: {
                 Text(.store.resetMessage)
             }
-            .alert(Text(.importing.nothingNewTitle), isPresented: $isSayingNothingWasNew) {
+            .alert(Text(.importing.nothingNewTitle), isPresented: showing(.nothingWasNew)) {
                 Button { } label: { Text(.common.ok) }
             } message: {
                 Text(.importing.nothingNewMessage)
@@ -224,7 +269,7 @@ public struct BadeRootView: View {
                 NavigationStack { upcoming }
                     // A tapped reminder is a navigation, so the screen is rebuilt on its day.
                     .id(currency + weekStartCode + (tappedDay?.description ?? ""))
-                    .badeLocked(!isPro) { isShowingPro = true }
+                    .badeLocked(!isPro) { present(.pro) }
             } label: {
                 Label { Text(.upcoming.title) } icon: {
                     Image(systemName: isPro ? "calendar" : "calendar.badge.lock")
@@ -232,11 +277,7 @@ public struct BadeRootView: View {
             }
 
             Tab(value: Tabs.settings) {
-                #if DEBUG
-                    NavigationStack { settings.modifier(ProLockToggle(isLocked: $debugLocksPro)) }
-                #else
-                    NavigationStack { settings }
-                #endif
+                NavigationStack { settings }
             } label: {
                 Label { Text(.settings.title) } icon: { Image(systemName: "gearshape") }
             }
@@ -250,7 +291,7 @@ public struct BadeRootView: View {
                 officialRates: officialRates,
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
                 onOutcome: handleSubscriptions),
-            currency: currency, isPro: isPro, onUnlock: { isShowingPro = true })
+            currency: currency, isPro: isPro, onUnlock: { present(.pro) })
     }
 
     /// Upcoming may not import Subscriptions, so the destination behind one of its rows is
@@ -264,7 +305,7 @@ public struct BadeRootView: View {
         ) { subscription in
             SubscriptionDetailView(
                 model: detail(for: subscription), isPro: isPro,
-                onUnlock: { isShowingPro = true })
+                onUnlock: { present(.pro) })
         }
     }
 
@@ -295,7 +336,7 @@ public struct BadeRootView: View {
             editing: nil, currency: currency, knownCurrencies: [], repository: store,
             merchants: merchants,
             onOutcome: { outcome in
-                isAddingManually = false
+                presented = nil
                 if outcome != .cancelled { reload = UUID() }
             })
     }
@@ -355,19 +396,22 @@ public struct BadeRootView: View {
     /// An import that added nothing is not a failure, but it looks like one unless it is said:
     /// everything in the statement was already here. That takes priority over asking about
     /// reminders, which will come round again on the next import.
+    /// The cover is never dismissed here before asking for what comes next — `present` does that,
+    /// and waits. Clearing it first was the bug: it made the request look like the first one, so
+    /// the file importer was asked for while the cover it replaces was still on its way out.
     private func handleImport(_ outcome: ImportOutcome) {
-        statement = nil
         switch outcome {
-        case .cancelled: break
-        case .chooseAnother: isPickingFile = true
+        case .cancelled: presented = nil
+        case .chooseAnother: present(.pickingFile)
         case .saved(let addedCount):
             reload = UUID()
             // What was just imported is on the list, so that is where an import ends — not on
             // whichever tab happened to be open when the statement was picked.
             tab = .subscriptions
             if addedCount == 0 {
-                isSayingNothingWasNew = true
+                present(.nothingWasNew)
             } else {
+                presented = nil
                 askAboutReminders()
             }
         }
@@ -381,14 +425,14 @@ public struct BadeRootView: View {
             guard await reminders.authorization() == .notDetermined else { return }
             try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
             hasAskedAboutReminders = true
-            isAskingAboutReminders = true
+            present(.askingAboutReminders)
         }
     }
 
     /// A yes here is what earns the system prompt. A no from iOS needs no handling: Settings reads
     /// the answer for itself, and a lead with no permission behind it schedules nothing.
     private func handleReminderPrompt(_ outcome: ReminderPromptOutcome) {
-        isAskingAboutReminders = false
+        presented = nil
         guard outcome == .turnOn else { return }
         Task {
             guard await reminders.requestAuthorization() else { return }
@@ -399,7 +443,7 @@ public struct BadeRootView: View {
 
     private func handleSubscriptions(_ outcome: SubscriptionsOutcome) {
         switch outcome {
-        case .importStatement: isPickingFile = true
+        case .importStatement: present(.pickingFile)
         case .dataCleared: clearedEverything()
         }
     }
@@ -408,8 +452,8 @@ public struct BadeRootView: View {
     /// imported, and the reader who most needs Georgian is the one who has not started yet.
     private func handleWelcome(_ outcome: WelcomeOutcome) {
         switch outcome {
-        case .importStatement: isPickingFile = true
-        case .addManually: isAddingManually = true
+        case .importStatement: present(.pickingFile)
+        case .addManually: present(.addingManually)
         case .languageChanged(let language): languageCode = language.rawValue
         }
     }
@@ -500,26 +544,6 @@ private struct LoadingSurface: View {
             }
     }
 }
-
-#if DEBUG
-    /// SCAFFOLD — delete before shipping, with `debugLocksPro`. A debug build cannot buy anything,
-    /// so it answers yes to Pro and every locked state is invisible. This flips that answer from
-    /// the Settings tab, which is the one place all of them can be reached from.
-    private struct ProLockToggle: ViewModifier {
-        @Binding var isLocked: Bool
-
-        func body(content: Content) -> some View {
-            content.toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button { isLocked.toggle() } label: {
-                        Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
-                    }
-                    .accessibilityLabel(Text(verbatim: isLocked ? "Unlock Pro" : "Lock Pro"))
-                }
-            }
-        }
-    }
-#endif
 
 /// The app's appearance, palette, language, week start and text size, in one piece so the root and
 /// everything it presents cannot drift apart.

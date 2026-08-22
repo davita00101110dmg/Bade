@@ -51,6 +51,7 @@ public struct SubscriptionsView: View {
                         .opacity(isShowingHero ? 0 : 1)
                         .accessibilityHidden(isShowingHero)
                 }
+                ToolbarItem(placement: .primaryAction) { sortMenu }
                 ToolbarItem(placement: .primaryAction) {
                     Button { model.send(.importTapped) } label: {
                         Image(systemName: "square.and.arrow.down")
@@ -154,8 +155,9 @@ public struct SubscriptionsView: View {
         }
     }
 
-    /// Gone entirely when nothing is live, header and sort control included: a section offering
-    /// to sort nothing is worse than no section.
+    /// Gone entirely when nothing is live, heading included: a heading over no rows is worse than
+    /// no section. The sort control is in the toolbar now and stays there, which is fine — sorting
+    /// an empty list changes nothing rather than being impossible.
     @ViewBuilder
     private var subscriptionsSection: some View {
         if !model.state.rows.isEmpty {
@@ -290,13 +292,17 @@ public struct SubscriptionsView: View {
     }
 
     private var sectionHeader: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(.subscriptions.all).badeSectionLabel()
-            Spacer()
-            sortMenu
-        }
+        Text(.subscriptions.all).badeSectionLabel()
     }
 
+    /// In the toolbar rather than in the section header, where it used to live and clip for a beat
+    /// whenever the sort changed. The cause was the `List` remeasuring its own header during the
+    /// same animated batch update that reorders the rows — so nothing inside the list could be
+    /// safe, and `fixedSize`, a nil transaction and an identity content transition all failed
+    /// because none of them reach it. Out here the list cannot touch it.
+    ///
+    /// The current order is no longer legible at a glance; the tick inside the menu says it
+    /// instead. That is the trade, and it is where iOS keeps sort anyway.
     private var sortMenu: some View {
         Menu {
             Picker(selection: sortBinding) {
@@ -308,20 +314,10 @@ public struct SubscriptionsView: View {
             }
             .pickerStyle(.inline)
         } label: {
-            // This label clips for a beat when the sort changes — see NEXT-SESSION.md. It happens
-            // with the reorder animation removed too, so it is the section header being remeasured
-            // by the list rather than anything here; fixedSize, a nil transaction and an identity
-            // content transition were all tried and none of them touched it.
-            HStack(spacing: .xxs) {
-                Text(model.state.sort.title)
-                Image(systemName: "chevron.down")
-            }
-            .font(.badeCaption)
-            .foregroundStyle(theme.accent)
-            .textCase(nil)
-            .contentShape(.rect)
+            Image(systemName: "arrow.up.arrow.down")
         }
         .accessibilityLabel(Text(.subscriptions.sortLabel))
+        .accessibilityValue(Text(model.state.sort.title))
     }
 
     private var sortBinding: Binding<SubscriptionSort> {
