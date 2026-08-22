@@ -704,6 +704,18 @@ corrupt store to prove the recovery path. The run still passes.
 - **`xcodebuild` does not forward the shell's environment to the test process.** A plain
   `FOO=1 xcodebuild test` is silently ignored; `TEST_RUNNER_FOO=1` is the mechanism, and Xcode strips
   the prefix. An hour went into believing a record-mode loop that was quietly comparing instead.
+- **Resetting a value and animating it in the same block animates nothing.** `counted = 0` followed
+  by `withAnimation { counted = 1 }` is coalesced into one update: the value ends at 1 having never
+  *changed*, so an `Animatable` view has nothing to interpolate. The hero total had this from the
+  start and only appeared to count on arrival, where `counted` was already 0 and the reset was a
+  no-op. On a delete it collapsed, the figure jumped to its new value, and the list's ambient
+  animation crossfaded the jump — which read as a fade and was diagnosed as one twice. **Never reset
+  and animate in one breath.** `count()` alternates between the two ends instead, replacing whichever
+  endpoint is not on screen, so there is exactly one real change every time.
+- **`Text` crossfades its own content by default**, so a self-interpolated number needs
+  `.contentTransition(.identity)`. Without it every frame of a count is faded into the next over the
+  whole duration and the figure dissolves between two numbers rather than travelling between them.
+  Necessary, but on its own it only exposes the coalescing above.
 - **A snapshot of a view that reads `.now` rots overnight.** `UpcomingViewModel` and
   `SubscriptionFormViewModel` let their state default `today` to `.now`, so the references recorded
   on 2026-08-22 failed on the 23rd — 8 of 42, purely because the day changed. The fixture *data* was

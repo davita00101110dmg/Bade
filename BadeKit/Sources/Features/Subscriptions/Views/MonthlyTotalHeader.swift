@@ -24,7 +24,12 @@ struct MonthlyTotalHeader: View {
     /// Every tap on the figure itself. What the screen counts them for is its own business.
     let onTotalTapped: () -> Void
 
+    /// The two ends of the count. Both are held in state rather than read from `total` directly:
+    /// passing the live total moved the figure the instant the data changed, before the count had
+    /// begun. Which of the two is on screen depends on `counted`, and the other is the one free to
+    /// be replaced.
     @State private var countingFrom: Decimal = 0
+    @State private var countingTo: Decimal = 0
     @State private var counted: Double = 0
     @State private var hasLanded = false
     /// A currency change re-denominates the same money; it must not be counted through, or picking
@@ -37,7 +42,8 @@ struct MonthlyTotalHeader: View {
                 .badeSectionLabel()
 
             CountingTotal(
-                counted: counted, from: countingFrom, to: total, currency: currency, size: totalSize
+                counted: counted, from: countingFrom, to: countingTo, currency: currency,
+                size: totalSize
             )
             .foregroundStyle(theme.accent)
                 .minimumScaleFactor(0.5)
@@ -88,22 +94,34 @@ struct MonthlyTotalHeader: View {
         return Text(verbatim: parts.joined(separator: separator))
     }
 
-    /// Counts from whatever was on screen to whatever is now true — up when an import lands, down
-    /// to nothing when everything is deleted. Only the arrival fires the haptic; a total moving
-    /// because the data moved is information, not an event.
+    /// Counts from whatever was on screen to whatever is now true — up on an import or an add, down
+    /// on a delete, and down to nothing when everything goes. Only the arrival fires the haptic; a
+    /// total moving because the data moved is information, not an event.
+    ///
+    /// `counted` alternates between the two ends rather than resetting, and the endpoint replaced is
+    /// always the one *not* on screen. Resetting cannot work: `counted = 0` and an animated
+    /// `counted = 1` in the same block are coalesced into a single update, so the value never
+    /// changes and there is nothing for `CountingTotal` to interpolate. That is why the figure used
+    /// to jump to its new value and let the list's ambient animation crossfade it.
     private func count() async {
         let isRedenomination = !countedCurrency.isEmpty && countedCurrency != currency
         countedCurrency = currency
 
-        if !isRedenomination && !reduceMotion {
-            counted = 0
-            withBadeAnimation(.badeTotalReveal, reduceMotion: reduceMotion) { counted = 1 }
+        if isRedenomination || reduceMotion {
+            countingFrom = total
+            countingTo = total
+            guard !isRedenomination else { return }
+        } else {
+            if counted == 1 {
+                countingFrom = total
+                withBadeAnimation(.badeTotalReveal, reduceMotion: reduceMotion) { counted = 0 }
+            } else {
+                countingTo = total
+                withBadeAnimation(.badeTotalReveal, reduceMotion: reduceMotion) { counted = 1 }
+            }
             try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
         }
-        countingFrom = total
-        counted = 1
 
-        guard !isRedenomination else { return }
         hasLanded = !hasArrived
         hasArrived = true
     }
@@ -129,6 +147,11 @@ private struct CountingTotal: View, Animatable {
 
     var body: some View {
         BadeMoneyText(showing, currency: currency, size: size, shimmers: true)
+            // Without this the count is not a count. `Text` crossfades its own content by default,
+            // so each interpolated frame gets faded into the next over the whole animation and the
+            // figure dissolves between two numbers rather than travelling between them. This view
+            // supplies every intermediate value itself; SwiftUI's job is only to draw them.
+            .contentTransition(.identity)
     }
 
     private var showing: Decimal { from + (to - from) * Decimal(counted) }
