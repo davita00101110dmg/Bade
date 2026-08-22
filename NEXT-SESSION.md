@@ -3,42 +3,42 @@
 Read `CLAUDE.md` first for the working agreement, constraints and UI conventions.
 This file is the handoff: where the project is, what is next, and what is still open.
 
-Last updated: **2026-08-13**, end of "Bade part 5".
+Last updated: **2026-08-22**, end of "Bade part 6".
 
 ---
 
 ## Where it is
 
 **Steps 1–8, 11, 12 and 13 done** (13's code is complete and tested; no purchase has ever
-round-tripped). **Step 9 built, measured and decided against. Step 10 all but finished.**
-Everything through step 11 is committed and pushed. The detection change that followed it is
-built and running on the device but **not yet committed**.
+round-tripped). **Step 9 built, measured and decided against. Step 10 all but finished — only the
+money figures are withheld.** Everything is committed and pushed; the tree is clean.
 
 ```
 PDF → Ingestion → Normalization → Detection → Persistence → UI
-   BOG  326 transactions → 11 subscriptions → nothing unconvertible
-   TBC  770 transactions →  2 subscriptions (the largest of three)
+   BOG  main card  → 22 detections: 8 confident, 1 probable, 2 unsure, 11 ended
+   BOG  other card → 28 detections: 1 confident, 1 probable, 2 unsure, 24 ended
+   TBC  770 transactions → 6 subscriptions (the largest of three)
 ```
 
-**469 tests, `swift test` ~0.7s away from the statements, ~2s here where the PDFs exist.
-No simulator needed. iOS build green, no warnings.**
+**505 tests, `swift test` ~2s here where the PDFs exist. No simulator needed. iOS build green, no
+warnings. All five quality gates in §Verifying clean.**
 
 ### Screens
 
 | # | Screen | State |
 |---|---|---|
-| ① | Welcome | ✅ |
-| ② | Parsing | ✅ reading, unreadable, and read-but-empty |
-| ③ | Review | ✅ three confidence tiers |
-| ④ | Subscriptions | ✅ `+`, Edit on swipe and long-press |
-| ⑥ | Detail | ✅ chart with the readout above the plot, FX section, Edit |
+| ① | Welcome | ✅ language globe top right — Settings is unreachable until something is imported |
+| ② | Parsing | ✅ BETA badge, "Opening the file" + sweeping bar, rows land in a spring |
+| ③ | Review | ✅ one checkbox per row; header counts what is ticked |
+| ④ | Subscriptions | ✅ merchant colours, decimals on the hero, total follows the scroll, pull for the web |
+| ⑥ | Detail | ✅ bars grow in, FX in a sentence behind the Pro lock |
 | ⓜ | Manual entry / Edit | ✅ five entry points |
-| ⑤ | Upcoming + TabView | ✅ behind the Pro lock; opens on a day when a reminder is tapped |
-| ⑩ | Settings | ✅ currency, language, appearance, text size, week start, rates, reminders, export |
-| ⑨ | Bade Pro | ✅ real screen: price from the store, buy, restore, owned, failed |
+| ⑤ | Upcoming + TabView | ✅ Pro-locked; dots weighted by money, hollow when cancelled |
+| ⑩ | Settings | ✅ Pro rows are absent without Pro rather than badged |
+| ⑨ | Bade Pro | ✅ five features, all of which exist |
 | ⓡ | Reminder prompt | ✅ asked once, after the first import, Pro only |
-| ⑦ | FX breakdown | ▲ **on screen, but money figures deliberately withheld — see below** |
-| ⓦ | Widget | ✅ small and medium: this month, spent/still coming, next three. Pro only |
+| ⑦ | FX breakdown | ▲ **a plain sentence; the money figures are still withheld — see below** |
+| ⓦ | Widget | ✅ small and medium, net behind both states, locked tile shows a redacted figure |
 
 ---
 
@@ -55,10 +55,11 @@ does not yet make sense either way: the bank's rate is consistently *above* the 
 would mean the bank beat the scheme nine times out of nine if lari were being bought with dollars.
 It is not settlement drift either; the lari was strengthening, which would push it the other way.
 
-Until that is answered the FX section shows **only what is printed**: what left the account, both
-rates, and the gap between them as a percentage. `FXMarkup` computes the money and annualised
-figures and is fully tested — nothing displays them. A sticker price was shown once, labelled as
-though the statement contained it, and the user rightly caught it.
+Until that is answered the FX card shows **only what is printed**, as one sentence — "Your bank's
+rate cost you 1.52% more than the card network's" — with the two rates folded behind a disclosure.
+`FXMarkup.extra` and `annualised(at:)` compute the money and the yearly figure and are fully
+tested; nothing displays them. Releasing them is about an hour: show both in `ExchangeCard`, put
+the yearly promise back in `pro.fxDetail`, and pin the direction with a golden assertion.
 
 Statement text is never printed into a session, so this cannot be settled from parsed fields.
 
@@ -66,46 +67,51 @@ Statement text is never printed into a session, so this cannot be settled from p
 
 ## Waiting on the user
 
-- **A list of UI comments**, outstanding since before step 9 and never collected. The oldest item.
-- **Whether the widget should name the month** ("AUGUST" rather than "THIS MONTH"), so its figure
-  cannot be misread as the list's levelled one. Proposed, never answered. One string.
 - **In Xcode:** target iPhone only (`TARGETED_DEVICE_FAMILY` is `1,2,7` and `SUPPORTED_PLATFORMS`
   includes `xros` and `macosx`), and set `ITSAppUsesNonExemptEncryption` so App Store Connect stops
   asking the export-compliance question on every upload.
 - **In App Store Connect:** the `com.khvedelidze.Bade.pro` product at ₾24.99 / $9.99, App Privacy
   answers ("Data Not Collected" is honest), a privacy policy URL, and a build number that is not `1`.
+- **The Georgian wordmark.** `app.name` ships as "Bade." in both languages, marked `needs_review`.
+  *Bade* is ბადე — the net the app is named for — so whether the Georgian build shows the Latin
+  wordmark is a branding call, not a translation one.
 
 ---
 
 ## Next up
 
 **Finish step 13 by verifying it.** The code is done: `ProPurchasing` in `Core`, `StoreKitPro` in
-`Purchases`, and `@AppStorage("isPro")` as a cache of the entitlement, written at launch and from
-`Transaction.updates`. What has never happened is a purchase.
+`Purchases`, and `@AppStorage("isPro")` as a cache of the entitlement. What has never happened is a
+purchase.
 
 - A **local `.storekit` config** only applies when Xcode launches the app (⌘R). Launched from the
-  home screen, the app talks to the real App Store, finds no product, and correctly says the store
-  cannot be reached. That is why Pro cannot be unlocked on the device by a config file alone.
-- **TestFlight is the way in.** Sandbox purchases there are free and they persist standalone, which
-  also solves giving Pro to friends. Promo codes need no code at all — a redemption arrives as an
-  ordinary transaction — but they require the app to be live first.
+  home screen the app talks to the real App Store, finds no product, and correctly says the store
+  cannot be reached.
+- **TestFlight is the way in.** Sandbox purchases there are free and persist standalone, which also
+  solves giving Pro to friends. Promo codes need no code at all, but require the app to be live.
 
-What is gated, and where it is enforced:
+What is gated, and where:
 
 | Feature | Enforced by |
 |---|---|
 | Upcoming | `.badeLocked(!isPro)` in `BadeRootView` — blurs, inerts, offers Pro |
-| Reminders | `reminderPreference` resolves to lead `.off` unless `isPro`, so nothing schedules |
-| Reminder settings | The row leads to `ProView` instead of the picker |
+| The FX card | `.badeLocked(!isPro, scale: .card)` in `SubscriptionDetailView` |
+| Export | the rows are absent from Settings without Pro |
+| Reminders | the whole section is absent; the lead resolves `.off`, so nothing schedules |
 | The permission ask | `askAboutReminders` requires `isPro` |
+| The widget | the snapshot carries `isPro`; the tile shows its locked state |
 
-**Then 14**, the Georgian translation pass.
+**A debug padlock in the Settings toolbar flips `isPro`**, because a debug build cannot buy
+anything and every locked state would otherwise be invisible on the only device they can be judged
+on. Verified compiled out of Release: `debugLocksPro` and `ProLockToggle` appear 2 and 3 times in
+the Debug dylib and **0 times** in the Release binary and the widget extension.
 
-Note the brief says renewal reminders and the calendar are free-forever core loop. Both are now
-Pro. That was a deliberate call by the user on 2026-08-13; the brief has not been rewritten.
+**Then 14**, the Georgian translation pass: **227 keys, 0 reviewed**, all `needs_review`.
+
+Note the brief says renewal reminders and the calendar are free-forever core loop. Both are Pro.
+That was a deliberate call by the user on 2026-08-13; the brief has not been rewritten.
 
 ---
-
 ## The statements
 
 Eight PDFs sit in the gitignored `statements/`: four BOG, **three TBC**, **one Liberty Bank**. The
@@ -183,41 +189,37 @@ re-render each record and re-parse to prove the rendering round-trips.
    The next move is structural — move the sort control out of the section header, most likely into
    the toolbar beside import and add — not a fourth modifier.
 
-1. **Bade Pro advertises seven features and two work.** Reminders ship; FX shows a percentage with
-   no money attached. Price alerts, trends, category analytics, widgets and themes do not exist.
-   Charging ₾24.99 for that page risks a 2.3.1 rejection for inaccurate metadata — trim the list or
-   mark the rest as coming. **Decide this before the listing is written.**
+1. **The repeat candidates are computed and nothing shows them.** `SubscriptionDetector.analyse`
+   reports merchants charged 3+ times in a recurring-capable category that no cadence explained;
+   they reach `ImportResult.candidates` and stop. The gap is the argument for building the screen:
+   11 candidates against 22 detections on one BOG statement, **16 against 28** on the other — where
+   only a single detection was confident — and 8 against 6 on the largest TBC one. Asking is the
+   only honest way to close it, since the engine looked and found no rhythm.
 2. **`matchKey` folds the merchant**, so rows stored before that change no longer match. **Delete
    and reinstall before testing an import**, or a re-import duplicates instead of merging and looks
    like a detection bug.
-3. **Seven look-alike Apple charges are still seven cards** in Review's "Not sure" tier.
-4. **Every Georgian string is a draft** — 199 keys, all `needs_review`, none seen by a translator.
+3. **Seven look-alike Apple charges are still seven rows** in Review's "Not sure" tier.
+4. **Every Georgian string is a draft** — 227 keys, all `needs_review`, none seen by a translator.
 5. **A revoked entitlement seen by Settings does not reach the root's cache.** `.proChecked(false)`
    updates the screen and reports nothing, so `isPro` stays true until the next launch. Refund-shaped.
+   (Settings itself now watches `isPro`, so an entitlement arriving does reach the screen.)
 6. **Reminders run dry after about six months** of not opening the app: 64 pending notifications is
    iOS's cap and rescheduling only happens on launch or on a change.
-7. **The widget's month total and the list's headline answer different questions.** The list levels
-   every cadence into "a month"; the widget shows this calendar month. They agree in a typical month
-   and diverge whenever one is not — an annual charge landing, or a month with none. Labelling the
-   widget with the month's name was proposed and never decided.
+7. **The widget's headline and the list's answer different questions.** The list levels every
+   cadence into "a month"; the widget shows what is left of this calendar month. Both are right and
+   they diverge whenever a month is not typical.
 8. **A stray store sits in the App Group container** on the device — the one the app used for two
    hours before the path was pinned. Harmless, unread, and deletable by hand.
-9. **`isPro` is forced true in DEBUG.** `BadeRootView.isPro` answers yes in a debug build, because a
-   local StoreKit config only works when Xcode launches the app. The real entitlement is still
-   tracked in `hasEntitlement`. It means **the locked states cannot be seen on a debug build**.
-10. **The `.storekit` config lives in `BadeTests/`.** The app target is a synchronized folder, so a
+9. **The `.storekit` config lives in `BadeTests/`.** The app target is a synchronized folder, so a
    file placed beside the app is copied into the shipped bundle — pricing config included. The
    scheme's `StoreKitConfigurationFileReference` points at it there. Odd home, deliberate reason.
-11. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
-12. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
-13. **The end-to-end run** the user asked for has still not happened.
-14. **Detection still finds far less than the statements contain, and the lapse rule is now the
-   binding constraint.** In the largest TBC statement, 14 merchants charge 3+ times in a category
-   that can recur; **1** becomes a subscription, **4** resolve a clean cadence and are then dropped
-   as lapsed, and 12 are rejected outright. The lapse rule is doing what it was written to do —
-   a subscription whose charges stopped is not current — but it means every cancelled subscription
-   vanishes rather than being reported as ended. **Whether an ended subscription should be shown as
-   ended is a product decision**, and it is the next real lever, ahead of any further cadence work.
+10. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
+11. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
+12. **The end-to-end run** the user asked for has still not happened, and neither has §14.7's
+   under-60-seconds cold start ever been timed.
+13. **Detection reports far less than the statements contain.** Ended subscriptions are now shown
+   as ended rather than dropped, which recovered several; the remaining gap is the repeat candidates
+   in item 1.
 
 ### The widget
 
@@ -230,8 +232,12 @@ eight-line shell in the extension target, so everything real stays previewable i
   widget decodes it and computes nothing: no SwiftData, no rates, no StoreKit in that process.
 - Published from `.task(id: widgetKey)` on `currency | language | isPro | reload`, **and** from
   `store.changes()`, so an edit made deep inside a feature reaches the home screen.
-- The hero is **this calendar month**, matching the Upcoming tab, not the levelled "a month" the
-  list shows. Only a real month can be half spent, which is what the bar means.
+- The hero is **what is still to come this month**, with the month's whole cost beneath it, and the
+  charges listed beside it are this month's only — the tile is headed "this month" and borrowing
+  next month's to fill the rows contradicted it. Only a real month can be half spent, which is what
+  the bar means; the list's levelled "a month" answers a different question and always will.
+- The net is behind both states. The locked tile shows a redacted, blurred figure through it,
+  because a tile that only says "buy Pro" never shows what it is withholding.
 
 ### Cadence is fitted to a phase, not chained from gaps — a deliberate spec deviation
 
@@ -341,7 +347,7 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 469 tests, ~2s here, ~0.7s without the statements
+cd BadeKit && swift test          # 505 tests, ~2s here, ~0.7s without the statements
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
@@ -362,6 +368,40 @@ corrupt store to prove the recovery path. The run still passes.
 ---
 
 ## Traps hit, so they are not hit again
+
+- **Presented content is not inside the presenting view's tree.** A sheet or a cover inherits none
+  of what the root sets — locale, calendar, text size, forced appearance, the palette. Four
+  presentations each set the theme and stopped, and the whole import flow ran in English on the
+  system's calendar for months. `BadeAppEnvironment` carries all five; every presentation applies it.
+- **WidgetKit lifts `containerBackground` out of the view entirely.** No modifier ordering gets the
+  environment to it. It read the default palette — light — while the content resolved dark, which
+  put a near-white total on a cream tile and read as an empty widget. Anything WidgetKit extracts
+  must resolve from `colorScheme`, which is why `BadeTheme.matching(_:)` exists.
+- **Animate a `List`'s reorder on the state change, never on the `List`.** `.animation(_:value:)`
+  keyed to the rows array asks SwiftUI to animate a structural change from outside while the list
+  animates the same change from inside; whichever loses leaves a row clipped until the next
+  relayout. `withBadeAnimation { model.send(...) }` at the mutation is the reliable form.
+- **An animation on a state change reaches the whole screen.** The reorder spring caught the section
+  header and the sort label with it. Where something must not move, it needs saying — though see
+  open item 0 for a case where saying it did not help.
+- **The mesh must fade, never clip.** `NetBackground`'s falloff is measured against the widest side
+  of its canvas, so on anything wider than it is tall it is still at strength when the canvas ends
+  and stops on a hard line. Fixed three times in three places: mask both ends (the lock), shorten
+  the reach (the widget), or mask the leading edge (the pull web). A clipped net always looks broken.
+- **A toolbar does not reliably rebuild when its content appears out of a condition.** Keep the item
+  present and fade it. And giving a screen title content makes the bar lay itself out for a large
+  title even with no `navigationTitle` — `.toolbarTitleDisplayMode(.inline)` is what stops the gap
+  that opens above the content.
+- **`onScrollVisibilityChange` on a row inside a `List` never reported.** Read the list's own
+  geometry with `onScrollGeometryChange` instead; an offset is a number that can be reasoned about.
+- **Padding inside a bottom-anchored block moves the content, not the block.** The Pro lock's copy
+  sat on ground that ignored the bottom safe area, so padding it only grew the white area downward.
+  Whatever must clear the tab bar has to be measured from the edge it is clearing.
+- **Swift's `Hasher` is seeded per process.** Anything that must look the same on every launch — a
+  merchant's colour, a reminder's emoji — needs its own stable fingerprint, not `hashValue`.
+- **A statement cannot record a charge that has not happened.** `upcomingCharges` drops recorded
+  charges dated after today, which is right; a test fixture that dates one in the future is the
+  thing that is wrong.
 
 - **An App Group moves the SwiftData store.** CoreData's default directory becomes the group
   container the moment an app has one, so adding the widget's entitlement silently relocated the
