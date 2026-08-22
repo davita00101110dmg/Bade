@@ -58,6 +58,9 @@ public struct BadeRootView: View {
     @State private var presented: Presentation?
     @State private var hasSubscriptions = false
     @State private var isReady = false
+    /// The launch arrival runs for `BadeWordmarkMetrics.settle`; the read that decides where to go
+    /// finishes in a fraction of that, so without waiting the animation was never seen at all.
+    @State private var hasLaunchSettled = false
     /// What the data says to total in until Settings is used to say otherwise.
     @State private var inferredCurrency = Self.localeCurrency
     /// Held here only for the Detail screen opened from Upcoming, which is composed here and so
@@ -159,7 +162,10 @@ public struct BadeRootView: View {
     public var body: some View {
         root
             .badeAnimation(.badeTransition, value: hasSubscriptions)
+            // Both, because either can be the one that finishes last: a slow read that outlasts the
+            // arrival, or an arrival still running when the read is already done.
             .badeAnimation(.badeTransition, value: isReady)
+            .badeAnimation(.badeTransition, value: hasLaunchSettled)
             .modifier(appEnvironment)
             .task { configureTips() }
             .task(id: reload) { await decideRoot() }
@@ -245,8 +251,8 @@ public struct BadeRootView: View {
     /// cut from a list of subscriptions to an empty screen reads as a crash.
     @ViewBuilder
     private var root: some View {
-        if !isReady {
-            LoadingSurface().transition(.opacity)
+        if !isReady || !hasLaunchSettled {
+            BadeLaunchSurface { hasLaunchSettled = true }.transition(.opacity)
         } else if hasSubscriptions {
             // Never keyed on `reload`: rebuilding the tabs to refresh them threw away everything
             // the screens had loaded, replayed the hero's arrival count-up, and cross-faded the
@@ -525,35 +531,6 @@ private struct TextSizeOverride: ViewModifier {
 
     func body(content: Content) -> some View {
         content.environment(\.dynamicTypeSize, size.dynamicTypeSize ?? inherited)
-    }
-}
-
-/// The first frame the app draws, held while a local read decides between Welcome and the tabs.
-/// The net weaves itself across the whole screen under the name — `badeNet` was written for this
-/// and had never once been used — so opening Bade begins with Bade rather than with a blank screen.
-/// The system's own launch image is generated and can show nothing, so this is the only chance.
-private struct LoadingSurface: View {
-    @Environment(\.badeTheme) private var theme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    @State private var strength: Double = 0
-
-    var body: some View {
-        Text(.app.name)
-            .font(.badeTotal(size: BadeTypography.wordmarkSize))
-            .foregroundStyle(theme.ink)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(
-                NetBackground(
-                    strength: strength, peakOpacity: NetMetrics.launchOpacity,
-                    reachFactor: NetMetrics.launchReach
-                )
-                .ignoresSafeArea()
-            )
-            .background(theme.surface, ignoresSafeAreaEdges: .all)
-            .task {
-                withBadeAnimation(.badeNet, reduceMotion: reduceMotion) { strength = 1 }
-            }
     }
 }
 

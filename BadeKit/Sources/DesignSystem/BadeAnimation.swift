@@ -13,6 +13,9 @@ extension Animation {
     public static let badeTransition: Animation = .smooth(duration: 0.4)
     /// The net dissolving as the app fills with data.
     public static let badeNet: Animation = .easeInOut(duration: 0.8)
+    /// The wordmark rising into place as the app opens. Slower than `badeContent` because it is
+    /// the only thing on screen and has nothing to be quick for.
+    public static let badeLaunch: Animation = .smooth(duration: 0.55)
     /// Something landing in the net and settling: it overshoots a little, which is what tells the
     /// eye the row arrived rather than appeared.
     public static let badeCatch: Animation = .spring(response: 0.34, dampingFraction: 0.58)

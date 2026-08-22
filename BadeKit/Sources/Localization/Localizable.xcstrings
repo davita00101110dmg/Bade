@@ -18,6 +18,24 @@
         }
       }
     },
+    "app.wordmark" : {
+      "comment" : "The launch screen wordmark, set lowercase by the design. The full stop is drawn separately in the accent colour, so it is not part of this string.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bade"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "bade"
+          }
+        }
+      }
+    },
     "cadence.annual" : {
       "localizations" : {
         "en" : {

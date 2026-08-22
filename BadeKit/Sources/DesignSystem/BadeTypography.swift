@@ -100,3 +100,19 @@ private struct BadeSectionLabel: ViewModifier {
             .accessibilityAddTraits(.isHeader)
     }
 }
+
+/// The launch wordmark's own numbers, kept with it rather than in the shared scales — nothing else
+/// on any screen is set at this size or rises this far.
+public enum BadeWordmarkMetrics {
+    public static let tracking: CGFloat = -2
+    /// How far the wordmark rises into place.
+    public static let rise: CGFloat = 26
+    /// The beat between the wordmark settling and the full stop arriving.
+    public static let dotDelay: TimeInterval = 0.28
+    /// Where the full stop starts, before it springs open about its own centre.
+    public static let dotStartScale: CGFloat = 0.2
+    /// How long the whole arrival takes — the rise, the beat, and the full stop settling after it.
+    /// The root holds the launch surface for this long so the animation is not cut off by a local
+    /// read that finishes in a fraction of the time.
+    public static let settle: TimeInterval = 0.95
+}

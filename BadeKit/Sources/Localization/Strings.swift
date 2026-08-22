@@ -38,6 +38,9 @@ extension LocalizedStringResource {
     /// the net, and whether the Georgian build says so is a decision, not an accident.
     public struct AppStrings {
         public var name: LocalizedStringResource { string("app.name") }
+        /// The launch screen's own form: lowercase, and without the full stop, which is drawn
+        /// beside it in the accent colour so it can arrive on its own.
+        public var wordmark: LocalizedStringResource { string("app.wordmark") }
     }
 
     /// Shown wherever a feature is held back for Bade Pro.

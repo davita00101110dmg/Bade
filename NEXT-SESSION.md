@@ -26,7 +26,7 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
 ```
 
 **545 tests, `swift test` ~2s** — and they pass without the private statements too, which was not true
-before both banks had a committed fixture. Plus **52 snapshot references** on the simulator, ~130s;
+before both banks had a committed fixture. Plus **57 snapshot references** on the simulator, ~140s;
 see §Snapshot tests. iOS build green, no warnings. Quality gates clean bar one pre-existing `"GEL"`
 in `Catalog/MerchantSeed.swift:395`, a bundled price point rather than an assumption in logic.
 
@@ -41,13 +41,14 @@ wordmark says another. Decide them together, or drop the wordmark (see §The lau
 
 ⚠️ **Everything since the last upload is not in TestFlight.** The build there predates the
 presentation fix, the tooltips, the currency restriction, the Settings restructure, the FX
-correction, the owned Pro page, both field limits, the delete confirmation and Increase Contrast.
-The app's `CURRENT_PROJECT_VERSION` is at 2; the widget's is not.
+correction, the owned Pro page, both field limits, the delete confirmation, Increase Contrast and
+the new launch screen.
 
 ### Screens
 
 | # | Screen | State |
 |---|---|---|
+| ⓛ | Launch | ✅ wordmark rises, the stop springs in after it; the root waits for it to finish |
 | ① | Welcome | ✅ language globe top right — Settings is unreachable until something is imported |
 | ② | Parsing | ✅ BETA badge, "Opening the file" + sweeping bar, rows land in a spring |
 | ③ | Review | ✅ one checkbox per row; header counts what is ticked |
@@ -114,12 +115,12 @@ the one thing nobody else can do. `GEORGIAN-REVIEW.md` has the whole pass — si
 or reject, two grammar bugs, every key either way, and a snippet at the foot that flips all the
 states in one run.
 
-The document is **11 keys stale**: written against 227, the catalog now holds **238 — of which 222
+The document is **12 keys stale**: written against 227, the catalog now holds **239 — of which 223
 are still `needs_review` and 16 are translated** (counted 2026-08-23). Everything added since is
 listed in git and none of it was part of the pass. Ask for it to be regenerated rather than reading
 around the gap.
 
-⚠️ **Re-record the snapshot references afterwards.** Ten of the fifty-two are Georgian, so a
+⚠️ **Re-record the snapshot references afterwards.** Eleven of the fifty-seven are Georgian, so a
 translation pass fails them by design. `rm -rf Tests/Fixtures/Snapshots` and run the suite once.
 
 ---
@@ -465,6 +466,39 @@ nothing would have been the same false proof the font change gave last time.
 palette. They do not respond to Increase Contrast. Defensible because the letter is redundant: the
 merchant's name is in full ink immediately beside it, so nothing is conveyed only by that circle.
 Worth raising if anyone asks; it is one call site (`SubscriptionListRow.swift:90`).
+
+### The launch screen — rebuilt 2026-08-23
+
+`DesignSystem/BadeLaunchSurface.swift`. The wordmark rises 26pt into place over `badeLaunch`
+(0.55s), and the full stop springs open on `badeCatch` after a 0.28s beat, in the accent colour.
+No net: the mesh treatment is gone from this screen, and `NetMetrics.launchOpacity` / `launchReach`
+went with it. `NetBackground` and `NetPanel` stay for Welcome, the Pro hero, the widget and the
+empty states.
+
+**It lives in `DesignSystem`, not `App`.** `App/` is the composition root and a branded animated
+view is not composition — and there it is reachable by the snapshot suite, which is how it now has
+five references.
+
+**The root waits for it.** The read that decides between Welcome and the tabs finishes in a fraction
+of the 0.95s the arrival takes, so the animation was drawn and then immediately cut off — it could
+not be seen at all. `BadeLaunchSurface` reports when it has settled and the root holds until both
+that and `isReady`, with the cross-fade keyed to both because either can finish last. **Reduce
+Motion skips the hold**: the design says draw the settled frame and hand over, and somebody who
+asked for less motion should not be made to wait for an animation that is not playing. The cost is
+stated rather than hidden — **every launch is ~0.95s slower**, and `BadeWordmarkMetrics.settle` is
+the one constant that changes it.
+
+**`app.wordmark` is a new key**, lowercase `bade` in both languages, because `app.name` is `Bade.`
+and the design is lowercase with the stop drawn separately so it can carry the accent and arrive on
+its own. Three forms of the name now exist deliberately: the icon says `Bade`, `app.name` says
+`Bade.`, the launch screen says `bade.`.
+
+**The static launch screen matches.** `Bade/Assets.xcassets/LaunchBackground.colorset` carries
+`#EFEEE9` / `#0E0F0C` and `Bade/Info.plist` points `UILaunchScreen.UIColorName` at it, so the frame
+iOS draws before any code runs is the app's own surface rather than white. Verified in the built
+bundle. `INFOPLIST_KEY_UILaunchScreen_Generation` is still on and merges a redundant nested
+`UILaunchScreen` key inside the dict; iOS ignores it and reads the colour, but turning that setting
+off would tidy it.
 
 ### The widget
 

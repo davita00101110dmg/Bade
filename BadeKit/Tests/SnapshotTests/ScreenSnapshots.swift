@@ -29,6 +29,7 @@
     struct ScreenSnapshots {
         @Test func everyScreenInEveryVariant() async throws {
             for variant in Variant.all {
+                try await capture("launch", variant) { BadeLaunchSurface() }
                 try await capture("welcome", variant) { welcome() }
                 try await capture("form-new", variant) { form(editing: nil) }
                 try await capture("form-editing", variant) { form(editing: netflix()) }

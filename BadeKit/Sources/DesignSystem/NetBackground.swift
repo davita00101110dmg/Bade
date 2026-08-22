@@ -118,9 +118,6 @@ public enum NetMetrics {
     /// Quiet enough behind a title block that it reads as texture rather than as graph paper.
     public static let peakOpacity = 0.17
     public static let reachFactor: CGFloat = 0.42
-    /// On the launch screen the net is the whole picture, so it is darker and spreads much wider.
-    public static let launchOpacity = 0.5
-    public static let launchReach: CGFloat = 0.95
 }
 
 /// The net as a bounded panel, used behind a screen's title block rather than the whole page.

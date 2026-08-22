@@ -63,6 +63,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C56C5137303A6BFA001598BF /* Exceptions for "Bade" folder in "Bade" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C5EF35F7302851CA002CE2C5 /* Bade */;
+		};
 		C5EF3685302DD1B0002CE2C5 /* Exceptions for "BadeWidget" folder in "BadeWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -75,6 +82,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C5EF35FA302851CA002CE2C5 /* Bade */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C56C5137303A6BFA001598BF /* Exceptions for "Bade" folder in "Bade" target */,
+			);
 			path = Bade;
 			sourceTree = "<group>";
 		};
@@ -526,6 +536,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bade/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bade;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -574,6 +585,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bade/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bade;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
