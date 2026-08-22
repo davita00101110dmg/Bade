@@ -59,10 +59,33 @@ struct MonthlyTotalHeader: View {
         }
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text(total, format: .badeMoney(currency)))
+        // Ignored rather than combined, because the figure on screen is mid-count for the first
+        // second and VoiceOver would read whatever it was passing through. Everything else in the
+        // block is stable, so it is spelled out here — combining and then overriding the label
+        // announced the total and silently dropped the year, the count and the warning with it.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(.subscriptions.perMonth))
+        .accessibilityValue(spoken)
         .badeFeedback(.itemAppeared, trigger: hasLanded)
         .task(id: total) { await count() }
+    }
+
+    /// The settled figures, never the one counting up to them. Joined the way a reminder joins its
+    /// own spoken parts, so the separator is localised rather than a comma written into a view.
+    private var spoken: Text {
+        var parts = [
+            total.formatted(.badeMoney(currency).locale(locale)),
+            .badeLocalized(
+                count == 0
+                    ? .subscriptions.nothingCharging
+                    : .subscriptions.yearAndCount(annualText, count), in: locale),
+        ]
+        if unconvertibleCount > 0 {
+            parts.append(
+                .badeLocalized(.subscriptions.unconvertible(unconvertibleCount), in: locale))
+        }
+        let separator = String.badeLocalized(.subscriptions.separator, in: locale)
+        return Text(verbatim: parts.joined(separator: separator))
     }
 
     /// Counts from whatever was on screen to whatever is now true — up when an import lands, down

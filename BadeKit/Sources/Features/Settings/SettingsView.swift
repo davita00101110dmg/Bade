@@ -112,7 +112,9 @@ public struct SettingsView: View {
         Section {
             NavigationLink { ProView(model: model.pro()) } label: {
                 LabeledContent {
-                    Image(systemName: "sparkles").foregroundStyle(theme.accent)
+                    Image(systemName: "sparkles")
+                        .foregroundStyle(theme.accent)
+                        .accessibilityHidden(true)
                 } label: {
                     Text(.pro.title).font(.badeBody).foregroundStyle(theme.ink)
                 }

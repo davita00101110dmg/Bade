@@ -78,10 +78,13 @@ public struct ProView: View {
 
             ForEach(Self.features) { feature in
                 HStack(alignment: .top, spacing: .md) {
+                    // Decorative. Combined with the text beside it, VoiceOver read the symbol's
+                    // own name out first — "bell badge, Renewal reminders".
                     Image(systemName: feature.symbol)
                         .font(.badeHeadline)
                         .foregroundStyle(theme.accent)
                         .frame(width: BadeSpacing.xl)
+                        .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: .xxs) {
                         Text(feature.title)

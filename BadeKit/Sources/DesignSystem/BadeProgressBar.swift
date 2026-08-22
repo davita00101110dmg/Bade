@@ -1,3 +1,4 @@
+import Localization
 import SwiftUI
 
 public struct BadeProgressBar: View {
@@ -37,6 +38,7 @@ public struct BadeProgressBar: View {
         }
         .frame(height: BadeProgressBarMetrics.height)
         .accessibilityElement()
+        .accessibilityLabel(Text(.common.progress))
         .accessibilityValue(accessibilityValue)
     }
 

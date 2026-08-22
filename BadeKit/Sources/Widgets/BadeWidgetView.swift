@@ -113,11 +113,14 @@ public struct BadeWidgetView: View {
 
             Spacer(minLength: .zero)
 
+            // Hidden rather than read: it stands in for a figure nobody has bought yet, and
+            // VoiceOver announcing "000.00" would state it as this month's total.
             Text(verbatim: WidgetMetrics.lockedFigure)
                 .font(.badeDisplay)
                 .foregroundStyle(theme.ink)
                 .redacted(reason: .placeholder)
                 .blur(radius: WidgetMetrics.lockedBlur)
+                .accessibilityHidden(true)
 
             Text(.widget.locked)
                 .font(.badeCaption)

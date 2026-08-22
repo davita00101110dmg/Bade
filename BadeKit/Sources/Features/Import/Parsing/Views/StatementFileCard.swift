@@ -19,6 +19,8 @@ struct StatementFileCard: View {
                 .background(
                     RoundedRectangle(cornerRadius: BadeRadius.md, style: .continuous)
                         .fill(theme.surfaceSunken))
+                // The file's name says it is a document; the glyph only said "doc text" first.
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: .xxs) {
                 Text(file.name)

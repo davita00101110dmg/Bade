@@ -94,5 +94,9 @@ private struct BadeSectionLabel: ViewModifier {
             .textCase(.uppercase)
             .tracking(BadeTypography.labelTracking)
             .foregroundStyle(tint ?? theme.inkFaint)
+            // Every section heading in the app goes through here, so this is the one place that
+            // makes the rotor's Headings mode work — without it there was nothing to jump between
+            // and a screen had to be swiped through row by row.
+            .accessibilityAddTraits(.isHeader)
     }
 }
