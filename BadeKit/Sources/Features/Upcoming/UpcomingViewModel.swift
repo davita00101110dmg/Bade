@@ -14,12 +14,13 @@ public final class UpcomingViewModel {
     /// pointing at one.
     public init(
         currency: String,
+        today: Date = .now,
         calendar: Calendar = .current,
         showing day: Date? = nil,
         repository: any SubscriptionRepository,
         rates: @escaping @Sendable () async -> RateBook
     ) {
-        state = UpcomingState(currency: currency, calendar: calendar)
+        state = UpcomingState(currency: currency, today: today, calendar: calendar)
         self.repository = repository
         self.rates = rates
         if let day { _ = state.apply(.showDay(day)) }

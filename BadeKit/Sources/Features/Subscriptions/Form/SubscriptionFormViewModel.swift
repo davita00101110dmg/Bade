@@ -15,12 +15,14 @@ public final class SubscriptionFormViewModel {
         editing subscription: Subscription?,
         currency: String,
         knownCurrencies: [String],
+        today: Date = .now,
         repository: any SubscriptionRepository,
         merchants: any MerchantSuggesting,
         onOutcome: @escaping (FormOutcome) -> Void
     ) {
         state = SubscriptionFormState(
-            editing: subscription, currency: currency, knownCurrencies: knownCurrencies)
+            editing: subscription, currency: currency, knownCurrencies: knownCurrencies,
+            today: today)
         self.repository = repository
         self.merchants = merchants
         self.onOutcome = onOutcome

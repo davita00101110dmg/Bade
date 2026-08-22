@@ -1476,13 +1476,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The rate your bank really used, next to the card scheme's, on every foreign charge."
+            "value" : "The rate your bank really used, next to the card scheme's, whenever a charge is converted."
           }
         },
         "ka" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით — ყველა უცხოურ ჩამოჭრაზე."
+            "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით — როცა კონვერტაცია ხდება."
           }
         }
       }
@@ -1492,13 +1492,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "On any charge in another currency."
+            "value" : "On any charge your bank converted."
           }
         },
         "ka" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "ნებისმიერ სხვა ვალუტის ჩამოჭრაზე."
+            "value" : "ნებისმიერ ჩამოჭრაზე, სადაც კონვერტაცია მოხდა."
           }
         }
       }

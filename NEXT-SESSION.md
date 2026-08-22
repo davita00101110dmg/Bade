@@ -172,7 +172,14 @@ this account cannot produce the case either way. **One statement from a card wit
 balance settles it.**
 
 **Decided 2026-08-23: the feature stays as built.** It is correct, it explains itself when there is
-nothing to report, and it pays off for single-currency accounts. No code change wanted.
+nothing to report, and it pays off for single-currency accounts. No change to the engine.
+
+**The Pro page's copy was wrong, though, and was fixed the same day.** It sold the feature on
+*foreign* charges — `pro.fxDetail` "on every foreign charge", `pro.fxWhere` "On any charge in another
+currency" — which is exactly the promise this account cannot keep: a euro charge is a charge in
+another currency and the card says nothing was converted. Both now say **converted** instead, in
+English and Georgian. Everything under `detail.fx.*` was already right; only the page that sells it
+had drifted, which is the more dangerous half to get wrong.
 
 ## Waiting on the user
 
@@ -570,6 +577,11 @@ draws through `BadeMoneyText(shimmers: true)`, a repeating animation that never 
 regression on that one screen smaller than 2% of its pixels goes uncaught, and that is the price of
 having the other forty-one mean something.
 
+**The clock is pinned, as of 2026-08-23.** Upcoming and the form rendered against the real `.now`,
+so 13 of the 42 moved with the calendar date — see the trap above. `UpcomingViewModel` and
+`SubscriptionFormViewModel` now accept `today:` and the snapshots pass `date(0)`, the same epoch the
+fixture data uses. Verified by a full compare run after re-recording: 42 of 42 clean.
+
 A mismatch writes the rendered PNG to a temporary folder and prints both paths, so the two can be
 opened side by side.
 
@@ -614,6 +626,14 @@ corrupt store to prove the recovery path. The run still passes.
 - **`xcodebuild` does not forward the shell's environment to the test process.** A plain
   `FOO=1 xcodebuild test` is silently ignored; `TEST_RUNNER_FOO=1` is the mechanism, and Xcode strips
   the prefix. An hour went into believing a record-mode loop that was quietly comparing instead.
+- **A snapshot of a view that reads `.now` rots overnight.** `UpcomingViewModel` and
+  `SubscriptionFormViewModel` let their state default `today` to `.now`, so the references recorded
+  on 2026-08-22 failed on the 23rd — 8 of 42, purely because the day changed. The fixture *data* was
+  pinned to a fixed epoch from the start; the *view's* idea of today was not, which is the half that
+  was easy to miss. Both inits now take `today: Date = .now` and the snapshots pass `date(0)`.
+  Worse than the noise: 5 more references rendered identically across those two days and moved only
+  once the date was pinned, so "it passed yesterday" was never evidence of determinism. **Anything a
+  snapshot renders must have every clock injected, not just the data.**
 - **Animation makes a screen unrepeatable.** With no code change between runs, nine snapshots
   differed by up to 10.77% of their pixels — a total counting up, a net fading in. That noise was
   larger than most real regressions, so the comparison failed at random and caught nothing. Worse,

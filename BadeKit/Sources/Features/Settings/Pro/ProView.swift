@@ -21,7 +21,7 @@ public struct ProView: View {
         let detail: LocalizedStringResource
         /// Where to find it, for somebody who already has. Only Upcoming is a place the app can
         /// take you — iOS offers no way to open the widget gallery, the FX breakdown lives inside
-        /// whichever subscription was charged abroad, and reminders and export are two taps back
+        /// whichever subscription the bank converted, and reminders and export are two taps back
         /// in Settings. A row that looks tappable and is not reads as a bug, so the rest say where
         /// to look instead of pretending.
         let whereItLives: LocalizedStringResource?

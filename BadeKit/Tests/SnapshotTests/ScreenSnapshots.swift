@@ -171,6 +171,7 @@
         SubscriptionFormView(
             model: SubscriptionFormViewModel(
                 editing: subscription, currency: "GEL", knownCurrencies: ["GEL", "USD"],
+                today: date(0),
                 repository: StubRepository(subscriptions: []), merchants: StubMerchants(),
                 onOutcome: { _ in }))
     }
@@ -189,7 +190,8 @@
         let book = rates()
         let model = await primed(
             UpcomingViewModel(
-                currency: "GEL", repository: StubRepository(subscriptions: subscriptions),
+                currency: "GEL", today: date(0),
+                repository: StubRepository(subscriptions: subscriptions),
                 rates: { book })
         ) { $0.send(.appeared) }
 
