@@ -122,6 +122,28 @@ struct ReminderPlanTests {
         #expect(reminders.count == ReminderPlan.limit)
     }
 
+    /// The cap is what a schedule runs out of, never the horizon. At a year it was the other way
+    /// round for anyone with a handful of subscriptions: two monthly ones spent 24 of the 64 slots
+    /// and went quiet after twelve months with 40 slots never used.
+    @Test func twoSubscriptionsStillSpendTheWholeCap() {
+        let subscriptions = [
+            subscription("Netflix", "39", next: date(2026, 9, 4)),
+            subscription("Spotify", "24.90", next: date(2026, 9, 18)),
+        ]
+        let reminders = plan(subscriptions, .oneDay, now: date(2026, 8, 12, 10))
+
+        #expect(reminders.count == ReminderPlan.limit)
+    }
+
+    /// The sharpest form of the same bug: an annual subscription charges once inside a one-year
+    /// window, so an annual-only subscriber was told once and then never again.
+    @Test func anAnnualSubscriptionIsAnnouncedMoreThanOnce() {
+        let domain = subscription("Domain", "60", "GEL", .annual, next: date(2026, 9, 4))
+        let reminders = plan([domain], .oneDay, now: date(2026, 8, 12, 10))
+
+        #expect(reminders.count == ReminderPlan.horizonYears)
+    }
+
     /// February clamps a charge on the 31st to the 28th. Measured from a fixed anchor the day comes
     /// back; stepped one month at a time it never would.
     @Test func aMonthEndChargeComesBackAfterFebruary() throws {

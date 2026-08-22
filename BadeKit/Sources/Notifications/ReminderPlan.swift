@@ -7,9 +7,14 @@ public enum ReminderPlan {
     /// iOS keeps the 64 soonest pending notifications and silently drops the rest, so the cap is
     /// applied here where it can be reasoned about.
     public static let limit = 64
-    /// How far ahead to project. Roughly six months of charges fit inside the cap anyway; a year
-    /// means the horizon is never what runs out first.
-    public static let horizonDays = 365
+    /// How far ahead to project — far enough that the cap is what runs out rather than this.
+    ///
+    /// It used to be a year, on the assumption that a year always overflowed the cap. It does not:
+    /// one monthly subscription filled 12 of the 64 slots and a single annual one filled 1, so
+    /// reminders stopped a year out with most of the cap unspent — and an annual-only subscriber
+    /// got one reminder and then silence. Three years is where anyone with two or more
+    /// subscriptions spends the whole cap, which is the most iOS will hold either way.
+    public static let horizonYears = 3
 
     public static func reminders(
         for subscriptions: [Subscription],
@@ -19,7 +24,7 @@ public enum ReminderPlan {
     ) -> [ChargeReminder] {
         guard preference.isOn else { return [] }
         let today = calendar.startOfDay(for: now)
-        guard let end = calendar.date(byAdding: .day, value: horizonDays, to: today) else {
+        guard let end = calendar.date(byAdding: .year, value: horizonYears, to: today) else {
             return []
         }
 
