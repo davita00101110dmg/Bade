@@ -29,10 +29,24 @@
         func deleteAll() async throws {}
     }
 
+    /// What a real statement carries, and what the currency row now depends on: without an observed
+    /// pair nothing converts, so the row is absent and the preview would hide the very thing it is
+    /// meant to show.
+    private func stubRates() -> RateBook {
+        var book: RateBook = RateBook()
+        book.record(
+            ObservedRate(
+                date: Date(timeIntervalSince1970: 1_756_000_000), from: "USD", to: "GEL",
+                rate: Decimal(string: "2.6716") ?? 0))
+        return book
+    }
+
     @MainActor
     private func stubSettings(_ stored: [Subscription]) -> some View {
+        let rates: RateBook = stubRates()
         let model = SettingsViewModel(
             currency: "GEL", language: .english, repository: StubRepository(subscriptions: stored),
+            rates: { rates },
             onOutcome: { _ in })
         return NavigationStack { SettingsView(model: model, isPro: true) }
     }

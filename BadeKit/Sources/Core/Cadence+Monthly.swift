@@ -87,4 +87,28 @@ extension Collection<Subscription> {
         }
         return (total, unconvertible)
     }
+
+    /// The currencies a total can honestly be shown in: those every active subscription converts
+    /// into, leaving nothing unconvertible.
+    ///
+    /// Offering more than this is what produced a screen of three hundred currencies where picking
+    /// almost any of them totalled to zero. `RateBook` never extrapolates and never triangulates —
+    /// a pair is either observed or it is not — so holding GEL-USD says nothing whatever about
+    /// GEL-JPY, and the picker was promising conversions that could not happen.
+    ///
+    /// Nor is "the currencies you are charged in" the same question. A multi-currency account pays
+    /// a dollar charge from a dollar balance and records no conversion doing it, so USD can be a
+    /// currency you plainly hold and still be one your lari subscriptions cannot be shown in.
+    ///
+    /// Cancelled subscriptions do not restrict the choice, because they are not in the total.
+    public func convertibleCurrencies(rates: RateBook, on date: Date) -> [String] {
+        // The only codes that can ever succeed: a subscription's own, or one an observation names.
+        let candidates = Set(map(\.currency))
+            .union(rates.observations.flatMap { [$0.from, $0.to] })
+
+        return
+            candidates
+            .filter { monthlyTotal(in: $0, rates: rates, on: date).unconvertible.isEmpty }
+            .sorted()
+    }
 }

@@ -55,27 +55,10 @@ public struct SettingsView: View {
 
     private var displaySection: some View {
         Section {
-            NavigationLink {
-                CurrencyPicker(known: model.state.knownCurrencies, selected: model.state.currency) {
-                    model.send(.currencyChanged($0))
-                }
-            } label: {
-                LabeledContent {
-                    Text(verbatim: model.state.currency)
-                        .font(.badeAmount)
-                        .foregroundStyle(theme.ink)
-                } label: {
-                    VStack(alignment: .leading, spacing: .xxs) {
-                        label(.currency.title)
-                        if model.state.isCurrencyInferred {
-                            Text(.settings.defaultBadge)
-                                .font(.badeLabel)
-                                .foregroundStyle(theme.inkFaint)
-                        }
-                    }
-                }
-            }
-            .listRowBackground(theme.surfaceRaised)
+            // Absent when there is nothing to choose between, which is the common case in a country
+            // whose statements are all in one currency. Every other row here offers a real choice;
+            // a row leading to a screen with one ticked line on it reads as something broken.
+            if model.state.canChooseCurrency { currencyRow }
 
             picker(.settings.language, BadeLanguage.allCases, languageBinding, \.name)
             picker(.settings.appearance, BadeAppearance.allCases, appearanceBinding, \.name)
@@ -89,6 +72,32 @@ public struct SettingsView: View {
                 .font(.badeCaption)
                 .foregroundStyle(theme.inkFaint)
         }
+    }
+
+    /// The one preference whose options are not a fixed set: what can be totalled in depends on
+    /// which rates the statements actually carried.
+    private var currencyRow: some View {
+        NavigationLink {
+            CurrencyPicker(only: model.state.displayCurrencies, selected: model.state.currency) {
+                model.send(.currencyChanged($0))
+            }
+        } label: {
+            LabeledContent {
+                Text(verbatim: model.state.currency)
+                    .font(.badeAmount)
+                    .foregroundStyle(theme.ink)
+            } label: {
+                VStack(alignment: .leading, spacing: .xxs) {
+                    label(.currency.title)
+                    if model.state.isCurrencyInferred {
+                        Text(.settings.defaultBadge)
+                            .font(.badeLabel)
+                            .foregroundStyle(theme.inkFaint)
+                    }
+                }
+            }
+        }
+        .listRowBackground(theme.surfaceRaised)
     }
 
     /// One row shape for every preference: a label, the current value, and the whole set behind it.

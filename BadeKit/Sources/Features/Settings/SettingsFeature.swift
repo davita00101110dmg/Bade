@@ -22,7 +22,11 @@ public struct SettingsState: Equatable {
     public private(set) var isReminderDenied: Bool
     /// Loaded so an export can be built the moment it is asked for; a share sheet cannot wait.
     public private(set) var subscriptions: [Subscription] = []
+    /// Held only to work out which currencies a total can honestly be shown in.
+    public private(set) var rates = RateBook()
     public private(set) var isConfirmingDeleteAll = false
+    /// The day rates are read at. Injected so a test can stand somewhere fixed.
+    let today: Date
 
     public init(
         currency: String,
@@ -34,8 +38,10 @@ public struct SettingsState: Equatable {
         fetchesRates: Bool = true,
         isPro: Bool = false,
         reminder: ReminderPreference = ReminderPreference(),
-        isReminderDenied: Bool = false
+        isReminderDenied: Bool = false,
+        today: Date = .now
     ) {
+        self.today = today
         self.isPro = isPro
         self.currency = currency
         self.language = language
@@ -48,18 +54,26 @@ public struct SettingsState: Equatable {
         self.isReminderDenied = isReminderDenied
     }
 
-    /// Offered above the full list, exactly as the subscription form offers them.
-    public var knownCurrencies: [String] {
-        var seen: Set<String> = []
-        return ([currency] + subscriptions.map(\.currency)).filter { seen.insert($0).inserted }
+    /// What the total may honestly be shown in: the currencies every active subscription converts
+    /// into, and never the three hundred ISO codes the picker used to list — where choosing almost
+    /// any of them totalled to zero, because a rate book holds observed pairs and bridges nothing.
+    ///
+    /// The current choice is always in the list even when it no longer converts, or a display
+    /// currency that stopped working would hide the only row that could change it.
+    public var displayCurrencies: [String] {
+        Set(subscriptions.convertibleCurrencies(rates: rates, on: today)).union([currency]).sorted()
     }
+
+    /// A choice of one is not a choice. Settings drops the row rather than offering a screen with
+    /// a single ticked line on it.
+    public var canChooseCurrency: Bool { displayCurrencies.count > 1 }
 
     public var hasData: Bool { !subscriptions.isEmpty }
 }
 
 public enum SettingsIntent: Equatable {
     case appeared
-    case loaded([Subscription])
+    case loaded([Subscription], RateBook)
     case currencyChanged(String)
     case languageChanged(BadeLanguage)
     case appearanceChanged(BadeAppearance)
@@ -88,8 +102,9 @@ extension SettingsState {
         case .appeared:
             return .load
 
-        case .loaded(let subscriptions):
+        case .loaded(let subscriptions, let rates):
             self.subscriptions = subscriptions
+            self.rates = rates
             return nil
 
         case .currencyChanged(let currency):

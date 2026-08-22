@@ -2,22 +2,41 @@ import Foundation
 import Localization
 import SwiftUI
 
-/// Every ISO currency, with the ones already being charged lifted to the top. No shortlist: a
+/// Two screens present this, and they are asking different questions.
+///
+/// The subscription form asks what a charge is billed in, which can be any currency there is — so
+/// it gets every ISO code with the ones already charged lifted to the top. No shortlist there: a
 /// hardcoded set of codes is a launch-market assumption, and the search field makes 300 rows fine.
 ///
-/// Lives here rather than in a feature because two of them present it — the subscription form and
-/// Settings — and neither may import the other.
+/// Settings asks what to total in, which is a much smaller question. A rate book holds observed
+/// pairs and bridges nothing, so all but a handful of those 300 would convert nothing and show a
+/// zero. It gets `only`, and the caller works out what belongs in it.
+///
+/// Lives here rather than in a feature because neither of those two may import the other.
 public struct CurrencyPicker: View {
     @Environment(\.badeTheme) private var theme
     @Environment(\.locale) private var locale
     @Environment(\.dismiss) private var dismiss
 
-    private let known: [String]
+    private let sections: [(title: LocalizedStringResource?, codes: [String])]
+    private let isSearchable: Bool
     private let selected: String
     private let onPick: (String) -> Void
 
+    /// Every currency there is, with `known` first. For naming what something is billed in.
     public init(known: [String], selected: String, onPick: @escaping (String) -> Void) {
-        self.known = known
+        sections = [(.currency.known, known), (.currency.all, Self.all)]
+        isSearchable = true
+        self.selected = selected
+        self.onPick = onPick
+    }
+
+    /// These and nothing else. For choosing what to be shown a total in.
+    public init(only codes: [String], selected: String, onPick: @escaping (String) -> Void) {
+        // One unheaded section: with a handful of rows a heading labels the obvious, and a search
+        // field over four currencies is furniture.
+        sections = [(nil, codes)]
+        isSearchable = false
         self.selected = selected
         self.onPick = onPick
     }
@@ -27,19 +46,20 @@ public struct CurrencyPicker: View {
 
     public var body: some View {
         List {
-            section(.currency.known, codes: matching(known))
-            section(.currency.all, codes: matching(Self.all))
+            ForEach(Array(sections.enumerated()), id: \.offset) { _, group in
+                section(group.title, codes: matching(group.codes))
+            }
         }
         .badeGroupedList()
         .scrollContentBackground(.hidden)
         .background(theme.surface, ignoresSafeAreaEdges: .all)
-        .searchable(text: $query, prompt: Text(.currency.search))
+        .badeSearchable(isSearchable, text: $query)
         .navigationTitle(Text(.currency.title))
         .toolbarTitleDisplayMode(.inline)
     }
 
     @ViewBuilder
-    private func section(_ title: LocalizedStringResource, codes: [String]) -> some View {
+    private func section(_ title: LocalizedStringResource?, codes: [String]) -> some View {
         if !codes.isEmpty {
             Section {
                 ForEach(codes, id: \.self) { code in
@@ -54,7 +74,7 @@ public struct CurrencyPicker: View {
                     .listRowBackground(theme.surfaceRaised)
                 }
             } header: {
-                Text(title).badeSectionLabel()
+                if let title { Text(title).badeSectionLabel() }
             }
         }
     }
@@ -93,4 +113,29 @@ public struct CurrencyPicker: View {
         .map(\.identifier)
         .map { $0.uppercased() }
         .sorted()
+}
+
+/// `SearchFieldPlacement` has no "not at all", so the modifier is either applied or it is not.
+///
+/// Branching is safe here only because `isSearchable` is decided by which initialiser was used and
+/// never changes afterwards. A branch on something that *does* change would change the view's shape
+/// while it is on screen, which is what tears a navigation stack down.
+private struct BadeSearchable: ViewModifier {
+    let isSearchable: Bool
+    @Binding var text: String
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if isSearchable {
+            content.searchable(text: $text, prompt: Text(.currency.search))
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    fileprivate func badeSearchable(_ isSearchable: Bool, text: Binding<String>) -> some View {
+        modifier(BadeSearchable(isSearchable: isSearchable, text: text))
+    }
 }

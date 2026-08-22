@@ -21,9 +21,20 @@ private func subscription(
         nextChargeDate: day("2026-08-05"), isActive: active, confidence: .confident)
 }
 
-private func state(_ subscriptions: [Subscription] = []) -> SettingsState {
+/// One observation is enough for either direction: a rate book inverts what it holds, and picks
+/// the nearest observation to the date asked for however far away it is.
+private func rates(_ from: String, _ to: String, _ rate: String) -> RateBook {
+    var book = RateBook()
+    book.record(
+        ObservedRate(date: day("2026-01-05"), from: from, to: to, rate: Decimal(string: rate)!))
+    return book
+}
+
+private func state(_ subscriptions: [Subscription] = [], rates: RateBook = RateBook())
+    -> SettingsState
+{
     var state = SettingsState(currency: "GEL", language: .english)
-    _ = state.apply(.loaded(subscriptions))
+    _ = state.apply(.loaded(subscriptions, rates))
     return state
 }
 
@@ -51,13 +62,50 @@ struct SettingsStateTests {
         #expect(subject.language == .georgian)
     }
 
-    @Test func currenciesAlreadyChargedComeFirstWithoutRepeats() {
+    /// The picker used to list every ISO currency, and picking almost any of them totalled to
+    /// zero — a rate book holds observed pairs and bridges nothing.
+    @Test func onlyCurrenciesEverySubscriptionConvertsIntoAreOffered() {
+        let subject = state(
+            [
+                subscription("Netflix", currency: "USD"), subscription("Spotify"),
+                subscription("ChatGPT", currency: "USD"),
+            ], rates: rates("USD", "GEL", "2.6716"))
+
+        #expect(subject.displayCurrencies == ["GEL", "USD"])
+        #expect(subject.canChooseCurrency)
+    }
+
+    /// Being charged in a currency is not the same as being able to be shown a total in it. A
+    /// multi-currency account pays a dollar charge from a dollar balance and records no rate.
+    @Test func aCurrencyChargedInWithNoRateToItIsNotOffered() {
         let subject = state([
             subscription("Netflix", currency: "USD"), subscription("Spotify"),
-            subscription("ChatGPT", currency: "USD"),
         ])
 
-        #expect(subject.knownCurrencies == ["GEL", "USD"])
+        #expect(subject.displayCurrencies == ["GEL"])
+        #expect(subject.canChooseCurrency == false)
+    }
+
+    /// The common case in Georgia. A screen with one ticked row on it is not a choice.
+    @Test func oneCurrencyIsNoChoiceAtAll() {
+        let subject = state([subscription("Spotify"), subscription("MAGTICOM")])
+
+        #expect(subject.displayCurrencies == ["GEL"])
+        #expect(subject.canChooseCurrency == false)
+    }
+
+    /// Otherwise a display currency that stopped converting would hide the only row that could
+    /// change it, and there would be no way back.
+    @Test func whateverIsSelectedStaysOfferedEvenIfItNoLongerConverts() {
+        var subject = state(
+            [subscription("Netflix", currency: "USD"), subscription("Spotify")],
+            rates: rates("USD", "GEL", "2.6716"))
+
+        _ = subject.apply(.currencyChanged("USD"))
+        _ = subject.apply(.loaded([subscription("Netflix", currency: "EUR")], RateBook()))
+
+        #expect(subject.displayCurrencies.contains("USD"))
+        #expect(subject.canChooseCurrency)
     }
 
     @Test func thereIsNothingToExportUntilSomethingIsStored() {

@@ -275,6 +275,7 @@ public struct BadeRootView: View {
                 textSize: textSize, weekStart: weekStart,
                 isCurrencyInferred: chosenCurrency.isEmpty, fetchesRates: fetchesRates,
                 isPro: isPro, reminder: reminderPreference, repository: store,
+                rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
                 purchases: purchases,
                 isReminderDenied: { [reminders] in await reminders.authorization() == .denied },
                 onOutcome: handleSettings),

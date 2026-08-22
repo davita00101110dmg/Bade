@@ -141,3 +141,87 @@ struct MonthlyTotalTests {
         #expect(markup > Decimal(string: "0.014")! && markup < Decimal(string: "0.016")!)
     }
 }
+
+/// The display currency is only honest where every active subscription reaches it.
+@Suite("Convertible currencies")
+struct ConvertibleCurrencyTests {
+    private func rates(_ pairs: [(String, String, String)]) -> RateBook {
+        var book = RateBook()
+        for (from, to, rate) in pairs {
+            book.record(
+                ObservedRate(date: anyDay, from: from, to: to, rate: Decimal(string: rate)!))
+        }
+        return book
+    }
+
+    /// One currency in, one currency out. Nothing to convert, so nothing can fail.
+    @Test func aSingleCurrencyOffersOnlyItself() {
+        let only = [subscription("SETANTA", "14.99", "GEL", .monthly)]
+
+        #expect(only.convertibleCurrencies(rates: RateBook(), on: anyDay) == ["GEL"])
+    }
+
+    /// An observed pair works in both directions, because a rate book inverts what it holds.
+    @Test func anObservedPairOffersBothOfItsSides() {
+        let mixed = [
+            subscription("SETANTA", "14.99", "GEL", .monthly),
+            subscription("Adobe", "19.99", "USD", .monthly),
+        ]
+
+        let offered = mixed.convertibleCurrencies(
+            rates: rates([("USD", "GEL", "2.6716")]), on: anyDay)
+
+        #expect(offered == ["GEL", "USD"])
+    }
+
+    /// The bug this was written for: holding GEL-USD says nothing about GEL-JPY, because a rate
+    /// book never triangulates. JPY was offered anyway and totalled to zero.
+    @Test func aCurrencyNothingReachesIsNotOffered() {
+        let mixed = [
+            subscription("SETANTA", "14.99", "GEL", .monthly),
+            subscription("Adobe", "19.99", "USD", .monthly),
+        ]
+
+        let offered = mixed.convertibleCurrencies(
+            rates: rates([("USD", "GEL", "2.6716")]), on: anyDay)
+
+        #expect(!offered.contains("JPY"))
+    }
+
+    /// A currency you are plainly charged in, that your other subscriptions still cannot reach.
+    /// A multi-currency account pays a dollar charge from a dollar balance and records no rate
+    /// doing it — so "the currencies you have" is the wrong question to ask.
+    @Test func aCurrencyChargedInWithNoRateToItIsNotOffered() {
+        let mixed = [
+            subscription("SETANTA", "14.99", "GEL", .monthly),
+            subscription("Adobe", "19.99", "USD", .monthly),
+        ]
+
+        #expect(mixed.convertibleCurrencies(rates: RateBook(), on: anyDay).isEmpty)
+    }
+
+    /// Cancelled subscriptions are not in the total, so they cannot narrow what it shows in.
+    @Test func aCancelledSubscriptionDoesNotRestrictTheChoice() {
+        let mixed = [
+            subscription("SETANTA", "14.99", "GEL", .monthly),
+            subscription("Adobe", "19.99", "USD", .monthly, active: false),
+        ]
+
+        #expect(mixed.convertibleCurrencies(rates: RateBook(), on: anyDay) == ["GEL"])
+    }
+
+    /// Three currencies, and a rate reaching only two of them: neither of the pair is offered,
+    /// because the third would be left unconverted in both.
+    @Test func onePairIsNotEnoughWhenAThirdCurrencyIsStranded() {
+        let mixed = [
+            subscription("SETANTA", "14.99", "GEL", .monthly),
+            subscription("Adobe", "19.99", "USD", .monthly),
+            subscription("Bolt", "9.99", "EUR", .monthly),
+        ]
+
+        let offered = mixed.convertibleCurrencies(
+            rates: rates([("USD", "GEL", "2.6716")]), on: anyDay)
+
+        #expect(offered.isEmpty)
+    }
+}
