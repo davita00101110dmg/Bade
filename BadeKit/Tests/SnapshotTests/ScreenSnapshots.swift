@@ -9,10 +9,18 @@
     import Testing
     import UIKit
     import Upcoming
+    import Welcome
 
     /// §11 asks for snapshots in both languages, both appearances and at accessibility sizes.
-    /// These render on the simulator and write PNGs for a person to look at; they assert only that
-    /// a screen renders at all, because a machine cannot tell a good layout from a bad one.
+    ///
+    /// These used to render PNGs into a temporary folder and assert only that a screen rendered at
+    /// all — a screenshot generator rather than a test, so a layout could break without anything
+    /// failing. Each render is now compared against a reference committed to the repository.
+    ///
+    /// They also stopped compiling at some point and nobody noticed, because `#if os(iOS)` means
+    /// `swift test` on the host never builds this file. That is the standing risk here: these are
+    /// invisible unless somebody runs them on a simulator, which is why the command is written down
+    /// in NEXT-SESSION.md rather than remembered.
     ///
     /// UIKit appears here and nowhere else — hosting a view in a real window is the only way to
     /// capture the navigation bar along with it. `Sources/` stays free of it.
@@ -21,6 +29,7 @@
     struct ScreenSnapshots {
         @Test func everyScreenInEveryVariant() async throws {
             for variant in Variant.all {
+                try await capture("welcome", variant) { welcome() }
                 try await capture("form-new", variant) { form(editing: nil) }
                 try await capture("form-editing", variant) { form(editing: netflix()) }
                 try await capture("upcoming", variant) { await upcoming(stored()) }
@@ -29,11 +38,12 @@
                 }
                 try await capture("settings", variant) { await settings(stored()) }
                 try await capture("subscriptions", variant) { await subscriptions(stored()) }
+                try await capture("detail", variant) { detail(netflix()) }
+                try await capture("pro", variant) { pro(isEntitled: false) }
+                try await capture("pro-owned", variant) { pro(isEntitled: true) }
             }
             try await capture("upcoming-empty", .light) { await upcoming([]) }
             try await capture("settings-empty", .light) { await settings([]) }
-
-            print("BADE_SNAPSHOT_DIR=\(Self.directory.path)")
         }
     }
 
@@ -56,23 +66,26 @@
     }
 
     extension ScreenSnapshots {
-        static let directory: URL = {
-            let url = URL(filePath: NSTemporaryDirectory()).appending(path: "bade-snapshots")
-            try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
-            return url
-        }()
-
         private static let size = CGSize(width: 402, height: 874)
 
         func capture(
             _ name: String, _ variant: Variant, of view: () async -> some View
         ) async throws {
             let content = await view()
+            // Animations off, or the screen is unrepeatable. The hero total counts up over
+            // `BadeMotion.totalReveal` and the net fades in from nothing, so a capture taken
+            // mid-flight differed from the previous one by up to 5% of its pixels — measured, with
+            // no code change between runs. That noise was larger than most real regressions, which
+            // made the comparison worse than useless: it failed at random and caught nothing.
+            //
+            // `accessibilityReduceMotion` would have been the app's own switch for this, but it is
+            // read-only in the environment. Suppressing the transaction reaches the same screens.
             let root =
                 content
                 .badeTheme()
                 .environment(\.locale, variant.locale)
                 .environment(\.dynamicTypeSize, variant.size)
+                .transaction { $0.disablesAnimations = true }
 
             let controller = UIHostingController(rootView: root)
             controller.overrideUserInterfaceStyle = variant.scheme
@@ -84,17 +97,23 @@
             window.makeKeyAndVisible()
             controller.view.layoutIfNeeded()
             // A list lays its rows out on a later turn of the run loop, not on layout. Awaiting
-            // hands the main thread back so that turn actually happens.
-            try await Task.sleep(for: .milliseconds(400))
+            // hands the main thread back so that turn actually happens — and long enough that
+            // anything Reduce Motion did not settle has finished.
+            try await Task.sleep(for: .milliseconds(2200))
             controller.view.layoutIfNeeded()
 
             // `drawHierarchy` renders nothing for a window that was never on screen; the layer
             // tree can be asked directly.
-            let image = UIGraphicsImageRenderer(size: Self.size).image { context in
+            //
+            // Scale 1 rather than the simulator's native scale: a reference at 3x is three times
+            // the pixels and three times the file, and no layout regression needs that resolution
+            // to be visible.
+            let format = UIGraphicsImageRendererFormat()
+            format.scale = 1
+            let image = UIGraphicsImageRenderer(size: Self.size, format: format).image { context in
                 window.layer.render(in: context.cgContext)
             }
-            let data = try #require(image.pngData())
-            try data.write(to: Self.directory.appending(path: "\(name)-\(variant.name).png"))
+            try SnapshotComparison.verify(image, named: "\(name)-\(variant.name)")
         }
     }
 
@@ -189,7 +208,29 @@
                 repository: StubRepository(subscriptions: subscriptions), onOutcome: { _ in })
         ) { $0.send(.appeared) }
 
-        return NavigationStack { SettingsView(model: model) }
+        return NavigationStack { SettingsView(model: model, isPro: true) }
+    }
+
+    @MainActor
+    private func welcome() -> some View {
+        WelcomeView(language: .english) { _ in }
+    }
+
+    @MainActor
+    private func pro(isEntitled: Bool) -> some View {
+        NavigationStack { ProView(model: ProViewModel(isEntitled: isEntitled)) }
+    }
+
+    @MainActor
+    private func detail(_ subscription: Subscription) -> some View {
+        NavigationStack {
+            SubscriptionDetailView(
+                model: SubscriptionDetailViewModel(
+                    subscription: subscription, currency: "GEL", rates: rates(),
+                    repository: StubRepository(subscriptions: []), merchants: StubMerchants(),
+                    onOutcome: { _ in }),
+                isPro: true, onUnlock: {})
+        }
     }
 
     @MainActor
@@ -201,6 +242,8 @@
                 merchants: StubMerchants(), rates: { book }, onOutcome: { _ in })
         ) { $0.send(.appeared) }
 
-        return NavigationStack { SubscriptionsView(model: model) }
+        return NavigationStack {
+            SubscriptionsView(model: model, currency: "GEL", isPro: true, onUnlock: {})
+        }
     }
 #endif

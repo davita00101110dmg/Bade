@@ -56,6 +56,7 @@ let package = Package(
             name: "SnapshotTests",
             dependencies: [
                 "Core", "DesignSystem", "Localization", "Subscriptions", "Upcoming", "Settings",
+                "Welcome",
             ]),
         .target(
             name: "Pipeline",

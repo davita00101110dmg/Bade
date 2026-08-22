@@ -337,12 +337,9 @@ re-render each record and re-parse to prove the rendering round-trips.
    the next label removed by accident is found by ear or not at all. And iOS has no Georgian
    VoiceOver voice, so a Georgian reader hears Georgian text spoken by an English voice — Apple's
    limit, not Bade's, but worth knowing before promising anything to Georgian users specifically.
-11. **Snapshot tests — wanted, 2026-08-22.** 527 tests and not one touches a view: every UI
-   regression this project has had was caught by somebody looking at a phone. They need a simulator,
-   which is not wanted for *testing* — but the same objection did not survive screenshots, where the
-   simulator is simply the tool. Worth revisiting on the same grounds. Start with the five screens
-   in both languages, both appearances and at `.accessibility2`, which is what the previews already
-   cover by eye.
+11. ~~Snapshot tests.~~ **Real, 2026-08-22.** Ten screens × four variants, plus two empty states:
+   42 references committed under `Tests/Fixtures/Snapshots` (3.6 MB), compared pixel-wise on every
+   run. See §Snapshot tests below for how to run and re-record them.
 12. ~~The end-to-end run, and §14.7's cold start.~~ **Both done, 2026-08-22.** Run on the device
    from an empty state, and the monthly total was reached in under sixty seconds. §14.7 is
    satisfied by measurement rather than by assumption. The figure itself was not recorded, so if a
@@ -505,10 +502,46 @@ xcrun devicectl device process launch --device $D --terminate-existing com.khved
 
 ---
 
+## Snapshot tests
+
+They do not run on the host — `#if os(iOS)` — so `swift test` never even compiles them. That is how
+they rotted last time: two call sites went stale and nothing noticed for weeks, because the only
+thing that builds this file is a simulator.
+
+```sh
+cd BadeKit
+xcodebuild -scheme BadeKit-Package \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+  -only-testing:SnapshotTests test                       # ~105s
+```
+
+After a deliberate design change, re-record and read the diff before committing it:
+
+```sh
+rm -rf Tests/Fixtures/Snapshots     # or pass TEST_RUNNER_BADE_RECORD_SNAPSHOTS=1
+```
+
+⚠️ `xcodebuild` does **not** forward the shell's environment to the test process. A plain
+`BADE_RECORD_SNAPSHOTS=1` in front of the command is silently ignored and every "recording" run
+quietly compares instead — which cost an hour of believing a broken loop. The `TEST_RUNNER_` prefix
+is the mechanism; Xcode strips it before handing it over.
+
+**What it will and will not catch.** Forty-one screens are pixel-identical between runs and bounded
+at 0.1%, so anything that moves a row or resizes text fails loudly — a four-point change to
+`BadeSpacing.md` tripped 29 of 42. Subscriptions is bounded at 2% instead, because its hero total
+draws through `BadeMoneyText(shimmers: true)`, a repeating animation that never settles; a
+regression on that one screen smaller than 2% of its pixels goes uncaught, and that is the price of
+having the other forty-one mean something.
+
+A mismatch writes the rendered PNG to a temporary folder and prints both paths, so the two can be
+opened side by side.
+
+---
+
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 505 tests, ~2s here, ~0.7s without the statements
+cd BadeKit && swift test          # 528 tests, ~2s here, ~0.7s without the statements
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
