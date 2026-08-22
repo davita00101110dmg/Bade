@@ -37,13 +37,17 @@ public struct SettingsView: View {
     /// Split from `body` deliberately: the whole screen in one chain takes the type checker past
     /// its limit on iOS, and it reports the failure as a missing modifier rather than a timeout.
     private var list: some View {
+        // Grouped by what each preference affects rather than by what kind of control it is.
+        // Deleting everything sits alone at the foot, away from the two share actions it used to
+        // share a header with.
         List {
             proSection
-            displaySection
+            moneySection
+            appearanceSection
             remindersSection
-            ratesSection
             dataSection
             aboutSection
+            deleteSection
         }
         .badeGroupedList()
         // A grouped list reserves space above its first section for a header it does not have.
@@ -53,13 +57,32 @@ public struct SettingsView: View {
         .background(theme.surface, ignoresSafeAreaEdges: .all)
     }
 
-    private var displaySection: some View {
+    /// Both rows decide what the money on screen means: one what it is counted in, the other where
+    /// the rate to count it with may come from. The footer is the app's one network promise, and
+    /// this is where somebody reading about money will meet it.
+    private var moneySection: some View {
         Section {
             // Absent when there is nothing to choose between, which is the common case in a country
             // whose statements are all in one currency. Every other row here offers a real choice;
             // a row leading to a screen with one ticked line on it reads as something broken.
             if model.state.canChooseCurrency { currencyRow }
 
+            Toggle(isOn: rateFetchingBinding) { label(.settings.rates) }
+                .tint(theme.accent)
+                .listRowBackground(theme.surfaceRaised)
+        } header: {
+            Text(.currency.title).badeSectionLabel()
+        } footer: {
+            Text(.settings.ratesFooter)
+                .font(.badeCaption)
+                .foregroundStyle(theme.inkFaint)
+        }
+    }
+
+    /// Week start belongs here rather than with reminders: it decides which column the calendar
+    /// grid begins on, which is how the month looks rather than when anything happens.
+    private var appearanceSection: some View {
+        Section {
             picker(.settings.language, BadeLanguage.allCases, languageBinding, \.name)
             picker(.settings.appearance, BadeAppearance.allCases, appearanceBinding, \.name)
             TextSizeSlider(size: textSizeBinding)
@@ -67,10 +90,6 @@ public struct SettingsView: View {
             picker(.settings.weekStart, BadeWeekStart.allCases, weekStartBinding, \.name)
         } header: {
             Text(.settings.display).badeSectionLabel()
-        } footer: {
-            Text(.settings.defaultFooter)
-                .font(.badeCaption)
-                .foregroundStyle(theme.inkFaint)
         }
     }
 
@@ -117,13 +136,17 @@ public struct SettingsView: View {
         .listRowBackground(theme.surfaceRaised)
     }
 
+    /// Sparkles say there is something to buy; a tick says it is already yours. Without the
+    /// difference an owner had no way of knowing from this screen and had to tap through to find
+    /// out — which the page then answers in a sentence.
     private var proSection: some View {
         Section {
             NavigationLink { ProView(model: model.pro()) } label: {
                 LabeledContent {
-                    Image(systemName: "sparkles")
+                    Image(systemName: model.state.isPro ? "checkmark" : "sparkles")
                         .foregroundStyle(theme.accent)
-                        .accessibilityHidden(true)
+                        .accessibilityLabel(Text(.pro.owned))
+                        .accessibilityHidden(!model.state.isPro)
                 } label: {
                     Text(.pro.title).font(.badeBody).foregroundStyle(theme.ink)
                 }
@@ -161,9 +184,10 @@ public struct SettingsView: View {
         }
     }
 
+    /// No branch for being without Pro: the whole section is absent then, so the line saying
+    /// reminders are part of Pro could never be reached.
     private var remindersFooter: LocalizedStringResource {
-        guard model.state.isPro else { return .settings.remindersPro }
-        return isReminderDenied ? .settings.remindersDenied : .settings.remindersFooter
+        isReminderDenied ? .settings.remindersDenied : .settings.remindersFooter
     }
 
     /// Only worth saying when reminders are meant to be arriving.
@@ -171,38 +195,35 @@ public struct SettingsView: View {
         model.state.isReminderDenied && model.state.reminder.isOn
     }
 
-    private var ratesSection: some View {
-        Section {
-            Toggle(isOn: rateFetchingBinding) { label(.settings.rates) }
-                .tint(theme.accent)
-                .listRowBackground(theme.surfaceRaised)
-        } footer: {
-            Text(.settings.ratesFooter)
-                .font(.badeCaption)
-                .foregroundStyle(theme.inkFaint)
+    /// Export is offered only when there is something to export; a share sheet over an empty file
+    /// is a dead end. Part of Pro, and simply absent without it rather than shown behind a badge:
+    /// a row that exists only to say you cannot have it is an advert, not a setting.
+    ///
+    /// The whole section goes with it. Without Pro this header sat over nothing but the delete
+    /// button, which made "Data" read as the name for destroying it.
+    @ViewBuilder
+    private var dataSection: some View {
+        if model.state.hasData && model.state.isPro {
+            Section {
+                shareLink(.json, title: .settings.exportJSON, icon: "curlybraces")
+                shareLink(.csv, title: .settings.exportCSV, icon: "tablecells")
+            } header: {
+                Text(.settings.data).badeSectionLabel()
+            }
         }
     }
 
-    /// Export is offered only when there is something to export; a share sheet over an empty file
-    /// is a dead end.
-    private var dataSection: some View {
+    /// Alone at the foot, under no heading and beside nothing. It was grouped with the two share
+    /// actions, which put the one irreversible thing on this screen under the same word as the two
+    /// that hand you a copy. Never gated — this one belongs to whoever's data it is.
+    private var deleteSection: some View {
         Section {
-            // Part of Pro, and simply absent without it rather than shown behind a badge: a row
-            // that exists only to say you cannot have it is an advert, not a setting. Deleting
-            // everything is never gated — that one belongs to whoever's data it is.
-            if model.state.hasData && model.state.isPro {
-                shareLink(.json, title: .settings.exportJSON, icon: "curlybraces")
-                shareLink(.csv, title: .settings.exportCSV, icon: "tablecells")
-            }
-
             Button(role: .destructive) { model.send(.deleteAllRequested) } label: {
                 Text(.subscriptions.deleteAll)
                     .font(.badeBody)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .listRowBackground(theme.surfaceRaised)
-        } header: {
-            Text(.settings.data).badeSectionLabel()
         }
     }
 

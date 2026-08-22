@@ -2359,22 +2359,6 @@
         }
       }
     },
-    "settings.defaultFooter": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marked values were chosen for you — the currency from your statements, the rest from your phone. Pick one and it stays picked."
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "მონიშნული მნიშვნელობები ავტომატურად შეირჩა — ვალუტა ამონაწერებიდან, დანარჩენი ტელეფონიდან. აირჩიე და შენარჩუნდება."
-          }
-        }
-      }
-    },
     "settings.display": {
       "localizations": {
         "en": {
@@ -2691,22 +2675,6 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "ჩამოჭრამდე. შეხსენებები შენს ტელეფონში ითვლება — არსად არაფერი იგზავნება."
-          }
-        }
-      }
-    },
-    "settings.remindersPro": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reminders are part of Bade Pro."
-          }
-        },
-        "ka": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "შეხსენებები Bade Pro-ს ნაწილია."
           }
         }
       }

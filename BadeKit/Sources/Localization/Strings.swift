@@ -144,12 +144,10 @@ extension LocalizedStringResource {
         public var weekStartMonday: LocalizedStringResource { string("settings.weekStart.monday") }
         public var weekStartSunday: LocalizedStringResource { string("settings.weekStart.sunday") }
         public var defaultBadge: LocalizedStringResource { string("settings.defaultBadge") }
-        public var defaultFooter: LocalizedStringResource { string("settings.defaultFooter") }
         public var reminders: LocalizedStringResource { string("settings.reminders") }
         public var remindMe: LocalizedStringResource { string("settings.remindMe") }
         public var reminderTime: LocalizedStringResource { string("settings.reminderTime") }
         public var remindersFooter: LocalizedStringResource { string("settings.remindersFooter") }
-        public var remindersPro: LocalizedStringResource { string("settings.remindersPro") }
         public var remindersDenied: LocalizedStringResource { string("settings.remindersDenied") }
         public var reminderOff: LocalizedStringResource { string("settings.reminderOff") }
         public var reminderSameDay: LocalizedStringResource { string("settings.reminderSameDay") }

@@ -49,6 +49,9 @@ struct TextSizeSlider: View {
             .dynamicTypeSize(.large)
     }
 
+    /// Note that `system` is not a stop, so dragging this leaves it and nothing here comes back:
+    /// the app stops following the phone's text size for good. iOS's own per-app setting still
+    /// overrides, but Bade offers no way home.
     private var position: Binding<Double> {
         Binding(
             get: { Double(Self.stops.firstIndex(of: size) ?? inheritedStop) },
