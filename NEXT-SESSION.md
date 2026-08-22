@@ -3,7 +3,7 @@
 Read `CLAUDE.md` first for the working agreement, constraints and UI conventions.
 This file is the handoff: where the project is, what is next, and what is still open.
 
-Last updated: **2026-08-22**, end of "Bade part 6".
+Last updated: **2026-08-22**, end of "Bade part 7".
 
 ---
 
@@ -20,8 +20,9 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    TBC  770 transactions → 6 subscriptions (the largest of three)
 ```
 
-**505 tests, `swift test` ~2s here where the PDFs exist. No simulator needed. iOS build green, no
-warnings. All five quality gates in §Verifying clean.**
+**511 tests, `swift test` ~2s here where the PDFs exist. No simulator needed. iOS build green, no
+warnings. All five quality gates in §Verifying clean** — bar one pre-existing `"GEL"` in
+`Catalog/MerchantSeed.swift:395`, which is a bundled price point rather than an assumption in logic.
 
 ### Screens
 
@@ -39,6 +40,38 @@ warnings. All five quality gates in §Verifying clean.**
 | ⓡ | Reminder prompt | ✅ asked once, after the first import, Pro only |
 | ⑦ | FX breakdown | ▲ **a plain sentence; the money figures are still withheld — see below** |
 | ⓦ | Widget | ✅ small and medium, net behind both states, locked tile shows a redacted figure |
+
+### Teaching the gestures — new, outside the build order
+
+Decided on 2026-08-22 against onboarding screens and against coach marks. **Nothing is taught up
+front and nothing is dimmed.** A single line sits exactly where a hidden gesture lives and leaves for
+good the first time that gesture is performed — never on a timer and never on a sighting count,
+because Bade is opened rarely and a hint spent in March is no use in June. Someone who never swipes
+keeps the line; they are the one person still to learn it.
+
+`DesignSystem/BadeHint.swift` holds both: `BadeHint(.swipeARow)` renders it, `BadeHint.retire(_:)`
+earns it. Storage is `@AppStorage` under a `hint.` namespace — `BadeHintTests` pins that, because
+the root keeps `isPro` and `language` in the same store and a collision would read as a preference
+resetting itself.
+
+| Where | Line | Retired by |
+|---|---|---|
+| ④ under the first row | Swipe a row to edit it or mark it cancelled. | any of the three row actions, by swipe or long press |
+| ⑤ foot of the calendar block | Tap a day to see just that day. | selecting any day |
+| ③ under the header | Only what Bade was sure of is ticked. Tick anything else you recognise. | **never — permanent** |
+
+The Review line is not a hint and has no storage. `ReviewDecision(startingFrom:)` ticks only
+`.confident && !hasEnded`, so on the second BOG statement that is **1 ticked against 27** — and an
+empty box reads as a verdict Bade reached rather than the question it is. That is true of every
+import, not only the first, which is why it never goes away.
+
+**Deliberately not taught:** the pull-net (it does nothing) and the five-tap money rain (it is meant
+to be found).
+
+**Watch on device:** the ④ hint lives inside the rows' `ForEach`, keyed to whichever row is first,
+so changing the sort removes and reinserts it during the same animated batch update that open item 0
+already misbehaves in. It has not been seen on a phone yet. If it flickers, the fix is to lift it out
+of the `ForEach` and give it a fixed position in the section.
 
 ---
 
@@ -106,7 +139,9 @@ anything and every locked state would otherwise be invisible on the only device 
 on. Verified compiled out of Release: `debugLocksPro` and `ProLockToggle` appear 2 and 3 times in
 the Debug dylib and **0 times** in the Release binary and the widget extension.
 
-**Then 14**, the Georgian translation pass: **227 keys, 0 reviewed**, all `needs_review`.
+**14 is done except for your yes.** All 229 keys were read at the screen they appear on and 50 were
+revised; `GEORGIAN-REVIEW.md` lays out six decisions, two grammar bugs and every key either way.
+Nothing was marked reviewed — the snippet at the foot of that file does it in one run.
 
 Note the brief says renewal reminders and the calendar are free-forever core loop. Both are Pro.
 That was a deliberate call by the user on 2026-08-13; the brief has not been rewritten.
@@ -199,12 +234,21 @@ re-render each record and re-parse to prove the rendering round-trips.
    and reinstall before testing an import**, or a re-import duplicates instead of merging and looks
    like a detection bug.
 3. **Seven look-alike Apple charges are still seven rows** in Review's "Not sure" tier.
-4. **Every Georgian string is a draft** — 227 keys, all `needs_review`, none seen by a translator.
-5. **A revoked entitlement seen by Settings does not reach the root's cache.** `.proChecked(false)`
-   updates the screen and reports nothing, so `isPro` stays true until the next launch. Refund-shaped.
-   (Settings itself now watches `isPro`, so an entitlement arriving does reach the screen.)
-6. **Reminders run dry after about six months** of not opening the app: 64 pending notifications is
-   iOS's cap and rescheduling only happens on launch or on a change.
+4. **Every Georgian string has now been read in context** — 229 keys, 50 revised, still all
+   `needs_review` because only a native speaker's yes should flip them. `GEORGIAN-REVIEW.md` has the
+   whole pass: six decisions to accept or reject, two grammar bugs, and the snippet that marks it
+   done. Nothing else in step 14 is outstanding.
+5. ~~A revoked entitlement does not reach the root's cache.~~ **Fixed.** `.proUnlocked` became
+   `.proChanged(Bool)`, so Settings reports both answers; the root stores it and reschedules either
+   way, which also clears reminders iOS is still holding. Three tests.
+6. **Reminders still run dry, but only for heavy users.** The horizon was a year while the cap is 64,
+   and for anyone with five or fewer subscriptions the *horizon* was what ran out first — one monthly
+   subscription filled 12 of the 64 slots, an annual one filled 1. Three years now, measured: 1 sub
+   11.6 → 35.6 months, 2 subs 11.6 → 31.6, annual-only 0.7 → 24.7. Above ~8 subscriptions the cap
+   binds and nothing changed: 5.7 months, and no code can beat iOS's 64. Closing that needs a
+   decision — `BGAppRefreshTask` (an entitlement and your Xcode work, and iOS never promises to run
+   it), repeating calendar triggers (exact for monthly and annual, but they cannot carry the
+   day-grouping, so quarterly charges sharing a day would announce wrongly), or accept it.
 7. **The widget's headline and the list's answer different questions.** The list levels every
    cadence into "a month"; the widget shows what is left of this calendar month. Both are right and
    they diverge whenever a month is not typical.
@@ -213,7 +257,15 @@ re-render each record and re-parse to prove the rendering round-trips.
 9. **The `.storekit` config lives in `BadeTests/`.** The app target is a synchronized folder, so a
    file placed beside the app is copied into the shipped bundle — pricing config included. The
    scheme's `StoreKitConfigurationFileReference` points at it there. Odd home, deliberate reason.
-10. **No VoiceOver pass has ever been done.** Elements are labelled and combined; nobody has listened.
+10. **A VoiceOver pass has now been done by reading, not by listening.** Seven real gaps found and
+   fixed: the progress bar announced a percentage and never what of; the monthly total combined its
+   children and then overrode the label, so the app's biggest number read as bare money with the
+   year, the count and the "not converted" warning all silently dropped; every calendar tile read as
+   a bare number because the dots are shapes; no section heading anywhere carried `.isHeader`, so the
+   rotor had nothing to jump between; the locked widget announced its fake "000.00" as this month's
+   total; and three decorative SF Symbols read their own names into combined labels. Two keys were
+   added (`common.progress`, `upcoming.dayCharges`). **Still nobody has listened** — turn VoiceOver
+   on and walk the five screens.
 11. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
 12. **The end-to-end run** the user asked for has still not happened, and neither has §14.7's
    under-60-seconds cold start ever been timed.
@@ -239,11 +291,12 @@ eight-line shell in the extension target, so everything real stays previewable i
 - The net is behind both states. The locked tile shows a redacted, blurred figure through it,
   because a tile that only says "buy Pro" never shows what it is withholding.
 
-### Cadence is fitted to a phase, not chained from gaps — a deliberate spec deviation
+### Cadence is fitted to a phase, not chained from gaps — now recorded in the spec
 
-**Spec §7.3 step 2 says "compute day-deltas between consecutive charges" and step 3 clusters those
-deltas into windows. `CadenceResolver.timelineCadence` no longer does that**, and the spec has not
-been amended. Update §7.3 or record the exception.
+**§7 has been amended.** Step 2 is the phase fit with its slack table and the 80% rule; step 3 is
+the majority vote over day-deltas and says it is the only place deltas are used. A paragraph after
+the list explains why the two steps answer different questions, and what replacing step 3 as well
+cost when it was tried.
 
 A chain of deltas breaks on one late charge, and a subscription billing on the 31st produces gaps of
 28, 31 and 32 from the calendar alone. `timelineCadence` instead fits charges to a phase: projections

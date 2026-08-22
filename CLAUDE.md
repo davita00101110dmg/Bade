@@ -18,8 +18,10 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 > The home screen widget ships too, though §13 lists widgets as out of scope for v1 — a deliberate
 > call, since the Pro page sells them. **11 done** — `TBCStatementParser` reads every card purchase
 > in all three TBC statements, and a scrubbed golden fixture ships with them. The Liberty statement
-> has no parser and is not claimed by one. Next: **TestFlight, to verify a purchase**, then **14**
-> the Georgian pass.
+> has no parser and is not claimed by one. **14 is written and waiting on the one review only a
+> native speaker can give** — all 229 keys read in context, 50 revised, none marked reviewed;
+> `GEORGIAN-REVIEW.md` holds the whole pass and the snippet that flips the states.
+> Next: **approve or reject that**, then **TestFlight, to verify a purchase**.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 
