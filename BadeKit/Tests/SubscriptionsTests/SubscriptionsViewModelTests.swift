@@ -83,9 +83,30 @@ struct SubscriptionsViewModelTests {
 
         model.send(.deleteTapped(stored[1]))
         try await settle()
+        #expect(await recorder.deleted.isEmpty, "asked, not done")
+
+        model.send(.deleteConfirmed)
+        try await settle()
 
         #expect(await recorder.deleted == [stored[1].id])
         #expect(model.state.rows.map(\.subscription.merchant) == ["Spotify"])
+    }
+
+    /// A swipe is deliberate but fast, and it lands on whichever row the thumb was over. Deleting
+    /// the wrong subscription costs a re-import to undo.
+    @Test func backingOutOfAdeletionKeepsTheSubscription() async throws {
+        let stored = [subscription("Spotify"), subscription("Netflix")]
+        let (model, recorder) = model(stored)
+        model.send(.appeared)
+        try await settle()
+
+        model.send(.deleteTapped(stored[1]))
+        model.send(.confirmationDismissed)
+        try await settle()
+
+        #expect(await recorder.deleted.isEmpty)
+        #expect(model.state.pendingDelete == nil)
+        #expect(model.state.rows.count == 2)
     }
 
     @Test func clearingEverythingEmptiesTheStoreAndReportsIt() async throws {

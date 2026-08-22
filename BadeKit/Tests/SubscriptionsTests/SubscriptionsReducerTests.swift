@@ -223,22 +223,38 @@ struct SubscriptionsDeletionTests {
         return state
     }
 
-    @Test func aSwipeDeletesTheRowItWasMadeOn() {
+    @Test func aSwipeAsksAboutTheRowItWasMadeOn() {
         var subject = state([
             subscription("Spotify", "15.00"), subscription("Netflix", "35.00"),
         ])
         let target = subject.all[1]
 
-        #expect(subject.apply(.deleteTapped(target)) == .delete(target.id))
+        #expect(subject.apply(.deleteTapped(target)) == nil, "asked, not done")
+        #expect(subject.pendingDelete == target)
+        #expect(subject.apply(.deleteConfirmed) == .delete(target.id))
+        #expect(subject.pendingDelete == nil)
     }
 
-    /// Nothing modal interrupts a swipe, so the row never springs shut under an alert.
-    @Test func deletingOneRowAsksNothing() {
+    /// The row it names, not the row that happens to be first. A swipe lands on whichever one the
+    /// thumb was over, which is the whole reason it is worth asking.
+    @Test func theAnswerDeletesTheRowThatWasAskedAbout() {
+        var subject = state([
+            subscription("Spotify", "15.00"), subscription("Netflix", "35.00"),
+        ])
+
+        _ = subject.apply(.deleteTapped(subject.all[1]))
+
+        #expect(subject.apply(.deleteConfirmed) == .delete(subject.all[1].id))
+    }
+
+    @Test func backingOutOfAsingleDeletionDeletesNothing() {
         var subject = state([subscription("Spotify", "15.00")])
 
         _ = subject.apply(.deleteTapped(subject.all[0]))
 
-        #expect(subject.isConfirmingDeleteAll == false)
+        #expect(subject.apply(.confirmationDismissed) == nil)
+        #expect(subject.pendingDelete == nil)
+        #expect(subject.apply(.deleteConfirmed) == nil, "nothing is pending to confirm")
     }
 
     @Test func clearingEverythingAsksFirst() {

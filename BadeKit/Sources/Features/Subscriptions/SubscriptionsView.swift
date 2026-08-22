@@ -176,7 +176,7 @@ public struct SubscriptionsView: View {
                         activeAction(row.subscription)
                         editAction(row.subscription)
                     }
-                    .swipeActions(edge: .trailing) { deleteAction(row.subscription) }
+                    .swipeActions(edge: .trailing) { swipeDeleteAction(row.subscription) }
                     .contextMenu {
                         editAction(row.subscription)
                         activeAction(row.subscription)
@@ -220,7 +220,7 @@ public struct SubscriptionsView: View {
                         activeAction(row.subscription)
                         editAction(row.subscription)
                     }
-                    .swipeActions(edge: .trailing) { deleteAction(row.subscription) }
+                    .swipeActions(edge: .trailing) { swipeDeleteAction(row.subscription) }
                     .contextMenu {
                         editAction(row.subscription)
                         activeAction(row.subscription)
@@ -278,6 +278,22 @@ public struct SubscriptionsView: View {
     }
 
     /// Offered on both a swipe and a long press, because neither is discoverable on its own.
+    /// Red from the palette rather than from `role: .destructive`, and deliberately.
+    ///
+    /// A destructive role inside `swipeActions` makes SwiftUI perform its own removal: the row
+    /// collapses the instant the button is tapped, before anything has been asked. With a
+    /// confirmation in front of it the row then sprang back when the alert appeared, so a delete
+    /// looked like it had happened and been undone. Tinting instead leaves the list alone until the
+    /// answer comes back.
+    private func swipeDeleteAction(_ subscription: Subscription) -> some View {
+        Button { performed(.deleteTapped(subscription)) } label: {
+            Label { Text(.subscriptions.delete) } icon: { Image(systemName: "trash") }
+        }
+        .tint(theme.destructive)
+    }
+
+    /// A context menu has no row animation to trigger, so the role is safe there and gives the
+    /// system's own destructive styling.
     private func deleteAction(_ subscription: Subscription) -> some View {
         Button(role: .destructive) { performed(.deleteTapped(subscription)) } label: {
             Label { Text(.subscriptions.delete) } icon: { Image(systemName: "trash") }
@@ -352,6 +368,21 @@ private struct DeletionConfirmations: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            // Named rather than generic: the alert has to say which subscription, because a swipe
+            // lands on whichever row the thumb was over.
+            .alert(
+                Text(.detail.deleteTitle), isPresented: isConfirmingDelete,
+                presenting: model.state.pendingDelete
+            ) { subscription in
+                Button(role: .destructive) { model.send(.deleteConfirmed) } label: {
+                    Text(.subscriptions.delete)
+                }
+                Button(role: .cancel) { model.send(.confirmationDismissed) } label: {
+                    Text(.subscriptions.cancel)
+                }
+            } message: { subscription in
+                Text(.detail.deleteMessage)
+            }
             .alert(Text(.subscriptions.deleteAllTitle), isPresented: isConfirmingDeleteAll) {
                 Button(role: .destructive) { model.send(.deleteAllConfirmed) } label: {
                     Text(.subscriptions.deleteAll)
@@ -362,6 +393,13 @@ private struct DeletionConfirmations: ViewModifier {
             } message: {
                 Text(.subscriptions.deleteAllMessage)
             }
+    }
+
+    private var isConfirmingDelete: Binding<Bool> {
+        let pending = model.state.pendingDelete != nil
+        return Binding(
+            get: { pending },
+            set: { if !$0 { model.send(.confirmationDismissed) } })
     }
 
     private var isConfirmingDeleteAll: Binding<Bool> {

@@ -15,9 +15,12 @@ public struct SubscriptionsState: Equatable {
     public private(set) var all: [Subscription] = []
     public private(set) var rates = RateBook()
     public private(set) var sort: SubscriptionSort = .cost
-    /// Clearing everything is asked about; deleting one row is not. A swipe is already a
-    /// deliberate act, and interrupting it with a modal makes the row spring shut underneath.
+    /// Both deletions are asked about now. A swipe is a deliberate act, which was the argument for
+    /// not interrupting one — but it is also a *fast* act, and the row it lands on is whichever one
+    /// the thumb happened to be over. Deleting the wrong subscription costs a re-import to undo.
     public private(set) var isConfirmingDeleteAll = false
+    /// The one row waiting on an answer, rather than a flag, because the alert has to name it.
+    public private(set) var pendingDelete: Subscription?
     public private(set) var edit: SubscriptionEdit?
     /// The day "next charge" is answered against. Injected so a test can stand somewhere fixed.
     let today: Date
@@ -87,6 +90,7 @@ public enum SubscriptionsIntent: Equatable {
     case formFinished(FormOutcome)
     case activeToggled(Subscription)
     case deleteTapped(Subscription)
+    case deleteConfirmed
     case deleteAllRequested
     case deleteAllConfirmed
     case confirmationDismissed
@@ -150,7 +154,13 @@ extension SubscriptionsState {
             return .save(updated)
 
         case .deleteTapped(let subscription):
-            return .delete(subscription.id)
+            pendingDelete = subscription
+            return nil
+
+        case .deleteConfirmed:
+            guard let pending = pendingDelete else { return nil }
+            pendingDelete = nil
+            return .delete(pending.id)
 
         case .deleteAllRequested:
             isConfirmingDeleteAll = true
@@ -162,6 +172,7 @@ extension SubscriptionsState {
 
         case .confirmationDismissed:
             isConfirmingDeleteAll = false
+            pendingDelete = nil
             return nil
 
         case .storeChanged:
