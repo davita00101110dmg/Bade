@@ -289,17 +289,24 @@ re-render each record and re-parse to prove the rendering round-trips.
    a bare number because the dots are shapes; no section heading anywhere carried `.isHeader`, so the
    rotor had nothing to jump between; the locked widget announced its fake "000.00" as this month's
    total; and three decorative SF Symbols read their own names into combined labels. Two keys were
-   added (`common.progress`, `upcoming.dayCharges`). **The first real listen found the first real
-   bug, below.**
-10a. **VoiceOver cannot scroll: the three-finger scroll gesture does nothing.** Found on device,
-   2026-08-22, during the first listening pass. Not yet diagnosed and not yet narrowed to a screen —
-   ask which one before hunting. Prime suspects, in order: a container swallowing the scroll view by
-   combining its children, so VoiceOver sees one element and has nothing to scroll; `UpcomingView`'s
-   `pageGesture`, a `DragGesture` sitting on the calendar section and competing for the same touches;
-   and the two overlays on `SubscriptionsView` — `BadePullNet` and `BadeMoneyRain` — though both are
-   already `accessibilityHidden`. **This is why VoiceOver is not declared** in App Store Connect's
-   accessibility labels; Dark Interface, Larger Text, Reduced Motion and Differentiate Without Colour
-   Alone are, and Sufficient Contrast is not, since the palette never reads `colorSchemeContrast`.
+   added (`common.progress`, `upcoming.dayCharges`).
+
+   **And then heard, on 2026-08-22.** Walked on the device against a checklist covering all seven
+   fixes plus the things never verified: the headings rotor, swipe actions reached through the
+   actions rotor, the tooltips, the checkboxes, how money is spoken. Everything read correctly.
+   A three-finger scroll failure reported during the first pass did not reproduce and is closed —
+   it was an older build or the gesture itself.
+
+   **So VoiceOver can be declared** in App Store Connect's accessibility labels, alongside Dark
+   Interface, Larger Text, Reduced Motion and Differentiate Without Colour Alone. Two still cannot:
+   **Voice Control**, which rides on the same labels and probably works but has not been tried, and
+   **Sufficient Contrast**, which is a straight no — that label is about supporting the Increase
+   Contrast setting, and the palette never reads `colorSchemeContrast`.
+
+   What remains open: nothing protects any of this. There are no snapshot or UI tests (item 11), so
+   the next label removed by accident is found by ear or not at all. And iOS has no Georgian
+   VoiceOver voice, so a Georgian reader hears Georgian text spoken by an English voice — Apple's
+   limit, not Bade's, but worth knowing before promising anything to Georgian users specifically.
 11. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
 12. ~~The end-to-end run, and §14.7's cold start.~~ **Both done, 2026-08-22.** Run on the device
    from an empty state, and the monthly total was reached in under sixty seconds. §14.7 is
@@ -308,6 +315,36 @@ re-render each record and re-parse to prove the rendering round-trips.
 13. **Detection reports far less than the statements contain.** Ended subscriptions are now shown
    as ended rather than dropped, which recovered several; the remaining gap is the repeat candidates
    in item 1.
+14. **Import stops working after presentations collide.** Found on device, 2026-08-22. Not
+   diagnosed, not fixed.
+
+   Repro, as it happened: import a statement successfully → delete everything → import a second
+   statement → it fails to parse → dismiss that → **the reminder prompt appears full screen instead
+   of at its `.medium` detent** → dismiss it → **tapping Import statement now does nothing, ever
+   again.**
+
+   Two symptoms, probably one cause. Everything below is hypothesis, arrived at by reading rather
+   than by reproducing.
+
+   The dead Import button has a mechanism that fits exactly. `isPickingFile` is a `Bool` driving
+   `.fileImporter`. If it is set to `true` at a moment SwiftUI cannot present — because a cover is
+   mid-dismiss, or a sheet is up — the importer never appears and **the flag is never cleared**.
+   Every later tap then sets `true` to `true`, which is not a state change, so nothing presents and
+   nothing happens. Silent and permanent until relaunch. Worth checking first because it is cheap
+   to confirm and would explain the whole second half.
+
+   The full-screen prompt points at the same collision. `askAboutReminders` does not present
+   immediately — it starts a `Task`, sleeps `BadeMotion.totalReveal`, and only then sets
+   `isAskingAboutReminders`. So the prompt from import #1 can land nearly a second later, on top of
+   whatever the user has since done: a delete, a root swap back to Welcome, a failing second import.
+   A sheet presented into a view tree that is being torn down is exactly the kind of thing that
+   loses its detents.
+
+   The structural point behind both: `BadeRootView` owns **seven presentations** — a `fileImporter`,
+   a `badeCover`, three `sheet`s and two `alert`s — over a root that can itself swap between Welcome
+   and the tabs while any of them is open. Nothing coordinates them. The fix is probably one
+   presentation enum rather than seven independent flags, which would make "two things at once"
+   unrepresentable instead of merely unlikely.
 
 ### The widget
 
