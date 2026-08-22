@@ -111,9 +111,11 @@ public enum SubscriptionFormEffect: Equatable {
 extension SubscriptionFormState {
     public mutating func apply(_ intent: SubscriptionFormIntent) -> SubscriptionFormEffect? {
         switch intent {
+        // Typed input is bounded; a tapped suggestion is not, because it comes from the bundled
+        // catalog and is already shorter than the limit by construction.
         case .merchantChanged(let merchant):
-            draft.merchant = merchant
-            return .suggest(merchant)
+            draft.merchant = MerchantInput.limited(merchant)
+            return .suggest(draft.merchant)
 
         case .suggestionsLoaded(let suggestions):
             self.suggestions = suggestions

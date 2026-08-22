@@ -74,6 +74,28 @@ struct SubscriptionFormTests {
         #expect(subject.draft.amount == "1234.5")
     }
 
+    /// A name reaches a notification title and a widget, neither of which truncates as kindly as
+    /// a list row does.
+    @Test func aServiceNameStopsGrowingAtTheLimit() {
+        var subject = blank()
+
+        _ = subject.apply(.merchantChanged(String(repeating: "a", count: 500)))
+
+        #expect(subject.draft.merchant.count == MerchantInput.characterLimit)
+    }
+
+    /// This field is the edit path as well as the entry one, so the limit must sit above every name
+    /// the app can produce on its own — otherwise editing a detected subscription would silently
+    /// rename it. The longest in the bundled catalog is 26.
+    @Test func nonameTheAppItselfProducesIsTruncated() {
+        let longest = "Tesla Premium Connectivity"
+        var subject = blank()
+
+        _ = subject.apply(.merchantChanged(longest))
+
+        #expect(subject.draft.merchant == longest)
+    }
+
     @Test func arealSubscriptionAmountFitsInside() {
         #expect(DecimalInput.limited("14.99") == "14.99")
         #expect(DecimalInput.limited("999.99") == "999.99")
