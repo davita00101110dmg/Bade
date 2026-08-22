@@ -49,6 +49,72 @@ struct PaletteContrastTests {
     }
 }
 
+@Suite("Palette under Increase Contrast")
+struct IncreasedContrastTests {
+    /// The targets the raised values were solved for, rather than picked by eye. Text goes to AAA,
+    /// with the muted step above the faint one so raising the palette does not flatten the ink
+    /// hierarchy into one grey. Borders carry no text and take the 3:1 asked of a boundary.
+    private static let targets: [(String, BadeColorPair, Double)] = [
+        ("ink", BadePalette.ink, 7.0),
+        ("inkMuted", BadePalette.inkMuted, 8.5),
+        ("inkFaint", BadePalette.inkFaint, 7.0),
+        ("accent", BadePalette.accent, 7.0),
+        ("accentPressed", BadePalette.accentPressed, 8.5),
+        ("positive", BadePalette.positive, 7.0),
+        ("warning", BadePalette.warning, 7.0),
+        ("destructive", BadePalette.destructive, 7.0),
+        ("border", BadePalette.border, 3.0),
+    ]
+
+    @Test(arguments: targets)
+    func paletteMeetsItsContrastTargets(_ name: String, _ pair: BadeColorPair, _ target: Double) {
+        let light = contrast(pair.lightIncreased, BadePalette.surface.lightIncreased)
+        let dark = contrast(pair.darkIncreased, BadePalette.surface.darkIncreased)
+
+        #expect(light >= target, "\(name) light is \(light), wanted \(target)")
+        #expect(dark >= target, "\(name) dark is \(dark), wanted \(target)")
+    }
+
+    /// Raising contrast may never lower it. Trivially true today, and the thing most likely to
+    /// break the next time somebody retunes one value and forgets its pair.
+    @Test(arguments: targets)
+    func raisingNeverWeakensAcolour(_ name: String, _ pair: BadeColorPair, _: Double) {
+        let surface = BadePalette.surface
+
+        #expect(
+            contrast(pair.lightIncreased, surface.lightIncreased)
+                >= contrast(pair.light, surface.light), "\(name) light got weaker")
+        #expect(
+            contrast(pair.darkIncreased, surface.darkIncreased)
+                >= contrast(pair.dark, surface.dark), "\(name) dark got weaker")
+    }
+
+    /// Standard contrast has to keep resolving to the standard values — the whole change is opt-in,
+    /// and a theme that quietly rendered the raised palette to everybody would be invisible here
+    /// and obvious on a phone.
+    @Test func standardContrastIsUntouched() {
+        #expect(BadePalette.ink.value(for: .light, contrast: .standard) == BadePalette.ink.light)
+        #expect(BadePalette.ink.value(for: .dark, contrast: .standard) == BadePalette.ink.dark)
+        #expect(BadeTheme.matching(.light, contrast: .standard) == .light)
+        #expect(BadeTheme.matching(.dark, contrast: .standard) == .dark)
+    }
+
+    @Test func increasedContrastResolvesToTheRaisedValues() {
+        #expect(
+            BadePalette.warning.value(for: .light, contrast: .increased)
+                == BadePalette.warning.lightIncreased)
+        #expect(BadeTheme.matching(.light, contrast: .increased) != .light)
+        #expect(BadeTheme.matching(.dark, contrast: .increased) != .dark)
+    }
+
+    /// The decorative mesh sits *behind* text, so raising it would lower the contrast of everything
+    /// drawn on top. It is the one token deliberately left alone.
+    @Test func theNetIsNotRaised() {
+        #expect(BadePalette.net.lightIncreased == BadePalette.net.light)
+        #expect(BadePalette.net.darkIncreased == BadePalette.net.dark)
+    }
+}
+
 @Suite("Theme")
 struct ThemeTests {
     /// Compares raw values, not resolved Colors — Color equality needs a display context.

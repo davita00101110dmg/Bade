@@ -17,20 +17,20 @@ public struct BadeTheme: Sendable, Equatable {
     public var warning: Color
     public var destructive: Color
 
-    public init(scheme: ColorScheme) {
-        surface = BadePalette.surface.color(for: scheme)
-        surfaceRaised = BadePalette.surfaceRaised.color(for: scheme)
-        surfaceSunken = BadePalette.surfaceSunken.color(for: scheme)
-        ink = BadePalette.ink.color(for: scheme)
-        inkMuted = BadePalette.inkMuted.color(for: scheme)
-        inkFaint = BadePalette.inkFaint.color(for: scheme)
-        accent = BadePalette.accent.color(for: scheme)
-        accentPressed = BadePalette.accentPressed.color(for: scheme)
-        border = BadePalette.border.color(for: scheme)
-        net = BadePalette.net.color(for: scheme)
-        positive = BadePalette.positive.color(for: scheme)
-        warning = BadePalette.warning.color(for: scheme)
-        destructive = BadePalette.destructive.color(for: scheme)
+    public init(scheme: ColorScheme, contrast: ColorSchemeContrast = .standard) {
+        surface = BadePalette.surface.color(for: scheme, contrast: contrast)
+        surfaceRaised = BadePalette.surfaceRaised.color(for: scheme, contrast: contrast)
+        surfaceSunken = BadePalette.surfaceSunken.color(for: scheme, contrast: contrast)
+        ink = BadePalette.ink.color(for: scheme, contrast: contrast)
+        inkMuted = BadePalette.inkMuted.color(for: scheme, contrast: contrast)
+        inkFaint = BadePalette.inkFaint.color(for: scheme, contrast: contrast)
+        accent = BadePalette.accent.color(for: scheme, contrast: contrast)
+        accentPressed = BadePalette.accentPressed.color(for: scheme, contrast: contrast)
+        border = BadePalette.border.color(for: scheme, contrast: contrast)
+        net = BadePalette.net.color(for: scheme, contrast: contrast)
+        positive = BadePalette.positive.color(for: scheme, contrast: contrast)
+        warning = BadePalette.warning.color(for: scheme, contrast: contrast)
+        destructive = BadePalette.destructive.color(for: scheme, contrast: contrast)
     }
 
     public static let light = BadeTheme(scheme: .light)
@@ -39,8 +39,14 @@ public struct BadeTheme: Sendable, Equatable {
     /// The palette an appearance asks for. Anywhere the theme cannot be read from the environment
     /// — a widget's container background is extracted and drawn by the system, outside the view
     /// tree — this is how to arrive at the same answer rather than guessing at a default.
-    public static func matching(_ scheme: ColorScheme) -> BadeTheme {
-        scheme == .dark ? .dark : .light
+    public static func matching(
+        _ scheme: ColorScheme, contrast: ColorSchemeContrast = .standard
+    ) -> BadeTheme {
+        switch (scheme, contrast) {
+        case (.dark, .standard): .dark
+        case (_, .standard): .light
+        default: BadeTheme(scheme: scheme, contrast: contrast)
+        }
     }
 }
 
@@ -55,8 +61,9 @@ extension View {
 
 private struct BadeThemeModifier: ViewModifier {
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.colorSchemeContrast) private var contrast
 
     func body(content: Content) -> some View {
-        content.environment(\.badeTheme, .matching(scheme))
+        content.environment(\.badeTheme, .matching(scheme, contrast: contrast))
     }
 }

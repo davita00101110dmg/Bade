@@ -53,14 +53,20 @@
         let scheme: UIUserInterfaceStyle
         let locale: Locale
         let size: DynamicTypeSize
+        /// Increase Contrast. `ColorSchemeContrast` is read-only in the environment, so the trait
+        /// has to be overridden on the host — which is also the honest test, since it proves the
+        /// real system signal reaches the palette rather than that a value was injected.
+        var contrast: UIAccessibilityContrast = .normal
 
         static let light = Variant(name: "light", scheme: .light, locale: en, size: .large)
         static let dark = Variant(name: "dark", scheme: .dark, locale: en, size: .large)
         static let georgian = Variant(name: "ka", scheme: .light, locale: ka, size: .large)
         static let large = Variant(
             name: "large-text", scheme: .light, locale: en, size: .accessibility2)
+        static let increasedContrast = Variant(
+            name: "increased-contrast", scheme: .light, locale: en, size: .large, contrast: .high)
 
-        static let all = [light, dark, georgian, large]
+        static let all = [light, dark, georgian, large, increasedContrast]
         private static let en = Locale(identifier: "en")
         private static let ka = Locale(identifier: "ka")
     }
@@ -89,10 +95,12 @@
 
             let controller = UIHostingController(rootView: root)
             controller.overrideUserInterfaceStyle = variant.scheme
+            controller.traitOverrides.accessibilityContrast = variant.contrast
             controller.view.frame = CGRect(origin: .zero, size: Self.size)
 
             let window = UIWindow(frame: controller.view.frame)
             window.overrideUserInterfaceStyle = variant.scheme
+            window.traitOverrides.accessibilityContrast = variant.contrast
             window.rootViewController = controller
             window.makeKeyAndVisible()
             controller.view.layoutIfNeeded()

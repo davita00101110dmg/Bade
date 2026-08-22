@@ -80,7 +80,7 @@ docs/                 gitignored — spec and design brief live locally
 statements/           gitignored — never commit a real statement
 ```
 
-`swift test` runs the whole suite in ~2s (540 tests). Snapshot tests are separate and need a
+`swift test` runs the whole suite in ~2s (545 tests). Snapshot tests are separate and need a
 simulator — see §Snapshot tests in `NEXT-SESSION.md`; `swift test` never even compiles them. The package declares macOS **only** so that
 works on the host; Bade ships iOS-only. Occasionally an iOS-only SwiftUI API needs a shim
 (`badeCover`) or a semantic alternative (`.cancellationAction` over `.topBarLeading`).

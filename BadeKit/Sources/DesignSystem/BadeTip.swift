@@ -36,10 +36,12 @@ extension View {
 
 private struct BadeTipStyling: ViewModifier {
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.colorSchemeContrast) private var contrast
     @Environment(\.locale) private var locale
 
     func body(content: Content) -> some View {
-        content.tipViewStyle(BadeTipStyle(theme: .matching(scheme), locale: locale))
+        content.tipViewStyle(
+            BadeTipStyle(theme: .matching(scheme, contrast: contrast), locale: locale))
     }
 }
 

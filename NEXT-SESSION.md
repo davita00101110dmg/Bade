@@ -25,15 +25,24 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    TBC  770 transactions → 6 subscriptions (the largest of three)
 ```
 
-**540 tests, `swift test` ~2s** — and they pass without the private statements too, which was not true
-before both banks had a committed fixture. Plus **42 snapshot references** on the simulator, ~105s;
-see §Snapshot tests. iOS build green, no warnings. Quality gates clean bar one pre-existing `"GEL"` in
-`Catalog/MerchantSeed.swift:395`, a bundled price point rather than an assumption in logic.
+**545 tests, `swift test` ~2s** — and they pass without the private statements too, which was not true
+before both banks had a committed fixture. Plus **52 snapshot references** on the simulator, ~130s;
+see §Snapshot tests. iOS build green, no warnings. Quality gates clean bar one pre-existing `"GEL"`
+in `Catalog/MerchantSeed.swift:395`, a bundled price point rather than an assumption in logic.
+
+**`CURRENT_PROJECT_VERSION` is 2, on the app *and* the widget.** Caught in between: the app was
+bumped first and the extension left at 1, which the iOS build reports only as a warning and App Store
+Connect rejects at validation. Both are 2 now and the build is clean. `BadeTests` and `BadeUITests`
+stay at 1; they never ship. **An extension's version must always move with its host.**
+
+**The home screen name lost its full stop** — `INFOPLIST_KEY_CFBundleDisplayName` is `Bade`, not
+`Bade.`. Note that `app.name` still resolves to `Bade.`, so the icon says one thing and the launch
+wordmark says another. Decide them together, or drop the wordmark (see §The launch screen).
 
 ⚠️ **Everything since the last upload is not in TestFlight.** The build there predates the
 presentation fix, the tooltips, the currency restriction, the Settings restructure, the FX
-correction, the owned Pro page, both field limits and the delete confirmation. Bump
-`CURRENT_PROJECT_VERSION` from 1 before archiving or App Store Connect rejects it.
+correction, the owned Pro page, both field limits, the delete confirmation and Increase Contrast.
+The app's `CURRENT_PROJECT_VERSION` is at 2; the widget's is not.
 
 ### Screens
 
@@ -110,7 +119,7 @@ are still `needs_review` and 16 are translated** (counted 2026-08-23). Everythin
 listed in git and none of it was part of the pass. Ask for it to be regenerated rather than reading
 around the gap.
 
-⚠️ **Re-record the snapshot references afterwards.** Ten of the forty-two are Georgian, so a
+⚠️ **Re-record the snapshot references afterwards.** Ten of the fifty-two are Georgian, so a
 translation pass fails them by design. `rm -rf Tests/Fixtures/Snapshots` and run the suite once.
 
 ---
@@ -184,11 +193,12 @@ had drifted, which is the more dangerous half to get wrong.
 ## Waiting on the user
 
 - **The Georgian review.** Above.
-- **The reminders cap.** Above about eight subscriptions, iOS's 64 pending notifications runs out in
-  under six months and no local scheduling beats it. Three options, none of them code yet:
-  `BGAppRefreshTask` (needs an entitlement and your Xcode work, and iOS never promises to run it),
-  repeating calendar triggers (exact for monthly and annual, but they cannot carry the day-grouping
-  that makes three charges on one day a single notification), or accept it.
+- ~~**The reminders cap.**~~ **Settled 2026-08-23: accepted as is.** Above about eight subscriptions
+  iOS's 64 pending notifications runs out in 5.7 months, and no local scheduling beats it.
+  `BGAppRefreshTask` helps least for the only user who has the problem — the one who never opens the
+  app — and repeating calendar triggers would break the day-grouping that makes three charges on one
+  day a single notification. The horizon stays at three years and the app reschedules whenever it
+  runs. Revisit only if TestFlight turns up real users above eight subscriptions.
 - ~~**The FX feature's future.**~~ **Settled 2026-08-23: it stays as built.** It is silent on this
   multi-currency account because nothing was converted, and it fires on a GEL-only card. Worth having
   is **one statement from an account with no foreign-currency balance**, to exercise that path on real
@@ -205,8 +215,10 @@ had drifted, which is the more dangerous half to get wrong.
 App record created, Paid Apps agreement active, IAP `com.khvedelidze.Bade.pro` created and in
 *Prepare for Submission*, App Privacy answered "Data Not Collected", six accessibility labels
 declared (VoiceOver, Voice Control, Dark Interface, Larger Text, Reduced Motion, Differentiate
-Without Colour Alone — **not** Sufficient Contrast, which needs the palette to read
-`colorSchemeContrast`), listing copy written, age rating 4+, category Finance.
+Without Colour Alone), listing copy written, age rating 4+, category Finance.
+
+**Sufficient Contrast can now be declared too — built 2026-08-23, see §Increase Contrast.** It is
+the seventh label and the only one that was ever a missing feature rather than an untested one.
 
 `privacy.html` and `support.html` are served from the repository root through GitHub Pages. Every
 claim in the policy was checked against the code rather than written as boilerplate — the network
@@ -382,14 +394,11 @@ re-render each record and re-parse to prove the rendering round-trips.
    it was an older build or the gesture itself.
 
    **So VoiceOver can be declared** in App Store Connect's accessibility labels, alongside Dark
-   Interface, Larger Text, Reduced Motion and Differentiate Without Colour Alone. Two still cannot:
-   **Voice Control has since been tried and works**, so six labels are declared. The one that
-   cannot be is
-   **Sufficient Contrast** — that label is about supporting the Increase Contrast setting, and the
-   palette never reads `colorSchemeContrast`. A missing feature rather than an untested one.
+   Interface, Larger Text, Reduced Motion and Differentiate Without Colour Alone. **Voice Control
+   has since been tried and works**, and **Sufficient Contrast was built on 2026-08-23** — see
+   §Increase Contrast. **All seven labels are declarable.**
 
-   What remains open: nothing protects any of this. There are no snapshot or UI tests (item 11), so
-   the next label removed by accident is found by ear or not at all. And iOS has no Georgian
+   What remains open: iOS has no Georgian
    VoiceOver voice, so a Georgian reader hears Georgian text spoken by an English voice — Apple's
    limit, not Bade's, but worth knowing before promising anything to Georgian users specifically.
 11. ~~Snapshot tests.~~ **Real, 2026-08-22.** Ten screens × four variants, plus two empty states:
@@ -421,6 +430,41 @@ re-render each record and re-parse to prove the rendering round-trips.
    a multi-currency account, and the card says so in words. It fires on a GEL-only card, which no
    statement in `statements/` is — so that path is covered by tests but has never run on real data.
    See §The FX markup was fabricated. **Decided 2026-08-23: keep as built.**
+
+### Increase Contrast — built 2026-08-23
+
+`BadeColorPair` carries four values now instead of two, and the raised pair defaults to the standard
+one so a colour states a second only where raising it is deliberate. `BadeTheme.init(scheme:contrast:)`
+resolves them, and `BadeThemeModifier` reads `\.colorSchemeContrast` — as do the two places that
+build a theme outside the view tree, the tip popover and the widget's container background.
+
+**The values were solved, not chosen.** Text to 7:1, with `inkMuted` pulled to 8.5:1 so the ink
+hierarchy survives being raised — at a flat 7:1 target `inkMuted` and `inkFaint` came out two shades
+apart and the muted/faint distinction collapsed into one grey. Borders take 3:1, the floor for a
+meaningful boundary; at 1.09:1 a card's edge was decoration.
+
+**The find along the way: `warning` in light measured 3.60:1 — under the AA floor at *standard*
+contrast.** It has been the weakest colour in the palette all along, and nothing tested it, because
+the existing suite checked ink, muted ink, accent and faint ink and never the semantic colours. Its
+raised value is 7.01:1; the standard value is untouched and still under the floor, which is a
+separate decision about the normal palette and is **not** closed.
+
+`IncreasedContrastTests` holds all of it: every colour against its target, a guard that raising can
+never *lower* contrast, and that standard contrast still resolves to exactly the old values — the
+raised palette leaking to everyone would be invisible in a unit test and obvious on a phone.
+
+**A fifth snapshot variant** (`increased-contrast`, 10 screens, 52 references now) proves the wiring
+end to end. `ColorSchemeContrast` is read-only in the environment, so the variant overrides
+`traitOverrides.accessibilityContrast` on the host — which is the honest test, since it drives the
+real system signal rather than injecting a value. Checked that the new references actually differ
+from their `-light` counterparts: all of them do. A passing suite where the override silently did
+nothing would have been the same false proof the font change gave last time.
+
+**One exception, deliberate.** The merchant avatars — the tinted circles with an initial — come from
+`BadeMerchantColour`, a hue derived from the name with fixed saturation and brightness, not from the
+palette. They do not respond to Increase Contrast. Defensible because the letter is redundant: the
+merchant's name is in full ink immediately beside it, so nothing is conveyed only by that circle.
+Worth raising if anyone asks; it is one call site (`SubscriptionListRow.swift:90`).
 
 ### The widget
 
@@ -590,7 +634,7 @@ opened side by side.
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 540 tests, ~2s here, ~0.7s without the statements
+cd BadeKit && swift test          # 545 tests, ~2s here, ~0.7s without the statements
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```

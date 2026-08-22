@@ -57,8 +57,9 @@ public struct WidgetTimeline: TimelineProvider {
 /// which put a near-white total on a cream tile and read as an empty widget.
 private struct WidgetBackground: View {
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
-        BadeTheme.matching(scheme).surface
+        BadeTheme.matching(scheme, contrast: contrast).surface
     }
 }
