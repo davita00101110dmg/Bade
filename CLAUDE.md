@@ -10,18 +10,17 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **1–8, 12 and 13 done** — 13's code is complete and tested, but no purchase has
-> round-tripped, which needs the product in App Store Connect. **9 decided against** (measured, left
-> on a local branch). **10 all but finished** — the FX engine and its section ship, but the money
-> figures are withheld until one question about BOG's conversion block is answered. Upcoming and
-> reminders sit behind `@AppStorage("isPro")`, now a cache of the App Store entitlement.
-> The home screen widget ships too, though §13 lists widgets as out of scope for v1 — a deliberate
-> call, since the Pro page sells them. **11 done** — `TBCStatementParser` reads every card purchase
-> in all three TBC statements, and a scrubbed golden fixture ships with them. The Liberty statement
-> has no parser and is not claimed by one. **14 is written and waiting on the one review only a
-> native speaker can give** — all 229 keys read in context, 50 revised, none marked reviewed;
-> `GEORGIAN-REVIEW.md` holds the whole pass and the snippet that flips the states.
-> Next: **approve or reject that**, then **TestFlight, to verify a purchase**.
+> Build order step: **all of 1–14 done or decided.** 9 measured and rejected (left on the local
+> branch `tier-2-normalization`, never pushed). **13 is verified — a purchase has round-tripped in a
+> TestFlight sandbox build and all six gates flipped.** **10 is finished, and the answer inverted the
+> question: the FX markup Bade was reporting was fabricated on every charge**, because a lari-billed
+> charge with settlement rates printed beside it was read as a foreign one. **14 is written and
+> waiting on the one review only a native speaker can give** — `GEORGIAN-REVIEW.md` holds the pass
+> and the snippet that flips the states; it is ~14 keys stale and worth regenerating first.
+> The home screen widget ships, though §13 lists widgets as out of scope for v1 — a deliberate call,
+> since the Pro page sells them. The Liberty statement has no parser and is not claimed by one.
+> Next: **the Georgian review**, then re-record the snapshots it invalidates, then **archive** —
+> bumping `CURRENT_PROJECT_VERSION`, which must not stay at 1.
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 
@@ -81,7 +80,8 @@ docs/                 gitignored — spec and design brief live locally
 statements/           gitignored — never commit a real statement
 ```
 
-`swift test` runs the whole suite in ~0.5s. The package declares macOS **only** so that
+`swift test` runs the whole suite in ~2s (539 tests). Snapshot tests are separate and need a
+simulator — see §Snapshot tests in `NEXT-SESSION.md`; `swift test` never even compiles them. The package declares macOS **only** so that
 works on the host; Bade ships iOS-only. Occasionally an iOS-only SwiftUI API needs a shim
 (`badeCover`) or a semantic alternative (`.cancellationAction` over `.topBarLeading`).
 

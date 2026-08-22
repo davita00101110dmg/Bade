@@ -3,15 +3,20 @@
 Read `CLAUDE.md` first for the working agreement, constraints and UI conventions.
 This file is the handoff: where the project is, what is next, and what is still open.
 
-Last updated: **2026-08-22**, end of "Bade part 7".
+Last updated: **2026-08-23**, end of "Bade part 7".
 
 ---
 
 ## Where it is
 
-**Steps 1–8, 11, 12 and 13 done** (13's code is complete and tested; no purchase has ever
-round-tripped). **Step 9 built, measured and decided against. Step 10 all but finished — only the
-money figures are withheld.** Everything is committed and pushed; the tree is clean.
+**Every build-order step is done.** 1–8, 10, 11, 12, 13 complete; **9 measured and decided against**;
+**14 written and awaiting the one review only a native speaker can give**.
+
+**A purchase has round-tripped.** Bought in a TestFlight sandbox build, and all six gates flipped —
+Upcoming, the FX card, export, reminders, the Pro row's tick, the widget. That was the single largest
+unverified thing in this project for months and it is closed.
+
+**§10 is finished, and the answer inverted the question.** See §The FX markup was fabricated.
 
 ```
 PDF → Ingestion → Normalization → Detection → Persistence → UI
@@ -20,10 +25,15 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    TBC  770 transactions → 6 subscriptions (the largest of three)
 ```
 
-**527 tests, `swift test` ~2s here where the PDFs exist — and they all pass without them too, which
-they did not before both banks had a committed fixture. No simulator needed. iOS build green, no
-warnings. All five quality gates in §Verifying clean** — bar one pre-existing `"GEL"` in
-`Catalog/MerchantSeed.swift:395`, which is a bundled price point rather than an assumption in logic.
+**539 tests, `swift test` ~2s** — and they pass without the private statements too, which was not true
+before both banks had a committed fixture. Plus **42 snapshot references** on the simulator, ~105s;
+see §Snapshot tests. iOS build green, no warnings. Quality gates clean bar one pre-existing `"GEL"` in
+`Catalog/MerchantSeed.swift:395`, a bundled price point rather than an assumption in logic.
+
+⚠️ **Everything since the last upload is not in TestFlight.** The build there predates the
+presentation fix, the tooltips, the currency restriction, the Settings restructure, the FX
+correction, the owned Pro page, both field limits and the delete confirmation. Bump
+`CURRENT_PROJECT_VERSION` from 1 before archiving or App Store Connect rejects it.
 
 ### Screens
 
@@ -103,83 +113,102 @@ of the `ForEach` and give it a fixed position in the section.
 
 ## Do this first
 
-**The one thing blocking step 10.** Open the BOG PDF at a Setanta or Spotify charge and read what
-the record actually says. Needed: whether it names an account currency, shows any second amount,
-and what wording surrounds the two "conversion rate" lines.
+**The Georgian review.** It is the last thing standing between the app and a submission, and it is
+the one thing nobody else can do. `GEORGIAN-REVIEW.md` has the whole pass — six decisions to accept
+or reject, two grammar bugs, every key either way, and a snippet at the foot that flips all the
+states in one run.
 
-Why it matters: a converted charge is recorded as `GEL 14.99` with a `USD→GEL` conversion beside
-it and **no second amount anywhere**. So the dollar figure does not exist on the statement — it can
-only be divided back out — and which side the merchant priced in is unknown. Worse, the arithmetic
-does not yet make sense either way: the bank's rate is consistently *above* the scheme's, which
-would mean the bank beat the scheme nine times out of nine if lari were being bought with dollars.
-It is not settlement drift either; the lari was strengthening, which would push it the other way.
+The document is **~14 keys stale**: written against 229, the catalog now holds 243. Everything added
+since is listed in git and none of it was part of the pass. Ask for it to be regenerated rather than
+reading around the gap.
 
-Until that is answered the FX card shows **only what is printed**, as one sentence — "Your bank's
-rate cost you 1.52% more than the card network's" — with the two rates folded behind a disclosure.
-`FXMarkup.extra` and `annualised(at:)` compute the money and the yearly figure and are fully
-tested; nothing displays them. Releasing them is about an hour: show both in `ExchangeCard`, put
-the yearly promise back in `pro.fxDetail`, and pin the direction with a golden assertion.
-
-Statement text is never printed into a session, so this cannot be settled from parsed fields.
+⚠️ **Re-record the snapshot references afterwards.** Ten of the forty-two are Georgian, so a
+translation pass fails them by design. `rm -rf Tests/Fixtures/Snapshots` and run the suite once.
 
 ---
+
+## The FX markup was fabricated
+
+The question that blocked §10 for weeks — which side of the conversion the amount was denominated in
+— had a wrong premise. One statement row settled it:
+
+    Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:5734;
+    Payment transaction amount and currency: 14.99 GEL;
+    Card scheme conversion rate (USD-GEL): 2.5979; Bank conversion rate (USD-GEL): 2.6371
+
+Setanta costs 14.99 GEL and 14.99 GEL left the account. **Nothing was converted.** The rates are
+printed because the merchant is abroad and the scheme settles through dollars, but the amount was
+fixed in lari, so that spread never touched the cardholder.
+
+Bade divided 14.99 by the bank's rate into a $5.68 sticker nobody was quoted, multiplied back at the
+scheme's, and reported the difference as a loss. **The "consistent 1.3–1.5% markup" recorded here as
+a finding about the bank was `(bank − scheme) / scheme`** — a property of the two rates and nothing
+else, which is exactly why it was so reliable.
+
+Counted across the statement: **22 conversions, all lari-billed. 32 USD and 50 EUR charges, none with
+a conversion at all**, having settled from balances already in those currencies. Not one charge was
+ever converted.
+
+`Charge.wasConverted` now decides — a conversion applies only when the charge is denominated in the
+currency being converted *from*. The rates still feed the rate book, because a USD-GEL rate is worth
+having; only the claim that it cost somebody something is gone.
+
+**What this means for the product:** on real launch-market data, the FX markup feature has nothing to
+report. It is correct in principle and will fire on a genuinely foreign-billed charge, but a Georgian
+card billed in lari never produces one. That is a question about a headline Pro feature, and it is
+not a code question.
 
 ## Waiting on the user
 
-- ~~Xcode settings.~~ **Done.** Widget device family narrowed to `1` to match the app — an
-  extension's family must be a subset of its host's or validation can reject the upload — and
-  `ITSAppUsesNonExemptEncryption = NO` set. Verified in the built Release plist: `UIDeviceFamily [1]`,
-  encryption `false`, widget embedded, `.storekit` config **not** shipped, and zero occurrences of
-  the debug Pro symbols. (An earlier version of this note claimed the *app* target needed narrowing.
-  It did not — those values belonged to the two test targets, which never ship.)
-- ~~App Store Connect.~~ **Done:** app record, agreements active, IAP created with review screenshot,
-  App Privacy answered "Data Not Collected", accessibility labels declared, listing copy written,
-  privacy and support pages published from the repo root via GitHub Pages.
-- **A purchase still has not round-tripped.** The IAP was created 2026-08-22 and the store reported
-  unavailable on first try, which is normal propagation for a new product rather than a fault. This
-  is the last unverified thing in the app and the single biggest risk left.
-- **The Georgian wordmark.** `app.name` ships as "Bade." in both languages, marked `needs_review`.
-  *Bade* is ბადე — the net the app is named for — so whether the Georgian build shows the Latin
-  wordmark is a branding call, not a translation one.
+- **The Georgian review.** Above.
+- **The reminders cap.** Above about eight subscriptions, iOS's 64 pending notifications runs out in
+  under six months and no local scheduling beats it. Three options, none of them code yet:
+  `BGAppRefreshTask` (needs an entitlement and your Xcode work, and iOS never promises to run it),
+  repeating calendar triggers (exact for monthly and annual, but they cannot carry the day-grouping
+  that makes three charges on one day a single notification), or accept it.
+- **The FX feature's future**, given it has nothing true to say on lari-billed statements.
+- **Screenshots.** Never taken. An iPhone 16 Pro is 1206 × 2622, which Apple does not accept — use an
+  iPhone 16 Pro Max simulator (1320 × 2868). Not needed for TestFlight, only for submission.
+- **The App Store name.** "Bade." was taken as a fallback because "Bade" was gone. Editable until you
+  submit; the subtitle is the field carrying the search weight.
+- **The Georgian wordmark.** `app.name` ships as "Bade." in both languages. *Bade* is ბადე, the net
+  the app is named for, so whether the Georgian build shows the Latin wordmark is a branding call.
+
+### Done in App Store Connect
+
+App record created, Paid Apps agreement active, IAP `com.khvedelidze.Bade.pro` created and in
+*Prepare for Submission*, App Privacy answered "Data Not Collected", six accessibility labels
+declared (VoiceOver, Voice Control, Dark Interface, Larger Text, Reduced Motion, Differentiate
+Without Colour Alone — **not** Sufficient Contrast, which needs the palette to read
+`colorSchemeContrast`), listing copy written, age rating 4+, category Finance.
+
+`privacy.html` and `support.html` are served from the repository root through GitHub Pages. Every
+claim in the policy was checked against the code rather than written as boilerplate — the network
+paragraph says what is actually on the wire, which is a date and nothing else, not even the currency.
+
+**Offer codes do not apply.** They are subscription-only; Bade Pro is a non-consumable. Free access
+for friends is TestFlight now, where sandbox purchases cost nothing, and App Store promo codes once
+the app is approved.
+
+### Xcode, done
+
+Widget device family narrowed to `1` to match the app — an extension's family must be a subset of its
+host's or validation rejects the upload. `ITSAppUsesNonExemptEncryption = NO` set. Verified in the
+built Release plist, along with zero occurrences of the debug Pro symbols and no `.storekit` config
+in the bundle.
+
+An earlier version of this note claimed the *app* target needed narrowing. It did not — those values
+belong to `BadeTests` and `BadeUITests`, which never ship. Attribute a build setting to its target
+before believing it.
+
+⚠️ **The debug Pro padlock is gone**, with `debugLocksPro` and `ProLockToggle`. `isPro` is
+`hasEntitlement` in every configuration now, so **a Debug build shows the locked state** unless a real
+entitlement exists. All local testing before this silently ran with Pro on. To look at a gated screen
+without TestFlight, force `isPro` behind `#if DEBUG` — and take it out again, uncommitted. It lost its
+guard once during this session and would have shipped free Pro to everyone.
 
 ---
 
-## Next up
-
-**Finish step 13 by verifying it.** The code is done: `ProPurchasing` in `Core`, `StoreKitPro` in
-`Purchases`, and `@AppStorage("isPro")` as a cache of the entitlement. What has never happened is a
-purchase.
-
-- A **local `.storekit` config** only applies when Xcode launches the app (⌘R). Launched from the
-  home screen the app talks to the real App Store, finds no product, and correctly says the store
-  cannot be reached.
-- **TestFlight is the way in.** Sandbox purchases there are free and persist standalone, which also
-  solves giving Pro to friends. Promo codes need no code at all, but require the app to be live.
-
-What is gated, and where:
-
-| Feature | Enforced by |
-|---|---|
-| Upcoming | `.badeLocked(!isPro)` in `BadeRootView` — blurs, inerts, offers Pro |
-| The FX card | `.badeLocked(!isPro, scale: .card)` in `SubscriptionDetailView` |
-| Export | the rows are absent from Settings without Pro |
-| Reminders | the whole section is absent; the lead resolves `.off`, so nothing schedules |
-| The permission ask | `askAboutReminders` requires `isPro` |
-| The widget | the snapshot carries `isPro`; the tile shows its locked state |
-
-**A debug padlock in the Settings toolbar flips `isPro`**, because a debug build cannot buy
-anything and every locked state would otherwise be invisible on the only device they can be judged
-on. Verified compiled out of Release: `debugLocksPro` and `ProLockToggle` appear 2 and 3 times in
-the Debug dylib and **0 times** in the Release binary and the widget extension.
-
-**14 is done except for your yes.** All 229 keys were read at the screen they appear on and 50 were
-revised; `GEORGIAN-REVIEW.md` lays out six decisions, two grammar bugs and every key either way.
-Nothing was marked reviewed — the snippet at the foot of that file does it in one run.
-
-Note the brief says renewal reminders and the calendar are free-forever core loop. Both are Pro.
-That was a deliberate call by the user on 2026-08-13; the brief has not been rewritten.
-
----
 ## The statements
 
 Eight PDFs sit in the gitignored `statements/`: four BOG, **three TBC**, **one Liberty Bank**. The
@@ -347,36 +376,24 @@ re-render each record and re-parse to prove the rendering round-trips.
 13. **Detection reports far less than the statements contain.** Ended subscriptions are now shown
    as ended rather than dropped, which recovered several; the remaining gap is the repeat candidates
    in item 1.
-14. **Import stops working after presentations collide.** Found on device, 2026-08-22. Not
-   diagnosed, not fixed.
+14. ~~Import stops working after presentations collide.~~ **Fixed structurally, 2026-08-23.**
+   `BadeRootView` drove a file importer, a cover, three sheets and two alerts from seven independent
+   booleans, over a root that can swap between Welcome and the tabs while any is open. Two could be
+   asked for at once, SwiftUI dropped the loser without saying so, and the loser's flag stayed set —
+   after which every request set `true` to `true`, which is not a change, so nothing presented ever
+   again until relaunch.
 
-   Repro, as it happened: import a statement successfully → delete everything → import a second
-   statement → it fails to parse → dismiss that → **the reminder prompt appears full screen instead
-   of at its `.medium` detent** → dismiss it → **tapping Import statement now does nothing, ever
-   again.**
+   One `Presentation?` now, so two at once is unrepresentable. `present` dismisses what is up, waits
+   350ms, then presents; and asking for what is already showing works deliberately, because that is
+   the recovery path if a presentation is ever dropped.
 
-   Two symptoms, probably one cause. Everything below is hypothesis, arrived at by reading rather
-   than by reproducing.
+15. **Nothing bounds a pasted amount's *value*, only its shape.** Six digits and two decimals, so
+   999999.99 is the ceiling. Fine for a subscription; there is no guard against someone entering it
+   deliberately and skewing their own total.
 
-   The dead Import button has a mechanism that fits exactly. `isPickingFile` is a `Bool` driving
-   `.fileImporter`. If it is set to `true` at a moment SwiftUI cannot present — because a cover is
-   mid-dismiss, or a sheet is up — the importer never appears and **the flag is never cleared**.
-   Every later tap then sets `true` to `true`, which is not a state change, so nothing presents and
-   nothing happens. Silent and permanent until relaunch. Worth checking first because it is cheap
-   to confirm and would explain the whole second half.
-
-   The full-screen prompt points at the same collision. `askAboutReminders` does not present
-   immediately — it starts a `Task`, sleeps `BadeMotion.totalReveal`, and only then sets
-   `isAskingAboutReminders`. So the prompt from import #1 can land nearly a second later, on top of
-   whatever the user has since done: a delete, a root swap back to Welcome, a failing second import.
-   A sheet presented into a view tree that is being torn down is exactly the kind of thing that
-   loses its detents.
-
-   The structural point behind both: `BadeRootView` owns **seven presentations** — a `fileImporter`,
-   a `badeCover`, three `sheet`s and two `alert`s — over a root that can itself swap between Welcome
-   and the tabs while any of them is open. Nothing coordinates them. The fix is probably one
-   presentation enum rather than seven independent flags, which would make "two things at once"
-   unrepresentable instead of merely unlikely.
+16. **The FX card has nothing to show on lari-billed statements.** Correct rather than broken — see
+   §The FX markup was fabricated — but a headline Pro feature that stays silent on real launch-market
+   data is a product question, not a code one.
 
 ### The widget
 
@@ -562,6 +579,33 @@ corrupt store to prove the recovery path. The run still passes.
 ---
 
 ## Traps hit, so they are not hit again
+
+- **A `TextField` will not take a shorter value back from its own setter.** Bounding input in a
+  reducer passed every test and did nothing on a phone: the field kept what was typed until
+  something else forced a redraw, so the limit only appeared to bite on losing focus — which is
+  worse than none, because it silently rewrote a number somebody had already read. The view has to
+  own `@State` and truncate in `onChange`; writing to state the view owns is a separate update, and
+  SwiftUI applies that. Three attempts went into this, two of them reasoning rather than using the
+  pattern that is known to work.
+- **`Button(role: .destructive)` inside `swipeActions` deletes the row itself.** SwiftUI performs
+  its own removal the instant it is tapped, before anything is asked, so putting a confirmation in
+  front made the row collapse and spring back — a delete that looked like it happened and got
+  undone. Tint with `theme.destructive` instead and let the answer do the deleting.
+- **`xcodebuild` does not forward the shell's environment to the test process.** A plain
+  `FOO=1 xcodebuild test` is silently ignored; `TEST_RUNNER_FOO=1` is the mechanism, and Xcode strips
+  the prefix. An hour went into believing a record-mode loop that was quietly comparing instead.
+- **Animation makes a screen unrepeatable.** With no code change between runs, nine snapshots
+  differed by up to 10.77% of their pixels — a total counting up, a net fading in. That noise was
+  larger than most real regressions, so the comparison failed at random and caught nothing. Worse,
+  it produced a convincing false proof: a font change "caught" by exactly the six screens that were
+  already nondeterministic. Measure a noise floor across identical runs before trusting any
+  tolerance.
+- **A limit on a string is not a limit on a number.** Six characters made "999.99" cost the same as
+  "999999", so the decimals became unreachable exactly when the amount was large enough to want
+  them. Count the halves separately.
+- **Bound a fixture's data, not just its names.** The first scrubbed BOG statement kept two merchants
+  as full street addresses, because the brand check passed and the location tail rode along with it.
+  A brand is public; the branch somebody shops at is not.
 
 - **Presented content is not inside the presenting view's tree.** A sheet or a cover inherits none
   of what the root sets — locale, calendar, text size, forced appearance, the palette. Four
