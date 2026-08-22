@@ -35,6 +35,13 @@ public struct BadeTheme: Sendable, Equatable {
 
     public static let light = BadeTheme(scheme: .light)
     public static let dark = BadeTheme(scheme: .dark)
+
+    /// The palette an appearance asks for. Anywhere the theme cannot be read from the environment
+    /// — a widget's container background is extracted and drawn by the system, outside the view
+    /// tree — this is how to arrive at the same answer rather than guessing at a default.
+    public static func matching(_ scheme: ColorScheme) -> BadeTheme {
+        scheme == .dark ? .dark : .light
+    }
 }
 
 extension EnvironmentValues {
@@ -50,6 +57,6 @@ private struct BadeThemeModifier: ViewModifier {
     @Environment(\.colorScheme) private var scheme
 
     func body(content: Content) -> some View {
-        content.environment(\.badeTheme, scheme == .dark ? .dark : .light)
+        content.environment(\.badeTheme, .matching(scheme))
     }
 }

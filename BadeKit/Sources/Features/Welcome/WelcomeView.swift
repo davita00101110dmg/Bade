@@ -56,7 +56,9 @@ public struct WelcomeView: View {
             Button(action: onImport) {
                 HStack(spacing: .xs) {
                     Text(.welcome.importStatement)
-                    BadeBadge(.parsing.beta, tint: theme.surface)
+                    // White, like the button's own label. Tinting it with the surface colour made
+                    // it dark-on-accent in a dark appearance, where the surface is nearly black.
+                    BadeBadge(.parsing.beta, tint: .white)
                 }
             }
             .buttonStyle(.badePrimary)

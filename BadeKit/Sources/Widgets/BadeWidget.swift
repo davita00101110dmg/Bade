@@ -11,10 +11,10 @@ public struct BadeWidget: Widget {
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: "BadeWidget", provider: WidgetTimeline()) { entry in
             BadeWidgetView(snapshot: entry.snapshot)
-                .badeTheme()
                 // The app's language, not the phone's — words, weekdays and money all follow it.
                 .environment(\.locale, entry.snapshot.locale)
                 .containerBackground(for: .widget) { WidgetBackground() }
+                .badeTheme()
         }
         .configurationDisplayName(Text(.widget.name))
         .description(Text(.widget.description))
@@ -51,10 +51,14 @@ public struct WidgetTimeline: TimelineProvider {
     }
 }
 
+/// Reads the appearance rather than the theme. WidgetKit lifts this content out and draws it as the
+/// tile's background, so it is not a descendant of anything the widget's view applies — including
+/// `badeTheme`. Left to inherit, it fell back to the light palette while the content resolved dark,
+/// which put a near-white total on a cream tile and read as an empty widget.
 private struct WidgetBackground: View {
-    @Environment(\.badeTheme) private var theme
+    @Environment(\.colorScheme) private var scheme
 
     var body: some View {
-        theme.surface
+        BadeTheme.matching(scheme).surface
     }
 }

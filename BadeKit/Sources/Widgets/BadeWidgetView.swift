@@ -39,10 +39,12 @@ public struct BadeWidgetView: View {
             .clipped(antialiased: true)
     }
 
+    /// No rule between the columns. There was one, and once the mesh went in behind it, it landed a
+    /// point or two from one of the net's own vertical threads — two near-parallel lines down the
+    /// middle of the tile. The mesh separates the columns perfectly well on its own.
     private var medium: some View {
-        HStack(alignment: .top, spacing: .md) {
+        HStack(alignment: .top, spacing: .lg) {
             month
-            divider
             coming
         }
     }
@@ -72,18 +74,11 @@ public struct BadeWidgetView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// A hairline rather than a gap: two columns of numbers need to be told apart.
-    private var divider: some View {
-        Rectangle()
-            .fill(theme.border)
-            .frame(width: WidgetMetrics.dividerWidth)
-    }
-
     /// This month only, like the bar beside it. Late in a month there may be one charge left or
     /// none, and saying so is the point — borrowing next month's to fill the rows is what made the
     /// column disagree with its own heading.
-    /// No heading of its own: the divider and the figure to its left already say what these are,
-    /// and repeating "still coming" over them wasted the one line the rows could have used.
+    /// No heading of its own: the figure to its left already says what these are, and repeating
+    /// "still coming" over them wasted the one line the rows could have used.
     private var coming: some View {
         VStack(alignment: .leading, spacing: .xs) {
             if snapshot.upcoming.isEmpty {
@@ -181,7 +176,6 @@ private struct ChargeRow: View {
 public enum WidgetMetrics {
     /// How far the total may shrink before it wraps — a five-figure sum still has to fit.
     public static let totalScale = 0.5
-    public static let dividerWidth: CGFloat = 1
     /// Stands in for the figure a buyer would see. Redacted and blurred, so it reads as withheld
     /// rather than as a number anyone should try to make out.
     public static let lockedFigure = "000.00"
