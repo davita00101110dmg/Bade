@@ -11,6 +11,7 @@ import Purchases
 import Settings
 import Subscriptions
 import SwiftUI
+import TipKit
 import UniformTypeIdentifiers
 import Upcoming
 import Welcome
@@ -121,6 +122,7 @@ public struct BadeRootView: View {
             .badeAnimation(.badeTransition, value: hasSubscriptions)
             .badeAnimation(.badeTransition, value: isReady)
             .modifier(appEnvironment)
+            .task { configureTips() }
             .task(id: reload) { await decideRoot() }
             .task(id: widgetKey) { await publishWidget() }
             // A row deleted in the list, a price edited, a subscription paused: features write to
@@ -295,6 +297,19 @@ public struct BadeRootView: View {
                 isAddingManually = false
                 if outcome != .cancelled { reload = UUID() }
             })
+    }
+
+    /// Pinned to the app's own container, never the App Group. CoreData's default directory became
+    /// the group container the moment Bade had one and quietly relocated the SwiftData store; a
+    /// framework that picks its own location is exactly the shape of that bug.
+    ///
+    /// `.immediate` because the two tips live on different screens and can never compete: the
+    /// default would hold the second one back for a day for no reason a reader could see.
+    private func configureTips() {
+        try? Tips.configure([
+            .datastoreLocation(.applicationDefault),
+            .displayFrequency(.immediate),
+        ])
     }
 
     private func decideRoot() async {

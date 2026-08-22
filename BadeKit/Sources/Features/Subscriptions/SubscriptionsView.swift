@@ -9,6 +9,9 @@ public struct SubscriptionsView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var model: SubscriptionsViewModel
+    /// Held rather than made per render: invalidating one instance has to be the same tip the
+    /// header is showing.
+    private let swipeTip = SwipeARowTip()
     /// Survives the hero row being recycled by scrolling, so §14.7's arrival happens once.
     @State private var hasArrived = false
     @State private var rapidTaps = 0
@@ -108,6 +111,7 @@ public struct SubscriptionsView: View {
             clearEverythingSection
         }
         .badeGroupedList()
+        .badeTipStyle()
         // A grouped list reserves space above its first section for a header it does not have.
         // Zeroed here so the gap above the total is only the padding the header itself asks for.
         .contentMargins(.top, .zero, for: .scrollContent)
@@ -176,6 +180,17 @@ public struct SubscriptionsView: View {
                         activeAction(row.subscription)
                         deleteAction(row.subscription)
                     }
+                    // On the row itself, so the arrow points at the thing to swipe. The first one,
+                    // because the tip is about all of them and the first is the one already read.
+                    //
+                    // Held back until the total has landed. The hero counts up for
+                    // `BadeMotion.totalReveal` and writes `hasArrived` back to this screen when it
+                    // finishes, which re-renders the list and dismisses any popover anchored inside
+                    // it — so the tip appeared on arrival and vanished a second later, but only on
+                    // the first visit, because `.task(id: total)` never runs again. Waiting also
+                    // keeps it off §14.7's arrival moment, which is the one thing on this screen
+                    // worth not interrupting.
+                    .popoverTip(hasArrived && row.id == model.state.rows.first?.id ? swipeTip : nil)
                 }
             } header: {
                 sectionHeader
@@ -242,7 +257,7 @@ public struct SubscriptionsView: View {
     /// Leading edge, away from delete: cancelling is reversible and must not sit under the same
     /// thumb as the action that is not.
     private func activeAction(_ subscription: Subscription) -> some View {
-        Button { model.send(.activeToggled(subscription)) } label: {
+        Button { performed(.activeToggled(subscription)) } label: {
             Label {
                 Text(subscription.isActive ? .subscriptions.markCancelled : .subscriptions.markActive)
             } icon: {
@@ -254,7 +269,7 @@ public struct SubscriptionsView: View {
 
     /// Behind cancel on the swipe, so a full swipe still means what it meant before Edit existed.
     private func editAction(_ subscription: Subscription) -> some View {
-        Button { model.send(.editTapped(subscription)) } label: {
+        Button { performed(.editTapped(subscription)) } label: {
             Label { Text(.subscriptions.edit) } icon: { Image(systemName: "pencil") }
         }
         .tint(theme.inkMuted)
@@ -262,9 +277,16 @@ public struct SubscriptionsView: View {
 
     /// Offered on both a swipe and a long press, because neither is discoverable on its own.
     private func deleteAction(_ subscription: Subscription) -> some View {
-        Button(role: .destructive) { model.send(.deleteTapped(subscription)) } label: {
+        Button(role: .destructive) { performed(.deleteTapped(subscription)) } label: {
             Label { Text(.subscriptions.delete) } icon: { Image(systemName: "trash") }
         }
+    }
+
+    /// The three actions a row hides. Reaching any of them — by swipe or by long press — is proof
+    /// the gesture has been found, so the tip that says so has done its job and goes.
+    private func performed(_ intent: SubscriptionsIntent) {
+        swipeTip.invalidate(reason: .actionPerformed)
+        model.send(intent)
     }
 
     private var sectionHeader: some View {

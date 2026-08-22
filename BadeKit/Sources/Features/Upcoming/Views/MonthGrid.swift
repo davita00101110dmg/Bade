@@ -1,6 +1,7 @@
 import DesignSystem
 import Foundation
 import SwiftUI
+import TipKit
 
 /// The month at a glance. A day that costs something is a filled tile, so a heavy week reads as a
 /// block of them before any number is read; today is the one tile in the accent colour.
@@ -17,6 +18,13 @@ struct MonthGrid: View {
 
     private static let columns = Array(
         repeating: GridItem(.flexible(), spacing: BadeSpacing.xxs), count: 7)
+
+    /// The first day in the month that actually costs something. The tip is anchored there rather
+    /// than to the grid, so the arrow lands on a tile worth tapping — and a month with nothing in
+    /// it has no such tile, which is also the month where tapping teaches nothing.
+    private var tipAnchor: UpcomingCell.ID? {
+        cells.first { $0.charges > 0 }?.id
+    }
 
     var body: some View {
         VStack(spacing: .xs) {
@@ -43,7 +51,13 @@ struct MonthGrid: View {
         if let date = cell.date {
             Button { onSelect(date) } label: { tile(cell, date: date) }
                 .buttonStyle(.plain)
-                .accessibilityElement(children: .combine)
+                .popoverTip(cell.id == tipAnchor ? TapADayTip() : nil)
+                // The dots are shapes and carry nothing, so combining left every tile reading as a
+                // bare number — the one thing the grid exists to say was the part VoiceOver missed.
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(date, format: .dateTime.weekday(.wide).day().month(.wide)))
+                .accessibilityValue(Text(.upcoming.dayCharges(cell.charges)))
+                .accessibilityAddTraits(cell.isSelected ? [.isButton, .isSelected] : .isButton)
         } else {
             Color.clear.frame(height: cellHeight)
         }

@@ -49,6 +49,14 @@ public struct ReviewView: View {
                 .font(.badeBody)
                 .foregroundStyle(theme.inkMuted)
                 .contentTransition(.numericText())
+            // Permanent rather than a hint that retires. Only `.confident` detections arrive
+            // ticked, so on a statement with one confident and twenty-seven others every empty box
+            // reads as a verdict Bade reached — and someone can confirm and walk away with one
+            // subscription. That is true of every import, not only the first.
+            Text(.review.leadIn)
+                .font(.badeCaption)
+                .foregroundStyle(theme.inkFaint)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .badeAnimation(.badeSelection, value: model.state.selectedCount)

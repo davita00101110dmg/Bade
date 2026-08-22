@@ -11,6 +11,9 @@ public struct UpcomingView<Destination: View>: View {
     @ScaledMetric(relativeTo: .largeTitle) private var monthTotalSize = BadeTypography.displaySize
 
     @State private var model: UpcomingViewModel
+    /// Held rather than made per render: invalidating one instance has to be the same tip the
+    /// grid is showing.
+    private let tapTip = TapADayTip()
     private let destination: (Subscription) -> Destination
 
     public init(
@@ -42,6 +45,7 @@ public struct UpcomingView<Destination: View>: View {
             failureSection
         }
         .badeGroupedList()
+        .badeTipStyle()
         .contentMargins(.top, .zero, for: .scrollContent)
         .contentMargins(.bottom, .xxl, for: .scrollContent)
         .scrollContentBackground(.hidden)
@@ -56,7 +60,15 @@ public struct UpcomingView<Destination: View>: View {
         Section {
             VStack(spacing: .md) {
                 monthHeader
-                MonthGrid(cells: model.state.cells) { model.send(.daySelected($0)) }
+                // The grid anchors its own tip, on the first day of the month that costs something:
+                // it is the one that knows which tile that is.
+                MonthGrid(cells: model.state.cells) { day in
+                    // Tapping a tile is the one thing the grid cannot show it accepts, so finding
+                    // it is what retires the tip anchored to it.
+                    tapTip.invalidate(reason: .actionPerformed)
+                    model.send(.daySelected(day))
+                }
+
                 if !model.state.isEmpty { total }
             }
             .padding(.vertical, .md)
