@@ -50,6 +50,37 @@ private func typed(
 
 @Suite("Subscription form")
 struct SubscriptionFormTests {
+    /// A decimal pad held down used to produce an amount of any length at all, which then had to be
+    /// totalled, laid out in a row and read aloud.
+    @Test func anAmountStopsAcceptingCharactersAtTheLimit() {
+        var subject = blank()
+        let full = String(repeating: "9", count: DecimalInput.characterLimit)
+
+        _ = subject.apply(.amountChanged(full))
+        #expect(subject.draft.amount == full)
+
+        _ = subject.apply(.amountChanged(full + "9"))
+        #expect(subject.draft.amount == full, "the extra character never appears")
+    }
+
+    /// Refused rather than truncated: what is already typed stays exactly as it is, which is how a
+    /// full field behaves everywhere else on iOS.
+    @Test func passingTheLimitLeavesWhatWasAlreadyTyped() {
+        var subject = blank()
+        _ = subject.apply(.amountChanged("35.99"))
+
+        _ = subject.apply(.amountChanged("9999999999999999"))
+
+        #expect(subject.draft.amount == "35.99")
+    }
+
+    /// The limit is generous enough that nobody entering a real subscription meets it.
+    @Test func arealisticAmountIsNowhereNearTheLimit() {
+        #expect(DecimalInput.isWithinLimit("999999999.99"))
+        #expect(DecimalInput.isWithinLimit("35.99"))
+        #expect(DecimalInput.isWithinLimit("1234567890123") == false)
+    }
+
     @Test func aBlankFormCannotBeSaved() {
         #expect(blank().canSave == false)
         #expect(blank().isNew)

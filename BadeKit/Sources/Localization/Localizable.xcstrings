@@ -1424,7 +1424,6 @@
       }
     },
     "pro.exportWhere" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1489,7 +1488,6 @@
       }
     },
     "pro.fxWhere" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1554,7 +1552,6 @@
       }
     },
     "pro.owned.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1619,7 +1616,6 @@
       }
     },
     "pro.remindersWhere" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1828,7 +1824,6 @@
       }
     },
     "pro.widgetsWhere" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

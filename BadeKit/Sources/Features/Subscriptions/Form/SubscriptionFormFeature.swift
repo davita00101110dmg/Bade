@@ -125,6 +125,7 @@ extension SubscriptionFormState {
             return nil
 
         case .amountChanged(let amount):
+            guard DecimalInput.isWithinLimit(amount) else { return nil }
             draft.amount = amount
             return nil
 
