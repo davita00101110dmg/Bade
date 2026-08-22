@@ -4,22 +4,46 @@ import Foundation
 /// to Georgian will offer a comma for the same number an English one writes with a full stop, so
 /// both are accepted. Reading input, not formatting output — money is still displayed via `Locale`.
 enum DecimalInput {
-    /// How long a typed amount may get. Nothing stopped it before, so a decimal pad held down
-    /// produced an amount of any length at all — which then had to be totalled, laid out in a row,
-    /// drawn on a widget and read aloud.
-    ///
-    /// Six characters: 999.99 with decimals, or 999999 without. A subscription is not larger than
-    /// that. On characters rather than on value, because the field is text until it parses and a
-    /// half-typed number has no value to judge yet.
-    static let characterLimit = 6
+    /// Digits before the separator. Six reaches 999,999, which is past any subscription.
+    static let wholeDigitLimit = 6
+    /// Digits after it. Money has two, and a third has nowhere to be displayed.
+    static let fractionDigitLimit = 2
 
-    /// Truncates rather than refuses.
+    /// Bounds the number rather than the string.
     ///
-    /// Refusing was tried first and does not work: when a binding's setter leaves the source of
-    /// truth alone, SwiftUI does not push the old value back into the field, so typing carried on
-    /// unbounded and the limit only appeared to apply when the field lost focus. Returning a
-    /// shorter string changes the value, which is what makes SwiftUI write it back on the keystroke.
-    static func limited(_ text: String) -> String { String(text.prefix(characterLimit)) }
+    /// A flat character count was the first attempt and it was the wrong shape: six characters meant
+    /// "999.99" cost the same budget as "999999", so entering a large amount silently spent the
+    /// allowance that the tetri needed. The two halves are counted separately instead, so the
+    /// decimals are always reachable no matter how big the whole part is.
+    ///
+    /// Anything that is neither a digit nor a separator is dropped, and a second separator with it —
+    /// unreachable from a decimal pad, but a paste is not a keyboard.
+    ///
+    /// Truncates rather than refuses, and the field that shows it keeps its own copy: a `TextField`
+    /// driven by a computed `Binding` will not take a shorter value back from its own setter, so
+    /// bounding this here alone stopped nothing on a phone.
+    static func limited(_ text: String) -> String {
+        var whole = ""
+        var fraction = ""
+        var separator: Character?
+
+        for character in text {
+            if character.isNumber {
+                if separator == nil {
+                    if whole.count < wholeDigitLimit { whole.append(character) }
+                } else if fraction.count < fractionDigitLimit {
+                    fraction.append(character)
+                }
+            } else if separator == nil, character == "." || character == "," {
+                // Kept exactly as typed: a Georgian keyboard offers a comma, and `parse` is what
+                // reconciles the two.
+                separator = character
+            }
+        }
+
+        guard let separator else { return whole }
+        return whole + String(separator) + fraction
+    }
 
     static func parse(_ text: String) -> Decimal? {
         let trimmed = text.trimmingCharacters(in: .whitespaces).replacingOccurrences(

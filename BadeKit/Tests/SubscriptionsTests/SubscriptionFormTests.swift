@@ -52,12 +52,39 @@ private func typed(
 struct SubscriptionFormTests {
     /// A decimal pad held down used to produce an amount of any length at all, which then had to be
     /// totalled, laid out in a row, drawn on a widget and read aloud.
-    @Test func anAmountStopsGrowingAtTheLimit() {
+    @Test func thewholePartStopsGrowingAtSixDigits() {
         var subject = blank()
 
         _ = subject.apply(.amountChanged("999999999999"))
 
-        #expect(subject.draft.amount.count == DecimalInput.characterLimit)
+        #expect(subject.draft.amount == "999999")
+    }
+
+    /// The tetri are always reachable, whatever the lari have used up. A flat character count made
+    /// them compete: at six characters "999999" left no room for a separator, let alone two digits.
+    @Test func thedecimalsAreAlwaysReachableRegardlessOfTheWholePart() {
+        #expect(DecimalInput.limited("999999.99") == "999999.99")
+        #expect(DecimalInput.limited("999999.999") == "999999.99", "a third has nowhere to show")
+        #expect(DecimalInput.limited("1234567.89") == "123456.89")
+    }
+
+    /// A Georgian keyboard offers a comma for the number an English one writes with a full stop, so
+    /// whichever was typed survives; `parse` is what reconciles them.
+    @Test func whicheverSeparatorWasTypedIsKept() {
+        #expect(DecimalInput.limited("14,99") == "14,99")
+        #expect(DecimalInput.parse("14,99") == Decimal(string: "14.99"))
+    }
+
+    /// Unreachable from a decimal pad, but a paste is not a keyboard.
+    @Test func asecondSeparatorAndAnyLetterAreDropped() {
+        #expect(DecimalInput.limited("1.2.3") == "1.23")
+        #expect(DecimalInput.limited("12abc34") == "1234")
+    }
+
+    /// Half-typed states have to survive, or the separator could never be reached at all.
+    @Test func atrailingSeparatorIsLeftAloneWhileItIsBeingTyped() {
+        #expect(DecimalInput.limited("14.") == "14.")
+        #expect(DecimalInput.parse("14.") == Decimal(string: "14"))
     }
 
     /// Truncated rather than refused, and the difference is not academic. Refusing leaves the state
@@ -67,11 +94,11 @@ struct SubscriptionFormTests {
     @Test func theLimitAppliesOnEveryKeystrokeRatherThanOnLosingFocus() {
         var subject = blank()
 
-        for character in "1234.5678" {
+        for character in "1234567.891" {
             _ = subject.apply(.amountChanged(subject.draft.amount + String(character)))
-            #expect(subject.draft.amount.count <= DecimalInput.characterLimit)
         }
-        #expect(subject.draft.amount == "1234.5")
+
+        #expect(subject.draft.amount == "123456.89")
     }
 
     /// A name reaches a notification title and a widget, neither of which truncates as kindly as
@@ -99,7 +126,7 @@ struct SubscriptionFormTests {
     @Test func arealSubscriptionAmountFitsInside() {
         #expect(DecimalInput.limited("14.99") == "14.99")
         #expect(DecimalInput.limited("999.99") == "999.99")
-        #expect(DecimalInput.limited("1200") == "1200")
+        #expect(DecimalInput.limited("1200.00") == "1200.00")
     }
 
     @Test func aBlankFormCannotBeSaved() {
