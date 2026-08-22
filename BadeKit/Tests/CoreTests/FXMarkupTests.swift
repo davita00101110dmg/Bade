@@ -136,6 +136,19 @@ struct FXMarkupTests {
         #expect(plain.markup(against: decimal("2.59"), reference: .cardScheme) == nil)
     }
 
+    /// The shape a multi-currency account produces, and the commonest foreign charge in the real
+    /// statement: 50 EUR and 33 USD charges with no rates printed beside them at all, because each
+    /// settled from a balance already in its own currency. Nothing converted, so nothing to judge.
+    @Test(arguments: ["EUR", "USD"])
+    func aforeignChargePaidFromAbalanceInThatCurrencyHasNoMarkup(_ currency: String) {
+        let paid = Charge(
+            date: day("2026-07-20"), amount: decimal("9.99"), currency: currency, conversion: nil)
+
+        #expect(paid.wasConverted == false)
+        #expect(paid.markup(against: decimal("2.60"), reference: .cardScheme) == nil)
+        #expect(subscription([paid]).isPaidWithoutConversion, "the card explains itself instead")
+    }
+
     /// Neither side of the conversion matches the charge: something is wrong, and nothing is
     /// better than a number pointing the wrong way.
     @Test func achargeInAThirdCurrencyIsRefused() {

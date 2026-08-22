@@ -3,7 +3,7 @@
 Read `CLAUDE.md` first for the working agreement, constraints and UI conventions.
 This file is the handoff: where the project is, what is next, and what is still open.
 
-Last updated: **2026-08-23**, end of "Bade part 7".
+Last updated: **2026-08-23**, during "Bade part 8".
 
 ---
 
@@ -25,7 +25,7 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    TBC  770 transactions → 6 subscriptions (the largest of three)
 ```
 
-**539 tests, `swift test` ~2s** — and they pass without the private statements too, which was not true
+**540 tests, `swift test` ~2s** — and they pass without the private statements too, which was not true
 before both banks had a committed fixture. Plus **42 snapshot references** on the simulator, ~105s;
 see §Snapshot tests. iOS build green, no warnings. Quality gates clean bar one pre-existing `"GEL"` in
 `Catalog/MerchantSeed.swift:395`, a bundled price point rather than an assumption in logic.
@@ -67,11 +67,11 @@ gesture, or tap elsewhere.
 from the root, pinned to `.applicationDefault` — never the App Group, because a framework choosing
 its own store location is exactly how the SwiftData store silently moved.
 
-| Where | Anchored to | Retired by |
-|---|---|---|
-| ④ Subscriptions | the first row | any of the three row actions, by swipe or long press |
-| ⑤ Upcoming | the first day of the month that costs something | selecting any day |
-| ③ Review | — a permanent line under the header, not a tip | **never** |
+| Where | Anchored to | What it says | Retired by |
+|---|---|---|---|
+| ④ Subscriptions | the first row | Swipe a row to edit it or mark it cancelled. | any of the three row actions, by swipe or long press |
+| ⑤ Upcoming | the first day of the month that costs something | Tap a day to see just that day. | selecting any day |
+| ③ Review | under the header — a permanent line, not a tip | Only what Bade was sure of is ticked. Tick anything else you recognise. | **never** |
 
 **The style carries the palette and the language as values**, read in the presenting view rather
 than through the environment. A tip is system-presented in its own popover, and presented content
@@ -91,19 +91,6 @@ why it never goes away.
 **Deliberately not taught:** the pull-net (it does nothing) and the five-tap money rain (it is meant
 to be found).
 
----|---|---|
-| ④ under the first row | Swipe a row to edit it or mark it cancelled. | any of the three row actions, by swipe or long press |
-| ⑤ foot of the calendar block | Tap a day to see just that day. | selecting any day |
-| ③ under the header | Only what Bade was sure of is ticked. Tick anything else you recognise. | **never — permanent** |
-
-The Review line is not a hint and has no storage. `ReviewDecision(startingFrom:)` ticks only
-`.confident && !hasEnded`, so on the second BOG statement that is **1 ticked against 27** — and an
-empty box reads as a verdict Bade reached rather than the question it is. That is true of every
-import, not only the first, which is why it never goes away.
-
-**Deliberately not taught:** the pull-net (it does nothing) and the five-tap money rain (it is meant
-to be found).
-
 **Watch on device:** the ④ hint lives inside the rows' `ForEach`, keyed to whichever row is first,
 so changing the sort removes and reinserts it during the same animated batch update that open item 0
 already misbehaves in. It has not been seen on a phone yet. If it flickers, the fix is to lift it out
@@ -118,9 +105,10 @@ the one thing nobody else can do. `GEORGIAN-REVIEW.md` has the whole pass — si
 or reject, two grammar bugs, every key either way, and a snippet at the foot that flips all the
 states in one run.
 
-The document is **~14 keys stale**: written against 229, the catalog now holds 243. Everything added
-since is listed in git and none of it was part of the pass. Ask for it to be regenerated rather than
-reading around the gap.
+The document is **11 keys stale**: written against 227, the catalog now holds **238 — of which 222
+are still `needs_review` and 16 are translated** (counted 2026-08-23). Everything added since is
+listed in git and none of it was part of the pass. Ask for it to be regenerated rather than reading
+around the gap.
 
 ⚠️ **Re-record the snapshot references afterwards.** Ten of the forty-two are Georgian, so a
 translation pass fails them by design. `rm -rf Tests/Fixtures/Snapshots` and run the suite once.
@@ -145,18 +133,46 @@ scheme's, and reported the difference as a loss. **The "consistent 1.3–1.5% ma
 a finding about the bank was `(bank − scheme) / scheme`** — a property of the two rates and nothing
 else, which is exactly why it was so reliable.
 
-Counted across the statement: **22 conversions, all lari-billed. 32 USD and 50 EUR charges, none with
-a conversion at all**, having settled from balances already in those currencies. Not one charge was
-ever converted.
+Counted across the committed fixture, all 327 payment records:
 
-`Charge.wasConverted` now decides — a conversion applies only when the charge is denominated in the
-currency being converted *from*. The rates still feed the rate book, because a USD-GEL rate is worth
-having; only the claim that it cost somebody something is gone.
+| | Charged | Rates printed | Result |
+|---|---|---|---|
+| 222 | GEL | none | nothing to report |
+| 50 | EUR | none | no conversion happened |
+| 33 | USD | none | no conversion happened |
+| 22 | GEL | USD-GEL | `GEL ≠ USD` → not converted |
 
-**What this means for the product:** on real launch-market data, the FX markup feature has nothing to
-report. It is correct in principle and will fire on a genuinely foreign-billed charge, but a Georgian
-card billed in lari never produces one. That is a question about a headline Pro feature, and it is
-not a code question.
+**Not one record has `currency == conversion.from`.** `Charge.wasConverted` now decides — a
+conversion applies only when the charge is denominated in the currency being converted *from*. The
+rates still feed the rate book, because a USD-GEL rate is worth having; only the claim that it cost
+somebody something is gone.
+
+**The 22 were re-tested rather than trusted**, since the whole correction rested on the single
+Setanta row. If they had really been converted from dollars, dividing the lari back by the bank's
+rate should recover clean dollar stickers. **None of the 22 does**; 8 are clean lari prices and 14
+are messy in both directions. The fix is right on this data.
+
+**Why the foreign charges are silent — and why that is not the feature failing.** The 83 USD and EUR
+charges print no rates *at all*, because this account is **multi-currency**: a euro charge came out
+of the euro balance and nothing needed converting. Bade says so in words rather than showing a zero
+(`detail.fx.noConversion`: *"Paid straight from your %@ balance, so nothing was converted and there
+is no markup."*).
+
+⚠️ **An earlier version of this note concluded the feature "has nothing to report on real
+launch-market data". That generalised one account too far.** The silence is caused by holding foreign
+balances, not by the card being Georgian. **A GEL-only account — the common Georgian card — is
+exactly the case that fires**: no dollar balance, so the bank must convert, prints the charge in USD
+beside USD-GEL rates, `currency == from`, and the markup is real. **No statement in `statements/`
+is such an account, so that path has never been exercised on real data.**
+
+The one risk left in it: if BOG denominates a *converted* charge in GEL (`Amount: GEL27.12` beside
+USD-GEL rates) rather than in USD, that row is indistinguishable from the Setanta shape and Bade
+would stay silent when it should not — a false negative. The 22 rows argue against it happening, but
+this account cannot produce the case either way. **One statement from a card with no foreign-currency
+balance settles it.**
+
+**Decided 2026-08-23: the feature stays as built.** It is correct, it explains itself when there is
+nothing to report, and it pays off for single-currency accounts. No code change wanted.
 
 ## Waiting on the user
 
@@ -166,7 +182,10 @@ not a code question.
   `BGAppRefreshTask` (needs an entitlement and your Xcode work, and iOS never promises to run it),
   repeating calendar triggers (exact for monthly and annual, but they cannot carry the day-grouping
   that makes three charges on one day a single notification), or accept it.
-- **The FX feature's future**, given it has nothing true to say on lari-billed statements.
+- ~~**The FX feature's future.**~~ **Settled 2026-08-23: it stays as built.** It is silent on this
+  multi-currency account because nothing was converted, and it fires on a GEL-only card. Worth having
+  is **one statement from an account with no foreign-currency balance**, to exercise that path on real
+  data for the first time — a nice-to-have, not a blocker.
 - **Screenshots.** Never taken. An iPhone 16 Pro is 1206 × 2622, which Apple does not accept — use an
   iPhone 16 Pro Max simulator (1320 × 2868). Not needed for TestFlight, only for submission.
 - **The App Store name.** "Bade." was taken as a fallback because "Bade" was gone. Editable until you
@@ -391,9 +410,10 @@ re-render each record and re-parse to prove the rendering round-trips.
    999999.99 is the ceiling. Fine for a subscription; there is no guard against someone entering it
    deliberately and skewing their own total.
 
-16. **The FX card has nothing to show on lari-billed statements.** Correct rather than broken — see
-   §The FX markup was fabricated — but a headline Pro feature that stays silent on real launch-market
-   data is a product question, not a code one.
+16. **The FX card is silent on the statements here, and that is correct.** Nothing was converted on
+   a multi-currency account, and the card says so in words. It fires on a GEL-only card, which no
+   statement in `statements/` is — so that path is covered by tests but has never run on real data.
+   See §The FX markup was fabricated. **Decided 2026-08-23: keep as built.**
 
 ### The widget
 
@@ -558,7 +578,7 @@ opened side by side.
 ## Verifying anything
 
 ```sh
-cd BadeKit && swift test          # 528 tests, ~2s here, ~0.7s without the statements
+cd BadeKit && swift test          # 540 tests, ~2s here, ~0.7s without the statements
 xcodebuild -project Bade.xcodeproj -scheme Bade \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
