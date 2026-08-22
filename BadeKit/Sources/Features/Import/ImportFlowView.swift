@@ -46,7 +46,9 @@ public struct ImportFlowView: View {
             )
             .navigationDestination(item: $found, destination: review)
         }
-        .tint(theme.accent)
+        // Ink, not the accent: a navigation bar's buttons are chrome, and tinting this stack green
+        // made close and back read as actions worth noticing next to the ones that are.
+        .tint(theme.ink)
     }
 
     private func review(_ statement: DetectedStatement) -> some View {

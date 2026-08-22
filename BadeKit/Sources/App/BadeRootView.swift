@@ -107,15 +107,20 @@ public struct BadeRootView: View {
         CachedOfficialRates(store: store, network: fetchesRates ? NBGRateSource() : nil)
     }
 
+    /// Everything the app is running in. Applied to the root, and to every cover and sheet as well:
+    /// presented content is not inside the app's own view tree, so none of this reaches it on its
+    /// own. Each of them set the theme and stopped there, which left the whole import flow in
+    /// English, on the system's calendar and at the system's text size.
+    private var appEnvironment: BadeAppEnvironment {
+        BadeAppEnvironment(
+            appearance: appearance, language: language, weekStart: weekStart, textSize: textSize)
+    }
+
     public var body: some View {
         root
             .badeAnimation(.badeTransition, value: hasSubscriptions)
             .badeAnimation(.badeTransition, value: isReady)
-            .preferredColorScheme(appearance.colorScheme)
-            .badeTheme()
-            .environment(\.locale, language.locale)
-            .environment(\.calendar, weekStart.calendar)
-            .modifier(TextSizeOverride(size: textSize))
+            .modifier(appEnvironment)
             .task(id: reload) { await decideRoot() }
             .task(id: widgetKey) { await publishWidget() }
             // A row deleted in the list, a price edited, a subscription paused: features write to
@@ -149,7 +154,7 @@ public struct BadeRootView: View {
                     rateRepository: store, currency: currency,
                     isCurrencyInferred: chosenCurrency.isEmpty, onOutcome: handleImport
                 )
-                .badeTheme()
+                .modifier(appEnvironment)
             }
             .sheet(isPresented: $isShowingPro) {
                 NavigationStack {
@@ -158,16 +163,16 @@ public struct BadeRootView: View {
                             if outcome == .unlocked { hasEntitlement = true }
                         })
                 }
-                .badeTheme()
+                .modifier(appEnvironment)
             }
             .sheet(isPresented: $isAskingAboutReminders) {
                 ReminderPromptView(onOutcome: handleReminderPrompt)
-                    .badeTheme()
+                    .modifier(appEnvironment)
                     .presentationDetents([.medium])
             }
             // Only Welcome opens it from here; once there is a list, the list presents its own.
             .sheet(isPresented: $isAddingManually) {
-                SubscriptionFormView(model: manualEntry()).badeTheme()
+                SubscriptionFormView(model: manualEntry()).modifier(appEnvironment)
             }
             // Said once, and only when a reset actually happened.
             .alert(Text(.store.resetTitle), isPresented: $isSayingStoreWasReset) {
@@ -197,9 +202,7 @@ public struct BadeRootView: View {
             // whole thing. Each tab reloads itself on appearance, which is all that was needed.
             tabs.transition(.opacity)
         } else {
-            WelcomeView(
-                onImport: { isPickingFile = true }, onAddManually: { isAddingManually = true }
-            )
+            WelcomeView(language: language, onOutcome: handleWelcome)
             .transition(.opacity)
         }
     }
@@ -385,6 +388,16 @@ public struct BadeRootView: View {
         }
     }
 
+    /// Welcome carries the language switch because Settings cannot be reached until something is
+    /// imported, and the reader who most needs Georgian is the one who has not started yet.
+    private func handleWelcome(_ outcome: WelcomeOutcome) {
+        switch outcome {
+        case .importStatement: isPickingFile = true
+        case .addManually: isAddingManually = true
+        case .languageChanged(let language): languageCode = language.rawValue
+        }
+    }
+
     private func handleSettings(_ outcome: SettingsOutcome) {
         switch outcome {
         case .currencyChanged(let code): chosenCurrency = code
@@ -490,3 +503,21 @@ private struct LoadingSurface: View {
         }
     }
 #endif
+
+/// The app's appearance, palette, language, week start and text size, in one piece so the root and
+/// everything it presents cannot drift apart.
+private struct BadeAppEnvironment: ViewModifier {
+    let appearance: BadeAppearance
+    let language: BadeLanguage
+    let weekStart: BadeWeekStart
+    let textSize: BadeTextSize
+
+    func body(content: Content) -> some View {
+        content
+            .preferredColorScheme(appearance.colorScheme)
+            .badeTheme()
+            .environment(\.locale, language.locale)
+            .environment(\.calendar, weekStart.calendar)
+            .modifier(TextSizeOverride(size: textSize))
+    }
+}

@@ -5,12 +5,12 @@ import SwiftUI
 public struct WelcomeView: View {
     @Environment(\.badeTheme) private var theme
 
-    private let onImport: () -> Void
-    private let onAddManually: () -> Void
+    private let language: BadeLanguage
+    private let onOutcome: (WelcomeOutcome) -> Void
 
-    public init(onImport: @escaping () -> Void, onAddManually: @escaping () -> Void) {
-        self.onImport = onImport
-        self.onAddManually = onAddManually
+    public init(language: BadeLanguage, onOutcome: @escaping (WelcomeOutcome) -> Void) {
+        self.language = language
+        self.onOutcome = onOutcome
     }
 
     public var body: some View {
@@ -47,13 +47,47 @@ public struct WelcomeView: View {
         }
         .scrollBounceBehavior(.basedOnSize)
         .background(theme.surface, ignoresSafeAreaEdges: .all)
+        // Welcome is not inside a navigation stack, so there is no toolbar to put this in — and it
+        // has to be here somewhere, because Settings cannot be reached until something is imported
+        // and the one person who most needs Georgian is the one who has not started yet.
+        .overlay(alignment: .topTrailing) { languageMenu.padding(.screenMargin) }
+    }
+
+    private var languageMenu: some View {
+        Menu {
+            Picker(selection: languageBinding) {
+                ForEach(BadeLanguage.allCases) { option in
+                    Text(option.name).tag(option)
+                }
+            } label: {
+                Text(.settings.language)
+            }
+            .pickerStyle(.inline)
+        } label: {
+            // The globe alone. Naming the current language spelled it out in a language the reader
+            // may be here to change away from, and the menu says which one is set anyway.
+            // Ink rather than the accent: this stands in for a navigation bar button, and the one
+            // green thing on Welcome should be the button that starts the app.
+            Image(systemName: "globe")
+                .font(.badeHeadline)
+                .foregroundStyle(theme.ink)
+                .frame(
+                    width: BadeLayout.minimumTapTarget, height: BadeLayout.minimumTapTarget)
+                .background(Circle().fill(theme.surfaceRaised))
+                .contentShape(.circle)
+        }
+        .accessibilityLabel(Text(.settings.language))
+    }
+
+    private var languageBinding: Binding<BadeLanguage> {
+        Binding(get: { language }, set: { onOutcome(.languageChanged($0)) })
     }
 
     /// The badge rides on the button rather than under it: reading a statement is the one part of
     /// Bade that depends on a bank not changing its export, and this is where that promise is made.
     private var actions: some View {
         VStack(spacing: .xs) {
-            Button(action: onImport) {
+            Button { onOutcome(.importStatement) } label: {
                 HStack(spacing: .xs) {
                     Text(.welcome.importStatement)
                     // White, like the button's own label. Tinting it with the surface colour made
@@ -63,7 +97,7 @@ public struct WelcomeView: View {
             }
             .buttonStyle(.badePrimary)
 
-            Button(action: onAddManually) { Text(.welcome.addManually) }
+            Button { onOutcome(.addManually) } label: { Text(.welcome.addManually) }
                 .buttonStyle(.badeSecondary)
         }
     }

@@ -1,10 +1,11 @@
 #if DEBUG
     import Foundation
+    import Localization
     import SwiftUI
 
     @MainActor
     private func previewWelcome() -> some View {
-        WelcomeView(onImport: {}, onAddManually: {}).badeTheme()
+        WelcomeView(language: .english) { _ in }.badeTheme()
     }
 
     #Preview("Welcome") { previewWelcome() }
