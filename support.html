@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bade — Support</title>
+<style>
+  :root { color-scheme: light dark; --ink: #1b1b1a; --muted: #5c5c58; --bg: #fbfaf7; --rule: #e3e1da; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #ecebe6; --muted: #a3a19a; --bg: #14140f; --rule: #2c2c26; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; padding: 3rem 1.25rem 5rem; max-width: 42rem;
+    font: 400 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--ink); background: var(--bg);
+  }
+  h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 .25rem; }
+  h2 { font-size: 1.15rem; margin: 2.5rem 0 .5rem; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin: 0 0 2.5rem; }
+  ol, ul { padding-left: 1.2rem; }
+  li { margin: .4rem 0; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0 1.5rem; }
+  footer { color: var(--muted); font-size: .9rem; }
+  strong { font-weight: 600; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+
+<h1>Bade — Support</h1>
+<p class="sub">Bade finds every recurring charge in your bank statement, on your phone.</p>
+
+<h2>Getting your statement into Bade</h2>
+<ol>
+  <li>Open your bank's app and go to <strong>Accounts</strong></li>
+  <li>Choose <strong>Statement</strong>, and set the period to the last 12 months</li>
+  <li>Choose <strong>PDF</strong> as the format</li>
+  <li>Share it, and pick <strong>Bade</strong></li>
+</ol>
+<p>A longer statement gives Bade more to work with. Three months is the minimum worth trying;
+a year is much better, because a yearly subscription only shows up once.</p>
+
+<h2>Which statements can Bade read?</h2>
+<p>Bade reads statements exported from <strong>Bank of Georgia</strong> and <strong>TBC</strong>.
+Statement reading is in beta: a bank can change its export format without warning, and when that
+happens Bade needs updating. If a statement will not read, please get in touch — that is the most
+useful thing you can tell us.</p>
+
+<h2>Bade found fewer subscriptions than I expected</h2>
+<p>On the review screen, <strong>only the charges Bade is certain about arrive already ticked</strong>.
+Anything below them is a question rather than a rejection — Bade saw the charges but could not prove
+a rhythm. Tick anything you recognise before confirming.</p>
+<p>A yearly subscription needs a statement long enough to contain it, or a merchant Bade already
+knows, before it can be found at all.</p>
+
+<h2>Nothing leaves your phone</h2>
+<p>Your statement is read in memory and discarded. Bade has no account, no server, and never asks
+for your bank password. The only thing it ever sends is a request to the National Bank of Georgia
+for a day's exchange rates, and you can switch that off in Settings. See the
+<a href="privacy.html">privacy policy</a>.</p>
+
+<h2>Bade Pro</h2>
+<p>A one-time purchase, not a subscription. It adds renewal reminders, a calendar of upcoming
+charges, the exchange rate your bank really used on foreign charges, export to CSV or JSON, and a
+home-screen widget.</p>
+<p>If you have bought Pro and it is not showing — for example on a new phone — open Settings in
+Bade, tap <strong>Bade Pro</strong>, and choose <strong>Restore a purchase</strong>. It is tied to
+your Apple Account, so there is nothing to pay again.</p>
+
+<h2>Reminders are not arriving</h2>
+<p>Check that notifications are allowed for Bade in <strong>iOS Settings → Notifications → Bade</strong>,
+and that a reminder time is set in Bade's own Settings. Reminders are part of Bade Pro.</p>
+
+<h2>Getting in touch</h2>
+<p><strong>[your support email]</strong></p>
+<p>If a statement would not read, please say which bank and roughly how many months it covered.
+<strong>Please do not send the statement itself</strong> — it is your private financial data, and it
+is not needed to fix the problem.</p>
+
+<hr>
+<footer>Bade is not affiliated with, endorsed by, or connected to any bank. Bank names are used only
+to identify statement formats the app can read.</footer>
+
+</body>
+</html>

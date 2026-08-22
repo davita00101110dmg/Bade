@@ -101,9 +101,16 @@ Statement text is never printed into a session, so this cannot be settled from p
 
 ## Waiting on the user
 
-- **In Xcode:** target iPhone only (`TARGETED_DEVICE_FAMILY` is `1,2,7` and `SUPPORTED_PLATFORMS`
-  includes `xros` and `macosx`), and set `ITSAppUsesNonExemptEncryption` so App Store Connect stops
-  asking the export-compliance question on every upload.
+- **In Xcode, two settings — not four.** This note used to say the app target was `1,2,7` on
+  `TARGETED_DEVICE_FAMILY` with `xros` and `macosx` in `SUPPORTED_PLATFORMS`. **That was wrong**, and
+  it was wrong because the values were grepped without being attributed to a target: they belong to
+  `BadeTests` and `BadeUITests`, which never ship. The app itself is already `1` and iOS-only.
+  What actually needs doing:
+  - **BadeWidgetExtension** is `TARGETED_DEVICE_FAMILY = "1,2"` and must be `1`. An extension's
+    device family has to be a subset of its host app's, and the mismatch can fail upload validation.
+  - **Bade** needs `INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO`. `GENERATE_INFOPLIST_FILE` is
+    `YES`, so there is no plist to edit — it goes in the Info tab or Build Settings. `NO` is correct:
+    the only network call is HTTPS to NBG, which is exempt.
 - **In App Store Connect:** the `com.khvedelidze.Bade.pro` product at ₾24.99 / $9.99, App Privacy
   answers ("Data Not Collected" is honest), a privacy policy URL, and a build number that is not `1`.
 - **The Georgian wordmark.** `app.name` ships as "Bade." in both languages, marked `needs_review`.
