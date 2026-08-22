@@ -67,6 +67,14 @@ extension LocalizedStringResource {
             string("pro.unlockPrice \(price)")
         }
         public var included: LocalizedStringResource { string("pro.included") }
+        /// The same list, read by somebody who already owns it: an inventory, not an argument.
+        public var ownedTitle: LocalizedStringResource { string("pro.owned.title") }
+        /// Where each feature actually lives, for the ones with nowhere to navigate to. A row that
+        /// looks tappable and is not reads as a bug; a row that says where to look does not.
+        public var remindersWhere: LocalizedStringResource { string("pro.remindersWhere") }
+        public var widgetsWhere: LocalizedStringResource { string("pro.widgetsWhere") }
+        public var fxWhere: LocalizedStringResource { string("pro.fxWhere") }
+        public var exportWhere: LocalizedStringResource { string("pro.exportWhere") }
         public var calendar: LocalizedStringResource { string("pro.calendar") }
         public var calendarDetail: LocalizedStringResource { string("pro.calendarDetail") }
         public var export: LocalizedStringResource { string("pro.export") }

@@ -77,20 +77,31 @@ extension Charge {
     /// than assumed. Getting it backwards inverts the sign of every markup, which is worse than
     /// showing none.
     public func markup(against rate: Decimal, reference: FXMarkup.Reference) -> FXMarkup? {
-        guard let conversion, rate > 0, conversion.bankRate > 0 else { return nil }
+        guard wasConverted, let conversion, rate > 0, conversion.bankRate > 0 else { return nil }
 
-        if currency == conversion.to {
-            let sticker = amount / conversion.bankRate
-            return FXMarkup(
-                charged: sticker, chargedCurrency: conversion.from,
-                paid: amount, paidCurrency: currency,
-                fair: sticker * rate, reference: reference)
-        }
-        guard currency == conversion.from else { return nil }
         return FXMarkup(
             charged: amount, chargedCurrency: currency,
             paid: amount * conversion.bankRate, paidCurrency: conversion.to,
             fair: amount * rate, reference: reference)
+    }
+
+    /// Whether the rates printed beside this charge were applied to *this money*.
+    ///
+    /// They are not always. A Bank of Georgia statement prints a USD-GEL pair beside a charge billed
+    /// in lari, because the merchant is abroad and the scheme settles through dollars — but the
+    /// amount was fixed in lari, so the cardholder paid the sticker price and that spread never
+    /// touched them. Across a real statement this is not an edge case: all 22 printed conversions
+    /// were of that kind, and every genuinely foreign charge had no conversion at all, having
+    /// settled from a balance already in its own currency.
+    ///
+    /// Reading them as a cost invented one. A 14.99 GEL charge was divided by the bank's rate into
+    /// a 5.68 USD "sticker" nobody was ever quoted, multiplied back at the scheme's, and the
+    /// difference reported as a loss — reliably 1.5%, because `(bank − scheme) / scheme` is a
+    /// property of the two rates rather than of the transaction. It read as a finding about the
+    /// bank. It was arithmetic about itself.
+    public var wasConverted: Bool {
+        guard let conversion else { return false }
+        return currency == conversion.from
     }
 }
 
@@ -119,9 +130,10 @@ extension Subscription {
     }
 
     /// The newest charge the bank actually converted. A charge paid from a balance already in its
-    /// own currency never touched a rate, and has nothing to report.
+    /// own currency never touched a rate, and neither did one billed in the currency the account
+    /// settles in — even when the statement prints a pair of rates beside it.
     public var lastConvertedCharge: Charge? {
-        charges.filter { $0.conversion != nil }.max { $0.date < $1.date }
+        charges.filter(\.wasConverted).max { $0.date < $1.date }
     }
 
     /// Nothing was ever converted — paid from a balance in the currency it was charged in.

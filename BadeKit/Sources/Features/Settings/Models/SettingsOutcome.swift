@@ -18,6 +18,9 @@ public enum SettingsOutcome: Equatable, Sendable {
     /// reads, so it has to hear both answers: reporting only the yes left a revoked purchase
     /// unlocking the app until the next launch.
     case proChanged(Bool)
+    /// Tapped on the owned Pro page. Only the root can change tabs, and ProView is reached from
+    /// here as often as from the root, so it has to travel both ways.
+    case showUpcoming
     /// Nothing is stored any more, so the root belongs back on Welcome.
     case dataCleared
 }

@@ -1423,6 +1423,23 @@
         }
       }
     },
+    "pro.exportWhere" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Settings, under Data."
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Settings-ში, განყოფილებაში „მონაცემები“."
+          }
+        }
+      }
+    },
     "pro.failed" : {
       "localizations" : {
         "en" : {
@@ -1467,6 +1484,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით — ყველა უცხოურ ჩამოჭრაზე."
+          }
+        }
+      }
+    },
+    "pro.fxWhere" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On any charge in another currency."
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ნებისმიერ სხვა ვალუტის ჩამოჭრაზე."
           }
         }
       }
@@ -1519,6 +1553,23 @@
         }
       }
     },
+    "pro.owned.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What you have"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "რაც გაქვს"
+          }
+        }
+      }
+    },
     "pro.ownedDetail" : {
       "localizations" : {
         "en" : {
@@ -1563,6 +1614,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "შეიტყობ გამოწერის განახლებამდე ერთი დღით ადრე — და რამდენი დაგიჯდება."
+          }
+        }
+      }
+    },
+    "pro.remindersWhere" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set when, in Settings."
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "დროს Settings-ში აირჩევ."
           }
         }
       }
@@ -1755,6 +1823,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "ჯამი და შემდეგი ჩამოჭრა მთავარ ეკრანზე."
+          }
+        }
+      }
+    },
+    "pro.widgetsWhere" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add it from your home screen."
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "დაამატე მთავარი ეკრანიდან."
           }
         }
       }

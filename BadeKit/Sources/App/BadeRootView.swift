@@ -207,7 +207,11 @@ public struct BadeRootView: View {
                 NavigationStack {
                     ProView(
                         model: ProViewModel(purchases: purchases, isEntitled: isPro) { outcome in
-                            if outcome == .unlocked { hasEntitlement = true }
+                            switch outcome {
+                            case .unlocked: hasEntitlement = true
+                            case .showUpcoming: showUpcoming()
+                            case .closed: break
+                            }
                         })
                 }
                 .modifier(appEnvironment)
@@ -482,8 +486,16 @@ public struct BadeRootView: View {
         case .proChanged(let isEntitled):
             hasEntitlement = isEntitled
             Task { await rescheduleFromStore() }
+        case .showUpcoming: showUpcoming()
         case .dataCleared: clearedEverything()
         }
+    }
+
+    /// From the owned Pro page, which lists what Pro added rather than what it would add. The one
+    /// feature on that list with somewhere to go.
+    private func showUpcoming() {
+        presented = nil
+        tab = .upcoming
     }
 
     /// The list is already emptying and the total is already counting down to nothing. Welcome

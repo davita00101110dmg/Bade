@@ -27,6 +27,7 @@ public enum ProIntent: Equatable {
     case finished(ProPurchaseResult)
     case restored(Bool)
     case dismissed
+    case upcomingTapped
 }
 
 public enum ProEffect: Equatable {
@@ -85,6 +86,9 @@ extension ProState {
 
         case .dismissed:
             return .report(.closed)
+
+        case .upcomingTapped:
+            return .report(.showUpcoming)
         }
     }
 }

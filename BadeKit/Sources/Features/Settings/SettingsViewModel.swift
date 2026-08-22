@@ -50,8 +50,11 @@ public final class SettingsViewModel {
     /// comes straight back rather than waiting for the screen to be rebuilt.
     public func pro() -> ProViewModel {
         ProViewModel(purchases: purchases, isEntitled: state.isPro) { [weak self] outcome in
-            guard outcome == .unlocked else { return }
-            self?.send(.proChecked(true))
+            switch outcome {
+            case .unlocked: self?.send(.proChecked(true))
+            case .showUpcoming: self?.onOutcome(.showUpcoming)
+            case .closed: break
+            }
         }
     }
 
