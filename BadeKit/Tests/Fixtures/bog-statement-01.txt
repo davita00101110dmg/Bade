@@ -1,0 +1,327 @@
+Bank of Georgia Account statement Account GE00BG0000000000000000 Date: 12/03/2026 Amount: USD100.00; Foreign Exchange. FX Rate:2.6716. Counter-amount: GEL267.16
+Payment - Amount GEL 220.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 08/05/2026
+Payment - Amount GEL 31.25; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 08/05/2026
+Payment - Amount GEL 29.43; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 07/05/2026
+Payment - Amount GEL 2.00; Merchant: MERCHANT002; MCC: 7299; Card: 000000******0000; Date: 06/05/2026
+Payment - Amount GEL 5.00; Merchant: MERCHANT002; MCC: 7299; Card: 000000******0000; Date: 06/05/2026
+Payment - Amount GEL 77.55; Merchant: MERCHANT003; MCC: 5812; Card: 000000******0000; Date: 10/05/2026
+Payment - Amount GEL 148.05; Merchant: MERCHANT004; MCC: 5541; Card: 000000******0000; Date: 10/05/2026
+Payment - Amount GEL 17.83; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 09/05/2026
+Payment - Amount GEL 20.31; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 09/05/2026
+Payment - Amount GEL 13.55; Merchant: MERCHANT005; MCC: 5411; Card: 000000******0000; Date: 09/05/2026
+Payment - Amount GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10/05/2026 Bank conversion rate (USD-GEL): 2.6859
+Payment - Amount GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10/05/2026 Card scheme conversion rate (USD-GEL): 2.6484 Bank conversion rate (USD-GEL): 2.6859
+Payment - Amount GEL 10.00; Merchant: MERCHANT006; MCC: 5411; Card: 000000******0000; Date: 12/05/2026
+Payment - Amount GEL 32.13; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 11/05/2026
+Payment - Amount GEL 29.93; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 11/05/2026
+Payment - Amount GEL 42.45; Merchant: PAYPAL *CANVAPTYLIM, Australia; MCC: 5045; Card: 000000******0000; Date: 10/05/2026 Card scheme conversion rate (USD-GEL): 2.6498 Bank conversion rate (USD-GEL): 2.6843
+Payment - Amount GEL 42.45; Merchant: PAYPAL *CANVAPTYLIM, Australia; MCC: 5045; Card: 000000******0000; Date: 10/05/2026 Card scheme conversion rate (USD-GEL): 2.6498 Bank conversion rate (USD-GEL): 2.6843
+Payment - Amount GEL 21.16; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 12/05/2026
+Payment - Amount GEL 21.32; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 12/05/2026
+Payment - Amount GEL 69.69; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 13/05/2026
+Payment - Amount GEL 9.97; Merchant: MERCHANT007; MCC: 5812; Card: 000000******0000; Date: 13/05/2026
+Payment - Amount GEL 2.00; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 13/05/2026
+Payment - Amount GEL 24.50; Merchant: BoltFood, Georgia; MCC: 5814; Card: 000000******0000; Date: 14/05/2026
+Payment - Amount GEL 33.43; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 14/05/2026
+Payment - Amount GEL 35.46; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 15/05/2026
+Payment - Amount GEL 22.62; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 15/05/2026
+Payment - Amount GEL 161.70; Merchant: MERCHANT009; MCC: 5541; Card: 000000******0000; Date: 17/05/2026
+Payment - Amount USD 129.00; Merchant: MERCHANT010; MCC: 5651; Card: 000000******0000; Date: 16/05/2026
+Payment - Amount USD 22.46; Merchant: MERCHANT011; MCC: 5942; Card: 000000******0000; Date: 16/05/2026
+Payment - Amount GEL 8.00; Merchant: MERCHANT012; MCC: 5411; Card: 000000******0000; Date: 16/05/2026
+Payment - Amount GEL 32.13; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 16/05/2026
+Payment - Amount GEL 22.10; Merchant: MERCHANT013; MCC: 5814; Card: 000000******0000; Date: 18/05/2026
+Payment - Amount GEL 27.01; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 17/05/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 19/05/2026
+Payment - Amount GEL 88.00; Merchant: MERCHANT014; MCC: 5812; Card: 000000******0000; Date: 19/05/2026
+Payment - Amount USD 61.50; Merchant: MERCHANT015; MCC: 5691; Card: 000000******0000; Date: 18/05/2026
+Payment - Amount GEL 14.20; Merchant: MERCHANT016; MCC: 5812; Card: 000000******0000; Date: 18/05/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 18/05/2026
+Payment - Amount GEL 12.06; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 18/05/2026
+Payment - Amount USD 7.49; Merchant: MERCHANT018; MCC: 5968; Card: 000000******0000; Date: 19/05/2026
+Payment - Amount GEL 22.19; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 19/05/2026
+Payment - Amount USD 19.99; Merchant: AMZ*Adobe, United States of America; MCC: 5734; Card: 000000******0000; Date: 19/05/2026
+Payment - Amount GEL 140.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 19/05/2026
+Payment - Amount GEL 13.36; Merchant: MERCHANT019; MCC: 5411; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount GEL 12.00; Merchant: MERCHANT020; MCC: 5411; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount GEL 139.00; Merchant: MERCHANT021; MCC: 5719; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount GEL 35.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 20/05/2026
+Payment - Amount GEL 15.48; Merchant: PAYPAL *SPOTIFY*P42A20, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20/05/2026 Card scheme conversion rate (USD-GEL): 2.6371 Bank conversion rate (USD-GEL): 2.6751
+Payment - Amount GEL 15.48; Merchant: PAYPAL *SPOTIFY*P42A20, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20/05/2026 Card scheme conversion rate (USD-GEL): 2.6371 Bank conversion rate (USD-GEL): 2.6751
+Payment - Amount GEL 29.93; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 20/05/2026
+Payment - Amount GEL 10.06; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 20/05/2026
+Payment - Amount GEL 500.00; Merchant: MERCHANT022; MCC: 5947; Card: 000000******0000; Date: 22/05/2026
+Payment - Amount GEL 150.00; Merchant: MERCHANT023; MCC: 8099; Card: 000000******0000; Date: 22/05/2026
+Payment - Amount USD 35.99; Merchant: MERCHANT024; MCC: 5942; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount USD 28.46; Merchant: MERCHANT025; MCC: 5331; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount EUR 8.99; Merchant: MERCHANT026; MCC: 5815; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount GEL 16.74; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount GEL 38.48; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount GEL 1.20; Merchant: MERCHANT027; MCC: 7941; Card: 000000******0000; Date: 21/05/2026
+Payment - Amount GEL 24.85; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 22/05/2026
+Payment - Amount GEL 74.34; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 22/05/2026
+Payment - Amount GEL 51.27; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 23/05/2026
+Payment - Amount GEL 19.55; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 23/05/2026
+Payment - Amount GEL 22.62; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 24/05/2026
+Payment - Amount GEL 14.30; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 24/05/2026
+Payment - Amount GEL 3.10; Merchant: MERCHANT028; MCC: 4121; Card: 000000******0000; Date: 25/05/2026
+Payment - Amount GEL 116.54; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 25/05/2026
+Payment - Amount GEL 23.48; Merchant: MERCHANT029; MCC: 5411; Card: 000000******0000; Date: 27/05/2026
+Payment - Amount GEL 42.64; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 26/05/2026
+Payment - Amount GEL 10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 4899; Card: 000000******0000; Date: 27/05/2026 Card scheme conversion rate (USD-GEL): 2.6317 Bank conversion rate (USD-GEL): 2.6716
+Payment - Amount GEL 10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 4899; Card: 000000******0000; Date: 27/05/2026 Card scheme conversion rate (USD-GEL): 2.6317 Bank conversion rate (USD-GEL): 2.6716
+Payment - Amount GEL 13.04; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 27/05/2026
+Payment - Amount GEL 1.75; Merchant: MERCHANT005; MCC: 5411; Card: 000000******0000; Date: 27/05/2026
+Payment - Amount GEL 20.01; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 29/05/2026
+Payment - Amount GEL 21.16; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 28/05/2026
+Payment - Amount GEL 22.02; Merchant: MERCHANT030; MCC: 5411; Card: 000000******0000; Date: 28/05/2026
+Payment - Amount GEL 19.59; Merchant: MERCHANT031; MCC: 5411; Card: 000000******0000; Date: 30/05/2026
+Payment - Amount GEL 56.76; Merchant: MERCHANT031; MCC: 5411; Card: 000000******0000; Date: 30/05/2026
+Payment - Amount GEL 37.43; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 30/05/2026
+Payment - Amount USD 9.89; Merchant: MERCHANT032; MCC: 5942; Card: 000000******0000; Date: 29/05/2026
+Payment - Amount GEL 18.90; Merchant: MERCHANT028; MCC: 4121; Card: 000000******0000; Date: 31/05/2026
+Payment - Amount GEL 18.90; Merchant: MERCHANT028; MCC: 4121; Card: 000000******0000; Date: 30/05/2026
+Payment - Amount GEL 30.68; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 30/05/2026
+Payment - Amount USD 141.00; Merchant: MERCHANT033; MCC: 5941; Card: 000000******0000; Date: 29/05/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT034; MCC: 4722; Card: 000000******0000; Date: 01/06/2026
+Payment - Amount GEL 9.00; Merchant: MERCHANT035; MCC: 5411; Card: 000000******0000; Date: 31/05/2026
+Payment - Amount GEL 25.71; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 31/05/2026
+Payment - Amount GEL 110.00; Merchant: MERCHANT023; MCC: 8099; Card: 000000******0000; Date: 02/06/2026
+Payment - Amount GEL 10.70; Merchant: MERCHANT013; MCC: 5814; Card: 000000******0000; Date: 02/06/2026
+Payment - Amount GEL 6.00; Merchant: MERCHANT036; MCC: 7523; Card: 000000******0000; Date: 01/06/2026
+Payment - Amount GEL 23.87; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 01/06/2026
+Payment - Amount GEL 8.99; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 01/06/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 01/06/2026
+Payment - Amount USD 119.80; Merchant: MERCHANT037; MCC: 5942; Card: 000000******0000; Date: 02/06/2026
+Payment - Amount GEL 1.00; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 02/06/2026
+Payment - Amount GEL 150.21; Merchant: MERCHANT038; MCC: 5541; Card: 000000******0000; Date: 04/06/2026
+Payment - Amount GEL 21.09; Merchant: MERCHANT039; MCC: 5411; Card: 000000******0000; Date: 04/06/2026
+Payment - Amount GEL 10.95; Merchant: MERCHANT020; MCC: 5411; Card: 000000******0000; Date: 04/06/2026
+Payment - Amount GEL 4.64; Merchant: MERCHANT005; MCC: 5411; Card: 000000******0000; Date: 03/06/2026
+Payment - Amount GEL 20.40; Merchant: MERCHANT040; MCC: 5812; Card: 000000******0000; Date: 03/06/2026
+Payment - Amount GEL 13.90; Merchant: MERCHANT041; MCC: 5411; Card: 000000******0000; Date: 04/06/2026
+Payment - Amount GEL 9.33; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 04/06/2026
+Payment - Amount GEL 18.79; Merchant: MERCHANT005; MCC: 5411; Card: 000000******0000; Date: 04/06/2026
+Payment - Amount GEL 447.13; Merchant: MERCHANT042; MCC: 5411; Card: 000000******0000; Date: 06/06/2026
+Payment - Amount GEL 5.00; Merchant: MERCHANT002; MCC: 7299; Card: 000000******0000; Date: 04/06/2026
+Payment - Amount GEL 20.00; Merchant: MERCHANT043; MCC: 5541; Card: 000000******0000; Date: 06/06/2026
+Payment - Amount GEL 174.00; Merchant: MERCHANT044; MCC: 7230; Card: 000000******0000; Date: 06/06/2026
+Payment - Amount GEL 150.00; Merchant: MERCHANT023; MCC: 8099; Card: 000000******0000; Date: 09/06/2026
+Payment - Amount GEL 13.41; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 08/06/2026
+Payment - Amount GEL 11.59; Merchant: MERCHANT005; MCC: 5411; Card: 000000******0000; Date: 08/06/2026
+Payment - Amount GEL 16.15; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 09/06/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 09/06/2026
+Payment - Amount GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10/06/2026 Card scheme conversion rate (USD-GEL): 2.6206 Bank conversion rate (USD-GEL): 2.6593
+Payment - Amount GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10/06/2026 Card scheme conversion rate (USD-GEL): 2.6206 Bank conversion rate (USD-GEL): 2.6593
+Payment - Amount GEL 14.30; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 10/06/2026
+Payment - Amount GEL 12.00; Merchant: MERCHANT020; MCC: 5411; Card: 000000******0000; Date: 12/06/2026
+Payment - Amount EUR 405.00; Merchant: MERCHANT045; MCC: 7512; Card: 000000******0000; Date: 11/06/2026
+Payment - Amount GEL 5.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 12/06/2026
+Payment - Amount GEL 1.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 12/06/2026
+Payment - Amount GEL 26.40; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 12/06/2026
+Payment - Amount GEL 24.00; Merchant: MERCHANT046; MCC: 5411; Card: 000000******0000; Date: 14/06/2026
+Payment - Amount GEL 9.00; Merchant: MERCHANT047; MCC: 7523; Card: 000000******0000; Date: 14/06/2026
+Payment - Amount GEL 5.00; Merchant: MERCHANT036; MCC: 7523; Card: 000000******0000; Date: 15/06/2026
+Payment - Amount GEL 7.00; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 15/06/2026
+Payment - Amount GEL 10.67; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 15/06/2026
+Payment - Amount GEL 20.40; Merchant: MERCHANT048; MCC: 5812; Card: 000000******0000; Date: 15/06/2026
+Payment - Amount GEL 2.20; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 15/06/2026
+Payment - Amount GEL 37.00; Merchant: MERCHANT049; MCC: 5812; Card: 000000******0000; Date: 17/06/2026
+Payment - Amount GEL 7.95; Merchant: MERCHANT020; MCC: 5411; Card: 000000******0000; Date: 17/06/2026
+Payment - Amount GEL 9.57; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 16/06/2026
+Payment - Amount USD 27.99; Merchant: MERCHANT050; MCC: 5942; Card: 000000******0000; Date: 18/06/2026
+Payment - Amount USD 47.99; Merchant: MERCHANT051; MCC: 5942; Card: 000000******0000; Date: 18/06/2026
+Payment - Amount USD 11.99; Merchant: APPLE.COM/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 18/06/2026
+Payment - Amount GEL 75.00; Merchant: MERCHANT052; MCC: 5451; Card: 000000******0000; Date: 18/06/2026
+Payment - Amount GEL 30.98; Merchant: MERCHANT053; MCC: 5411; Card: 000000******0000; Date: 18/06/2026
+Payment - Amount GEL 58.82; Merchant: MERCHANT054; MCC: 5411; Card: 000000******0000; Date: 18/06/2026
+Payment - Amount USD 19.99; Merchant: AMZ*Adobe, United States of America; MCC: 5734; Card: 000000******0000; Date: 19/06/2026
+Payment - Amount USD 47.98; Merchant: MERCHANT055; MCC: 5942; Card: 000000******0000; Date: 19/06/2026
+Payment - Amount USD 7.49; Merchant: MERCHANT056; MCC: 5968; Card: 000000******0000; Date: 19/06/2026
+Payment - Amount USD 627.88; Merchant: MERCHANT057; MCC: 4722; Card: 000000******0000; Date: 20/06/2026
+Payment - Amount USD 7.91; Merchant: MERCHANT058; MCC: 5942; Card: 000000******0000; Date: 20/06/2026
+Payment - Amount GEL 35.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 20/06/2026
+Payment - Amount GEL 23.55; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 20/06/2026
+Payment - Amount GEL 22.10; Merchant: MERCHANT013; MCC: 5814; Card: 000000******0000; Date: 22/06/2026
+Payment - Amount GEL 31.70; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 21/06/2026
+Payment - Amount USD 11.99; Merchant: APPLE.COM/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 21/06/2026
+Payment - Amount EUR 8.99; Merchant: MERCHANT026; MCC: 5815; Card: 000000******0000; Date: 21/06/2026
+Payment - Amount GEL 15.35; Merchant: PAYPAL *SPOTIFY*P43B78, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20/06/2026 Card scheme conversion rate (USD-GEL): 2.615 Bank conversion rate (USD-GEL): 2.6505
+Payment - Amount GEL 15.35; Merchant: PAYPAL *SPOTIFY*P43B78, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20/06/2026 Card scheme conversion rate (USD-GEL): 2.615 Bank conversion rate (USD-GEL): 2.6505
+Payment - Amount GEL 10.70; Merchant: MERCHANT013; MCC: 5814; Card: 000000******0000; Date: 23/06/2026
+Payment - Amount GEL 9.29; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 22/06/2026
+Payment - Amount GEL 20.31; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 23/06/2026
+Payment - Amount GEL 11.94; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 23/06/2026
+Payment - Amount GEL 7.00; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 23/06/2026
+Payment - Amount GEL 8.20; Merchant: MERCHANT059; MCC: 5411; Card: 000000******0000; Date: 25/06/2026
+Payment - Amount GEL 11.32; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 24/06/2026
+Payment - Amount GEL 16.59; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 25/06/2026
+Payment - Amount USD 15.00; Merchant: APPLE.COM/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 26/06/2026
+Payment - Amount GEL 28.18; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 26/06/2026
+Payment - Amount GEL 15.20; Merchant: MERCHANT016; MCC: 5812; Card: 000000******0000; Date: 24/06/2026
+Payment - Amount GEL 4.50; Merchant: Glovo, Spain; MCC: 5814; Card: 000000******0000; Date: 28/06/2026 Card scheme conversion rate (USD-GEL): 2.6012 Bank conversion rate (USD-GEL): 2.6462
+Payment - Amount GEL 23.41; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 27/06/2026
+Payment - Amount GEL 17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 5817; Card: 000000******0000; Date: 27/06/2026 Card scheme conversion rate (USD-GEL): 2.6066 Bank conversion rate (USD-GEL): 2.6462
+Payment - Amount GEL 17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 5817; Card: 000000******0000; Date: 27/06/2026 Card scheme conversion rate (USD-GEL): 2.6066 Bank conversion rate (USD-GEL): 2.6462
+Payment - Amount USD 0.99; Merchant: MERCHANT060; MCC: 5968; Card: 000000******0000; Date: 27/06/2026
+Payment - Amount GEL 52.80; Merchant: MERCHANT061; MCC: 5814; Card: 000000******0000; Date: 27/06/2026
+Payment - Amount GEL 195.96; Merchant: MERCHANT062; MCC: 5541; Card: 000000******0000; Date: 29/06/2026
+Payment - Amount GEL 61.96; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 28/06/2026
+Payment - Amount GEL 154.02; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 28/06/2026
+Payment - Amount GEL 22.70; Merchant: MERCHANT013; MCC: 5814; Card: 000000******0000; Date: 30/06/2026
+Payment - Amount GEL 1.79; Merchant: MERCHANT063; MCC: 5411; Card: 000000******0000; Date: 30/06/2026
+Payment - Amount USD 53.33; Merchant: MERCHANT064; MCC: 5942; Card: 000000******0000; Date: 29/06/2026
+Payment - Amount GEL 11.34; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 29/06/2026
+Payment - Amount GEL 14.00; Merchant: MERCHANT065; MCC: 5812; Card: 000000******0000; Date: 01/07/2026
+Payment - Amount GEL 17.00; Merchant: MERCHANT065; MCC: 5812; Card: 000000******0000; Date: 01/07/2026
+Payment - Amount GEL 14.04; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 30/06/2026
+Payment - Amount GEL 7.00; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 30/06/2026
+Payment - Amount GEL 8.99; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 01/07/2026
+Payment - Amount GEL 2.20; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 01/07/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 01/07/2026
+Payment - Amount USD 372.10; Merchant: MERCHANT066; MCC: 4722; Card: 000000******0000; Date: 02/07/2026
+Payment - Amount USD 119.80; Merchant: MERCHANT067; MCC: 5942; Card: 000000******0000; Date: 02/07/2026
+Payment - Amount GEL 78.33; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 03/07/2026
+Payment - Amount GEL 7.00; Merchant: MERCHANT068; MCC: 7929; Card: 000000******0000; Date: 05/07/2026
+Payment - Amount GEL 467.00; Merchant: ZOOMMER; MCC: 5732; Card: 000000******0000; Date: 05/07/2026
+Payment - Amount GEL 14.60; Merchant: MERCHANT069; MCC: 5462; Card: 000000******0000; Date: 05/07/2026
+Payment - Amount GEL 11.15; Merchant: MERCHANT070; MCC: 5411; Card: 000000******0000; Date: 05/07/2026
+Payment - Amount USD 7.49; Merchant: MERCHANT071; MCC: 5968; Card: 000000******0000; Date: 04/07/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT068; MCC: 7929; Card: 000000******0000; Date: 04/07/2026
+Payment - Amount GEL 18.00; Merchant: MERCHANT068; MCC: 7929; Card: 000000******0000; Date: 04/07/2026
+Payment - Amount GEL 9.00; Merchant: MERCHANT068; MCC: 7929; Card: 000000******0000; Date: 04/07/2026
+Payment - Amount GEL 9.00; Merchant: MERCHANT068; MCC: 7929; Card: 000000******0000; Date: 04/07/2026
+Payment - Amount GEL 25.71; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 04/07/2026
+Payment - Amount GEL 24.00; Merchant: MERCHANT039; MCC: 5411; Card: 000000******0000; Date: 06/07/2026
+Payment - Amount GEL 16.54; Merchant: MERCHANT072; MCC: 5411; Card: 000000******0000; Date: 06/07/2026
+Payment - Amount GEL 78.50; Merchant: MERCHANT073; MCC: 5411; Card: 000000******0000; Date: 06/07/2026
+Payment - Amount GEL 29.90; Merchant: MERCHANT028; MCC: 4121; Card: 000000******0000; Date: 05/07/2026
+Payment - Amount GEL 35.46; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 05/07/2026
+Payment - Amount GEL 13.42; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 06/07/2026
+Payment - Amount GEL 26.80; Merchant: MERCHANT005; MCC: 5411; Card: 000000******0000; Date: 06/07/2026
+Payment - Amount GEL 180.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 07/07/2026
+Payment - Amount GEL 11.58; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 07/07/2026
+Payment - Amount GEL 22.05; Merchant: MERCHANT074; MCC: 5411; Card: 000000******0000; Date: 09/07/2026
+Payment - Amount GEL 9.22; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 08/07/2026
+Payment - Amount GEL 13.50; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 08/07/2026
+Payment - Amount GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10/07/2026 Card scheme conversion rate (USD-GEL): 2.5979 Bank conversion rate (USD-GEL): 2.6371
+Payment - Amount GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10/07/2026 Card scheme conversion rate (USD-GEL): 2.5979 Bank conversion rate (USD-GEL): 2.6371
+Payment - Amount GEL 21.00; Merchant: MERCHANT075; MCC: 7523; Card: 000000******0000; Date: 15/07/2026
+Payment - Amount EUR 80.48; Merchant: MERCHANT076; MCC: 4111; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount EUR 473.00; Merchant: MERCHANT077; MCC: 4214; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount EUR 5.55; Merchant: MERCHANT078; MCC: 5411; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount EUR 473.00; Merchant: MERCHANT077; MCC: 4214; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount EUR 40.00; Merchant: MERCHANT079; MCC: 6513; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount EUR 11.51; Merchant: MERCHANT080; MCC: 4789; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount GEL 9.90; Merchant: MERCHANT081; MCC: 5411; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount GEL 8.75; Merchant: MERCHANT082; MCC: 5411; Card: 000000******0000; Date: 16/07/2026
+Payment - Amount GEL 7.90; Merchant: MERCHANT083; MCC: 4814; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 4.83; Merchant: MERCHANT080; MCC: 4789; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 1.90; Merchant: MERCHANT084; MCC: 5411; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount USD 9.00; Merchant: APPLE.COM/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 16.00; Merchant: MERCHANT085; MCC: 8299; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 30.00; Merchant: MERCHANT086; MCC: 7221; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 195.19; Merchant: MERCHANT087; MCC: 5945; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 3.95; Merchant: MERCHANT088; MCC: 5499; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 24.90; Merchant: MERCHANT089; MCC: 5946; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 10.60; Merchant: MERCHANT090; MCC: 5411; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 2.30; Merchant: MERCHANT091; MCC: 5814; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 0.75; Merchant: MERCHANT092; MCC: 5411; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 5.00; Merchant: MERCHANT093; MCC: 5499; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 18.50; Merchant: MERCHANT094; MCC: 5814; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 39.50; Merchant: MERCHANT095; MCC: 7997; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 2.00; Merchant: MERCHANT096; MCC: 5411; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount EUR 5.99; Merchant: MERCHANT097; MCC: 4789; Card: 000000******0000; Date: 17/07/2026
+Payment - Amount GEL 7.90; Merchant: MERCHANT083; MCC: 4814; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 2.00; Merchant: MERCHANT098; MCC: 5411; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 5.00; Merchant: MERCHANT099; MCC: 5541; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 29.30; Merchant: MERCHANT100; MCC: 5812; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 44.80; Merchant: MERCHANT101; MCC: 4112; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 6.25; Merchant: MERCHANT102; MCC: 5993; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 4.90; Merchant: MERCHANT103; MCC: 4111; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 1.00; Merchant: MERCHANT104; MCC: 5411; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 6.59; Merchant: MERCHANT105; MCC: 5411; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 2.00; Merchant: MERCHANT106; MCC: 5813; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 2.02; Merchant: MERCHANT107; MCC: 5411; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount EUR 5.88; Merchant: MERCHANT108; MCC: 5411; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 2.50; Merchant: MERCHANT090; MCC: 5411; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount USD 19.99; Merchant: AMZ*Adobe, United States of America; MCC: 5734; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 52.00; Merchant: MERCHANT109; MCC: 7922; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 10.80; Merchant: MERCHANT110; MCC: 5812; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 7.99; Merchant: MERCHANT111; MCC: 5651; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 12.44; Merchant: MERCHANT110; MCC: 5812; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 24.42; Merchant: MERCHANT112; MCC: 5814; Card: 000000******0000; Date: 19/07/2026
+Payment - Amount EUR 6.50; Merchant: MERCHANT113; MCC: 5812; Card: 000000******0000; Date: 18/07/2026
+Payment - Amount GEL 60.00; Merchant: MERCHANT114; MCC: 7523; Card: 000000******0000; Date: 21/07/2026
+Payment - Amount GEL 9.90; Merchant: MERCHANT083; MCC: 4814; Card: 000000******0000; Date: 21/07/2026
+Payment - Amount EUR 15.14; Merchant: MERCHANT115; MCC: 4789; Card: 000000******0000; Date: 20/07/2026
+Payment - Amount EUR 2.68; Merchant: MERCHANT116; MCC: 5411; Card: 000000******0000; Date: 20/07/2026
+Payment - Amount EUR 1.60; Merchant: MERCHANT117; MCC: 5441; Card: 000000******0000; Date: 20/07/2026
+Payment - Amount EUR 27.40; Merchant: MERCHANT118; MCC: 5812; Card: 000000******0000; Date: 20/07/2026
+Payment - Amount EUR 19.00; Merchant: MERCHANT119; MCC: 7832; Card: 000000******0000; Date: 20/07/2026
+Payment - Amount GEL 15.20; Merchant: PAYPAL *SPOTIFY*P44C5B, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20/07/2026 Card scheme conversion rate (USD-GEL): 2.5939 Bank conversion rate (USD-GEL): 2.6315
+Payment - Amount GEL 15.20; Merchant: PAYPAL *SPOTIFY*P44C5B, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20/07/2026 Card scheme conversion rate (USD-GEL): 2.5939 Bank conversion rate (USD-GEL): 2.6315
+Payment - Amount GEL 8.78; Merchant: MERCHANT120; MCC: 5411; Card: 000000******0000; Date: 22/07/2026
+Payment - Amount GEL 15.00; Merchant: MERCHANT072; MCC: 5411; Card: 000000******0000; Date: 22/07/2026
+Payment - Amount USD 11.99; Merchant: APPLE.COM/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 21/07/2026
+Payment - Amount EUR 24.00; Merchant: MERCHANT121; MCC: 4789; Card: 000000******0000; Date: 21/07/2026
+Payment - Amount EUR 8.99; Merchant: MERCHANT026; MCC: 5815; Card: 000000******0000; Date: 21/07/2026
+Payment - Amount GEL 46.65; Merchant: MERCHANT122; MCC: 5812; Card: 000000******0000; Date: 21/07/2026
+Payment - Amount GEL 2.98; Merchant: MERCHANT019; MCC: 5411; Card: 000000******0000; Date: 24/07/2026
+Payment - Amount USD 5.00; Merchant: APPLE.COM/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 23/07/2026
+Payment - Amount GEL 23.55; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 23/07/2026
+Payment - Amount GEL 21.44; Merchant: MERCHANT005; MCC: 5411; Card: 000000******0000; Date: 23/07/2026
+Payment - Amount GEL 15.90; Merchant: MERCHANT123; MCC: 7311; Card: 000000******0000; Date: 24/07/2026
+Payment - Amount GEL 35.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 24/07/2026
+Payment - Amount GEL 23.84; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 24/07/2026
+Payment - Amount GEL 41.39; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 24/07/2026
+Payment - Amount GEL 27.55; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 24/07/2026
+Payment - Amount GEL 23.55; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 25/07/2026
+Payment - Amount GEL 50.69; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 26/07/2026
+Payment - Amount GEL 17.38; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 26/07/2026
+Payment - Amount GEL 4.50; Merchant: Glovo, Spain; MCC: 5814; Card: 000000******0000; Date: 28/07/2026 Card scheme conversion rate (USD-GEL): 2.5862 Bank conversion rate (USD-GEL): 2.6281
+Payment - Amount GEL 18.49; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 27/07/2026
+Payment - Amount GEL 11.97; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 27/07/2026
+Payment - Amount GEL 10.50; Merchant: MERCHANT017; MCC: 5993; Card: 000000******0000; Date: 27/07/2026
+Payment - Amount GEL 10.00; Merchant: MERCHANT124; MCC: 5541; Card: 000000******0000; Date: 29/07/2026
+Payment - Amount GEL 17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 5817; Card: 000000******0000; Date: 28/07/2026 Card scheme conversion rate (USD-GEL): 2.5911 Bank conversion rate (USD-GEL): 2.6278
+Payment - Amount GEL 17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 5817; Card: 000000******0000; Date: 28/07/2026 Card scheme conversion rate (USD-GEL): 2.5911 Bank conversion rate (USD-GEL): 2.6278
+Payment - Amount GEL 43.86; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 28/07/2026
+Payment - Amount GEL 23.04; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 29/07/2026
+Payment - Amount GEL 15.45; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 29/07/2026
+Payment - Amount GEL 106.60; Merchant: MERCHANT125; MCC: 5655; Card: 000000******0000; Date: 31/07/2026
+Payment - Amount GEL 188.15; Merchant: MERCHANT126; MCC: 5541; Card: 000000******0000; Date: 31/07/2026
+Payment - Amount GEL 23.87; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 30/07/2026
+Payment - Amount GEL 24.58; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 30/07/2026
+Payment - Amount EUR 16.00; Merchant: MERCHANT127; MCC: 7372; Card: 000000******0000; Date: 31/07/2026
+Payment - Amount GEL 47.31; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 31/07/2026
+Payment - Amount GEL 20.68; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 31/07/2026
+Payment - Amount GEL 21.58; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 31/07/2026
+Payment - Amount GEL 131.00; Merchant: MERCHANT128; MCC: 5812; Card: 000000******0000; Date: 02/08/2026
+Payment - Amount GEL 8.95; Merchant: MERCHANT129; MCC: 5411; Card: 000000******0000; Date: 02/08/2026
+Payment - Amount GEL 8.99; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 01/08/2026
+Payment - Amount GEL 12.55; Merchant: MERCHANT082; MCC: 5411; Card: 000000******0000; Date: 01/08/2026
+Payment - Amount GEL 59.10; Merchant: MERCHANT081; MCC: 5411; Card: 000000******0000; Date: 01/08/2026
+Payment - Amount GEL 5.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 02/08/2026
+Payment - Amount GEL 29.95; Merchant: MERCHANT013; MCC: 5814; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount GEL 24.63; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 03/08/2026
+Payment - Amount GEL 10.99; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 03/08/2026
+Payment - Amount GEL 1000.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount GEL 1000.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount GEL 300.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount GEL 1000.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount GEL 1000.00; Merchant: MERCHANT001; MCC: 6538; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount USD 7.49; Merchant: MERCHANT130; MCC: 5968; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount GEL 39.56; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 05/08/2026
+Payment - Amount GEL 12.96; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 05/08/2026
+Payment - Amount GEL 3.50; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 05/08/2026
+Payment - Amount GEL 11.15; Merchant: MERCHANT008; MCC: 5812; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount GEL 15.20; Merchant: MERCHANT016; MCC: 5812; Card: 000000******0000; Date: 04/08/2026
+Payment - Amount USD 53.33; Merchant: MERCHANT131; MCC: 5942; Card: 000000******0000; Date: 06/08/2026
+Payment - Amount GEL 31.70; Merchant: FLT*Glovoapp, Georgia; MCC: 5814; Card: 000000******0000; Date: 06/08/2026
+Payment - Amount GEL 5.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 06/08/2026
+Payment - Amount GEL 84.19; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 06/08/2026
+Payment - Amount GEL 37.58; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 06/08/2026
+Payment - Amount USD 119.80; Merchant: MERCHANT132; MCC: 5942; Card: 000000******0000; Date: 07/08/2026
+Payment - Amount GEL 24.47; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 07/08/2026
+Payment - Amount GEL 21.16; Merchant: Wolt; MCC: 4215; Card: 000000******0000; Date: 07/08/2026

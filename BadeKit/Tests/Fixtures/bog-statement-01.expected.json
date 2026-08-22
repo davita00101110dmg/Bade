@@ -1,0 +1,415 @@
+[
+  {
+    "amount" : 19.99,
+    "cadence" : "monthly",
+    "confidence" : "confident",
+    "currency" : "USD",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "Adobe Creative Cloud",
+    "nextChargeDate" : "2026-08-19T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 19.99,
+        "currency" : "USD",
+        "date" : "2026-05-19T00:00:00Z",
+        "mcc" : "5734",
+        "rawDescription" : "AMZ*Adobe, United States of America",
+        "sourceLine" : "USD 19.99; Merchant: AMZ*Adobe, United States of America; MCC: 5734; Card: 000000******0000; Date: 19\/05\/2026"
+      },
+      {
+        "amount" : 19.99,
+        "currency" : "USD",
+        "date" : "2026-06-19T00:00:00Z",
+        "mcc" : "5734",
+        "rawDescription" : "AMZ*Adobe, United States of America",
+        "sourceLine" : "USD 19.99; Merchant: AMZ*Adobe, United States of America; MCC: 5734; Card: 000000******0000; Date: 19\/06\/2026"
+      },
+      {
+        "amount" : 19.99,
+        "currency" : "USD",
+        "date" : "2026-07-19T00:00:00Z",
+        "mcc" : "5734",
+        "rawDescription" : "AMZ*Adobe, United States of America",
+        "sourceLine" : "USD 19.99; Merchant: AMZ*Adobe, United States of America; MCC: 5734; Card: 000000******0000; Date: 19\/07\/2026"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 11.99,
+    "cadence" : "monthly",
+    "confidence" : "confident",
+    "currency" : "USD",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "Apple",
+    "nextChargeDate" : "2026-08-21T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 11.99,
+        "currency" : "USD",
+        "date" : "2026-06-18T00:00:00Z",
+        "mcc" : "5818",
+        "rawDescription" : "APPLE.COM\/BILL, Ireland",
+        "sourceLine" : "USD 11.99; Merchant: APPLE.COM\/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 18\/06\/2026"
+      },
+      {
+        "amount" : 11.99,
+        "currency" : "USD",
+        "date" : "2026-06-21T00:00:00Z",
+        "mcc" : "5818",
+        "rawDescription" : "APPLE.COM\/BILL, Ireland",
+        "sourceLine" : "USD 11.99; Merchant: APPLE.COM\/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 21\/06\/2026"
+      },
+      {
+        "amount" : 11.99,
+        "currency" : "USD",
+        "date" : "2026-07-21T00:00:00Z",
+        "mcc" : "5818",
+        "rawDescription" : "APPLE.COM\/BILL, Ireland",
+        "sourceLine" : "USD 11.99; Merchant: APPLE.COM\/BILL, Ireland; MCC: 5818; Card: 000000******0000; Date: 21\/07\/2026"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 42.45,
+    "cadence" : "annual",
+    "confidence" : "uncertain",
+    "currency" : "GEL",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "Canva",
+    "nextChargeDate" : "2027-05-10T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 42.45,
+        "conversion" : {
+          "bankRate" : 2.6843,
+          "from" : "USD",
+          "schemeRate" : 2.6498,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-05-10T00:00:00Z",
+        "mcc" : "5045",
+        "rawDescription" : "PAYPAL *CANVAPTYLIM, Australia",
+        "sourceLine" : "GEL 42.45; Merchant: PAYPAL *CANVAPTYLIM, Australia; MCC: 5045; Card: 000000******0000; Date: 10\/05\/2026 Card scheme conversion rate (USD-GEL): 2.6498 Bank conversion rate (USD-GEL): 2.6843"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 5,
+    "cadence" : "monthly",
+    "confidence" : "probable",
+    "currency" : "GEL",
+    "hasEnded" : true,
+    "isVariableAmount" : false,
+    "merchant" : "MERCHANT002",
+    "nextChargeDate" : "2026-07-04T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 5,
+        "currency" : "GEL",
+        "date" : "2026-05-06T00:00:00Z",
+        "mcc" : "7299",
+        "rawDescription" : "MERCHANT002",
+        "sourceLine" : "GEL 5.00; Merchant: MERCHANT002; MCC: 7299; Card: 000000******0000; Date: 06\/05\/2026"
+      },
+      {
+        "amount" : 5,
+        "currency" : "GEL",
+        "date" : "2026-06-04T00:00:00Z",
+        "mcc" : "7299",
+        "rawDescription" : "MERCHANT002",
+        "sourceLine" : "GEL 5.00; Merchant: MERCHANT002; MCC: 7299; Card: 000000******0000; Date: 04\/06\/2026"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 8.99,
+    "cadence" : "monthly",
+    "confidence" : "confident",
+    "currency" : "EUR",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "MERCHANT026",
+    "nextChargeDate" : "2026-08-21T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 8.99,
+        "currency" : "EUR",
+        "date" : "2026-05-21T00:00:00Z",
+        "mcc" : "5815",
+        "rawDescription" : "MERCHANT026",
+        "sourceLine" : "EUR 8.99; Merchant: MERCHANT026; MCC: 5815; Card: 000000******0000; Date: 21\/05\/2026"
+      },
+      {
+        "amount" : 8.99,
+        "currency" : "EUR",
+        "date" : "2026-06-21T00:00:00Z",
+        "mcc" : "5815",
+        "rawDescription" : "MERCHANT026",
+        "sourceLine" : "EUR 8.99; Merchant: MERCHANT026; MCC: 5815; Card: 000000******0000; Date: 21\/06\/2026"
+      },
+      {
+        "amount" : 8.99,
+        "currency" : "EUR",
+        "date" : "2026-07-21T00:00:00Z",
+        "mcc" : "5815",
+        "rawDescription" : "MERCHANT026",
+        "sourceLine" : "EUR 8.99; Merchant: MERCHANT026; MCC: 5815; Card: 000000******0000; Date: 21\/07\/2026"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 35,
+    "cadence" : "monthly",
+    "confidence" : "confident",
+    "currency" : "GEL",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "Magti",
+    "nextChargeDate" : "2026-08-24T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 35,
+        "currency" : "GEL",
+        "date" : "2026-05-20T00:00:00Z",
+        "mcc" : "4814",
+        "rawDescription" : "FLT*MAGTICOM, Georgia",
+        "sourceLine" : "GEL 35.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 20\/05\/2026"
+      },
+      {
+        "amount" : 35,
+        "currency" : "GEL",
+        "date" : "2026-06-20T00:00:00Z",
+        "mcc" : "4814",
+        "rawDescription" : "FLT*MAGTICOM, Georgia",
+        "sourceLine" : "GEL 35.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 20\/06\/2026"
+      },
+      {
+        "amount" : 35,
+        "currency" : "GEL",
+        "date" : "2026-07-24T00:00:00Z",
+        "mcc" : "4814",
+        "rawDescription" : "FLT*MAGTICOM, Georgia",
+        "sourceLine" : "GEL 35.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 24\/07\/2026"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 1,
+    "cadence" : "monthly",
+    "confidence" : "uncertain",
+    "currency" : "GEL",
+    "hasEnded" : true,
+    "isVariableAmount" : false,
+    "merchant" : "Magti",
+    "nextChargeDate" : "2026-07-12T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 1,
+        "currency" : "GEL",
+        "date" : "2026-06-12T00:00:00Z",
+        "mcc" : "4814",
+        "rawDescription" : "FLT*MAGTICOM, Georgia",
+        "sourceLine" : "GEL 1.00; Merchant: FLT*MAGTICOM, Georgia; MCC: 4814; Card: 000000******0000; Date: 12\/06\/2026"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 14.99,
+    "cadence" : "monthly",
+    "confidence" : "confident",
+    "currency" : "GEL",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "Setanta Sports",
+    "nextChargeDate" : "2026-08-10T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 14.99,
+        "conversion" : {
+          "bankRate" : 2.6859,
+          "from" : "USD",
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-05-10T00:00:00Z",
+        "mcc" : "5734",
+        "rawDescription" : "SETANTA.COM, United Kingdom of Great Britain and Northern Ireland",
+        "sourceLine" : "GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10\/05\/2026 Bank conversion rate (USD-GEL): 2.6859"
+      },
+      {
+        "amount" : 14.99,
+        "conversion" : {
+          "bankRate" : 2.6593,
+          "from" : "USD",
+          "schemeRate" : 2.6206,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-06-10T00:00:00Z",
+        "mcc" : "5734",
+        "rawDescription" : "SETANTA.COM, United Kingdom of Great Britain and Northern Ireland",
+        "sourceLine" : "GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10\/06\/2026 Card scheme conversion rate (USD-GEL): 2.6206 Bank conversion rate (USD-GEL): 2.6593"
+      },
+      {
+        "amount" : 14.99,
+        "conversion" : {
+          "bankRate" : 2.6371,
+          "from" : "USD",
+          "schemeRate" : 2.5979,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-07-10T00:00:00Z",
+        "mcc" : "5734",
+        "rawDescription" : "SETANTA.COM, United Kingdom of Great Britain and Northern Ireland",
+        "sourceLine" : "GEL 14.99; Merchant: SETANTA.COM, United Kingdom of Great Britain and Northern Ireland; MCC: 5734; Card: 000000******0000; Date: 10\/07\/2026 Card scheme conversion rate (USD-GEL): 2.5979 Bank conversion rate (USD-GEL): 2.6371"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 15.2,
+    "cadence" : "monthly",
+    "confidence" : "confident",
+    "currency" : "GEL",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "Spotify",
+    "nextChargeDate" : "2026-08-20T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 15.48,
+        "conversion" : {
+          "bankRate" : 2.6751,
+          "from" : "USD",
+          "schemeRate" : 2.6371,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-05-20T00:00:00Z",
+        "mcc" : "4816",
+        "rawDescription" : "PAYPAL *SPOTIFY*P42A20, United Kingdom of Great Britain and Northern Ireland",
+        "sourceLine" : "GEL 15.48; Merchant: PAYPAL *SPOTIFY*P42A20, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20\/05\/2026 Card scheme conversion rate (USD-GEL): 2.6371 Bank conversion rate (USD-GEL): 2.6751"
+      },
+      {
+        "amount" : 15.35,
+        "conversion" : {
+          "bankRate" : 2.6505,
+          "from" : "USD",
+          "schemeRate" : 2.615,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-06-20T00:00:00Z",
+        "mcc" : "4816",
+        "rawDescription" : "PAYPAL *SPOTIFY*P43B78, United Kingdom of Great Britain and Northern Ireland",
+        "sourceLine" : "GEL 15.35; Merchant: PAYPAL *SPOTIFY*P43B78, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20\/06\/2026 Card scheme conversion rate (USD-GEL): 2.615 Bank conversion rate (USD-GEL): 2.6505"
+      },
+      {
+        "amount" : 15.2,
+        "conversion" : {
+          "bankRate" : 2.6315,
+          "from" : "USD",
+          "schemeRate" : 2.5939,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-07-20T00:00:00Z",
+        "mcc" : "4816",
+        "rawDescription" : "PAYPAL *SPOTIFY*P44C5B, United Kingdom of Great Britain and Northern Ireland",
+        "sourceLine" : "GEL 15.20; Merchant: PAYPAL *SPOTIFY*P44C5B, United Kingdom of Great Britain and Northern Ireland; MCC: 4816; Card: 000000******0000; Date: 20\/07\/2026 Card scheme conversion rate (USD-GEL): 2.5939 Bank conversion rate (USD-GEL): 2.6315"
+      }
+    ],
+    "priceChanges" : [
+
+    ]
+  },
+  {
+    "amount" : 17.49,
+    "cadence" : "monthly",
+    "confidence" : "confident",
+    "currency" : "GEL",
+    "hasEnded" : false,
+    "isVariableAmount" : false,
+    "merchant" : "YouTube Premium",
+    "nextChargeDate" : "2026-08-28T00:00:00Z",
+    "occurrences" : [
+      {
+        "amount" : 10.29,
+        "conversion" : {
+          "bankRate" : 2.6716,
+          "from" : "USD",
+          "schemeRate" : 2.6317,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-05-27T00:00:00Z",
+        "mcc" : "4899",
+        "rawDescription" : "GOOGLE *YouTubePremium, United States of America",
+        "sourceLine" : "GEL 10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 4899; Card: 000000******0000; Date: 27\/05\/2026 Card scheme conversion rate (USD-GEL): 2.6317 Bank conversion rate (USD-GEL): 2.6716"
+      },
+      {
+        "amount" : 17.49,
+        "conversion" : {
+          "bankRate" : 2.6462,
+          "from" : "USD",
+          "schemeRate" : 2.6066,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-06-27T00:00:00Z",
+        "mcc" : "5817",
+        "rawDescription" : "GOOGLE *YouTubePremium, United States of America",
+        "sourceLine" : "GEL 17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 5817; Card: 000000******0000; Date: 27\/06\/2026 Card scheme conversion rate (USD-GEL): 2.6066 Bank conversion rate (USD-GEL): 2.6462"
+      },
+      {
+        "amount" : 17.49,
+        "conversion" : {
+          "bankRate" : 2.6278,
+          "from" : "USD",
+          "schemeRate" : 2.5911,
+          "to" : "GEL"
+        },
+        "currency" : "GEL",
+        "date" : "2026-07-28T00:00:00Z",
+        "mcc" : "5817",
+        "rawDescription" : "GOOGLE *YouTubePremium, United States of America",
+        "sourceLine" : "GEL 17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC: 5817; Card: 000000******0000; Date: 28\/07\/2026 Card scheme conversion rate (USD-GEL): 2.5911 Bank conversion rate (USD-GEL): 2.6278"
+      }
+    ],
+    "priceChanges" : [
+      {
+        "date" : "2026-06-27T00:00:00Z",
+        "from" : 10.29,
+        "to" : 17.49
+      }
+    ]
+  }
+]

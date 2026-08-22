@@ -20,7 +20,8 @@ PDF → Ingestion → Normalization → Detection → Persistence → UI
    TBC  770 transactions → 6 subscriptions (the largest of three)
 ```
 
-**511 tests, `swift test` ~2s here where the PDFs exist. No simulator needed. iOS build green, no
+**527 tests, `swift test` ~2s here where the PDFs exist — and they all pass without them too, which
+they did not before both banks had a committed fixture. No simulator needed. iOS build green, no
 warnings. All five quality gates in §Verifying clean** — bar one pre-existing `"GEL"` in
 `Catalog/MerchantSeed.swift:395`, which is a bundled price point rather than an assumption in logic.
 
@@ -197,7 +198,24 @@ format labels on the assumption the three TBC files were different people. They 
 and a name reached the session. Probe by **hypothesis instead**: supply the candidate string, get
 back a count and a masked shape, so nothing unknown is ever printed.
 
-### The golden fixture
+### The golden fixtures
+
+**Both banks have one now.** `Tests/Fixtures/bog-statement-01.txt` is derived from the full BOG
+statement: 326 real records with real dates, amounts, currencies, MCCs and conversion rates. 132
+merchants became `MERCHANT###`; 109 charges at brands the catalog already ships survive by name.
+The three `PAYPAL *SPOTIFY*` reference strings are among them deliberately — folding those into one
+subscription was a failure only real data ever exposed, and until now only a local statement proved
+it stayed fixed.
+
+**A brand is public; the branch it was bought at is not.** BOG appends either a country, which
+identifies nobody, or a city and street, which says where somebody shops — two survived the first
+pass as full addresses before it was caught. 62 address tails were trimmed, and `namesNoBranchAddress`
+keeps it that way.
+
+Why it mattered: every BOG suite is gated on `Fixtures/local`, which is gitignored, so **the launch
+bank's parser had no test that survived leaving this laptop** — not on another machine, not in CI.
+Verified by hiding `Fixtures/local` and running: 527 tests still pass, `BOG golden fixture` among
+them.
 
 `Tests/Fixtures/tbc-statement-01.txt` is derived from the largest TBC statement: 770 real records,
 with real dates, amounts, currencies and MCCs. **Only a merchant the bundled catalog already knows
@@ -264,11 +282,22 @@ re-render each record and re-parse to prove the rendering round-trips.
    a bare number because the dots are shapes; no section heading anywhere carried `.isHeader`, so the
    rotor had nothing to jump between; the locked widget announced its fake "000.00" as this month's
    total; and three decorative SF Symbols read their own names into combined labels. Two keys were
-   added (`common.progress`, `upcoming.dayCharges`). **Still nobody has listened** — turn VoiceOver
-   on and walk the five screens.
+   added (`common.progress`, `upcoming.dayCharges`). **The first real listen found the first real
+   bug, below.**
+10a. **VoiceOver cannot scroll: the three-finger scroll gesture does nothing.** Found on device,
+   2026-08-22, during the first listening pass. Not yet diagnosed and not yet narrowed to a screen —
+   ask which one before hunting. Prime suspects, in order: a container swallowing the scroll view by
+   combining its children, so VoiceOver sees one element and has nothing to scroll; `UpcomingView`'s
+   `pageGesture`, a `DragGesture` sitting on the calendar section and competing for the same touches;
+   and the two overlays on `SubscriptionsView` — `BadePullNet` and `BadeMoneyRain` — though both are
+   already `accessibilityHidden`. **This is why VoiceOver is not declared** in App Store Connect's
+   accessibility labels; Dark Interface, Larger Text, Reduced Motion and Differentiate Without Colour
+   Alone are, and Sufficient Contrast is not, since the palette never reads `colorSchemeContrast`.
 11. **Snapshot tests need a simulator**, which is not wanted here, so UI regressions are caught by eye.
-12. **The end-to-end run** the user asked for has still not happened, and neither has §14.7's
-   under-60-seconds cold start ever been timed.
+12. ~~The end-to-end run, and §14.7's cold start.~~ **Both done, 2026-08-22.** Run on the device
+   from an empty state, and the monthly total was reached in under sixty seconds. §14.7 is
+   satisfied by measurement rather than by assumption. The figure itself was not recorded, so if a
+   margin ever matters, time it again.
 13. **Detection reports far less than the statements contain.** Ended subscriptions are now shown
    as ended rather than dropped, which recovered several; the remaining gap is the repeat candidates
    in item 1.
