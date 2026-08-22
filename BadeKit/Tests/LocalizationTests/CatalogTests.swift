@@ -71,6 +71,23 @@ struct StringCatalogTests {
         }
     }
 
+    /// A translation that loses a placeholder formats the wrong argument into the wrong slot, and
+    /// the only way to see it is to run the app in that language and reach that screen. Georgian
+    /// gets edited far more than English does, so the parity is worth pinning here.
+    @Test func everyTranslationCarriesTheSamePlaceholders() {
+        let placeholder = /%(?:\d+\$)?(?:#@[A-Za-z]+@|lld|lf|@)/
+        for (key, entry) in Self.catalog.strings {
+            guard let english = entry.localizations["en"], let georgian = entry.localizations["ka"]
+            else { continue }
+            let expected = english.stringUnit.value.matches(of: placeholder).map { String($0.0) }
+            let actual = georgian.stringUnit.value.matches(of: placeholder).map { String($0.0) }
+
+            #expect(
+                expected.sorted() == actual.sorted(),
+                "\(key) has \(expected) in English but \(actual) in Georgian")
+        }
+    }
+
     @Test func noEntryIsBlank() {
         for (key, entry) in Self.catalog.strings {
             for (language, localization) in entry.localizations {

@@ -98,6 +98,22 @@
         }
       }
     },
+    "common.dismiss": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dismiss"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "დახურვა"
+          }
+        }
+      }
+    },
     "common.ok": {
       "localizations": {
         "en": {
@@ -114,6 +130,22 @@
         }
       }
     },
+    "common.progress": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მიმდინარეობა"
+          }
+        }
+      }
+    },
     "common.working": {
       "extractionState": "manual",
       "localizations": {
@@ -126,7 +158,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "მუშაობს"
+            "value": "მიმდინარეობს"
           }
         }
       }
@@ -222,7 +254,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "%1$@ · ანგარიშსწორება %2$@-ში"
+            "value": "%1$@ · გადახდა %2$@-ში"
           }
         }
       }
@@ -270,7 +302,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ამონაწერის ხელახლა იმპორტი კვლავ იპოვის მას."
+            "value": "ამონაწერის ხელახლა იმპორტისას ისევ მოიძებნება."
           }
         }
       }
@@ -335,7 +367,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "თქვენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით იაფი დაგიჯდათ."
+            "value": "შენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით იაფია."
           }
         }
       }
@@ -352,7 +384,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "თქვენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით იაფი დაგიჯდათ."
+            "value": "შენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით იაფია."
           }
         }
       }
@@ -369,7 +401,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "თქვენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით ძვირი დაგიჯდათ."
+            "value": "შენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით ძვირია."
           }
         }
       }
@@ -386,7 +418,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "თქვენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით ძვირი დაგიჯდათ."
+            "value": "შენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით ძვირია."
           }
         }
       }
@@ -402,7 +434,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "გადახდილია პირდაპირ შენი %@ ბალანსიდან — კონვერტაცია არ მომხდარა და ზედნადებიც არ არის."
+            "value": "გადახდილია პირდაპირ შენი %@ ბალანსიდან — კონვერტაცია არ მომხდარა და დანამატიც არ არის."
           }
         }
       }
@@ -466,7 +498,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "სხვაობა კურსებს შორის"
+            "value": "კურსების სხვაობა"
           }
         }
       }
@@ -482,7 +514,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "საგადახდო სისტემის კურსი"
+            "value": "ბარათის სისტემის კურსი"
           }
         }
       }
@@ -899,7 +931,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "უკვე ატვირთულია"
+            "value": "უკვე იმპორტირებულია"
           }
         }
       }
@@ -981,7 +1013,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "აირჩიეთ სხვა ფაილი"
+            "value": "აირჩიე სხვა ფაილი"
           }
         }
       }
@@ -1029,7 +1061,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ამონაწერიდან თითქმის ვერაფერი წაიკითხა."
+            "value": "ამონაწერიდან თითქმის ვერაფერი ამოიკითხა."
           }
         }
       }
@@ -1061,7 +1093,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ეს არ ჰგავს ამონაწერს, რომლის წაკითხვაც ბადეს ჯერ შეუძლია."
+            "value": "ეს არ ჰგავს ამონაწერს, რომლის წაკითხვაც Bade-ს ჯერ შეუძლია."
           }
         }
       }
@@ -1173,7 +1205,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "დამუშავება ხდება ტელეფონში"
+            "value": "დამუშავება მხოლოდ ამ ტელეფონში ხდება"
           }
         }
       }
@@ -1222,7 +1254,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ვამოწმებ ტრანზაქციებს"
+            "value": "ტრანზაქციები მოწმდება"
           }
         }
       }
@@ -1286,7 +1318,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "აპლიკაცია, რომელიც გამოწერას ითხოვს გამოწერების თვალყურისთვის, სასაცილოა. Bade Pro ერთხელ იყიდება და შენია."
+            "value": "აპლიკაცია, რომელიც გამოწერების საკონტროლოდ თვითონ ითხოვს გამოწერას, ანეკდოტია. Bade ერთხელ იყიდება და შენია."
           }
         }
       }
@@ -1303,7 +1335,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "მომავალი გადახდები"
+            "value": "მომავალი ჩამოჭრები"
           }
         }
       }
@@ -1320,7 +1352,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "კალენდარი იმისა, რაც უნდა გადაიხადოთ, და რა ღირს თითოეული დღე."
+            "value": "კალენდარი — რა ჩამოგეჭრება და რა ჯდება თითოეული დღე."
           }
         }
       }
@@ -1386,7 +1418,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ყველაფერი, რაც Bade-მ იპოვა, CSV ან JSON ფორმატში, როცა გინდათ."
+            "value": "ყველაფერი, რაც Bade-მ იპოვა, CSV ან JSON ფორმატში, როცა მოგინდება."
           }
         }
       }
@@ -1418,7 +1450,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ვალუტის კურსის ზედნადები"
+            "value": "ვალუტის კონვერტაციის დანამატი"
           }
         }
       }
@@ -1434,7 +1466,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით."
+            "value": "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით — ყველა უცხოურ ჩამოჭრაზე."
           }
         }
       }
@@ -1578,7 +1610,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ერთი გადახდა.\nარასოდეს გამოწერა."
+            "value": "ერთი გადახდა.\nგამოწერა — არასოდეს."
           }
         }
       }
@@ -1738,7 +1770,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "%@-ს ჩამოგეჭრება"
+            "value": "%@ — ჩამოგეჭრება"
           }
         }
       }
@@ -1942,7 +1974,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "დასრულდა %1$@"
+            "value": "დასრულდა: %1$@"
           }
         }
       }
@@ -1959,6 +1991,22 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "გამოწერაა"
+          }
+        }
+      }
+    },
+    "review.leadIn": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only what Bade was sure of is ticked. Tick anything else you recognise."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "მონიშნულია მხოლოდ ის, რაშიც Bade დარწმუნებულია. მონიშნე ისიც, რასაც იცნობ."
           }
         }
       }
@@ -2006,7 +2054,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ვერ შევინახეთ. სცადეთ ხელახლა."
+            "value": "შენახვა ვერ მოხერხდა. სცადე ხელახლა."
           }
         }
       }
@@ -2082,7 +2130,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "დარწმუნებული"
+            "value": "ნამდვილად"
           }
         }
       }
@@ -2178,7 +2226,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ეჭვქვეშ"
+            "value": "გაურკვეველი"
           }
         }
       }
@@ -2210,7 +2258,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "შეამოწმეთ ნაპოვნი"
+            "value": "შეამოწმე ნაპოვნი"
           }
         }
       }
@@ -2306,7 +2354,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "შერჩეულია ავტომატურად"
+            "value": "შენთვის შერჩეული"
           }
         }
       }
@@ -2482,7 +2530,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ერთადერთი, რასაც Bade აგზავნის. ეროვნულ ბანკს ერთი დღის კურსებს ეკითხება — ანგარიშის მონაცემების და მაღაზიების სახელების გარეშე — და მხოლოდ მაშინ, როცა ამონაწერში შესადარებელი კურსი არ არის."
+            "value": "ერთადერთი, რასაც Bade აგზავნის. ეროვნულ ბანკს ერთი დღის კურსებს ეკითხება — ანგარიშის მონაცემების და სერვისების სახელების გარეშე — და მხოლოდ მაშინ, როცა ამონაწერში შესადარებელი კურსი არ არის."
           }
         }
       }
@@ -2578,7 +2626,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "დროს"
+            "value": "დრო"
           }
         }
       }
@@ -2754,7 +2802,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ნაგულისხმევი"
+            "value": "სტანდარტული"
           }
         }
       }
@@ -2850,7 +2898,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Bade-ის ამ ვერსიამ ვერ გახსნა ტელეფონზე შენახული მონაცემები და თავიდან დაიწყო. არაფერი წაშლილა — ძველი მონაცემები გვერდით გადაინახა. ატვირთე ამონაწერი ხელახლა."
+            "value": "Bade-ის ამ ვერსიამ ვერ გახსნა ტელეფონზე შენახული მონაცემები და თავიდან დაიწყო. არაფერი წაშლილა — ძველი მონაცემები გვერდით გადაინახა. ამონაწერი ხელახლა დაამატე."
           }
         }
       }
@@ -3042,7 +3090,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "მონიშნე აქტიურად"
+            "value": "აქტიურად მონიშვნა"
           }
         }
       }
@@ -3058,7 +3106,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "მონიშნე გაუქმებულად"
+            "value": "გაუქმებულად მონიშვნა"
           }
         }
       }
@@ -3090,7 +3138,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ამჟამად არაფერი გიჭრით"
+            "value": "ამჟამად არაფერს იხდი"
           }
         }
       }
@@ -3138,7 +3186,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ფასის მიხედვით"
+            "value": "ფასით"
           }
         }
       }
@@ -3154,7 +3202,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "სახელის მიხედვით"
+            "value": "სახელით"
           }
         }
       }
@@ -3240,7 +3288,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "%#@count@ არ გადაიყვანა"
+            "value": "%#@count@ ვერ კონვერტირდა"
           },
           "substitutions": {
             "count": {
@@ -3327,6 +3375,70 @@
         }
       }
     },
+    "tip.swipeARow.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit it, or mark it cancelled."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეცვალე ან გაუქმებულად მონიშნე."
+          }
+        }
+      }
+    },
+    "tip.swipeARow.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe any row"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "გადაასრიალე ნებისმიერი მწკრივი"
+          }
+        }
+      }
+    },
+    "tip.tapADay.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The list below shows just that day."
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ქვემოთ სია მხოლოდ იმ დღეს გაჩვენებს."
+          }
+        }
+      }
+    },
+    "tip.tapADay.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a day"
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "შეეხე რომელიმე დღეს"
+          }
+        }
+      }
+    },
     "upcoming.cancelled": {
       "extractionState": "manual",
       "localizations": {
@@ -3340,6 +3452,66 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "გაუქმებული"
+          }
+        }
+      }
+    },
+    "upcoming.dayCharges %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@count@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg charge"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg charges"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ka": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%#@count@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "needs_review",
+                      "value": "%arg ჩამოჭრა"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "needs_review",
+                      "value": "%arg ჩამოჭრა"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3403,7 +3575,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ჩამოჭრები არ არის. დაამატე გამოწერა ან ატვირთე ამონაწერი."
+            "value": "ჩამოჭრები არ არის. დაამატე გამოწერა ან შემოიტანე ამონაწერი."
           }
         }
       }
@@ -3467,7 +3639,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ამ თვეში"
+            "value": "მიმდინარე თვე"
           }
         }
       }
@@ -3531,7 +3703,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "გახსენით ბანკის აპი → ანგარიშები"
+            "value": "გახსენი ბანკის აპი → ანგარიშები"
           }
         }
       }
@@ -3579,7 +3751,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "როგორ ჩამოტვირთოთ ამონაწერი"
+            "value": "როგორ ჩამოტვირთო ამონაწერი"
           }
         }
       }
@@ -3627,7 +3799,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ბანკის პაროლი არასდროს გვჭირდება."
+            "value": "Bade არასოდეს ითხოვს ბანკის პაროლს."
           }
         }
       }
@@ -3643,7 +3815,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ბადე იპოვის ყველა განმეორებად ჩამოჭრას თქვენს საბანკო ამონაწერში."
+            "value": "Bade იპოვის ყველა განმეორებად ჩამოჭრას შენს საბანკო ამონაწერში."
           }
         }
       }
@@ -3659,7 +3831,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "რამდენს იხდით თვეში?"
+            "value": "რამდენს იხდი თვეში?"
           }
         }
       }
@@ -3707,7 +3879,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "ატვირთე ამონაწერი, რომ ჯამი აქ გამოჩნდეს."
+            "value": "შემოიტანე ამონაწერი, რომ ჯამი აქ გამოჩნდეს."
           }
         }
       }
@@ -3773,7 +3945,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "%@-დან ამ თვეში"
+            "value": "ამ თვეში სულ %@"
           }
         }
       }
@@ -3789,7 +3961,7 @@
         "ka": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "კიდევ მოსალოდნელი"
+            "value": "დარჩენილი"
           }
         }
       }

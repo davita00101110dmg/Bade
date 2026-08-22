@@ -22,6 +22,17 @@ extension LocalizedStringResource {
     public static var importing: ImportStrings { ImportStrings() }
     public static var reminderPrompt: ReminderPromptStrings { ReminderPromptStrings() }
     public static var app: AppStrings { AppStrings() }
+    public static var tip: TipStrings { TipStrings() }
+
+    /// Said in a popover anchored to the thing it describes, once, and never again once the
+    /// gesture has been performed or the tip closed. Nothing is taught up front: the gesture is
+    /// the only part worth teaching, and where it happens is the only place worth saying so.
+    public struct TipStrings {
+        public var swipeARowTitle: LocalizedStringResource { string("tip.swipeARow.title") }
+        public var swipeARowMessage: LocalizedStringResource { string("tip.swipeARow.message") }
+        public var tapADayTitle: LocalizedStringResource { string("tip.tapADay.title") }
+        public var tapADayMessage: LocalizedStringResource { string("tip.tapADay.message") }
+    }
 
     /// The wordmark. Localised like everything else, because "Bade" is ბადე — the app is named for
     /// the net, and whether the Georgian build says so is a decision, not an accident.
@@ -97,6 +108,12 @@ extension LocalizedStringResource {
         public var previous: LocalizedStringResource { string("upcoming.previous") }
         public var next: LocalizedStringResource { string("upcoming.next") }
         public var loadFailed: LocalizedStringResource { string("upcoming.loadFailed") }
+
+        /// What a calendar tile is worth saying out loud. The dots are shapes, so a day read as a
+        /// bare number and the whole point of the grid was lost on anyone using VoiceOver.
+        public func dayCharges(_ count: Int) -> LocalizedStringResource {
+            string("upcoming.dayCharges \(count)")
+        }
     }
 
     public struct SettingsStrings {
@@ -166,6 +183,10 @@ extension LocalizedStringResource {
         public var ok: LocalizedStringResource { string("common.ok") }
         /// What a progress bar reads as when there is no fraction to announce yet.
         public var working: LocalizedStringResource { string("common.working") }
+        /// A progress bar announced a percentage and never what it was a percentage of.
+        public var progress: LocalizedStringResource { string("common.progress") }
+        /// Closing a tip, which is not the same act as closing a screen.
+        public var dismiss: LocalizedStringResource { string("common.dismiss") }
     }
 
     /// The home screen widget, which has room for very little and must choose well.
@@ -327,6 +348,10 @@ extension LocalizedStringResource {
 
     public struct ReviewStrings {
         public var title: LocalizedStringResource { string("review.title") }
+        /// Permanent, unlike a hint. Only confident detections arrive ticked, and that is true of
+        /// every statement anyone ever imports — so an empty box reads as a verdict Bade reached
+        /// rather than as the question it is, on every single import.
+        public var leadIn: LocalizedStringResource { string("review.leadIn") }
         public var tierConfident: LocalizedStringResource { string("review.tier.confident") }
         public var tierProbable: LocalizedStringResource { string("review.tier.probable") }
         public var tierUncertain: LocalizedStringResource { string("review.tier.uncertain") }
