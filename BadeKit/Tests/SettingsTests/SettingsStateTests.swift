@@ -100,6 +100,33 @@ struct SettingsStateTests {
 
         #expect(subject.apply(.appeared) == .load)
     }
+
+    @Test func anEntitlementThatArrivesReachesTheRoot() {
+        var subject = state()
+
+        #expect(subject.apply(.proChecked(true)) == .report(.proChanged(true)))
+        #expect(subject.isPro)
+    }
+
+    /// The refund case. This screen re-reads the entitlement every time it appears, and it used to
+    /// keep a `false` to itself — which left the root's cache saying Pro, so Upcoming, the FX card
+    /// and the widget all stayed unlocked until the next launch.
+    @Test func anEntitlementThatIsRevokedAlsoReachesTheRoot() {
+        var subject = SettingsState(currency: "GEL", language: .english, isPro: true)
+
+        #expect(subject.apply(.proChecked(false)) == .report(.proChanged(false)))
+        #expect(subject.isPro == false)
+    }
+
+    /// Settings re-reads on every appearance and on every return to the foreground, so the
+    /// unchanged answer is the common case and must stay silent.
+    @Test func rereadingTheSameEntitlementReportsNothing() {
+        var entitled = SettingsState(currency: "GEL", language: .english, isPro: true)
+        var unentitled = state()
+
+        #expect(entitled.apply(.proChecked(true)) == nil)
+        #expect(unentitled.apply(.proChecked(false)) == nil)
+    }
 }
 
 @Suite("Exported data")

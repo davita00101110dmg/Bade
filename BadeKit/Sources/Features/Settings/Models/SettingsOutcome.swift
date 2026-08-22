@@ -14,8 +14,10 @@ public enum SettingsOutcome: Equatable, Sendable {
     /// Both reschedule what iOS is holding, which only the root can do.
     case reminderLeadChanged(ReminderLead)
     case reminderTimeChanged(Int)
-    /// Bought, or restored, or redeemed. The root holds the entitlement everything gated reads.
-    case proUnlocked
+    /// Bought, restored, redeemed — or refunded. The root holds the entitlement everything gated
+    /// reads, so it has to hear both answers: reporting only the yes left a revoked purchase
+    /// unlocking the app until the next launch.
+    case proChanged(Bool)
     /// Nothing is stored any more, so the root belongs back on Welcome.
     case dataCleared
 }

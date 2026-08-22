@@ -417,9 +417,10 @@ public struct BadeRootView: View {
         case .reminderTimeChanged(let minutes):
             reminderTime = minutes
             Task { await rescheduleFromStore() }
-        // Reminders were gated, so whatever lead was already chosen takes effect now.
-        case .proUnlocked:
-            hasEntitlement = true
+        // Rescheduled either way: a lead that was gated takes effect now, and a revoked
+        // entitlement resolves the lead to `.off`, which clears what iOS is still holding.
+        case .proChanged(let isEntitled):
+            hasEntitlement = isEntitled
             Task { await rescheduleFromStore() }
         case .dataCleared: clearedEverything()
         }

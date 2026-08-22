@@ -136,12 +136,13 @@ extension SettingsState {
             isReminderDenied = isDenied
             return nil
 
-        /// Bought on the page this screen pushes, or redeemed with a promo code somewhere else
-        /// entirely. Either way the root has to store it, since it owns everything that is gated.
+        /// Bought on the page this screen pushes, redeemed with a promo code somewhere else
+        /// entirely, or revoked by a refund. Either direction has to reach the root, since it owns
+        /// everything that is gated and this screen is where the entitlement is re-read.
         case .proChecked(let isPro):
             guard isPro != self.isPro else { return nil }
             self.isPro = isPro
-            return isPro ? .report(.proUnlocked) : nil
+            return .report(.proChanged(isPro))
 
         case .deleteAllRequested:
             isConfirmingDeleteAll = true
