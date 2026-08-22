@@ -51,34 +51,33 @@ private func typed(
 @Suite("Subscription form")
 struct SubscriptionFormTests {
     /// A decimal pad held down used to produce an amount of any length at all, which then had to be
-    /// totalled, laid out in a row and read aloud.
-    @Test func anAmountStopsAcceptingCharactersAtTheLimit() {
+    /// totalled, laid out in a row, drawn on a widget and read aloud.
+    @Test func anAmountStopsGrowingAtTheLimit() {
         var subject = blank()
-        let full = String(repeating: "9", count: DecimalInput.characterLimit)
 
-        _ = subject.apply(.amountChanged(full))
-        #expect(subject.draft.amount == full)
+        _ = subject.apply(.amountChanged("999999999999"))
 
-        _ = subject.apply(.amountChanged(full + "9"))
-        #expect(subject.draft.amount == full, "the extra character never appears")
+        #expect(subject.draft.amount.count == DecimalInput.characterLimit)
     }
 
-    /// Refused rather than truncated: what is already typed stays exactly as it is, which is how a
-    /// full field behaves everywhere else on iOS.
-    @Test func passingTheLimitLeavesWhatWasAlreadyTyped() {
+    /// Truncated rather than refused, and the difference is not academic. Refusing leaves the state
+    /// unchanged, and SwiftUI does not push an unchanged value back into a `TextField` — so typing
+    /// carried on unbounded and the limit only appeared to bite when the field lost focus. Returning
+    /// a shorter string is what makes it apply on the keystroke.
+    @Test func theLimitAppliesOnEveryKeystrokeRatherThanOnLosingFocus() {
         var subject = blank()
-        _ = subject.apply(.amountChanged("35.99"))
 
-        _ = subject.apply(.amountChanged("9999999999999999"))
-
-        #expect(subject.draft.amount == "35.99")
+        for character in "1234.5678" {
+            _ = subject.apply(.amountChanged(subject.draft.amount + String(character)))
+            #expect(subject.draft.amount.count <= DecimalInput.characterLimit)
+        }
+        #expect(subject.draft.amount == "1234.5")
     }
 
-    /// The limit is generous enough that nobody entering a real subscription meets it.
-    @Test func arealisticAmountIsNowhereNearTheLimit() {
-        #expect(DecimalInput.isWithinLimit("999999999.99"))
-        #expect(DecimalInput.isWithinLimit("35.99"))
-        #expect(DecimalInput.isWithinLimit("1234567890123") == false)
+    @Test func arealSubscriptionAmountFitsInside() {
+        #expect(DecimalInput.limited("14.99") == "14.99")
+        #expect(DecimalInput.limited("999.99") == "999.99")
+        #expect(DecimalInput.limited("1200") == "1200")
     }
 
     @Test func aBlankFormCannotBeSaved() {

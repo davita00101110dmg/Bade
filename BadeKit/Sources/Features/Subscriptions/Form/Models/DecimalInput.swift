@@ -5,18 +5,21 @@ import Foundation
 /// both are accepted. Reading input, not formatting output — money is still displayed via `Locale`.
 enum DecimalInput {
     /// How long a typed amount may get. Nothing stopped it before, so a decimal pad held down
-    /// produced an amount of any length at all — which then had to be totalled, laid out in a row
-    /// and read aloud.
+    /// produced an amount of any length at all — which then had to be totalled, laid out in a row,
+    /// drawn on a widget and read aloud.
     ///
-    /// Twelve characters reaches 999,999,999.99, which is past any subscription anyone will ever
-    /// enter and still short enough that the field cannot outgrow the row it sits in. A limit on
-    /// characters rather than on value, because the field is text until it parses and a partly
-    /// typed number has no value to judge.
-    static let characterLimit = 12
+    /// Six characters: 999.99 with decimals, or 999999 without. A subscription is not larger than
+    /// that. On characters rather than on value, because the field is text until it parses and a
+    /// half-typed number has no value to judge yet.
+    static let characterLimit = 6
 
-    /// Refuses rather than truncates: the extra character simply never appears, which is how a
-    /// full field behaves everywhere else on iOS.
-    static func isWithinLimit(_ text: String) -> Bool { text.count <= characterLimit }
+    /// Truncates rather than refuses.
+    ///
+    /// Refusing was tried first and does not work: when a binding's setter leaves the source of
+    /// truth alone, SwiftUI does not push the old value back into the field, so typing carried on
+    /// unbounded and the limit only appeared to apply when the field lost focus. Returning a
+    /// shorter string changes the value, which is what makes SwiftUI write it back on the keystroke.
+    static func limited(_ text: String) -> String { String(text.prefix(characterLimit)) }
 
     static func parse(_ text: String) -> Decimal? {
         let trimmed = text.trimmingCharacters(in: .whitespaces).replacingOccurrences(
