@@ -357,7 +357,8 @@ public struct BadeRootView: View {
             model: UpcomingViewModel(
                 currency: currency, calendar: weekStart.calendar, showing: tappedDay,
                 repository: store,
-                rates: { [store] in (try? await store.observedRates()) ?? RateBook() })
+                rates: { [store] in (try? await store.observedRates()) ?? RateBook() }),
+            revision: storeRevision
         ) { subscription in
             SubscriptionDetailView(
                 model: detail(for: subscription), isPro: isPro,

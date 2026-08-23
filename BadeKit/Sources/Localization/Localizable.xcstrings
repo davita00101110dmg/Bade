@@ -1233,7 +1233,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bade read the statement but found no charge that comes back on a rhythm. A longer statement — might work."
+            "value" : "Bade read the statement but found no charge that comes back on a rhythm. A longer statement - might work."
           }
         },
         "ka" : {
@@ -1377,7 +1377,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "შეიტყობ, როცა გამოწერა ჩუმად გაძვირდება — ძველ და ახალ ფასთან ერთად."
+            "value" : "შეიტყობ, როცა გამოწერა ჩუმად გაძვირდება - ძველ და ახალ ფასთან ერთად."
           }
         }
       }
@@ -1446,7 +1446,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "კალენდარი — რა ჩამოგეჭრება და რა ჯდება თითოეული დღე."
+            "value" : "კალენდარი - რა ჩამოგეჭრება და რამდენს ხარჯავ თითოეულ დღეს."
           }
         }
       }
@@ -1514,7 +1514,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ყველაფერი, რაც Bade-მ იპოვა, CSV ან JSON ფორმატში, როცა მოგინდება."
+            "value" : "ყველაფერი, რაც Bade-მ იპოვა, CSV ან JSON ფორმატში."
           }
         }
       }
@@ -1582,7 +1582,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის ქსელის კურსის გვერდით — როცა კონვერტაცია ხდება."
+            "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის ქსელის კურსის გვერდით - როცა კონვერტაცია ხდება."
           }
         }
       }
@@ -1718,7 +1718,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "შეიტყობ გამოწერის განახლებამდე ერთი დღით ადრე — და რამდენი დაგიჯდება."
+            "value" : "შეიტყობ გამოწერის განახლებამდე ერთი დღით ადრე."
           }
         }
       }
@@ -3129,7 +3129,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This version of Bade could not open what was stored on this phone, so it has started fresh. Nothing was deleted — the old data was set aside. Import your statement again."
+            "value" : "This version of Bade could not open what was stored on this phone, so it has started fresh. Nothing was deleted - the old data was set aside. Import your statement again."
           }
         },
         "ka" : {

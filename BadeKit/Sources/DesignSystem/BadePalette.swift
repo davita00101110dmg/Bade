@@ -76,10 +76,11 @@ public enum BadePalette {
     public static let positive = BadeColorPair(
         light: 0x1F_6F_5C, dark: 0x4F_A9_8F,
         lightIncreased: 0x19_59_4A, darkIncreased: 0x54_AC_92)
-    /// Light measured 3.60:1 — under the AA floor at *standard* contrast, and the worst colour in
-    /// the palette. Raising it is the biggest single win here.
+    /// Darkened from #B46A1E, which measured 3.60:1 — under the 4.5:1 AA floor for the 13pt caption
+    /// it carries, and the only colour in the palette that never passed. At 4.81:1 it clears the
+    /// floor with the same margin the rest of the palette keeps rather than scraping it.
     public static let warning = BadeColorPair(
-        light: 0xB4_6A_1E, dark: 0xE0_9A_4E, lightIncreased: 0x74_44_13)
+        light: 0x97_59_19, dark: 0xE0_9A_4E, lightIncreased: 0x74_44_13)
     /// Losing something, and money going the wrong way: a delete, a price rise. The design's
     /// #E08060 for dark; darkened for light, where it would otherwise sit under the 4.5:1 floor.
     public static let destructive = BadeColorPair(

@@ -16,11 +16,17 @@ public struct UpcomingView<Destination: View>: View {
     private let tapTip = TapADayTip()
     private let destination: (Subscription) -> Destination
 
+    /// Counts writes to the store, so the calendar can reload when one lands while it is already on
+    /// screen. Appearance alone is not enough — a subscription edited behind a pushed Detail comes
+    /// back to a screen that never re-appeared, and the day it was charged on would still be there.
+    private let revision: Int
+
     public init(
-        model: UpcomingViewModel,
+        model: UpcomingViewModel, revision: Int = 0,
         @ViewBuilder destination: @escaping (Subscription) -> Destination
     ) {
         _model = State(initialValue: model)
+        self.revision = revision
         self.destination = destination
     }
 
@@ -32,6 +38,8 @@ public struct UpcomingView<Destination: View>: View {
             .toolbarTitleDisplayMode(.inline)
             // Reloaded on every appearance, not once: an edit made in another tab has to show.
             .onAppear { model.send(.appeared) }
+            // Not `task(id:)`, which would also run on the first appearance and load twice.
+            .onChange(of: revision) { model.send(.appeared) }
     }
 
     /// Split from `body` deliberately: the whole screen in one chain takes the type checker past

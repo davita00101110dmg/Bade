@@ -42,6 +42,22 @@ struct PaletteContrastTests {
         #expect(contrast(BadePalette.accent.dark, BadePalette.surface.dark) >= 4.5)
     }
 
+    /// The semantic colours carry words too — a price rise, a total that could not be converted —
+    /// and this suite never checked them. `warning` had sat at 3.60:1 on a 13pt caption since the
+    /// palette was written, which is how the only colour that never passed went unnoticed.
+    @Test(arguments: [
+        ("warning", BadePalette.warning), ("destructive", BadePalette.destructive),
+        ("positive", BadePalette.positive),
+    ])
+    func semanticColoursPassAAOnEverySurface(_ name: String, _ pair: BadeColorPair) {
+        for (surfaceName, surface) in surfaces {
+            let light = contrast(pair.light, surface.light)
+            let dark = contrast(pair.dark, surface.dark)
+            #expect(light >= 4.5, "\(name) on \(surfaceName) light is \(light)")
+            #expect(dark >= 4.5, "\(name) on \(surfaceName) dark is \(dark)")
+        }
+    }
+
     /// Faint ink is only ever used for large or non-essential text, so AA-large (3:1) applies.
     @Test func faintInkPassesAALarge() {
         #expect(contrast(BadePalette.inkFaint.light, BadePalette.surface.light) >= 3.0)
