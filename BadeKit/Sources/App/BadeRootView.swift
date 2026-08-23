@@ -79,6 +79,9 @@ public struct BadeRootView: View {
     /// has no feature of its own to have loaded them.
     @State private var rates = RateBook()
     @State private var reload = UUID()
+    /// How many times the store has announced a write. Handed to the screens that stay on screen
+    /// while one happens, so they reload without the root rebuilding them.
+    @State private var storeRevision = 0
     @State private var tab = Tabs.subscriptions
 
     private let merchants = BundledCatalog()
@@ -214,6 +217,10 @@ public struct BadeRootView: View {
             // the store directly, so the store is what says something changed.
             .task {
                 for await _ in await store.changes() {
+                    // The list is on screen while some of these land — an import started from its
+                    // own toolbar, above all — and a cover dismissing is not an appearance, so
+                    // nothing else would tell it to read the store again.
+                    storeRevision += 1
                     await publishWidget()
                     await rescheduleFromStore()
                 }
@@ -339,7 +346,8 @@ public struct BadeRootView: View {
                 officialRates: officialRates,
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
                 onOutcome: handleSubscriptions),
-            currency: currency, isPro: isPro, onUnlock: { present(.pro) })
+            currency: currency, isPro: isPro, revision: storeRevision,
+            onUnlock: { present(.pro) })
     }
 
     /// Upcoming may not import Subscriptions, so the destination behind one of its rows is

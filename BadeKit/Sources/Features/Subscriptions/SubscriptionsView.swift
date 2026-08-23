@@ -23,16 +23,22 @@ public struct SubscriptionsView: View {
     @State private var pull: CGFloat = 0
     /// Watched rather than owned: Settings can change it while this screen is on screen.
     private let currency: String
+    /// Counts writes to the store, so the list can reload when one lands while it is already on
+    /// screen. `onAppear` is not enough on its own: a cover dismissing is not an appearance, so
+    /// importing a second statement from this screen's own toolbar left the list showing the old
+    /// one until a tab was switched and back.
+    private let revision: Int
     /// Only forwarded: this screen locks nothing itself, but the detail behind a row does.
     private let isPro: Bool
     private let onUnlock: () -> Void
 
     public init(
-        model: SubscriptionsViewModel, currency: String, isPro: Bool,
+        model: SubscriptionsViewModel, currency: String, isPro: Bool, revision: Int = 0,
         onUnlock: @escaping () -> Void
     ) {
         _model = State(initialValue: model)
         self.currency = currency
+        self.revision = revision
         self.isPro = isPro
         self.onUnlock = onUnlock
     }
@@ -86,6 +92,8 @@ public struct SubscriptionsView: View {
             }
             // Reloaded on every appearance, not once: an edit made in another tab has to show.
             .onAppear { model.send(.appeared) }
+            // Not `task(id:)`, which would also run on the first appearance and load twice.
+            .onChange(of: revision) { model.send(.appeared) }
             .task(id: currency) { model.send(.currencyChanged(currency)) }
     }
 
