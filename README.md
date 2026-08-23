@@ -6,7 +6,7 @@
 
 **How much are you paying a month?**
 
-Bade finds every recurring charge in your bank statement — without ever asking for your bank password, and without sending anything anywhere.
+Bade finds the charges that come back in your bank statement — without ever asking for your bank password, and without sending anything anywhere.
 
 </div>
 
@@ -25,7 +25,7 @@ Export a PDF statement from your banking app, share it into Bade, and it reads e
 - **Finds what repeats.** Weekly, monthly, quarterly, semiannual, annual. Bade groups charges by merchant, works out the rhythm, and only calls something a subscription when the dates agree.
 - **Tells you how sure it is.** Three charges on a rhythm is *Confident*. Two is *Probably*. Anything weaker is flagged rather than assumed. You confirm what's real before it's saved.
 - **Catches price changes.** When a subscription quietly goes from 11.99 to 13.99, that shows up in its history with the old price and the new one.
-- **Shows what the conversion cost.** For anything charged in a foreign currency, Bade puts the rate your bank actually used next to the reference rate — and what the gap costs you over a year.
+- **Shows what a conversion cost.** When your bank actually converted a charge, Bade puts the rate it used next to the card scheme's reference rate, and what the gap costs over a year. A foreign charge paid from a balance already in that currency was never converted, and Bade says so rather than inventing a markup.
 - **Knows what's coming.** A calendar of upcoming charges, and a reminder before one lands.
 - **Puts it on your home screen.** A widget with your monthly total and what's next.
 - **Handles the messy parts.** Re-import the same statement and nothing duplicates. A subscription that stopped charging months ago stops being counted. Merchants that rename themselves stay one subscription.
@@ -46,19 +46,19 @@ This is the part that isn't a feature — it's the design.
 
 An app that charges a subscription to track subscriptions is a punchline. Bade Pro is **one payment, no subscription, ever** — bought once and tied to your Apple Account.
 
-Pro covers the FX markup breakdown, upcoming charges, renewal reminders, and widgets.
+Pro covers the upcoming-charges calendar, renewal reminders, the FX markup breakdown, export to CSV or JSON, and the home screen widget.
 
 ## Language & accessibility
 
-English and Georgian throughout — 210 strings, no hardcoded text anywhere in a view. Every screen supports Dynamic Type up to the largest sizes, light and dark appearance, and Reduce Motion. Money always renders with its own symbol (₾, ₺, ֏), placed where the reader's locale expects it.
+English and Georgian throughout — 242 strings, every one reviewed in context by a native speaker, and no hardcoded text anywhere in a view. Every screen supports Dynamic Type to the largest sizes, light and dark appearance, Reduce Motion, and Increase Contrast, with the raised palette solved against measured contrast ratios rather than picked by eye. VoiceOver has been walked screen by screen on a device. Money always renders with its own symbol (₾, ₺, ֏), placed where the reader's locale expects it.
 
 ---
 
 ## Status
 
-In development, pre-release. The import pipeline, detection engine, subscription management, exchange-rate engine, widget, reminders, and purchase flow are built and tested. Statement parsers currently cover two Georgian banks' PDF exports; more formats are the obvious next thing.
+**Submitted to the App Store.** The import pipeline, detection engine, subscription management, exchange-rate engine, widget, reminders, and purchase flow are built and tested, and a purchase has round-tripped through StoreKit for real. Statement parsers cover two Georgian banks' exports; more formats are the obvious next thing.
 
-Some items on the Pro page — category analytics, spending trends, themes and custom icons, price-increase alerts — are planned rather than shipped.
+Category analytics, spending trends, themes, and price-increase alerts are planned rather than shipped, and nothing on the Pro page lists a feature that does not exist.
 
 ## Building
 
@@ -70,7 +70,15 @@ All real code lives in `BadeKit`, a Swift package. The full test suite runs on t
 cd BadeKit && swift test
 ```
 
-484 tests across 63 suites. The package declares macOS purely so `swift test` runs without a simulator; Bade ships iOS-only.
+557 tests across 70 suites. The package declares macOS purely so `swift test` runs without a simulator; Bade ships iOS-only.
+
+A further 57 snapshot references cover eleven screens in five variants — light, dark, Georgian, accessibility text sizes, and Increase Contrast — compared pixel-wise on a simulator:
+
+```sh
+cd BadeKit && xcodebuild -scheme BadeKit-Package \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+  -only-testing:SnapshotTests test
+```
 
 ## How it's built
 
@@ -100,7 +108,9 @@ Two rules shape most of the code:
 
 **Arithmetic is always deterministic Swift.** Where a language model is involved at all, it normalises merchant strings and nothing else. Cadence, totals, FX, and detection are code you can read and test.
 
-Testing is golden-file first: a real anonymised statement in, an exact expected subscription set out. Every bug that made it out of a real statement becomes a permanent fixture. Real statements never enter the repository — committed fixtures are scrubbed derivatives.
+Testing is golden-file first: a real anonymised statement in, an exact expected subscription set out. Every bug a real statement produced becomes a permanent fixture.
+
+**Real statements never enter the repository.** Both banks ship a scrubbed derivative instead — real dates, amounts, currencies and MCCs, with merchant names replaced unless the bundled catalog already knows them publicly, and every branch address stripped. Tests enforce that permanently rather than trusting the original scrub: one fails if a merchant appears that is not already public, another if a name still carries a street address.
 
 ---
 
