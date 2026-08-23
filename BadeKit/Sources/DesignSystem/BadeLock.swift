@@ -8,6 +8,15 @@ public enum BadeLockScale: Sendable {
     case card
 }
 
+extension EnvironmentValues {
+    /// Whether what is being drawn sits under a lock, and so cannot be touched.
+    ///
+    /// Read by anything that would otherwise teach a gesture the content cannot accept. A tip is
+    /// presented by the system in a window of its own, so it floats above the lock instead of being
+    /// covered by it — offering to teach a tap on a calendar nobody can tap.
+    @Entry public var badeIsLocked = false
+}
+
 extension View {
     /// Puts a feature behind Bade Pro: what is locked stays visible and inert, caught in the net,
     /// because showing what is being offered sells it better than hiding it does.
@@ -51,6 +60,7 @@ private struct BadeLock: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            .environment(\.badeIsLocked, isLocked)
             .blur(radius: isLocked ? BadeLockMetrics.blur : 0)
             .allowsHitTesting(!isLocked)
             .accessibilityHidden(isLocked)

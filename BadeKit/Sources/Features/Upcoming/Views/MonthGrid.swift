@@ -9,6 +9,7 @@ struct MonthGrid: View {
     @Environment(\.badeTheme) private var theme
     @Environment(\.locale) private var locale
     @Environment(\.calendar) private var calendar
+    @Environment(\.badeIsLocked) private var isLocked
     /// A fixed square stops being tall enough for its own number at accessibility sizes, and the
     /// dot underneath then collides with the row below.
     @ScaledMetric private var cellHeight = UpcomingMetrics.cellHeight
@@ -22,8 +23,12 @@ struct MonthGrid: View {
     /// The first day in the month that actually costs something. The tip is anchored there rather
     /// than to the grid, so the arrow lands on a tile worth tapping — and a month with nothing in
     /// it has no such tile, which is also the month where tapping teaches nothing.
+    ///
+    /// Nothing is anchored under a lock. The grid is inert there, and a tip is system-presented in
+    /// its own window, so it appeared over the Pro offer inviting a tap the screen would not accept.
     private var tipAnchor: UpcomingCell.ID? {
-        cells.first { $0.charges > 0 }?.id
+        guard !isLocked else { return nil }
+        return cells.first { $0.charges > 0 }?.id
     }
 
     var body: some View {
