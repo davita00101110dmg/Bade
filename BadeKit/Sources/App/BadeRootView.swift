@@ -20,32 +20,6 @@ import Widgets
 public struct BadeRootView: View {
     private enum Tabs: Hashable { case subscriptions, upcoming, settings }
 
-    /// Everything the root can put on top of itself, as one value rather than seven flags.
-    ///
-    /// Seven independent booleans let two presentations be asked for at once, and SwiftUI drops the
-    /// loser without saying so — leaving its flag set. Every later request then set `true` to
-    /// `true`, which is not a change, so nothing presented and nothing happened. Import died
-    /// permanently after a statement failed to parse, and only a relaunch brought it back.
-    private enum Presentation: Equatable {
-        case pickingFile
-        case importing(StatementFile)
-        case pro
-        case askingAboutReminders
-        case addingManually
-        case storeWasReset
-        case nothingWasNew
-
-        /// Whether this one calls back once it has finished leaving. A cover and a sheet do; an
-        /// alert and the file importer do not, and the only thing to do about those is wait a beat
-        /// and hope, which is what `presentAfterDismissal` is for.
-        var reportsItsDismissal: Bool {
-            switch self {
-            case .importing, .pro, .askingAboutReminders, .addingManually: true
-            case .pickingFile, .storeWasReset, .nothingWasNew: false
-            }
-        }
-    }
-
     @AppStorage("displayCurrency") private var chosenCurrency = ""
     @AppStorage("language") private var languageCode = BadeLanguage.matchingDevice.rawValue
     @AppStorage("appearance") private var appearanceCode = BadeAppearance.system.rawValue
@@ -63,11 +37,9 @@ public struct BadeRootView: View {
     /// Opened once, at launch, and it always opens: what cannot be read is set aside rather than
     /// crashed on.
     @State private var opened: OpenedStore
-    /// The one thing on top of the app, or nothing. Seeded from that single opening rather than
-    /// from a reload, so the reset notice appears exactly once.
-    @State private var presented: Presentation?
-    /// Asked for while something else was still on screen, and presented the moment that has gone.
-    @State private var pending: Presentation?
+    /// The one thing on top of the app, and the one waiting to replace it. Seeded from that single
+    /// opening rather than from a reload, so the reset notice appears exactly once.
+    @State private var presentation: AppPresentation
     @State private var hasSubscriptions = false
     @State private var isReady = false
     /// The launch arrival runs for `BadeWordmarkMetrics.settle`; the read that decides where to go
@@ -95,76 +67,24 @@ public struct BadeRootView: View {
     public init() {
         let opened = SubscriptionStore.opened()
         _opened = State(initialValue: opened)
-        _presented = State(initialValue: opened.wasReset ? .storeWasReset : nil)
+        _presentation = State(
+            initialValue: AppPresentation(current: opened.wasReset ? .storeWasReset : nil))
     }
 
     private var store: SubscriptionStore { opened.store }
 
-    /// Asking for something while something else is up is the case that used to break: SwiftUI
-    /// cannot present into a view that is still going away, so it silently does nothing.
-    ///
-    /// So the current one is dismissed first and the new one follows a beat later. Asking for what
-    /// is already showing works too, and deliberately — that is the recovery path if a presentation
-    /// was ever dropped, and it is what a second tap on a dead Import button should do.
-    private func present(_ next: Presentation) {
-        guard let current = presented else {
-            presented = next
-            return
-        }
-        pending = next
-        presented = nil
-        // A cover or a sheet says when it has gone, and waiting for that is exact. An alert and the
-        // file importer never say, so for those a beat is the only signal there is.
-        if !current.reportsItsDismissal {
-            presentAfterDismissal(next)
-        }
-    }
-
-    /// Presents whatever was asked for while something else was still on screen. Called from every
-    /// presentation that reports its own dismissal, and safe to call when nothing is waiting.
-    private func presentPending() {
-        guard let next = pending else { return }
-        pending = nil
-        presented = next
-    }
-
-    /// Presents once whatever is leaving has had time to go, whether or not this view still thinks
-    /// anything is up.
-    ///
-    /// `presented` is not always the truth about the screen. The file importer clears it as it
-    /// begins dismissing, so by the time its completion runs the app believes nothing is presented
-    /// while UIKit is still animating the picker away — and `present` short-circuits straight into
-    /// it. SwiftUI refuses that silently and the presentation stack stays occupied, after which
-    /// nothing presents again: not the import cover, not another file, not manual entry, until the
-    /// app is relaunched. One dropped presentation took every later one with it.
-    private func presentAfterDismissal(_ next: Presentation) {
-        presented = nil
-        pending = next
-        Task { @MainActor in
-            try? await Task.sleep(for: Self.dismissalGap)
-            presentPending()
-        }
-    }
-
-    /// Long enough for a sheet or a cover to finish leaving. Shorter and the replacement lands
-    /// while the old one is still on screen, which is the thing being fixed.
-    private static let dismissalGap = Duration.milliseconds(350)
-
     /// A `Bool` binding onto one case, so `sheet` and `alert` can drive off a single value.
-    private func showing(_ kind: Presentation) -> Binding<Bool> {
+    private func showing(_ kind: AppPresentation.Kind) -> Binding<Bool> {
         Binding(
-            get: { presented == kind },
-            set: { if !$0, presented == kind { presented = nil } })
+            get: { presentation.isShowing(kind) },
+            set: { if !$0 { presentation.dismiss(kind) } })
     }
 
     /// The cover takes an item rather than a flag, because what it shows is the statement itself.
     private var importing: Binding<StatementFile?> {
         Binding(
-            get: {
-                guard case .importing(let file) = presented else { return nil }
-                return file
-            },
-            set: { if $0 == nil { presented = nil } })
+            get: { presentation.importingFile },
+            set: { if $0 == nil { presentation.dismissCurrent() } })
     }
 
     /// The one thing every gated feature reads, in every configuration. A debug build used to
@@ -241,12 +161,12 @@ public struct BadeRootView: View {
             ) { result in
                 guard case .success(let url) = result, let file = StatementFile(contentsOf: url)
                 else {
-                    presented = nil
+                    presentation.dismissCurrent()
                     return
                 }
-                presentAfterDismissal(.importing(file))
+                presentation.presentAfterDismissal(.importing(file))
             }
-            .badeCover(item: importing, onDismiss: presentPending) { file in
+            .badeCover(item: importing, onDismiss: presentation.dismissalFinished) { file in
                 ImportFlowView(
                     file: file, importer: StatementImporter(), repository: store,
                     rateRepository: store, currency: currency,
@@ -254,7 +174,7 @@ public struct BadeRootView: View {
                 )
                 .modifier(appEnvironment)
             }
-            .sheet(isPresented: showing(.pro), onDismiss: presentPending) {
+            .sheet(isPresented: showing(.pro), onDismiss: presentation.dismissalFinished) {
                 NavigationStack {
                     ProView(
                         model: ProViewModel(purchases: purchases, isEntitled: isPro) { outcome in
@@ -267,13 +187,13 @@ public struct BadeRootView: View {
                 }
                 .modifier(appEnvironment)
             }
-            .sheet(isPresented: showing(.askingAboutReminders), onDismiss: presentPending) {
+            .sheet(isPresented: showing(.askingAboutReminders), onDismiss: presentation.dismissalFinished) {
                 ReminderPromptView(onOutcome: handleReminderPrompt)
                     .modifier(appEnvironment)
                     .presentationDetents([.medium])
             }
             // Only Welcome opens it from here; once there is a list, the list presents its own.
-            .sheet(isPresented: showing(.addingManually), onDismiss: presentPending) {
+            .sheet(isPresented: showing(.addingManually), onDismiss: presentation.dismissalFinished) {
                 SubscriptionFormView(model: manualEntry()).modifier(appEnvironment)
             }
             // Said once, and only when a reset actually happened.
@@ -324,7 +244,7 @@ public struct BadeRootView: View {
                 NavigationStack { upcoming }
                     // A tapped reminder is a navigation, so the screen is rebuilt on its day.
                     .id(currency + weekStartCode + (tappedDay?.description ?? ""))
-                    .badeLocked(!isPro) { present(.pro) }
+                    .badeLocked(!isPro) { presentation.present(.pro) }
             } label: {
                 Label { Text(.upcoming.title) } icon: {
                     Image(systemName: isPro ? "calendar" : "calendar.badge.lock")
@@ -347,7 +267,7 @@ public struct BadeRootView: View {
                 rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
                 onOutcome: handleSubscriptions),
             currency: currency, isPro: isPro, revision: storeRevision,
-            onUnlock: { present(.pro) })
+            onUnlock: { presentation.present(.pro) })
     }
 
     /// Upcoming may not import Subscriptions, so the destination behind one of its rows is
@@ -362,7 +282,7 @@ public struct BadeRootView: View {
         ) { subscription in
             SubscriptionDetailView(
                 model: detail(for: subscription), isPro: isPro,
-                onUnlock: { present(.pro) })
+                onUnlock: { presentation.present(.pro) })
         }
     }
 
@@ -393,7 +313,7 @@ public struct BadeRootView: View {
             editing: nil, currency: currency, knownCurrencies: [], repository: store,
             merchants: merchants,
             onOutcome: { outcome in
-                presented = nil
+                presentation.dismissCurrent()
                 if outcome != .cancelled { reload = UUID() }
             })
     }
@@ -458,8 +378,8 @@ public struct BadeRootView: View {
     /// the file importer was asked for while the cover it replaces was still on its way out.
     private func handleImport(_ outcome: ImportOutcome) {
         switch outcome {
-        case .cancelled: presented = nil
-        case .chooseAnother: present(.pickingFile)
+        case .cancelled: presentation.dismissCurrent()
+        case .chooseAnother: presentation.present(.pickingFile)
         case .saved(let addedCount):
             // Answered here rather than waited for. `decideRoot` re-reads the store, but it is
             // async, so the root used to re-evaluate with this still false and draw Welcome —
@@ -471,9 +391,9 @@ public struct BadeRootView: View {
             // whichever tab happened to be open when the statement was picked.
             tab = .subscriptions
             if addedCount == 0 {
-                present(.nothingWasNew)
+                presentation.present(.nothingWasNew)
             } else {
-                presented = nil
+                presentation.dismissCurrent()
                 askAboutReminders()
             }
         }
@@ -487,14 +407,14 @@ public struct BadeRootView: View {
             guard await reminders.authorization() == .notDetermined else { return }
             try? await Task.sleep(for: .seconds(BadeMotion.totalReveal))
             hasAskedAboutReminders = true
-            present(.askingAboutReminders)
+            presentation.present(.askingAboutReminders)
         }
     }
 
     /// A yes here is what earns the system prompt. A no from iOS needs no handling: Settings reads
     /// the answer for itself, and a lead with no permission behind it schedules nothing.
     private func handleReminderPrompt(_ outcome: ReminderPromptOutcome) {
-        presented = nil
+        presentation.dismissCurrent()
         guard outcome == .turnOn else { return }
         Task {
             guard await reminders.requestAuthorization() else { return }
@@ -505,7 +425,7 @@ public struct BadeRootView: View {
 
     private func handleSubscriptions(_ outcome: SubscriptionsOutcome) {
         switch outcome {
-        case .importStatement: present(.pickingFile)
+        case .importStatement: presentation.present(.pickingFile)
         case .dataCleared: clearedEverything()
         }
     }
@@ -514,8 +434,8 @@ public struct BadeRootView: View {
     /// imported, and the reader who most needs Georgian is the one who has not started yet.
     private func handleWelcome(_ outcome: WelcomeOutcome) {
         switch outcome {
-        case .importStatement: present(.pickingFile)
-        case .addManually: present(.addingManually)
+        case .importStatement: presentation.present(.pickingFile)
+        case .addManually: presentation.present(.addingManually)
         case .languageChanged(let language): languageCode = language.rawValue
         }
     }
@@ -552,7 +472,7 @@ public struct BadeRootView: View {
     /// From the owned Pro page, which lists what Pro added rather than what it would add. The one
     /// feature on that list with somewhere to go.
     private func showUpcoming() {
-        presented = nil
+        presentation.dismissCurrent()
         tab = .upcoming
     }
 

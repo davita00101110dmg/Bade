@@ -97,11 +97,7 @@ public struct SubscriptionDetailState: Equatable {
         Double(truncating: (value / tallest) as NSDecimalNumber)
     }
 
-    private static let calendar: Calendar = {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        return calendar
-    }()
+    private static let calendar = Calendar.bade
 }
 
 extension Calendar {

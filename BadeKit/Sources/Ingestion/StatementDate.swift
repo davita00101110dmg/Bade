@@ -3,11 +3,7 @@ import Foundation
 /// A statement prints calendar days, not instants: a charge belongs to the day beside it whatever
 /// time zone the phone is in, so every parser reads dates against the same fixed calendar.
 enum StatementDate {
-    private static let utc: Calendar = {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        return calendar
-    }()
+    private static let utc = Calendar.bade
 
     static func from(
         day: some StringProtocol, month: some StringProtocol, year: some StringProtocol

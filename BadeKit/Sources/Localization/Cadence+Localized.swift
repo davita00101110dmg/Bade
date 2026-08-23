@@ -1,12 +1,14 @@
 import Core
 import Foundation
-import Localization
 
-/// Shared by Detail and the form, which is why it sits at the module root. Duplicated from Import
-/// rather than shared with it: feature modules never import each other, and `Localization` has no
-/// dependencies, so it cannot know what a `Cadence` is.
+/// How a billing rhythm is written, in one place.
+///
+/// It lived twice — once under Subscriptions and once under Import/Review — because feature modules
+/// never import each other, and the note above each copy said `Localization` could not know what a
+/// `Cadence` is. That was a choice rather than a constraint: `Core` depends on nothing, so this
+/// module can depend on it without a cycle. The two copies had already drifted apart by a method.
 extension Cadence {
-    var localizedName: LocalizedStringResource {
+    public var localizedName: LocalizedStringResource {
         switch self {
         case .weekly: .cadence.weekly
         case .monthly: .cadence.monthly
@@ -22,7 +24,7 @@ extension Cadence {
     ///
     /// Monthly says nothing: there the figure on the right *is* the price, and a row explaining
     /// that would be noise on the common case.
-    func billedPhrase(_ amount: String) -> LocalizedStringResource? {
+    public func billedPhrase(_ amount: String) -> LocalizedStringResource? {
         switch self {
         case .monthly: nil
         case .weekly: .subscriptions.billedWeekly(amount)

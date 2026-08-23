@@ -31,7 +31,9 @@ let package = Package(
         .target(name: "Normalization", dependencies: ["Core"]),
         .testTarget(name: "NormalizationTests", dependencies: ["Normalization", "Core"]),
         .target(name: "DesignSystem", dependencies: ["Localization"]),
-        .target(name: "Localization", resources: [.process("Localizable.xcstrings")]),
+        .target(
+            name: "Localization", dependencies: ["Core"],
+            resources: [.process("Localizable.xcstrings")]),
         .testTarget(name: "LocalizationTests", dependencies: ["Localization"]),
         .target(
             name: "Welcome", dependencies: ["DesignSystem", "Localization"],
@@ -70,6 +72,7 @@ let package = Package(
                 "Purchases", "Widgets",
             ],
             path: "Sources/App"),
+        .testTarget(name: "AppTests", dependencies: ["AppRoot", "Import"]),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
         .target(name: "Persistence", dependencies: ["Core"]),
         .testTarget(name: "PersistenceTests", dependencies: ["Persistence", "Core"]),

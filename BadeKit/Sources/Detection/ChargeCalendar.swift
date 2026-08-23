@@ -3,11 +3,7 @@ import Foundation
 
 /// UTC arithmetic — statement dates carry no meaningful local time.
 enum ChargeCalendar {
-    private static let calendar: Calendar = {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        return calendar
-    }()
+    private static let calendar = Calendar.bade
 
     static func days(from start: Date, to end: Date) -> Int {
         calendar.dateComponents([.day], from: start, to: end).day ?? 0
