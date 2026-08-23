@@ -468,7 +468,10 @@ public enum MerchantSeed {
         .init("PeakVisor", .annual),
         .init("Windy", .annual, aliases: ["windycom", "windyapp"]),
         .init("meteoblue", .annual, aliases: ["meteoblue"]),
-        .init("Slopes", .annual, aliases: ["slopesapp", "curated"], pricePoints: [.annual("29.99")]),
+        // No "curated" alias: Slopes is published by Curated, LLC, but curated.com is an unrelated
+        // shop, and a $379.75 order there was reported as an annual ski subscription. An alias has
+        // to be a word only its own brand would put on a statement.
+        .init("Slopes", .annual, aliases: ["slopesapp"], pricePoints: [.annual("29.99")]),
         .init("FATMAP", .annual, aliases: ["fatmap"]),
         .init("Garmin inReach", .monthly, aliases: ["garmininreach", "inreach"]),
         .init("ZOLEO", .monthly, aliases: ["zoleo"]),

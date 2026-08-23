@@ -74,6 +74,16 @@ struct BundledCatalogTests {
         #expect(catalog.entry(for: "OPENAI")?.merchant == "ChatGPT")
         #expect(catalog.entry(for: "office365")?.merchant == "Microsoft 365")
     }
+
+    /// Found on a real statement: a $379.75 order at curated.com was reported as an annual ski
+    /// subscription, because Slopes is published by Curated, LLC and carried "curated" as an alias.
+    /// Whole-word matching was doing exactly what it should — the alias was the mistake. An alias
+    /// has to be a word only its own brand would ever put on a statement.
+    @Test func anOrdinaryWordDoesNotResolveToABrandThatMerelySharesIt() {
+        #expect(catalog.entry(for: "PAYPAL *CURATED.COM") == nil)
+        #expect(catalog.entry(for: "CURATED.COM") == nil)
+        #expect(catalog.entry(for: "SLOPES")?.merchant == "Slopes", "the brand itself still matches")
+    }
 }
 
 @Suite("Seed data integrity")

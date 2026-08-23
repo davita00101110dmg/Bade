@@ -394,6 +394,20 @@ extension LocalizedStringResource {
     public struct SubscriptionsStrings {
         public var title: LocalizedStringResource { string("subscriptions.title") }
         public var perMonth: LocalizedStringResource { string("subscriptions.perMonth") }
+        /// What a subscription really costs and how often, for the rows whose figure on the right
+        /// is a twelfth or a quarter of it rather than the price anyone is charged.
+        public func billedAnnual(_ amount: String) -> LocalizedStringResource {
+            string("subscriptions.billedAnnual \(amount)")
+        }
+        public func billedQuarterly(_ amount: String) -> LocalizedStringResource {
+            string("subscriptions.billedQuarterly \(amount)")
+        }
+        public func billedSemiannual(_ amount: String) -> LocalizedStringResource {
+            string("subscriptions.billedSemiannual \(amount)")
+        }
+        public func billedWeekly(_ amount: String) -> LocalizedStringResource {
+            string("subscriptions.billedWeekly \(amount)")
+        }
         public var all: LocalizedStringResource { string("subscriptions.all") }
         public var sortByCost: LocalizedStringResource { string("subscriptions.sort.cost") }
         public var sortByName: LocalizedStringResource { string("subscriptions.sort.name") }

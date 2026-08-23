@@ -19,8 +19,12 @@ public struct SubscriptionRow: Equatable, Identifiable, Sendable {
     /// The charge itself, in whatever currency it is billed — the design's "$20.00".
     public var billed: Decimal { subscription.amount }
 
+    /// A currency the list is not totalling in, or a cadence the list is not showing — either way
+    /// the figure on the right is not what anybody is charged, and the real price has to be said.
+    /// Cadence used to be missing here, so a yearly subscription in the display currency showed a
+    /// twelfth of its price and a date, and its actual cost appeared nowhere on the screen.
     public func showsBilledPrice(against currency: String) -> Bool {
-        subscription.currency != currency
+        subscription.currency != currency || subscription.cadence != .monthly
     }
 
     public func displayAmount(in currency: String) -> Decimal {

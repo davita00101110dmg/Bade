@@ -15,4 +15,20 @@ extension Cadence {
         case .annual: .cadence.annual
         }
     }
+
+    /// The real price and how often it is charged — "$379.75 a year". The list levels every cadence
+    /// into a month, so an annual subscription shows a figure nobody was ever charged; saying what
+    /// it actually costs is what makes the levelled one read as a share of it.
+    ///
+    /// Monthly says nothing: there the figure on the right *is* the price, and a row explaining
+    /// that would be noise on the common case.
+    func billedPhrase(_ amount: String) -> LocalizedStringResource? {
+        switch self {
+        case .monthly: nil
+        case .weekly: .subscriptions.billedWeekly(amount)
+        case .quarterly: .subscriptions.billedQuarterly(amount)
+        case .semiannual: .subscriptions.billedSemiannual(amount)
+        case .annual: .subscriptions.billedAnnual(amount)
+        }
+    }
 }

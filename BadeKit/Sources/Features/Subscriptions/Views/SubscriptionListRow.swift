@@ -59,8 +59,13 @@ struct SubscriptionListRow: View {
         return billed + AttributedString(separator + nextChargeText)
     }
 
+    /// The price as billed, carrying its cadence when that is not monthly — "$379.75 a year". The
+    /// figure on the right is a twelfth of this, so without saying so the row shows two amounts and
+    /// explains neither.
     private var billedText: String {
-        row.billed.formatted(.badeMoney(row.subscription.currency).locale(locale))
+        let money = row.billed.formatted(.badeMoney(row.subscription.currency).locale(locale))
+        guard let phrase = row.subscription.cadence.billedPhrase(money) else { return money }
+        return .badeLocalized(phrase, in: locale)
     }
 
     private var nextChargeText: String {
