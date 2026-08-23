@@ -1050,7 +1050,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "BETA"
           }
         }
@@ -1272,7 +1272,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "×%lld"
           }
         }
@@ -1307,7 +1307,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%1$@ · %2$@"
           }
         }
@@ -2113,7 +2113,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%#@count@ · %2$@"
           },
           "substitutions" : {
@@ -2124,13 +2124,13 @@
                 "plural" : {
                   "one" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg ჩამოჭრა"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg ჩამოჭრა"
                     }
                   }
@@ -2322,13 +2322,13 @@
                 "plural" : {
                   "one" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg გამოწერა"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg გამოწერა"
                     }
                   }
@@ -3631,13 +3631,13 @@
                 "plural" : {
                   "one" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg გამოწერა"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg გამოწერა"
                     }
                   }
@@ -3692,13 +3692,13 @@
                 "plural" : {
                   "one" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg გამოწერა"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg გამოწერა"
                     }
                   }
@@ -3838,13 +3838,13 @@
                 "plural" : {
                   "one" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg ჩამოჭრა"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
-                      "state" : "needs_review",
+                      "state" : "translated",
                       "value" : "%arg ჩამოჭრა"
                     }
                   }
