@@ -50,7 +50,8 @@
             "value" : "წლიური"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "cadence.monthly" : {
       "localizations" : {
@@ -66,7 +67,8 @@
             "value" : "ყოველთვიური"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "cadence.quarterly" : {
       "localizations" : {
@@ -82,7 +84,8 @@
             "value" : "კვარტალური"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "cadence.semiannual" : {
       "localizations" : {
@@ -98,7 +101,8 @@
             "value" : "ნახევარწლიური"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "cadence.weekly" : {
       "localizations" : {
@@ -114,7 +118,8 @@
             "value" : "ყოველკვირეული"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "common.dismiss" : {
       "localizations" : {
@@ -130,7 +135,8 @@
             "value" : "დახურვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "common.ok" : {
       "localizations" : {
@@ -146,7 +152,8 @@
             "value" : "კარგი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "common.progress" : {
       "localizations" : {
@@ -162,7 +169,8 @@
             "value" : "მიმდინარეობა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "common.working" : {
       "extractionState" : "manual",
@@ -195,7 +203,8 @@
             "value" : "ყველა ვალუტა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "currency.known" : {
       "localizations" : {
@@ -211,7 +220,8 @@
             "value" : "შენს გამოწერებში"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "currency.search" : {
       "localizations" : {
@@ -227,7 +237,8 @@
             "value" : "ძებნა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "currency.title" : {
       "localizations" : {
@@ -243,7 +254,8 @@
             "value" : "ვალუტა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.aYear" : {
       "localizations" : {
@@ -259,7 +271,8 @@
             "value" : "წელიწადში"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.billedIn %@ %@" : {
       "localizations" : {
@@ -275,7 +288,8 @@
             "value" : "%1$@ · გადახდა %2$@-ში"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.cancel" : {
       "localizations" : {
@@ -291,7 +305,8 @@
             "value" : "გაუქმება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.delete" : {
       "localizations" : {
@@ -307,7 +322,8 @@
             "value" : "წაშლა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.deleteMessage" : {
       "localizations" : {
@@ -323,7 +339,8 @@
             "value" : "ამონაწერის ხელახლა იმპორტისას ისევ მოიძებნება."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.deleteTitle" : {
       "localizations" : {
@@ -339,7 +356,8 @@
             "value" : "წავშალოთ ეს გამოწერა?"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.firstCharge" : {
       "localizations" : {
@@ -355,7 +373,8 @@
             "value" : "პირველი ჩამოჭრა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.bankRate" : {
       "localizations" : {
@@ -371,7 +390,8 @@
             "value" : "შენი ბანკის კურსი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.costLessOfficial %@" : {
       "extractionState" : "manual",
@@ -455,7 +475,8 @@
             "value" : "გადახდილია პირდაპირ შენი %@ ბალანსიდან — კონვერტაცია არ მომხდარა და დანამატიც არ არის."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.noRate" : {
       "localizations" : {
@@ -471,7 +492,8 @@
             "value" : "იმ დღის საორიენტაციო კურსი ჯერ არ არის."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.officialRate" : {
       "localizations" : {
@@ -487,7 +509,8 @@
             "value" : "ეროვნული ბანკის კურსი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.paid" : {
       "localizations" : {
@@ -503,7 +526,8 @@
             "value" : "ჩამოგეჭრა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.rateGap" : {
       "localizations" : {
@@ -519,7 +543,8 @@
             "value" : "კურსების სხვაობა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.schemeRate" : {
       "localizations" : {
@@ -535,7 +560,8 @@
             "value" : "ბარათის სისტემის კურსი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.fx.showRates" : {
       "extractionState" : "manual",
@@ -568,7 +594,8 @@
             "value" : "რა დაჯდა კონვერტაცია"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.history" : {
       "localizations" : {
@@ -584,7 +611,8 @@
             "value" : "ბოლო 12 თვე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.nextCharge" : {
       "localizations" : {
@@ -600,7 +628,8 @@
             "value" : "შემდეგი ჩამოჭრა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.noHistory" : {
       "localizations" : {
@@ -616,7 +645,8 @@
             "value" : "ჩამოჭრები ჯერ არ არის."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.priceChange %@" : {
       "localizations" : {
@@ -632,7 +662,8 @@
             "value" : "ფასის ცვლილება · %@"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "detail.title" : {
       "localizations" : {
@@ -648,7 +679,8 @@
             "value" : "დეტალები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.active" : {
       "localizations" : {
@@ -664,7 +696,8 @@
             "value" : "აქტიური"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.activeFooter" : {
       "localizations" : {
@@ -680,7 +713,8 @@
             "value" : "გაუქმებული გამოწერა რჩება Bade-ში, მაგრამ აღარ ითვლება ჯამში."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.amount" : {
       "localizations" : {
@@ -696,7 +730,8 @@
             "value" : "თანხა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.billing" : {
       "localizations" : {
@@ -712,7 +747,8 @@
             "value" : "გადახდა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.cadence" : {
       "localizations" : {
@@ -728,7 +764,8 @@
             "value" : "პერიოდულობა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.cancel" : {
       "localizations" : {
@@ -744,7 +781,8 @@
             "value" : "გაუქმება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.discard" : {
       "localizations" : {
@@ -760,7 +798,8 @@
             "value" : "არ შეინახოს"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.discardMessage" : {
       "localizations" : {
@@ -776,7 +815,8 @@
             "value" : "აკრეფილი მონაცემები არ შეინახება."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.discardTitle" : {
       "localizations" : {
@@ -792,7 +832,8 @@
             "value" : "ცვლილებები არ შეინახოს?"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.keepEditing" : {
       "localizations" : {
@@ -808,7 +849,8 @@
             "value" : "რედაქტირების გაგრძელება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.price" : {
       "localizations" : {
@@ -824,7 +866,8 @@
             "value" : "ფასი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.save" : {
       "localizations" : {
@@ -840,7 +883,8 @@
             "value" : "შენახვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.service" : {
       "localizations" : {
@@ -856,7 +900,8 @@
             "value" : "სერვისი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.servicePrompt" : {
       "localizations" : {
@@ -872,7 +917,8 @@
             "value" : "დასახელება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.suggestions" : {
       "localizations" : {
@@ -888,7 +934,8 @@
             "value" : "შემოთავაზებები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.title.edit" : {
       "localizations" : {
@@ -904,7 +951,8 @@
             "value" : "გამოწერის რედაქტირება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "form.title.new" : {
       "localizations" : {
@@ -920,7 +968,8 @@
             "value" : "დამატება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "import.nothingNewMessage" : {
       "localizations" : {
@@ -936,7 +985,8 @@
             "value" : "ამ ამონაწერში ყველაფერი უკვე იყო Bade-ში, ამიტომ ახალი არაფერი დაემატა. ფასები და თარიღები განახლდა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "import.nothingNewTitle" : {
       "localizations" : {
@@ -952,7 +1002,8 @@
             "value" : "უკვე იმპორტირებულია"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "locked.action" : {
       "localizations" : {
@@ -968,7 +1019,8 @@
             "value" : "ნახე, რას გაძლევს Pro"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "locked.title" : {
       "localizations" : {
@@ -984,7 +1036,8 @@
             "value" : "Bade Pro-ს ნაწილი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.beta" : {
       "extractionState" : "manual",
@@ -1034,7 +1087,8 @@
             "value" : "აირჩიე სხვა ფაილი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.close" : {
       "localizations" : {
@@ -1050,7 +1104,8 @@
             "value" : "დახურვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.failed" : {
       "localizations" : {
@@ -1066,7 +1121,8 @@
             "value" : "ამონაწერის წაკითხვა ვერ მოხერხდა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.failure.tooFew" : {
       "localizations" : {
@@ -1082,7 +1138,8 @@
             "value" : "ამონაწერიდან თითქმის ვერაფერი ამოიკითხა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.failure.unreadable" : {
       "localizations" : {
@@ -1098,7 +1155,8 @@
             "value" : "ფაილის გახსნა ვერ მოხერხდა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.failure.unrecognised" : {
       "localizations" : {
@@ -1114,7 +1172,8 @@
             "value" : "ეს არ ჰგავს ამონაწერს, რომლის წაკითხვაც Bade-ს ჯერ შეუძლია."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.file.months %lld" : {
       "localizations" : {
@@ -1130,7 +1189,8 @@
             "value" : "%lld თვე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.file.transactions %lld" : {
       "localizations" : {
@@ -1146,7 +1206,8 @@
             "value" : "%lld ტრანზაქცია"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.found" : {
       "localizations" : {
@@ -1162,7 +1223,8 @@
             "value" : "ნაპოვნია"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.nothingMessage" : {
       "localizations" : {
@@ -1178,7 +1240,8 @@
             "value" : "Bade-მ ამონაწერი წაიკითხა, მაგრამ განმეორებადი ჩამოჭრა ვერ აღმოაჩინა. უფრო ხანგრძლივი ამონაწერი — სამი თვე ან მეტი — მეტ მასალას მისცემს."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.nothingTitle" : {
       "localizations" : {
@@ -1194,7 +1257,8 @@
             "value" : "განმეორებადი ვერაფერი მოიძებნა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.occurrences %lld" : {
       "localizations" : {
@@ -1210,7 +1274,8 @@
             "value" : "×%lld"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.processedHere" : {
       "localizations" : {
@@ -1226,7 +1291,8 @@
             "value" : "დამუშავება მხოლოდ ამ ტელეფონში ხდება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.progress %@ %@" : {
       "localizations" : {
@@ -1242,7 +1308,8 @@
             "value" : "%1$@ · %2$@"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "parsing.reading" : {
       "extractionState" : "manual",
@@ -1275,7 +1342,8 @@
             "value" : "ტრანზაქციები მოწმდება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.alerts" : {
       "localizations" : {
@@ -1291,7 +1359,8 @@
             "value" : "ფასის ზრდის შეტყობინებები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.alertsDetail" : {
       "localizations" : {
@@ -1307,7 +1376,8 @@
             "value" : "შეიტყობ, როცა გამოწერა ჩუმად გაძვირდება — ძველ და ახალ ფასთან ერთად."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.badge" : {
       "localizations" : {
@@ -1323,7 +1393,8 @@
             "value" : "PRO"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.blurb" : {
       "localizations" : {
@@ -1339,7 +1410,8 @@
             "value" : "აპლიკაცია, რომელიც გამოწერების საკონტროლოდ თვითონ ითხოვს გამოწერას, ანეკდოტია. Bade ერთხელ იყიდება და შენია."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.calendar" : {
       "extractionState" : "manual",
@@ -1389,7 +1461,8 @@
             "value" : "კატეგორიების ანალიტიკა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.categoriesDetail" : {
       "localizations" : {
@@ -1405,7 +1478,8 @@
             "value" : "ჯამის რა ნაწილია სტრიმინგი, პროგრამები თუ სპორტდარბაზი."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.export" : {
       "extractionState" : "manual",
@@ -1455,7 +1529,8 @@
             "value" : "Settings-ში, განყოფილებაში „მონაცემები“."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.failed" : {
       "localizations" : {
@@ -1471,7 +1546,8 @@
             "value" : "ვერ განხორციელდა. თანხა არ ჩამოგეჭრა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.fx" : {
       "localizations" : {
@@ -1487,7 +1563,8 @@
             "value" : "ვალუტის კონვერტაციის დანამატი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.fxDetail" : {
       "localizations" : {
@@ -1503,7 +1580,8 @@
             "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით — როცა კონვერტაცია ხდება."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.fxWhere" : {
       "localizations" : {
@@ -1519,7 +1597,8 @@
             "value" : "ნებისმიერ ჩამოჭრაზე, სადაც კონვერტაცია მოხდა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.included" : {
       "localizations" : {
@@ -1535,7 +1614,8 @@
             "value" : "რას მიიღებ"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.nothingToRestore" : {
       "localizations" : {
@@ -1551,7 +1631,8 @@
             "value" : "ამ Apple Account-ზე ადრინდელი შენაძენი ვერ მოიძებნა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.owned" : {
       "localizations" : {
@@ -1567,7 +1648,8 @@
             "value" : "Bade Pro შენია."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.owned.title" : {
       "localizations" : {
@@ -1583,7 +1665,8 @@
             "value" : "რაც გაქვს"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.ownedDetail" : {
       "localizations" : {
@@ -1599,7 +1682,8 @@
             "value" : "ერთხელ ნაყიდი, ამ Apple Account-ზე. არაფერი განმეორებადი, გასაუქმებელი არაფერი."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.reminders" : {
       "localizations" : {
@@ -1615,7 +1699,8 @@
             "value" : "განახლების შეხსენებები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.remindersDetail" : {
       "localizations" : {
@@ -1631,7 +1716,8 @@
             "value" : "შეიტყობ გამოწერის განახლებამდე ერთი დღით ადრე — და რამდენი დაგიჯდება."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.remindersWhere" : {
       "localizations" : {
@@ -1647,7 +1733,8 @@
             "value" : "დროს Settings-ში აირჩევ."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.restore" : {
       "localizations" : {
@@ -1663,7 +1750,8 @@
             "value" : "შენაძენის აღდგენა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.storeUnavailable" : {
       "localizations" : {
@@ -1679,7 +1767,8 @@
             "value" : "App Store ამჟამად მიუწვდომელია."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.tagline" : {
       "localizations" : {
@@ -1695,7 +1784,8 @@
             "value" : "ერთი გადახდა.\nგამოწერა — არასოდეს."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.themes" : {
       "localizations" : {
@@ -1711,7 +1801,8 @@
             "value" : "თემები და ხატულები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.themesDetail" : {
       "localizations" : {
@@ -1727,7 +1818,8 @@
             "value" : "სხვა პალიტრა და შენი აპლიკაციის ხატულა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.title" : {
       "localizations" : {
@@ -1743,7 +1835,8 @@
             "value" : "Bade Pro"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.trends" : {
       "localizations" : {
@@ -1759,7 +1852,8 @@
             "value" : "ხარჯების ისტორია და ტენდენციები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.trendsDetail" : {
       "localizations" : {
@@ -1775,7 +1869,8 @@
             "value" : "რამდენს იხდიდი წლის წინ და როგორ შეიცვალა მას შემდეგ."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.unlock" : {
       "localizations" : {
@@ -1791,7 +1886,8 @@
             "value" : "Bade Pro-ს გახსნა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.unlockPrice %@" : {
       "localizations" : {
@@ -1807,7 +1903,8 @@
             "value" : "Bade Pro-ს გახსნა · %@"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.widgets" : {
       "localizations" : {
@@ -1823,7 +1920,8 @@
             "value" : "ვიჯეტები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.widgetsDetail" : {
       "localizations" : {
@@ -1839,7 +1937,8 @@
             "value" : "ჯამი და შემდეგი ჩამოჭრა მთავარ ეკრანზე."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "pro.widgetsWhere" : {
       "localizations" : {
@@ -1855,7 +1954,8 @@
             "value" : "დაამატე მთავარი ეკრანიდან."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "reminder.onDay %@" : {
       "localizations" : {
@@ -1871,7 +1971,8 @@
             "value" : "%@ — ჩამოგეჭრება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "reminder.today" : {
       "localizations" : {
@@ -1887,7 +1988,8 @@
             "value" : "დღეს ჩამოგეჭრება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "reminder.tomorrow" : {
       "localizations" : {
@@ -1903,7 +2005,8 @@
             "value" : "ხვალ ჩამოგეჭრება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "reminderPrompt.allow" : {
       "localizations" : {
@@ -1919,7 +2022,8 @@
             "value" : "შეხსენებების ჩართვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "reminderPrompt.blurb" : {
       "localizations" : {
@@ -1935,7 +2039,8 @@
             "value" : "Bade შეგატყობინებს გამოწერის განახლებამდე ერთი დღით ადრე, რომ დავიწყებული ფასი მოულოდნელი არ იყოს."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "reminderPrompt.notNow" : {
       "localizations" : {
@@ -1951,7 +2056,8 @@
             "value" : "ახლა არა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "reminderPrompt.title" : {
       "localizations" : {
@@ -1967,7 +2073,8 @@
             "value" : "შეიტყვე ჩამოჭრამდე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.caption %lld %@" : {
       "localizations" : {
@@ -2027,7 +2134,8 @@
             }
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.close" : {
       "localizations" : {
@@ -2043,7 +2151,8 @@
             "value" : "დახურვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.confirm %lld" : {
       "localizations" : {
@@ -2059,7 +2168,8 @@
             "value" : "დადასტურება · %lld"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.ended %@" : {
       "localizations" : {
@@ -2075,7 +2185,8 @@
             "value" : "დასრულდა: %1$@"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.isSubscription" : {
       "localizations" : {
@@ -2091,7 +2202,8 @@
             "value" : "გამოწერაა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.leadIn" : {
       "localizations" : {
@@ -2107,7 +2219,8 @@
             "value" : "მონიშნულია მხოლოდ ის, რაშიც Bade დარწმუნებულია. მონიშნე ისიც, რასაც იცნობ."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.notOne" : {
       "localizations" : {
@@ -2123,7 +2236,8 @@
             "value" : "არ არის"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.priceChanged" : {
       "localizations" : {
@@ -2139,7 +2253,8 @@
             "value" : "ფასი შეიცვალა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.saveFailed" : {
       "localizations" : {
@@ -2155,7 +2270,8 @@
             "value" : "შენახვა ვერ მოხერხდა. სცადე ხელახლა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.summary %lld %@" : {
       "localizations" : {
@@ -2215,7 +2331,8 @@
             }
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tier.confident" : {
       "localizations" : {
@@ -2231,7 +2348,8 @@
             "value" : "ნამდვილად"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tier.confidentHint" : {
       "localizations" : {
@@ -2247,7 +2365,8 @@
             "value" : "3+ ჩამოჭრა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tier.ended" : {
       "localizations" : {
@@ -2263,7 +2382,8 @@
             "value" : "უკვე დასრულდა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tier.endedHint" : {
       "localizations" : {
@@ -2279,7 +2399,8 @@
             "value" : "ჩამოჭრა შეწყდა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tier.probable" : {
       "localizations" : {
@@ -2295,7 +2416,8 @@
             "value" : "სავარაუდოდ"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tier.probableHint" : {
       "localizations" : {
@@ -2311,7 +2433,8 @@
             "value" : "2 ჩამოჭრა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tier.uncertain" : {
       "localizations" : {
@@ -2327,7 +2450,8 @@
             "value" : "გაურკვეველი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.tierCount %@ %lld" : {
       "localizations" : {
@@ -2343,7 +2467,8 @@
             "value" : "%1$@ · %2$lld"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "review.title" : {
       "localizations" : {
@@ -2359,7 +2484,8 @@
             "value" : "შეამოწმე ნაპოვნი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.about" : {
       "localizations" : {
@@ -2375,7 +2501,8 @@
             "value" : "აპლიკაციის შესახებ"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.appearance" : {
       "localizations" : {
@@ -2391,7 +2518,8 @@
             "value" : "იერსახე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.appearance.dark" : {
       "localizations" : {
@@ -2407,7 +2535,8 @@
             "value" : "მუქი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.appearance.light" : {
       "localizations" : {
@@ -2423,7 +2552,8 @@
             "value" : "ნათელი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.data" : {
       "localizations" : {
@@ -2439,7 +2569,8 @@
             "value" : "მონაცემები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.defaultBadge" : {
       "localizations" : {
@@ -2455,7 +2586,8 @@
             "value" : "შენთვის შერჩეული"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.display" : {
       "localizations" : {
@@ -2471,7 +2603,8 @@
             "value" : "ჩვენება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.exportCSV" : {
       "localizations" : {
@@ -2487,7 +2620,8 @@
             "value" : "ექსპორტი CSV-ად"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.exportJSON" : {
       "localizations" : {
@@ -2503,7 +2637,8 @@
             "value" : "ექსპორტი JSON-ად"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.exportName" : {
       "localizations" : {
@@ -2519,7 +2654,8 @@
             "value" : "Bade-ის გამოწერები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.language" : {
       "localizations" : {
@@ -2535,7 +2671,8 @@
             "value" : "ენა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.language.en" : {
       "localizations" : {
@@ -2551,7 +2688,8 @@
             "value" : "English"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.language.ka" : {
       "localizations" : {
@@ -2567,7 +2705,8 @@
             "value" : "ქართული"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.option.system" : {
       "localizations" : {
@@ -2583,7 +2722,8 @@
             "value" : "სისტემური"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.rates" : {
       "localizations" : {
@@ -2599,7 +2739,8 @@
             "value" : "ოფიციალური კურსების ჩამოტვირთვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.ratesFooter" : {
       "localizations" : {
@@ -2615,7 +2756,8 @@
             "value" : "ერთადერთი, რასაც Bade აგზავნის. ეროვნულ ბანკს ერთი დღის კურსებს ეკითხება — ანგარიშის მონაცემების და სერვისების სახელების გარეშე — და მხოლოდ მაშინ, როცა ამონაწერში შესადარებელი კურსი არ არის."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.reminderOff" : {
       "localizations" : {
@@ -2631,7 +2773,8 @@
             "value" : "გამორთული"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.reminderOneDay" : {
       "localizations" : {
@@ -2647,7 +2790,8 @@
             "value" : "1 დღით ადრე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.reminders" : {
       "localizations" : {
@@ -2663,7 +2807,8 @@
             "value" : "შეხსენებები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.reminderSameDay" : {
       "localizations" : {
@@ -2679,7 +2824,8 @@
             "value" : "იმავე დღეს"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.remindersDenied" : {
       "localizations" : {
@@ -2695,7 +2841,8 @@
             "value" : "Bade-სთვის შეტყობინებები გამორთულია. ჩართე iOS-ის პარამეტრებში › შეტყობინებები › Bade."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.remindersFooter" : {
       "localizations" : {
@@ -2711,7 +2858,8 @@
             "value" : "ჩამოჭრამდე. შეხსენებები შენს ტელეფონში ითვლება — არსად არაფერი იგზავნება."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.reminderThreeDays" : {
       "localizations" : {
@@ -2727,7 +2875,8 @@
             "value" : "3 დღით ადრე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.reminderTime" : {
       "localizations" : {
@@ -2743,7 +2892,8 @@
             "value" : "დრო"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.reminderTwoDays" : {
       "localizations" : {
@@ -2759,7 +2909,8 @@
             "value" : "2 დღით ადრე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.remindMe" : {
       "localizations" : {
@@ -2775,7 +2926,8 @@
             "value" : "შემახსენე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.textSize" : {
       "localizations" : {
@@ -2791,7 +2943,8 @@
             "value" : "ტექსტის ზომა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.textSize.larger" : {
       "localizations" : {
@@ -2807,7 +2960,8 @@
             "value" : "დიდი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.textSize.largest" : {
       "localizations" : {
@@ -2823,7 +2977,8 @@
             "value" : "ყველაზე დიდი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.textSize.smaller" : {
       "localizations" : {
@@ -2839,7 +2994,8 @@
             "value" : "პატარა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.textSize.smallest" : {
       "localizations" : {
@@ -2855,7 +3011,8 @@
             "value" : "ყველაზე პატარა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.textSize.standard" : {
       "localizations" : {
@@ -2871,7 +3028,8 @@
             "value" : "სტანდარტული"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.title" : {
       "localizations" : {
@@ -2887,7 +3045,8 @@
             "value" : "პარამეტრები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.version %@" : {
       "localizations" : {
@@ -2903,7 +3062,8 @@
             "value" : "ვერსია %@"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.weekStart" : {
       "localizations" : {
@@ -2919,7 +3079,8 @@
             "value" : "კვირის დასაწყისი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.weekStart.monday" : {
       "localizations" : {
@@ -2935,7 +3096,8 @@
             "value" : "ორშაბათი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "settings.weekStart.sunday" : {
       "localizations" : {
@@ -2951,7 +3113,8 @@
             "value" : "კვირა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "store.resetMessage" : {
       "localizations" : {
@@ -2967,7 +3130,8 @@
             "value" : "Bade-ის ამ ვერსიამ ვერ გახსნა ტელეფონზე შენახული მონაცემები და თავიდან დაიწყო. არაფერი წაშლილა — ძველი მონაცემები გვერდით გადაინახა. ამონაწერი ხელახლა დაამატე."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "store.resetTitle" : {
       "localizations" : {
@@ -2983,7 +3147,8 @@
             "value" : "შენი მონაცემები ვერ წაიკითხა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.add" : {
       "localizations" : {
@@ -2999,7 +3164,8 @@
             "value" : "დამატება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.all" : {
       "localizations" : {
@@ -3015,7 +3181,8 @@
             "value" : "ყველა გამოწერა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.cancel" : {
       "localizations" : {
@@ -3031,7 +3198,8 @@
             "value" : "გაუქმება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.delete" : {
       "localizations" : {
@@ -3047,7 +3215,8 @@
             "value" : "წაშლა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.deleteAll" : {
       "localizations" : {
@@ -3063,7 +3232,8 @@
             "value" : "ყველაფრის წაშლა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.deleteAllMessage" : {
       "localizations" : {
@@ -3079,7 +3249,8 @@
             "value" : "წაიშლება ყველა გამოწერა და კურსი, რაც Bade-ს აქვს შენახული. ამის დაბრუნება შეუძლებელია."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.deleteAllTitle" : {
       "localizations" : {
@@ -3095,7 +3266,8 @@
             "value" : "წავშალოთ ყველაფერი?"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.edit" : {
       "localizations" : {
@@ -3111,7 +3283,8 @@
             "value" : "რედაქტირება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.import" : {
       "localizations" : {
@@ -3127,7 +3300,8 @@
             "value" : "ამონაწერის ატვირთვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.loadFailed" : {
       "localizations" : {
@@ -3143,7 +3317,8 @@
             "value" : "გამოწერების ჩატვირთვა ვერ მოხერხდა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.markActive" : {
       "localizations" : {
@@ -3159,7 +3334,8 @@
             "value" : "აქტიურად მონიშვნა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.markCancelled" : {
       "localizations" : {
@@ -3175,7 +3351,8 @@
             "value" : "გაუქმებულად მონიშვნა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.noLongerCharged" : {
       "localizations" : {
@@ -3191,7 +3368,8 @@
             "value" : "აღარ ჩამოიჭრება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.nothingCharging" : {
       "localizations" : {
@@ -3207,7 +3385,8 @@
             "value" : "ამჟამად არაფერს იხდი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.perMonth" : {
       "localizations" : {
@@ -3223,7 +3402,8 @@
             "value" : "თვეში"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.separator" : {
       "localizations" : {
@@ -3239,7 +3419,8 @@
             "value" : " · "
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.sort.cost" : {
       "localizations" : {
@@ -3255,7 +3436,8 @@
             "value" : "ფასით"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.sort.name" : {
       "localizations" : {
@@ -3271,7 +3453,8 @@
             "value" : "სახელით"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.sort.nextCharge" : {
       "localizations" : {
@@ -3287,7 +3470,8 @@
             "value" : "შემდეგი ჩამოჭრით"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.sortLabel" : {
       "localizations" : {
@@ -3303,7 +3487,8 @@
             "value" : "დალაგება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.title" : {
       "localizations" : {
@@ -3319,7 +3504,8 @@
             "value" : "გამოწერები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.unconvertible %lld" : {
       "localizations" : {
@@ -3379,7 +3565,8 @@
             }
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "subscriptions.yearAndCount %@ %lld" : {
       "localizations" : {
@@ -3439,7 +3626,8 @@
             }
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "tip.swipeARow.message" : {
       "localizations" : {
@@ -3455,7 +3643,8 @@
             "value" : "შეცვალე ან გაუქმებულად მონიშნე."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "tip.swipeARow.title" : {
       "localizations" : {
@@ -3471,7 +3660,8 @@
             "value" : "გადაასრიალე ნებისმიერი მწკრივი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "tip.tapADay.message" : {
       "localizations" : {
@@ -3487,7 +3677,8 @@
             "value" : "ქვემოთ სია მხოლოდ იმ დღეს გაჩვენებს."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "tip.tapADay.title" : {
       "localizations" : {
@@ -3503,7 +3694,8 @@
             "value" : "შეეხე რომელიმე დღეს"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.cancelled" : {
       "extractionState" : "manual",
@@ -3580,7 +3772,8 @@
             }
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.loadFailed" : {
       "localizations" : {
@@ -3596,7 +3789,8 @@
             "value" : "გამოწერების წაკითხვა ვერ მოხერხდა."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.next" : {
       "localizations" : {
@@ -3612,7 +3806,8 @@
             "value" : "შემდეგი თვე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.nothing" : {
       "localizations" : {
@@ -3628,7 +3823,8 @@
             "value" : "ამ თვეში ჩამოჭრა არ არის."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.nothingEver" : {
       "localizations" : {
@@ -3644,7 +3840,8 @@
             "value" : "ჩამოჭრები არ არის. დაამატე გამოწერა ან შემოიტანე ამონაწერი."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.nothingThatDay" : {
       "localizations" : {
@@ -3660,7 +3857,8 @@
             "value" : "იმ დღეს ჩამოჭრა არ არის."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.previous" : {
       "localizations" : {
@@ -3676,7 +3874,8 @@
             "value" : "წინა თვე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.showMonth" : {
       "localizations" : {
@@ -3692,7 +3891,8 @@
             "value" : "მთელი თვის ჩვენება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.thisMonth" : {
       "localizations" : {
@@ -3708,7 +3908,8 @@
             "value" : "მიმდინარე თვე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.title" : {
       "localizations" : {
@@ -3724,7 +3925,8 @@
             "value" : "მოსალოდნელი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "upcoming.total" : {
       "localizations" : {
@@ -3740,7 +3942,8 @@
             "value" : "ჯამი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.addManually" : {
       "localizations" : {
@@ -3756,7 +3959,8 @@
             "value" : "ხელით დამატება"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.guide.1" : {
       "localizations" : {
@@ -3772,7 +3976,8 @@
             "value" : "გახსენი ბანკის აპლიკაცია → ანგარიშები"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.guide.2" : {
       "localizations" : {
@@ -3788,7 +3993,8 @@
             "value" : "ამონაწერი → პერიოდი: ბოლო 12 თვე"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.guide.3" : {
       "localizations" : {
@@ -3804,7 +4010,8 @@
             "value" : "ფორმატი PDF → გაზიარება → Bade"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.guide.title" : {
       "localizations" : {
@@ -3820,7 +4027,8 @@
             "value" : "როგორ ჩამოტვირთო ამონაწერი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.import" : {
       "localizations" : {
@@ -3836,7 +4044,8 @@
             "value" : "ამონაწერის ატვირთვა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.privacy.line1" : {
       "localizations" : {
@@ -3852,7 +4061,8 @@
             "value" : "არაფერი ტოვებს ტელეფონს."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.privacy.line2" : {
       "localizations" : {
@@ -3868,7 +4078,8 @@
             "value" : "Bade არასდროს ითხოვს საბანკო მონაცემებს."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.subtitle" : {
       "localizations" : {
@@ -3884,7 +4095,8 @@
             "value" : "Bade იპოვის ყველა განმეორებად ტრანზაქციას შენს საბანკო ამონაწერში."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "welcome.title" : {
       "localizations" : {
@@ -3900,7 +4112,8 @@
             "value" : "რამდენს ხარჯავ თვეში?"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.allCharged" : {
       "localizations" : {
@@ -3916,7 +4129,8 @@
             "value" : "ყველა ჩამოიჭრა"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.description" : {
       "localizations" : {
@@ -3932,7 +4146,8 @@
             "value" : "რამდენი ჯდება გამოწერები თვეში და რა ჩამოგეჭრება შემდეგ."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.empty" : {
       "localizations" : {
@@ -3948,7 +4163,8 @@
             "value" : "შემოიტანე ამონაწერი, რომ ჯამი აქ გამოჩნდეს."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.locked" : {
       "localizations" : {
@@ -3964,7 +4180,8 @@
             "value" : "ვიჯეტები Bade Pro-ს ნაწილია."
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.name" : {
       "localizations" : {
@@ -3980,7 +4197,8 @@
             "value" : "თვიური ჯამი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.nothingLeft" : {
       "extractionState" : "manual",
@@ -4030,7 +4248,8 @@
             "value" : "დარჩენილი"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.thisMonth" : {
       "localizations" : {
@@ -4046,7 +4265,8 @@
             "value" : "ამ თვეში"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     },
     "widget.toGo %@" : {
       "localizations" : {
@@ -4062,7 +4282,8 @@
             "value" : "დარჩა %@"
           }
         }
-      }
+      },
+      "extractionState" : "manual"
     }
   },
   "version" : "1.1"

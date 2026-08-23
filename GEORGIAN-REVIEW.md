@@ -396,3 +396,40 @@ cd BadeKit && swift test
 It walks into the plural substitutions too, which carry their own `state` and would otherwise be
 left behind. Run `swift test` after: the catalog suite checks every key still has both languages,
 neither is blank, and the placeholders match.
+
+---
+
+## Added after this pass — 12 keys, 2026-08-23
+
+Written against 227 keys; the catalog now holds 239. These twelve arrived with the TipKit tips, the
+owned Pro page, the Review lead-in and the new launch screen, and were **not** part of the pass
+above. Everything before this line is unchanged.
+
+| Key | English | Georgian |
+|---|---|---|
+| `app.wordmark` | bade | bade |
+| `common.dismiss` | Dismiss | დახურვა |
+| `pro.owned.title` | What you have | რაც გაქვს |
+| `pro.exportWhere` | In Settings, under Data. | Settings-ში, განყოფილებაში „მონაცემები“. |
+| `pro.fxWhere` | On any charge your bank converted. | ნებისმიერ ჩამოჭრაზე, სადაც კონვერტაცია მოხდა. |
+| `pro.remindersWhere` | Set when, in Settings. | დროს Settings-ში აირჩევ. |
+| `pro.widgetsWhere` | Add it from your home screen. | დაამატე მთავარი ეკრანიდან. |
+| `review.leadIn` | Only what Bade was sure of is ticked. Tick anything else you recognise. | მონიშნულია მხოლოდ ის, რაშიც Bade დარწმუნებულია. მონიშნე ისიც, რასაც იცნობ. |
+| `tip.swipeARow.title` | Swipe any row | გადაასრიალე ნებისმიერი მწკრივი |
+| `tip.swipeARow.message` | Edit it, or mark it cancelled. | შეცვალე ან გაუქმებულად მონიშნე. |
+| `tip.tapADay.title` | Tap a day | შეეხე რომელიმე დღეს |
+| `tip.tapADay.message` | The list below shows just that day. | ქვემოთ სია მხოლოდ იმ დღეს გაჩვენებს. |
+
+**Two of these have a bug, not a style question.** `pro.exportWhere` and `pro.remindersWhere` say
+**`Settings-ში`** — the Latin word — while the Georgian tab is **პარამეტრები**. They send a Georgian
+reader to a screen name that appears nowhere in their interface. Both want the localised word.
+
+**`app.wordmark` is deliberately Latin in both languages**, following decision 2 above: the wordmark
+stays `bade`. It is `needs_review` so that decision is confirmed rather than assumed, not because it
+is a translation.
+
+**Where each appears.** `app.wordmark` — the launch screen, lowercase, with the full stop drawn
+separately in the accent colour. `common.dismiss` — closing a tip. `pro.owned.*` and `pro.*Where` —
+the Pro page once it is owned, where each row says where to find what was bought rather than selling
+it. `review.leadIn` — the permanent line under Review's header. `tip.*` — the two TipKit popovers,
+on Subscriptions and Upcoming.
