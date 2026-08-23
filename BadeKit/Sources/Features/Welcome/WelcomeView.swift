@@ -87,15 +87,11 @@ public struct WelcomeView: View {
     /// Bade that depends on a bank not changing its export, and this is where that promise is made.
     private var actions: some View {
         VStack(spacing: .xs) {
-            Button { onOutcome(.importStatement) } label: {
-                HStack(spacing: .xs) {
-                    Text(.welcome.importStatement)
-                    // White, like the button's own label. Tinting it with the surface colour made
-                    // it dark-on-accent in a dark appearance, where the surface is nearly black.
-                    BadeBadge(.parsing.beta, tint: .white)
-                }
-            }
-            .buttonStyle(.badePrimary)
+            // No badge on the way in. It read BETA, and guideline 2.2 keeps betas off the App Store
+            // — on the first button a reviewer taps, that is an argument nobody needs to have. What
+            // it was there to say, Parsing still says in a sentence, where it would actually break.
+            Button { onOutcome(.importStatement) } label: { Text(.welcome.importStatement) }
+                .buttonStyle(.badePrimary)
 
             Button { onOutcome(.addManually) } label: { Text(.welcome.addManually) }
                 .buttonStyle(.badeSecondary)

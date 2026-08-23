@@ -1039,24 +1039,6 @@
         }
       }
     },
-    "parsing.beta" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BETA"
-          }
-        },
-        "ka" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BETA"
-          }
-        }
-      },
-      "shouldTranslate" : false
-    },
     "parsing.betaNote" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1644,13 +1626,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bade Pro is yours."
+            "value" : "Bade Pro is yours"
           }
         },
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bade Pro შენია."
+            "value" : "Bade Pro შენია"
           }
         }
       }
@@ -1678,13 +1660,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bought once, on this Apple Account. Nothing recurring, nothing to cancel."
+            "value" : "Pay once, yours forever. No subscriptions, nothing to cancel."
           }
         },
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ერთხელ ნაყიდი, ამ Apple Account-ზე. არაფერი განმეორებადი, გასაუქმებელი არაფერი."
+            "value" : "იხდი ერთხელ და სამუდამოდ შენია."
           }
         }
       }

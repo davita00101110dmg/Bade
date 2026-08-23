@@ -68,10 +68,10 @@ public struct ParsingView: View {
 
     private var header: some View {
         VStack(spacing: .sm) {
-            // Two banks are understood, and either could change its export without telling anyone.
-            // Saying so on the screen where it would break is cheaper than a one-star review.
-            BadeBadge(.parsing.beta)
-
+            // The BETA badge that used to sit here is gone: guideline 2.2 keeps betas off the App
+            // Store, and the word was doing no work the note below does not do better. Two banks
+            // are understood and either could change its export without telling anyone — saying so
+            // on the screen where it would break is still cheaper than a one-star review.
             Text(headline)
                 .font(.badeDisplay)
                 .foregroundStyle(theme.ink)

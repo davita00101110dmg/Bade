@@ -328,7 +328,6 @@ extension LocalizedStringResource {
         public var reading: LocalizedStringResource { string("parsing.reading") }
         /// Two banks are understood and a format can change under Bade at any time. Better said
         /// here, on the screen where it would go wrong, than discovered in a review.
-        public var beta: LocalizedStringResource { string("parsing.beta") }
         public var betaNote: LocalizedStringResource { string("parsing.betaNote") }
         public var found: LocalizedStringResource { string("parsing.found") }
         public var processedHere: LocalizedStringResource { string("parsing.processedHere") }
