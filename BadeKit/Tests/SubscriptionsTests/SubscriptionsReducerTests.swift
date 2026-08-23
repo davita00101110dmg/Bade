@@ -241,10 +241,26 @@ struct SubscriptionsDeletionTests {
         var subject = state([
             subscription("Spotify", "15.00"), subscription("Netflix", "35.00"),
         ])
+        // Read before the answer, not after: confirming removes it from the list there and then.
+        let target = subject.all[1]
 
+        _ = subject.apply(.deleteTapped(target))
+
+        #expect(subject.apply(.deleteConfirmed) == .delete(target.id))
+    }
+
+    /// The row leaves on the answer rather than when the store gets back, because the write is
+    /// asynchronous: waiting for it meant the row outlived the confirmation and then vanished a
+    /// moment later, outside whatever animation the tap had begun.
+    @Test func confirmingRemovesTheRowBeforeTheStoreIsToldAnything() {
+        var subject = state([
+            subscription("Spotify", "15.00"), subscription("Netflix", "35.00"),
+        ])
         _ = subject.apply(.deleteTapped(subject.all[1]))
 
-        #expect(subject.apply(.deleteConfirmed) == .delete(subject.all[1].id))
+        _ = subject.apply(.deleteConfirmed)
+
+        #expect(subject.rows.map(\.subscription.merchant) == ["Spotify"])
     }
 
     @Test func backingOutOfAsingleDeletionDeletesNothing() {

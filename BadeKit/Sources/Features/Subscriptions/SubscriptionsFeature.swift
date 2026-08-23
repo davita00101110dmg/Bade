@@ -160,6 +160,12 @@ extension SubscriptionsState {
         case .deleteConfirmed:
             guard let pending = pendingDelete else { return nil }
             pendingDelete = nil
+            // Gone from the list here, not when the store answers. The write is asynchronous, so
+            // waiting for it meant the row survived the confirmation and then vanished a moment
+            // later, outside any animation the tap had started — no matter what the view wrapped
+            // around this call, there was nothing to animate inside it. If the write fails, the
+            // reload that follows puts the row back, which is the honest outcome.
+            all.removeAll { $0.id == pending.id }
             return .delete(pending.id)
 
         case .deleteAllRequested:

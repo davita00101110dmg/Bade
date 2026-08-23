@@ -372,6 +372,8 @@ public struct SubscriptionsView: View {
 /// An alert rather than a confirmation dialog, because a dialog anchors itself to whatever
 /// triggered it and lands somewhere unrelated when that was a swipe or a context menu.
 private struct DeletionConfirmations: ViewModifier {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     let model: SubscriptionsViewModel
 
     func body(content: Content) -> some View {
@@ -382,7 +384,16 @@ private struct DeletionConfirmations: ViewModifier {
                 Text(.detail.deleteTitle), isPresented: isConfirmingDelete,
                 presenting: model.state.pendingDelete
             ) { subscription in
-                Button(role: .destructive) { model.send(.deleteConfirmed) } label: {
+                // Animated at the mutation, which is the only form that works — and safe here in a
+                // way it would not be in `swipeActions`. A destructive role there makes SwiftUI
+                // remove the row itself before anything is asked; in an alert it only paints the
+                // button red. The row leaves because our own rows changed, so this describes how
+                // that renders rather than causing it.
+                Button(role: .destructive) {
+                    withBadeAnimation(.badeReorder, reduceMotion: reduceMotion) {
+                        model.send(.deleteConfirmed)
+                    }
+                } label: {
                     Text(.subscriptions.delete)
                 }
                 Button(role: .cancel) { model.send(.confirmationDismissed) } label: {
