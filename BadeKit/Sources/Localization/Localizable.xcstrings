@@ -12,7 +12,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bade."
           }
         }
@@ -30,7 +30,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "bade"
           }
         }
@@ -132,7 +132,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დახურვა"
           }
         }
@@ -149,7 +149,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "კარგი"
           }
         }
@@ -166,8 +166,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "მიმდინარეობა"
+            "state" : "translated",
+            "value" : "პროგრესი"
           }
         }
       }
@@ -183,8 +183,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "მიმდინარეობს"
+            "state" : "translated",
+            "value" : "მუშავდება"
           }
         }
       }
@@ -200,7 +200,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ყველა ვალუტა"
           }
         }
@@ -217,7 +217,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შენს გამოწერებში"
           }
         }
@@ -234,8 +234,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ძებნა"
+            "state" : "translated",
+            "value" : "ძიება"
           }
         }
       }
@@ -251,7 +251,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ვალუტა"
           }
         }
@@ -268,7 +268,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "წელიწადში"
           }
         }
@@ -285,7 +285,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%1$@ · გადახდა %2$@-ში"
           }
         }
@@ -319,7 +319,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "წაშლა"
           }
         }
@@ -336,8 +336,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ამონაწერის ხელახლა იმპორტისას ისევ მოიძებნება."
+            "state" : "translated",
+            "value" : "ამონაწერის ხელახლა დაიმპორტება მას ისევ იპოვის."
           }
         }
       }
@@ -353,8 +353,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "წავშალოთ ეს გამოწერა?"
+            "state" : "translated",
+            "value" : "წაიშალოს ეს გამოწერა?"
           }
         }
       }
@@ -370,7 +370,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "პირველი ჩამოჭრა"
           }
         }
@@ -387,7 +387,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შენი ბანკის კურსი"
           }
         }
@@ -404,8 +404,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "შენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით იაფია."
+            "state" : "translated",
+            "value" : "შენი ბანკის კურსი %@-ით ნაკლები დაგიჯდა, ვიდრე ეროვნული ბანკის კურსი."
           }
         }
       }
@@ -421,8 +421,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "შენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით იაფია."
+            "state" : "translated",
+            "value" : "შენი ბანკის კურსი %@-ით ნაკლები დაგიჯდა, ვიდრე ბარათის ქსელის კურსი."
           }
         }
       }
@@ -438,8 +438,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "შენი ბანკის კურსი ეროვნული ბანკის კურსზე %@-ით ძვირია."
+            "state" : "translated",
+            "value" : "შენი ბანკის კურსი %@-ით მეტი დაგიჯდა, ვიდრე ეროვნული ბანკის კურსი."
           }
         }
       }
@@ -455,8 +455,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "შენი ბანკის კურსი ბარათის სისტემის კურსზე %@-ით ძვირია."
+            "state" : "translated",
+            "value" : "შენი ბანკის კურსი %@-ით მეტი დაგიჯდა, ვიდრე ბარათის ქსელის კურსი."
           }
         }
       }
@@ -472,8 +472,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "გადახდილია პირდაპირ შენი %@ ბალანსიდან — კონვერტაცია არ მომხდარა და დანამატიც არ არის."
+            "state" : "translated",
+            "value" : "გადახდილია პირდაპირ შენი %@-ის ბალანსიდან, ამიტომ კონვერტაცია არ მომხდარა და არც ფასნამატია."
           }
         }
       }
@@ -489,7 +489,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "იმ დღის საორიენტაციო კურსი ჯერ არ არის."
           }
         }
@@ -506,7 +506,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ეროვნული ბანკის კურსი"
           }
         }
@@ -523,7 +523,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ჩამოგეჭრა"
           }
         }
@@ -540,7 +540,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "კურსების სხვაობა"
           }
         }
@@ -557,8 +557,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ბარათის სისტემის კურსი"
+            "state" : "translated",
+            "value" : "ბარათის ქსელის კურსი"
           }
         }
       }
@@ -574,7 +574,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "კურსების ჩვენება"
           }
         }
@@ -591,7 +591,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "რა დაჯდა კონვერტაცია"
           }
         }
@@ -608,7 +608,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ბოლო 12 თვე"
           }
         }
@@ -625,7 +625,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შემდეგი ჩამოჭრა"
           }
         }
@@ -642,8 +642,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ჩამოჭრები ჯერ არ არის."
+            "state" : "translated",
+            "value" : "ჩამოჭრები ჯერ არ დაფიქსირებულა."
           }
         }
       }
@@ -659,7 +659,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ფასის ცვლილება · %@"
           }
         }
@@ -676,7 +676,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დეტალები"
           }
         }
@@ -744,7 +744,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გადახდა"
           }
         }
@@ -795,8 +795,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "არ შეინახოს"
+            "state" : "translated",
+            "value" : "გაუქმება"
           }
         }
       }
@@ -812,8 +812,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "აკრეფილი მონაცემები არ შეინახება."
+            "state" : "translated",
+            "value" : "რაც აკრიფე, არ შეინახება."
           }
         }
       }
@@ -829,8 +829,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ცვლილებები არ შეინახოს?"
+            "state" : "translated",
+            "value" : "გაუქმდეს ცვლილებები?"
           }
         }
       }
@@ -846,7 +846,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "რედაქტირების გაგრძელება"
           }
         }
@@ -931,7 +931,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შემოთავაზებები"
           }
         }
@@ -948,7 +948,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გამოწერის რედაქტირება"
           }
         }
@@ -982,8 +982,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ამ ამონაწერში ყველაფერი უკვე იყო Bade-ში, ამიტომ ახალი არაფერი დაემატა. ფასები და თარიღები განახლდა."
+            "state" : "translated",
+            "value" : "ამონაწერში არსებული ყველაფერი უკვე იყო Bade-ში, ამიტომ ახალი არაფერი დამატებულა. ფასები და თარიღები განახლდა."
           }
         }
       }
@@ -999,7 +999,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "უკვე იმპორტირებულია"
           }
         }
@@ -1016,7 +1016,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ნახე, რას გაძლევს Pro"
           }
         }
@@ -1033,7 +1033,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bade Pro-ს ნაწილი"
           }
         }
@@ -1054,7 +1054,8 @@
             "value" : "BETA"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "parsing.betaNote" : {
       "extractionState" : "manual",
@@ -1084,7 +1085,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "აირჩიე სხვა ფაილი"
           }
         }
@@ -1101,7 +1102,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დახურვა"
           }
         }
@@ -1118,7 +1119,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ამონაწერის წაკითხვა ვერ მოხერხდა"
           }
         }
@@ -1135,8 +1136,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ამონაწერიდან თითქმის ვერაფერი ამოიკითხა."
+            "state" : "translated",
+            "value" : "ამონაწერიდან თითქმის ვერაფრის ამოკითხვა ვერ მოხერხდა."
           }
         }
       }
@@ -1152,7 +1153,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ფაილის გახსნა ვერ მოხერხდა."
           }
         }
@@ -1169,7 +1170,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ეს არ ჰგავს ამონაწერს, რომლის წაკითხვაც Bade-ს ჯერ შეუძლია."
           }
         }
@@ -1186,7 +1187,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%lld თვე"
           }
         }
@@ -1203,7 +1204,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%lld ტრანზაქცია"
           }
         }
@@ -1237,8 +1238,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bade-მ ამონაწერი წაიკითხა, მაგრამ განმეორებადი ტრანზაქცია ვერ აღმოაჩინა. უფრო ხანგრძლივმა ამონაწერმა, შეიძლება იმუშაოს"
+            "state" : "translated",
+            "value" : "Bade-მ წაიკითხა ამონაწერი, მაგრამ ვერ იპოვა ისეთი გადასახადი, რომელიც პერიოდულად მეორდება. უფრო ვრცელმა ამონაწერმა - შესაძლოა იმუშაოს."
           }
         }
       }
@@ -1275,7 +1276,8 @@
             "value" : "×%lld"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "parsing.processedHere" : {
       "extractionState" : "manual",
@@ -1288,8 +1290,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "დამუშავება მხოლოდ ამ ტელეფონში ხდება"
+            "state" : "translated",
+            "value" : "მუშავდება მხოლოდ ამ ტელეფონში"
           }
         }
       }
@@ -1309,7 +1311,8 @@
             "value" : "%1$@ · %2$@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "parsing.reading" : {
       "extractionState" : "manual",
@@ -1356,7 +1359,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ფასის ზრდის შეტყობინებები"
           }
         }
@@ -1373,7 +1376,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შეიტყობ, როცა გამოწერა ჩუმად გაძვირდება — ძველ და ახალ ფასთან ერთად."
           }
         }
@@ -1390,11 +1393,12 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "PRO"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "pro.blurb" : {
       "extractionState" : "manual",
@@ -1407,8 +1411,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "აპლიკაცია, რომელიც გამოწერების საკონტროლოდ თვითონ ითხოვს გამოწერას, ანეკდოტია. Bade ერთხელ იყიდება და შენია."
+            "state" : "translated",
+            "value" : "აპლიკაცია, რომელიც გამოწერების სამართავად გამოწერას გთხოვს - უბრალოდ სასაცილოა. Bade Pro-ს ყიდულობ ერთხელ და ის სამუდამოდ შენია."
           }
         }
       }
@@ -1424,7 +1428,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "მომავალი ჩამოჭრები"
           }
         }
@@ -1441,7 +1445,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "კალენდარი — რა ჩამოგეჭრება და რა ჯდება თითოეული დღე."
           }
         }
@@ -1458,7 +1462,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "კატეგორიების ანალიტიკა"
           }
         }
@@ -1475,7 +1479,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ჯამის რა ნაწილია სტრიმინგი, პროგრამები თუ სპორტდარბაზი."
           }
         }
@@ -1492,7 +1496,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "მონაცემების ექსპორტი"
           }
         }
@@ -1509,7 +1513,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ყველაფერი, რაც Bade-მ იპოვა, CSV ან JSON ფორმატში, როცა მოგინდება."
           }
         }
@@ -1526,8 +1530,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Settings-ში, განყოფილებაში „მონაცემები“."
+            "state" : "translated",
+            "value" : "პარამეტრებში, „მონაცემების“ განყოფილებაში."
           }
         }
       }
@@ -1543,7 +1547,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ვერ განხორციელდა. თანხა არ ჩამოგეჭრა."
           }
         }
@@ -1560,8 +1564,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ვალუტის კონვერტაციის დანამატი"
+            "state" : "translated",
+            "value" : "კონვერტაციის ფასნამატი"
           }
         }
       }
@@ -1577,8 +1581,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის სისტემის კურსის გვერდით — როცა კონვერტაცია ხდება."
+            "state" : "translated",
+            "value" : "კურსი, რომელიც ბანკმა რეალურად გამოიყენა, ბარათის ქსელის კურსის გვერდით — როცა კონვერტაცია ხდება."
           }
         }
       }
@@ -1594,7 +1598,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ნებისმიერ ჩამოჭრაზე, სადაც კონვერტაცია მოხდა."
           }
         }
@@ -1611,7 +1615,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "რას მიიღებ"
           }
         }
@@ -1628,8 +1632,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ამ Apple Account-ზე ადრინდელი შენაძენი ვერ მოიძებნა."
+            "state" : "translated",
+            "value" : "ამ Apple ანგარიშზე შენაძენი ვერ მოიძებნა."
           }
         }
       }
@@ -1645,7 +1649,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bade Pro შენია."
           }
         }
@@ -1662,7 +1666,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "რაც გაქვს"
           }
         }
@@ -1679,7 +1683,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ერთხელ ნაყიდი, ამ Apple Account-ზე. არაფერი განმეორებადი, გასაუქმებელი არაფერი."
           }
         }
@@ -1696,7 +1700,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "განახლების შეხსენებები"
           }
         }
@@ -1713,7 +1717,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შეიტყობ გამოწერის განახლებამდე ერთი დღით ადრე — და რამდენი დაგიჯდება."
           }
         }
@@ -1730,8 +1734,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "დროს Settings-ში აირჩევ."
+            "state" : "translated",
+            "value" : "დროს „პარამეტრებში“ აირჩევ."
           }
         }
       }
@@ -1747,7 +1751,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შენაძენის აღდგენა"
           }
         }
@@ -1764,7 +1768,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "App Store ამჟამად მიუწვდომელია."
           }
         }
@@ -1781,8 +1785,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ერთი გადახდა.\nგამოწერა — არასოდეს."
+            "state" : "translated",
+            "value" : "ერთი გადახდა. არანაირი გამოწერა, არასდროს."
           }
         }
       }
@@ -1798,7 +1802,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "თემები და ხატულები"
           }
         }
@@ -1815,7 +1819,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "სხვა პალიტრა და შენი აპლიკაციის ხატულა."
           }
         }
@@ -1832,7 +1836,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bade Pro"
           }
         }
@@ -1849,7 +1853,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ხარჯების ისტორია და ტენდენციები"
           }
         }
@@ -1866,8 +1870,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "რამდენს იხდიდი წლის წინ და როგორ შეიცვალა მას შემდეგ."
+            "state" : "translated",
+            "value" : "რამდენს იხდიდი ერთი წლის წინ და როგორ შეიცვალა მას შემდეგ."
           }
         }
       }
@@ -1883,8 +1887,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bade Pro-ს გახსნა"
+            "state" : "translated",
+            "value" : "Bade Pro-ს გააქტიურება"
           }
         }
       }
@@ -1900,8 +1904,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bade Pro-ს გახსნა · %@"
+            "state" : "translated",
+            "value" : "Bade Pro-ს გააქტიურება · %@"
           }
         }
       }
@@ -1917,7 +1921,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ვიჯეტები"
           }
         }
@@ -1934,7 +1938,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ჯამი და შემდეგი ჩამოჭრა მთავარ ეკრანზე."
           }
         }
@@ -1951,7 +1955,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დაამატე მთავარი ეკრანიდან."
           }
         }
@@ -1968,8 +1972,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "%@ — ჩამოგეჭრება"
+            "state" : "translated",
+            "value" : "%@ - ჩამოგეჭრება"
           }
         }
       }
@@ -1985,7 +1989,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დღეს ჩამოგეჭრება"
           }
         }
@@ -2002,7 +2006,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ხვალ ჩამოგეჭრება"
           }
         }
@@ -2019,7 +2023,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შეხსენებების ჩართვა"
           }
         }
@@ -2036,8 +2040,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bade შეგატყობინებს გამოწერის განახლებამდე ერთი დღით ადრე, რომ დავიწყებული ფასი მოულოდნელი არ იყოს."
+            "state" : "translated",
+            "value" : "Bade გამოწერის განახლებამდე ერთი დღით ადრე გაფრთხილებს, ამიტომ მივიწყებული გადასახადი სიურპრიზი აღარასდროს იქნება."
           }
         }
       }
@@ -2053,7 +2057,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ახლა არა"
           }
         }
@@ -2070,7 +2074,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შეიტყვე ჩამოჭრამდე"
           }
         }
@@ -2135,7 +2139,8 @@
             }
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "review.close" : {
       "extractionState" : "manual",
@@ -2148,7 +2153,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დახურვა"
           }
         }
@@ -2182,7 +2187,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დასრულდა: %1$@"
           }
         }
@@ -2199,7 +2204,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გამოწერაა"
           }
         }
@@ -2233,7 +2238,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "არ არის"
           }
         }
@@ -2250,7 +2255,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ფასი შეიცვალა"
           }
         }
@@ -2267,7 +2272,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შენახვა ვერ მოხერხდა. სცადე ხელახლა."
           }
         }
@@ -2306,7 +2311,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%#@count@ · %2$@ თვეში"
           },
           "substitutions" : {
@@ -2464,11 +2469,12 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%1$@ · %2$lld"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "review.title" : {
       "extractionState" : "manual",
@@ -2566,7 +2572,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "მონაცემები"
           }
         }
@@ -2583,7 +2589,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შენთვის შერჩეული"
           }
         }
@@ -2600,7 +2606,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ჩვენება"
           }
         }
@@ -2651,7 +2657,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bade-ის გამოწერები"
           }
         }
@@ -2685,11 +2691,12 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "English"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "settings.language.ka" : {
       "extractionState" : "manual",
@@ -2702,7 +2709,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ქართული"
           }
         }
@@ -2719,7 +2726,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "სისტემური"
           }
         }
@@ -2736,7 +2743,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ოფიციალური კურსების ჩამოტვირთვა"
           }
         }
@@ -2754,7 +2761,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ერთადერთი მონაცემი, რასაც Bade ეროვნულ ბანკს უგზავნის, დღიური კურსების მოთხოვნაა, ისიც მხოლოდ მაშინ, როცა ის ამონაწერში აკლია."
+            "value" : "ერთადერთი მონაცემი, რასაც Bade ეროვნულ ბანკისგან იღებს, ყოველდღიური კურსებია, ისიც მხოლოდ მაშინ, როცა ის ამონაწერში აკლია."
           }
         }
       }
@@ -2770,7 +2777,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გამორთული"
           }
         }
@@ -2787,7 +2794,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "1 დღით ადრე"
           }
         }
@@ -2804,7 +2811,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შეხსენებები"
           }
         }
@@ -2821,7 +2828,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "იმავე დღეს"
           }
         }
@@ -2838,7 +2845,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bade-სთვის შეტყობინებები გამორთულია. ჩართე iOS-ის პარამეტრებში › შეტყობინებები › Bade."
           }
         }
@@ -2855,8 +2862,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ჩამოჭრამდე. შეხსენებები შენს ტელეფონში ითვლება — არსად არაფერი იგზავნება."
+            "state" : "translated",
+            "value" : "შეხსენებები ჩამოჭრამდე. ყველაფერი ხდება მხოლოდ შენს ტელეფონში."
           }
         }
       }
@@ -3127,8 +3134,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bade-ის ამ ვერსიამ ვერ გახსნა ტელეფონზე შენახული მონაცემები და თავიდან დაიწყო. არაფერი წაშლილა — ძველი მონაცემები გვერდით გადაინახა. ამონაწერი ხელახლა დაამატე."
+            "state" : "translated",
+            "value" : "Bade-ს ამ ვერსიამ ტელეფონში შენახული მონაცემები ვერ გახსნა, ამიტომ სუფთა ფურცლიდან დაიწყო. არაფერი წაშლილა - ძველი მონაცემები უბრალოდ გვერდზე გადაიდო. თავიდან დააიმპორტე შენი ამონაწერი."
           }
         }
       }
@@ -3144,8 +3151,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "შენი მონაცემები ვერ წაიკითხა"
+            "state" : "translated",
+            "value" : "შენი მონაცემების წაკითხვა ვერ მოხერხდა"
           }
         }
       }
@@ -3196,7 +3203,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%@ წელიწადში"
           }
         }
@@ -3214,7 +3221,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%@ სამ თვეში ერთხელ"
           }
         }
@@ -3232,7 +3239,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%@ წელიწადში ორჯერ"
           }
         }
@@ -3250,7 +3257,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%@ კვირაში"
           }
         }
@@ -3284,7 +3291,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "წაშლა"
           }
         }
@@ -3318,8 +3325,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "წაიშლება ყველა გამოწერა და კურსი, რაც Bade-ს აქვს შენახული. ამის დაბრუნება შეუძლებელია."
+            "state" : "translated",
+            "value" : "წაიშლება ყველა გამოწერა და კურსი, რაც Bade-ს აქვს შენახული. ამ მოქმედების გაუქმება შეუძლებელია."
           }
         }
       }
@@ -3335,8 +3342,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "წავშალოთ ყველაფერი?"
+            "state" : "translated",
+            "value" : "წაიშალოს ყველაფერი?"
           }
         }
       }
@@ -3352,7 +3359,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "რედაქტირება"
           }
         }
@@ -3386,7 +3393,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გამოწერების ჩატვირთვა ვერ მოხერხდა."
           }
         }
@@ -3403,7 +3410,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "აქტიურად მონიშვნა"
           }
         }
@@ -3420,7 +3427,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გაუქმებულად მონიშვნა"
           }
         }
@@ -3437,7 +3444,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "აღარ ჩამოიჭრება"
           }
         }
@@ -3454,7 +3461,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ამჟამად არაფერს იხდი"
           }
         }
@@ -3471,7 +3478,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "თვეში"
           }
         }
@@ -3488,11 +3495,12 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : " · "
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "subscriptions.sort.cost" : {
       "extractionState" : "manual",
@@ -3505,7 +3513,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ფასით"
           }
         }
@@ -3522,7 +3530,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "სახელით"
           }
         }
@@ -3539,7 +3547,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შემდეგი ჩამოჭრით"
           }
         }
@@ -3556,7 +3564,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დალაგება"
           }
         }
@@ -3573,7 +3581,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გამოწერები"
           }
         }
@@ -3612,7 +3620,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%#@count@ ვერ კონვერტირდა"
           },
           "substitutions" : {
@@ -3712,7 +3720,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "შეცვალე ან გაუქმებულად მონიშნე."
           }
         }
@@ -3729,7 +3737,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გადაასრიალე ნებისმიერი მწკრივი"
           }
         }
@@ -3746,8 +3754,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ქვემოთ სია მხოლოდ იმ დღეს გაჩვენებს."
+            "state" : "translated",
+            "value" : "ქვედა სია მხოლოდ იმ დღეს გაჩვენებს."
           }
         }
       }
@@ -3763,8 +3771,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "შეეხე რომელიმე დღეს"
+            "state" : "translated",
+            "value" : "დააჭირე რომელიმე დღეს"
           }
         }
       }
@@ -3819,7 +3827,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%#@count@"
           },
           "substitutions" : {
@@ -3845,7 +3853,8 @@
             }
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "upcoming.loadFailed" : {
       "extractionState" : "manual",
@@ -3858,7 +3867,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "გამოწერების წაკითხვა ვერ მოხერხდა."
           }
         }
@@ -3909,8 +3918,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ჩამოჭრები არ არის. დაამატე გამოწერა ან შემოიტანე ამონაწერი."
+            "state" : "translated",
+            "value" : "ჩამოჭრები არ არის. დაამატე გამოწერა ან დააიმპორტე ამონაწერი."
           }
         }
       }
@@ -4198,8 +4207,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ყველა ჩამოიჭრა"
+            "state" : "translated",
+            "value" : "ყველა ჩამოჭრილია"
           }
         }
       }
@@ -4215,8 +4224,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "რამდენი ჯდება გამოწერები თვეში და რა ჩამოგეჭრება შემდეგ."
+            "state" : "translated",
+            "value" : "რამდენი გიჯდება გამოწერები თვეში და რა ჩამოიჭრება შემდეგ."
           }
         }
       }
@@ -4232,8 +4241,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "შემოიტანე ამონაწერი, რომ ჯამი აქ გამოჩნდეს."
+            "state" : "translated",
+            "value" : "დააიმპორტე ამონაწერი, რომ შენი ჯამი აქ ნახო."
           }
         }
       }
@@ -4249,7 +4258,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ვიჯეტები Bade Pro-ს ნაწილია."
           }
         }
@@ -4266,8 +4275,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "თვიური ჯამი"
+            "state" : "translated",
+            "value" : "ყოველთვიური ჯამი"
           }
         }
       }
@@ -4283,8 +4292,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ამ თვეში აღარაფერია"
+            "state" : "translated",
+            "value" : "ამ თვეში აღარაფერი დარჩა"
           }
         }
       }
@@ -4300,8 +4309,8 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ამ თვეში სულ %@"
+            "state" : "translated",
+            "value" : "%@-დან ამ თვეში"
           }
         }
       }
@@ -4317,7 +4326,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დარჩენილი"
           }
         }
@@ -4334,7 +4343,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ამ თვეში"
           }
         }
@@ -4351,7 +4360,7 @@
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "დარჩა %@"
           }
         }
