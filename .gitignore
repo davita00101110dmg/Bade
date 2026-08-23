@@ -3,8 +3,11 @@
 .swiftpm/
 **/xcuserdata/
 
-# Product strategy — deliberately not published to the public repo
+# Working notes and product strategy — deliberately not published to the public repo.
+# These carry device identifiers, bank format findings and what is and is not tested.
 docs/
+NEXT-SESSION.md
+GEORGIAN-REVIEW.md
 
 # Real bank statements — local only, never committed
 statements/
