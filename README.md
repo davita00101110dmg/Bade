@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="Bade/Assets.xcassets/AppIcon.appiconset/icon-1024-light.png" width="120" alt="Bade">
+<img src="https://github.com/user-attachments/assets/5acba7b6-5929-4ae7-966a-afefa86027fa" width="1440" height="450" alt="Bade">
 
 # Bade
 
