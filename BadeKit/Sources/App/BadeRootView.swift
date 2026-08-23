@@ -414,6 +414,11 @@ public struct BadeRootView: View {
         case .cancelled: presented = nil
         case .chooseAnother: present(.pickingFile)
         case .saved(let addedCount):
+            // Answered here rather than waited for. `decideRoot` re-reads the store, but it is
+            // async, so the root used to re-evaluate with this still false and draw Welcome —
+            // import button and all — behind the dismissing cover until the read landed. A save
+            // that added rows is already proof there are subscriptions.
+            if addedCount > 0 { hasSubscriptions = true }
             reload = UUID()
             // What was just imported is on the list, so that is where an import ends — not on
             // whichever tab happened to be open when the statement was picked.

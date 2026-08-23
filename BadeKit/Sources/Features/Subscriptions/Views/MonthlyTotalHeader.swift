@@ -152,6 +152,14 @@ private struct CountingTotal: View, Animatable {
             // figure dissolves between two numbers rather than travelling between them. This view
             // supplies every intermediate value itself; SwiftUI's job is only to draw them.
             .contentTransition(.identity)
+            .frame(maxWidth: .infinity)
+            // The count is the only thing here that may animate. Everything else about this figure
+            // is layout — its width as digits arrive, and the scale `minimumScaleFactor` applies
+            // when the number outgrows the screen — and the list animates its whole subtree when
+            // rows land, so that scale-down was eased over a third of a second and read as the
+            // total sliding in from the right. `counted` is interpolated by the parent and reaches
+            // this view as a plain value, so clearing the animation here cannot stop the count.
+            .transaction { $0.animation = nil }
     }
 
     private var showing: Decimal { from + (to - from) * Decimal(counted) }
