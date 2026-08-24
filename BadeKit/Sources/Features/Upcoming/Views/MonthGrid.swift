@@ -10,6 +10,7 @@ struct MonthGrid: View {
     @Environment(\.locale) private var locale
     @Environment(\.calendar) private var calendar
     @Environment(\.badeIsLocked) private var isLocked
+    @Environment(\.badeIsCovered) private var isCovered
     /// A fixed square stops being tall enough for its own number at accessibility sizes, and the
     /// dot underneath then collides with the row below.
     @ScaledMetric private var cellHeight = UpcomingMetrics.cellHeight
@@ -24,10 +25,12 @@ struct MonthGrid: View {
     /// than to the grid, so the arrow lands on a tile worth tapping — and a month with nothing in
     /// it has no such tile, which is also the month where tapping teaches nothing.
     ///
-    /// Nothing is anchored under a lock. The grid is inert there, and a tip is system-presented in
-    /// its own window, so it appeared over the Pro offer inviting a tap the screen would not accept.
+    /// Nothing is anchored under a lock, and nothing while something is on top of the app. The grid
+    /// is inert under a lock, and a tip is system-presented in its own window — so it appeared over
+    /// the Pro offer inviting a tap the screen would not accept, and again the instant a purchase
+    /// lifted the lock while that same sheet was still being read.
     private var tipAnchor: UpcomingCell.ID? {
-        guard !isLocked else { return nil }
+        guard !isLocked, !isCovered else { return nil }
         return cells.first { $0.charges > 0 }?.id
     }
 

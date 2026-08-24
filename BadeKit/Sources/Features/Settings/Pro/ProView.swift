@@ -147,9 +147,16 @@ public struct ProView: View {
 
     /// Buyable or unreachable — never a button that cannot say what it costs, and nothing at all
     /// once it is owned, because the hero has already said so and there is nothing left to do.
+    ///
+    /// Leaving on its own transition rather than simply ceasing to exist. A branch that stops
+    /// producing a view takes its height with it in one frame, and the whole page below jumped —
+    /// which is a poor way to answer somebody who has just paid. Fading while it collapses lets the
+    /// page close the gap instead of losing it.
     @ViewBuilder
     private var unlock: some View {
-        if !model.state.isEntitled { purchase }
+        if !model.state.isEntitled {
+            purchase.transition(.opacity.combined(with: .scale(scale: 0.96, anchor: .top)))
+        }
     }
 
     private var purchase: some View {

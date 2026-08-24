@@ -7,6 +7,8 @@ public struct SubscriptionsView: View {
     @Environment(\.badeTheme) private var theme
     @Environment(\.locale) private var locale
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// A tip is presented above everything and cannot see a sheet; only the root knows one is up.
+    @Environment(\.badeIsCovered) private var isCovered
 
     @State private var model: SubscriptionsViewModel
     /// Held rather than made per render: invalidating one instance has to be the same tip the
@@ -144,6 +146,11 @@ public struct SubscriptionsView: View {
         .overlay(alignment: .top) { BadePullNet(pull: pull) }
     }
 
+    /// Held back until the total has landed, and never while anything is on top of the app.
+    private func showsSwipeTip(on row: SubscriptionRow) -> Bool {
+        hasArrived && !isCovered && row.id == model.state.rows.first?.id
+    }
+
     private var heroSection: some View {
         Section {
             MonthlyTotalHeader(
@@ -200,7 +207,7 @@ public struct SubscriptionsView: View {
                     // the first visit, because `.task(id: total)` never runs again. Waiting also
                     // keeps it off §14.7's arrival moment, which is the one thing on this screen
                     // worth not interrupting.
-                    .popoverTip(hasArrived && row.id == model.state.rows.first?.id ? swipeTip : nil)
+                    .popoverTip(showsSwipeTip(on: row) ? swipeTip : nil)
                 }
             } header: {
                 sectionHeader

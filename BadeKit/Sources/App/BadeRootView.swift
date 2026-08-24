@@ -124,6 +124,9 @@ public struct BadeRootView: View {
 
     public var body: some View {
         root
+            // A tip is system-presented above everything and cannot see a sheet. This is the only
+            // place that knows one is up, so it is the only place that can say so.
+            .environment(\.badeIsCovered, presentation.current != nil)
             .badeAnimation(.badeTransition, value: hasSubscriptions)
             // Both, because either can be the one that finishes last: a slow read that outlasts the
             // arrival, or an arrival still running when the read is already done.

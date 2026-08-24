@@ -15,6 +15,14 @@ extension EnvironmentValues {
     /// presented by the system in a window of its own, so it floats above the lock instead of being
     /// covered by it — offering to teach a tap on a calendar nobody can tap.
     @Entry public var badeIsLocked = false
+
+    /// Whether something is on top of the app — a sheet, a cover, an alert, the file picker.
+    ///
+    /// A tip is presented by the system in a window of its own, above everything, and knows nothing
+    /// about what else is on screen. Buying Pro from the locked calendar lifted the lock while the
+    /// purchase sheet was still up, and the tip arrived over it, pointing at a screen nobody could
+    /// see. Only the root knows what is presented, so the root is what says so.
+    @Entry public var badeIsCovered = false
 }
 
 extension View {
