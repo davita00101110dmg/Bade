@@ -225,3 +225,52 @@ struct ConvertibleCurrencyTests {
         #expect(offered.isEmpty)
     }
 }
+
+/// The shape of a real account: lari, dollars and euros, each paid from the balance already in
+/// that currency. Nothing was ever converted, so the statement records not one rate — and until
+/// the publisher's reached the totals, two of the three were missing from the headline figure and
+/// Settings had no currency left to offer.
+@Suite("An account that converted nothing")
+struct UnconvertedAccountTests {
+    private let subscriptions = [
+        subscription("SETANTA", "14.99", "GEL", .monthly),
+        subscription("Adobe", "19.99", "USD", .monthly),
+        subscription("Bolt", "9.99", "EUR", .monthly),
+    ]
+
+    private var published: RateBook {
+        var book = RateBook()
+        book.record(
+            [
+                OfficialRate(date: anyDay, currency: "USD", rate: Decimal(string: "2.70")!),
+                OfficialRate(date: anyDay, currency: "EUR", rate: Decimal(string: "2.95")!),
+            ], base: "GEL")
+        return book
+    }
+
+    @Test func theHeadlineFigureLeavesNothingOut() {
+        let total = subscriptions.monthlyTotal(in: "GEL", rates: published, on: anyDay)
+
+        #expect(total.unconvertible.isEmpty)
+        #expect(
+            total.total
+                == Decimal(string: "14.99")! + Decimal(string: "19.99")! * Decimal(string: "2.70")!
+                    + Decimal(string: "9.99")! * Decimal(string: "2.95")!)
+    }
+
+    /// Every currency the statement charged in, which is the choice Settings offers.
+    @Test func eachCurrencyChargedCanBeTotalledIn() {
+        #expect(
+            subscriptions.convertibleCurrencies(rates: published, on: anyDay)
+                == ["EUR", "GEL", "USD"])
+    }
+
+    /// The bug as reported. Two subscriptions absent from the total, and not one currency the
+    /// total could honestly be shown in — which is what made Settings drop the row entirely.
+    @Test func observedRatesAloneLeaveItShortAndWithNoChoice() {
+        let total = subscriptions.monthlyTotal(in: "GEL", rates: RateBook(), on: anyDay)
+
+        #expect(total.unconvertible.count == 2)
+        #expect(subscriptions.convertibleCurrencies(rates: RateBook(), on: anyDay).isEmpty)
+    }
+}

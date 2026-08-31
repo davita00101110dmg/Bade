@@ -31,13 +31,24 @@ public struct NBGRateSource: OfficialRateSource {
         }
     }
 
+    /// Everything NBG publishes is priced in lari, and it never lists lari itself. Naming that here
+    /// is what lets a rate book bridge a pair NBG does not publish — dollars to euros — through the
+    /// one currency it prices both against. The literal belongs to this publisher, not to Bade.
+    public static let base = "GEL"
+
+    /// Shorter than the minute URLSession allows by default. A total now waits on this rather than
+    /// only an FX card, and a screen that cannot say what a subscription costs is worth abandoning
+    /// long before a stalled request would give up on its own.
+    private static let timeout: TimeInterval = 10
+
     /// A statement is months long, and a screen only ever needs a handful of days; the cap is
     /// there so a pathological input cannot turn into a hundred requests.
     private static let dayLimit = 24
 
     private func rates(on date: Date, wanted: Set<String>) async -> [OfficialRate] {
         guard let url = Self.url(for: date, in: calendar) else { return [] }
-        guard let (data, response) = try? await session.data(from: url),
+        let request = URLRequest(url: url, timeoutInterval: Self.timeout)
+        guard let (data, response) = try? await session.data(for: request),
             (response as? HTTPURLResponse)?.statusCode == 200,
             let days = try? JSONDecoder().decode([PublishedDay].self, from: data)
         else { return [] }

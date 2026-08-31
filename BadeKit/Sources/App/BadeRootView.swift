@@ -113,6 +113,15 @@ public struct BadeRootView: View {
         CachedOfficialRates(store: store, network: fetchesRates ? NBGRateSource() : nil)
     }
 
+    /// Every total in the app is read against this, never against the observed rates alone: a
+    /// statement that converted nothing carries no rates, and the figures built from it were short
+    /// by whatever it could not convert.
+    private var rateBooks: RateBookSource {
+        RateBookSource(
+            rates: store, subscriptions: store, published: officialRates,
+            base: NBGRateSource.base)
+    }
+
     /// Everything the app is running in. Applied to the root, and to every cover and sheet as well:
     /// presented content is not inside the app's own view tree, so none of this reaches it on its
     /// own. Each of them set the theme and stopped there, which left the whole import flow in
@@ -267,7 +276,7 @@ public struct BadeRootView: View {
             model: SubscriptionsViewModel(
                 currency: currency, repository: store, merchants: merchants,
                 officialRates: officialRates,
-                rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
+                rates: { [rateBooks, currency] in await rateBooks.book(totalling: currency) },
                 onOutcome: handleSubscriptions),
             currency: currency, isPro: isPro, revision: storeRevision,
             onUnlock: { presentation.present(.pro) })
@@ -280,7 +289,7 @@ public struct BadeRootView: View {
             model: UpcomingViewModel(
                 currency: currency, calendar: weekStart.calendar, showing: tappedDay,
                 repository: store,
-                rates: { [store] in (try? await store.observedRates()) ?? RateBook() }),
+                rates: { [rateBooks, currency] in await rateBooks.book(totalling: currency) }),
             revision: storeRevision
         ) { subscription in
             SubscriptionDetailView(
@@ -296,7 +305,7 @@ public struct BadeRootView: View {
                 textSize: textSize, weekStart: weekStart,
                 isCurrencyInferred: chosenCurrency.isEmpty, fetchesRates: fetchesRates,
                 isPro: isPro, reminder: reminderPreference, repository: store,
-                rates: { [store] in (try? await store.observedRates()) ?? RateBook() },
+                rates: { [rateBooks, currency] in await rateBooks.book(totalling: currency) },
                 purchases: purchases,
                 isReminderDenied: { [reminders] in await reminders.authorization() == .denied },
                 onOutcome: handleSettings),
@@ -334,14 +343,17 @@ public struct BadeRootView: View {
         ])
     }
 
+    /// The rate book is built last, after the app is on screen. It can reach the network on the
+    /// first launch of a day, and nothing here is worth holding the launch screen open for: these
+    /// rates are read only by the Detail screen behind an Upcoming row, which is several taps away.
     private func decideRoot() async {
         let stored = (try? await store.all()) ?? []
         hasSubscriptions = !stored.isEmpty
         inferredCurrency = stored.predominantCurrency ?? Self.localeCurrency
-        rates = (try? await store.observedRates()) ?? RateBook()
         isReady = true
         hasEntitlement = await purchases.isEntitled()
         await reschedule(for: stored)
+        rates = await rateBooks.book(totalling: currency)
     }
 
     /// The home screen cannot read the store, so it is handed figures instead. Keyed on everything
@@ -351,7 +363,7 @@ public struct BadeRootView: View {
 
     private func publishWidget() async {
         let stored = (try? await store.all()) ?? []
-        let observed = (try? await store.observedRates()) ?? RateBook()
+        let observed = await rateBooks.book(totalling: currency)
         WidgetFeed()
             .publish(
                 WidgetSnapshot(
