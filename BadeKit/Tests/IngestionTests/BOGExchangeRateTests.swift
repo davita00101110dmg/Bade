@@ -99,6 +99,38 @@ struct BOGExchangeRateTests {
         #expect(parser.exchangeRates(in: statement).isEmpty)
     }
 
+    /// The same conversion in a Georgian export. Every label differs and the rate is followed by a
+    /// space rather than a full stop; the layout is otherwise identical. Reading a Georgian
+    /// statement for English labels found nothing at all, so every foreign charge fell through to a
+    /// published rate and the same account totalled differently in each language.
+    @Test func readsAConversionPrintedInGeorgian() throws {
+        let statement = """
+            16/06/2025 გადახდა - თანხა GEL270.00; ვალუტის გაცვლითი ოპერაცია. კურსი:2.7 \
+            კონტრთანხა: USD100.00. კონვერტაცია
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 1)
+        #expect(rates[0].from == "GEL")
+        #expect(rates[0].to == "USD")
+        #expect(isClose(rates[0].rate, "0.370370"))
+        #expect(rates[0].date == day("2025-06-16"))
+    }
+
+    /// Both label sets are read, so a statement is never checked for the language it is in.
+    @Test func eitherLanguageYieldsTheSameRate() throws {
+        let english = """
+            17/06/2025 Payment - Amount USD100.00; Foreign Exchange. FX Rate:2.7. \
+            Counter-amount: GEL270.00. konvertatsia
+            """
+        let georgian = """
+            17/06/2025 გადახდა - თანხა USD100.00; ვალუტის გაცვლითი ოპერაცია. კურსი:2.7 \
+            კონტრთანხა: GEL270.00. კონვერტაცია
+            """
+
+        #expect(parser.exchangeRates(in: english) == parser.exchangeRates(in: georgian))
+    }
+
     /// A conversion is not a purchase; it must not become a subscription.
     @Test func conversionRowsAreNotTransactions() throws {
         let statement = """

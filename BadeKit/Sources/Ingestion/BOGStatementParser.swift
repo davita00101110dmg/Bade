@@ -31,8 +31,13 @@ public struct BOGStatementParser: StatementParser {
         return transactions
     }
 
+    /// Read in both languages rather than the one the header suggests. The rows are laid out
+    /// identically either way and the two label sets share nothing, so whichever the export used
+    /// is the only one that matches — and a run of conversions carries no merchant label to
+    /// recognise the statement by in the first place.
     public func exchangeRates(in text: String) -> [ObservedRate] {
-        BOGExchangeRecord.rates(in: Self.flatten(text))
+        let flat = Self.flatten(text)
+        return BOGVocabulary.all.flatMap { BOGExchangeRecord.rates(in: flat, vocabulary: $0) }
     }
 
     private func vocabulary(for flat: String) -> BOGVocabulary? {

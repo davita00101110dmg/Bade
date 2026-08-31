@@ -10,8 +10,15 @@ struct BOGPaymentRecord {
     private static var datePattern: Regex<(Substring, Substring, Substring, Substring)> {
         /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/
     }
-    private static var ratePattern: Regex<(Substring, Substring, Substring, Substring, Substring)> {
-        /(Card scheme|Bank) conversion rate \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9.]+)/
+    private static func ratePattern(_ language: BOGVocabulary.Language)
+        -> Regex<(Substring, Substring, Substring, Substring, Substring)>
+    {
+        switch language {
+        case .english:
+            /(Card scheme|Bank) conversion rate \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9.]+)/
+        case .georgian:
+            /(საბარათე სქემის|ბანკის) კონვერტაციის კურსი \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9.]+)/
+        }
     }
 
     let transaction: RawTransaction
@@ -33,21 +40,23 @@ struct BOGPaymentRecord {
             currency: String(money.1),
             sourceLine: body.prefix(Self.sourceLineLimit).trimmingCharacters(in: .whitespaces),
             mcc: body.field(after: "MCC:", upTo: ";"),
-            conversion: Self.conversion(in: body)
+            conversion: Self.conversion(in: body, vocabulary: vocabulary)
         )
     }
 
     private static let sourceLineLimit = 240
 
     /// Statements print the scheme's reference rate and the bank's own; the gap is the markup.
-    private static func conversion(in body: Substring) -> CurrencyConversion? {
+    private static func conversion(in body: Substring, vocabulary: BOGVocabulary)
+        -> CurrencyConversion?
+    {
         var scheme: Decimal?
         var bank: Decimal?
         var pair: (String, String)?
-        for match in body.matches(of: ratePattern) {
+        for match in body.matches(of: ratePattern(vocabulary.language)) {
             guard let value = Decimal(string: String(match.4)) else { continue }
             pair = (String(match.2), String(match.3))
-            if match.1 == "Bank" { bank = value } else { scheme = value }
+            if match.1 == vocabulary.bankRate { bank = value } else { scheme = value }
         }
         guard let pair, let bank = bank ?? scheme else { return nil }
         return CurrencyConversion(

@@ -14,6 +14,35 @@ private func day(_ iso: String) -> Date {
 
 @Suite("BOG parser")
 struct BOGStatementParserTests {
+    /// The statement states the markup outright: the scheme's rate and the bank's own, side by
+    /// side. A Georgian export prints both under Georgian labels, and reading it for English ones
+    /// left every charge with no conversion — so the markup card had nothing to show at all.
+    @Test(arguments: [
+        """
+        09/05/2026 Payment - Amount: GEL14.00; Merchant: AMAZON MKTPL, \
+        United States of America; MCC:4899; Date: 27/05/2026 00:00; Card No: ****0000; \
+        Payment transaction amount and currency: 14.00 GEL; \
+        Card scheme conversion rate (USD-GEL): 2.7237; Bank conversion rate (USD-GEL): 2.7558
+        """,
+        """
+        09/05/2026 გადახდა - თანხა: GEL14.00; ობიექტი: AMAZON MKTPL, \
+        United States of America; MCC:4899; თარიღი: 27/05/2026 00:00; ბარათის No: ****0000; \
+        გადახდის ოპერაციის თანხა და ვალუტა: 14.00 GEL; \
+        საბარათე სქემის კონვერტაციის კურსი (USD-GEL): 2.7237; \
+        ბანკის კონვერტაციის კურსი (USD-GEL): 2.7558
+        """,
+    ])
+    func readsTheStatedMarkupInEitherLanguage(statement: String) throws {
+        let conversion = try #require(try parser.parse(statement).first?.conversion)
+
+        #expect(conversion.from == "USD")
+        #expect(conversion.to == "GEL")
+        #expect(conversion.bankRate == Decimal(string: "2.7558")!)
+        #expect(conversion.schemeRate == Decimal(string: "2.7237")!)
+        let markup = try #require(conversion.markupFraction)
+        #expect(markup > Decimal(string: "0.011")! && markup < Decimal(string: "0.012")!)
+    }
+
     @Test func parsesACardPayment() throws {
         let statement = """
             09/05/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, \

@@ -74,6 +74,29 @@ struct BOGLocalStatementTests {
         }
     }
 
+    /// The bug this suite missed: the Georgian export yielded not one rate, because only the
+    /// English labels were ever looked for. Every foreign charge then fell through to a published
+    /// rate, and the same account totalled differently depending on which language it was
+    /// downloaded in.
+    @Test(arguments: ["bog-statement-full-en.txt", "bog-statement-full-ka.txt"])
+    func readsExchangeRatesInEitherLanguage(fixture: String) throws {
+        let rates = parser.exchangeRates(in: try #require(LocalStatement.text(fixture)))
+
+        #expect(rates.count > 50)
+        #expect(Set(rates.map(\.to)).isSuperset(of: ["GEL", "USD", "EUR"]))
+        #expect(rates.allSatisfy { $0.rate > 0 })
+    }
+
+    /// The markup the statement states outright, which is the figure §8 reports.
+    @Test(arguments: ["bog-statement-full-en.txt", "bog-statement-full-ka.txt"])
+    func readsTheStatedMarkupInEitherLanguage(fixture: String) throws {
+        let transactions = try parser.parse(#require(LocalStatement.text(fixture)))
+        let markups = transactions.compactMap { $0.conversion?.markupFraction }
+
+        #expect(markups.count >= 15)
+        #expect(markups.allSatisfy { $0 > 0 && $0 < Decimal(string: "0.05")! })
+    }
+
     /// The trimmed fixture is the candidate for publication; it must stay parseable on its own.
     @Test func trimmedFixtureStillParses() throws {
         let text = try #require(LocalStatement.text("bog-statement-01.txt"))
