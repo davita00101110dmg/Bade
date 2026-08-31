@@ -15,13 +15,14 @@ public final class SubscriptionsViewModel {
 
     public init(
         currency: String,
+        sort: SubscriptionSort = .cost,
         repository: any SubscriptionRepository,
         merchants: any MerchantSuggesting = NoMerchantSuggestions(),
         officialRates: any OfficialRateSource = NoOfficialRates(),
         rates: @escaping @Sendable () async -> RateBook,
         onOutcome: @escaping (SubscriptionsOutcome) -> Void
     ) {
-        state = SubscriptionsState(currency: currency)
+        state = SubscriptionsState(currency: currency, sort: sort)
         self.repository = repository
         self.merchants = merchants
         self.officialRates = officialRates

@@ -26,6 +26,7 @@ public struct BadeRootView: View {
     @AppStorage("textSize") private var textSizeCode = BadeTextSize.system.rawValue
     @AppStorage("weekStart") private var weekStartCode = BadeWeekStart.system.rawValue
     @AppStorage("fetchesRates") private var fetchesRates = true
+    @AppStorage("subscriptionSort") private var subscriptionSort = SubscriptionSort.cost.rawValue
     @AppStorage("reminderLead") private var reminderLeadCode = ReminderLead.off.rawValue
     @AppStorage("reminderTime") private var reminderTime = ReminderPreference.defaultTimeOfDay
     /// Asked once and never again, whichever way it was answered.
@@ -274,7 +275,8 @@ public struct BadeRootView: View {
     private var subscriptions: some View {
         SubscriptionsView(
             model: SubscriptionsViewModel(
-                currency: currency, repository: store, merchants: merchants,
+                currency: currency, sort: SubscriptionSort(rawValue: subscriptionSort) ?? .cost,
+                repository: store, merchants: merchants,
                 officialRates: officialRates,
                 rates: { [rateBooks, currency] in await rateBooks.book(totalling: currency) },
                 onOutcome: handleSubscriptions),
@@ -442,6 +444,7 @@ public struct BadeRootView: View {
         switch outcome {
         case .importStatement: presentation.present(.pickingFile)
         case .dataCleared: clearedEverything()
+        case .sortChanged(let sort): subscriptionSort = sort.rawValue
         }
     }
 

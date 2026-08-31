@@ -25,8 +25,9 @@ public struct SubscriptionsState: Equatable {
     /// The day "next charge" is answered against. Injected so a test can stand somewhere fixed.
     let today: Date
 
-    public init(currency: String, today: Date = .now) {
+    public init(currency: String, sort: SubscriptionSort = .cost, today: Date = .now) {
         self.currency = currency
+        self.sort = sort
         self.today = today
     }
 
@@ -123,8 +124,9 @@ extension SubscriptionsState {
             return nil
 
         case .sortChanged(let sort):
+            guard sort != self.sort else { return nil }
             self.sort = sort
-            return nil
+            return .exit(.sortChanged(sort))
 
         // Every figure is converted on read, so a new currency needs no reload — only the totals
         // recomputing. Rebuilding the screen instead replayed the arrival count-up from zero.

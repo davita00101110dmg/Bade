@@ -10,17 +10,40 @@ iOS app that parses bank statement PDFs on-device, detects recurring subscriptio
 
 ## Current step
 
-> Build order step: **all of 1–14 done or decided.** 9 measured and rejected (left on the local
-> branch `tier-2-normalization`, never pushed). **13 is verified — a purchase has round-tripped in a
-> TestFlight sandbox build and all six gates flipped.** **10 is finished, and the answer inverted the
-> question: the FX markup Bade was reporting was fabricated on every charge**, because a lari-billed
-> charge with settlement rates printed beside it was read as a foreign one. **14 is written and
-> waiting on the one review only a native speaker can give** — `GEORGIAN-REVIEW.md` holds the pass
-> and the snippet that flips the states; it is ~14 keys stale and worth regenerating first.
-> The home screen widget ships, though §13 lists widgets as out of scope for v1 — a deliberate call,
-> since the Pro page sells them. The Liberty statement has no parser and is not claimed by one.
-> Next: **the Georgian review**, then re-record the snapshots it invalidates, then **archive** —
-> bumping `CURRENT_PROJECT_VERSION`, which must not stay at 1.
+> **Shipped. `1.0.1 (8)` is live on the App Store**, as is the `com.khvedelidze.Bade.pro`
+> in-app purchase — approved, and a real purchase has gone through in production, which the
+> earlier TestFlight round-trip did not prove (sandbox serves unapproved products).
+> Build order 1–14 are done or decided; 9 was measured and rejected, and stays on the local
+> branch `tier-2-normalization`, never pushed.
+>
+> **1.0.1 fixed a bug that made the same account total differently in each language.** BOG prints
+> the same statement in Georgian or English, and only the English labels were ever matched, so a
+> Georgian export yielded zero observed rates and every foreign charge fell through to a published
+> NBG rate. `BOGVocabulary` now carries the language and the rate patterns are chosen from it.
+> Verified on the same statement in both: 0 rates → 64, 0 conversions → 22.
+>
+> §10 stands and is worth not relitigating: the markup Bade used to report was fabricated, because
+> a lari-billed charge with settlement rates printed beside it was read as a foreign one. Confirmed
+> again against a real statement — the transaction-amount field reads the same currency and amount
+> as the debit, so nothing was converted. `Charge.wasConverted` is the guard.
+>
+> The home screen widget ships, though §13 lists widgets as out of scope for v1 — a deliberate
+> call, since the Pro page sells them. The Liberty statement has no parser and is not claimed by one.
+>
+> **Known, unfixed, in priority order:**
+> 1. **Page furniture destroys exchange records.** `pg. N (Total N pg.)` and the balance strip that
+>    follows it land mid-field in English exports — 55 occurrences in one statement, 0 in the
+>    Georgian. `BOGStatementParser.flatten` collapses whitespace and never strips them, so the
+>    record they land on is lost. This is why the two languages still disagree on counts
+>    (55 vs 64 rates, 21 vs 16 scheme rates). Strip them before matching.
+> 2. **Form B is unread in both languages.** `Automatic conversion, rate:` / `ავტომატური
+>    კონვერტაცია, კურსი:` — 170 in one Georgian statement, 54 in the English. A rate with no
+>    counter-amount on the row; the pairing is verifiable arithmetically (147.00 × 2.805 = 412.34).
+>
+> Website, privacy policy and support pages are at **badeapp.com** (repo `badeapp-com`, GitHub
+> Pages, Cloudflare DNS). App Store Connect points there. The old root `privacy.html` /
+> `support.html` were deleted from this repo once it went live.
+>
 > (Update this line when a step is finished. Steps are listed in §12 of the spec.
 > The screen inventory, the blocking question and the open items live in `NEXT-SESSION.md`.)
 

@@ -29,9 +29,10 @@ private func rateBook() -> RateBook {
 @Suite("Subscriptions state")
 struct SubscriptionsStateTests {
     private func state(
-        _ stored: [Subscription], rates: RateBook = rateBook(), today: Date = day("2026-08-13")
+        _ stored: [Subscription], rates: RateBook = rateBook(),
+        sort: SubscriptionSort = .cost, today: Date = day("2026-08-13")
     ) -> SubscriptionsState {
-        var state = SubscriptionsState(currency: "GEL", today: today)
+        var state = SubscriptionsState(currency: "GEL", sort: sort, today: today)
         _ = state.apply(.loaded(stored, rates))
         return state
     }
@@ -136,13 +137,15 @@ struct SubscriptionsStateTests {
         #expect(subject.rows.map(\.subscription.merchant) == ["Monthly", "Yearly"])
     }
 
+    /// Reordering reports the choice rather than reloading: the root stores it, but the rows are
+    /// already in memory and re-reading them replayed the arrival animation from zero.
     @Test func sortingSwitchesWithoutReloading() {
         var subject = state([
             subscription("Zeta", "50.00", next: "2026-09-20"),
             subscription("Alpha", "5.00", next: "2026-09-01"),
         ])
 
-        #expect(subject.apply(.sortChanged(.name)) == nil)
+        #expect(subject.apply(.sortChanged(.name)) == .exit(.sortChanged(.name)))
         #expect(subject.rows.map(\.subscription.merchant) == ["Alpha", "Zeta"])
 
         _ = subject.apply(.sortChanged(.nextCharge))
@@ -150,6 +153,26 @@ struct SubscriptionsStateTests {
 
         _ = subject.apply(.sortChanged(.cost))
         #expect(subject.rows.map(\.subscription.merchant) == ["Zeta", "Alpha"])
+    }
+
+    /// The one preference the app forgot on every launch. The screen opens in whatever order it was
+    /// left in, which only works if it starts from the stored one rather than always from cost.
+    @Test func opensInTheOrderItWasLeftIn() {
+        let subject = state(
+            [
+                subscription("Zeta", "50.00", next: "2026-09-20"),
+                subscription("Alpha", "5.00", next: "2026-09-01"),
+            ], sort: .name)
+
+        #expect(subject.sort == .name)
+        #expect(subject.rows.map(\.subscription.merchant) == ["Alpha", "Zeta"])
+    }
+
+    /// Choosing the order it is already in is not a change, and storing it again is noise.
+    @Test func reselectingTheSameOrderReportsNothing() {
+        var subject = state([subscription("Zeta", "50.00")], sort: .name)
+
+        #expect(subject.apply(.sortChanged(.name)) == nil)
     }
 
     /// A statement that ended on the 7th leaves a charge due the 10th in the past by the 13th. It
