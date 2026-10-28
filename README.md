@@ -6,111 +6,208 @@
 
 **How much are you paying a month?**
 
-Bade finds the charges that come back in your bank statement — without ever asking for your bank password, and without sending anything anywhere.
+[badeapp.com](https://badeapp.com)
 
 </div>
 
 ---
 
-## The problem
+Bade is a subscription tracker for iPhone, built for the Georgian market. Export a PDF
+statement from your banking app and share it into Bade. It reads every transaction on
+your phone and works out which charges repeat (weekly, monthly, quarterly, semiannual or
+annual), how sure it is about each one, and what you really pay per month in the currency
+you choose. It catches price changes. When your bank converted a foreign charge, it shows
+what the bank's exchange rate cost you against a reference rate. It puts upcoming charges
+on a calendar, reminds you before they land, and shows your monthly total in a home-screen
+widget. Bade never asks for bank credentials, has no accounts and no backend, and never
+writes the statement to disk.
 
-You know about Netflix and Spotify. You don't know about the €4.99 thing you signed up for in March, the trial that quietly became a subscription, or the fact that your bank's exchange rate is costing you real money every time a dollar subscription renews.
+## Screenshots
 
-Your bank statement already has all of it. It's just unreadable.
+| Subscriptions | Import review | Detail & FX | Upcoming | Widget |
+|:---:|:---:|:---:|:---:|:---:|
+| [SCREENSHOT: bade-subscriptions] | [SCREENSHOT: bade-import-review] | [SCREENSHOT: bade-subscription-detail] | [SCREENSHOT: bade-upcoming] | [SCREENSHOT: bade-widget] |
 
-## What Bade does
+## Architecture
 
-Export a PDF statement from your banking app, share it into Bade, and it reads every transaction on your phone — then shows you what actually repeats.
+Nearly all code lives in one Swift package, `BadeKit`, split into targets with enforced
+boundaries:
 
-- **Finds what repeats.** Weekly, monthly, quarterly, semiannual, annual. Bade groups charges by merchant, works out the rhythm, and only calls something a subscription when the dates agree.
-- **Tells you how sure it is.** Three charges on a rhythm is *Confident*. Two is *Probably*. Anything weaker is flagged rather than assumed. You confirm what's real before it's saved.
-- **Catches price changes.** When a subscription quietly goes from 11.99 to 13.99, that shows up in its history with the old price and the new one.
-- **Shows what a conversion cost.** When your bank actually converted a charge, Bade puts the rate it used next to the card scheme's reference rate, and what the gap costs over a year. A foreign charge paid from a balance already in that currency was never converted, and Bade says so rather than inventing a markup.
-- **Knows what's coming.** A calendar of upcoming charges, and a reminder before one lands.
-- **Puts it on your home screen.** A widget with your monthly total and what's next.
-- **Handles the messy parts.** Re-import the same statement and nothing duplicates. A subscription that stopped charging months ago stops being counted. Merchants that rename themselves stay one subscription.
+- `Core` holds entities and protocols and depends on nothing but Foundation.
+- Feature modules never import each other.
+- SwiftData is sealed inside `Persistence`.
+- Only `AppRoot`, the composition root, sees every module.
 
-Nothing repeating in the statement? Bade says so plainly and suggests a longer export, rather than inventing something.
+The Xcode project is two thin shells: the app's `@main` shows `BadeRootView()`, and the
+widget extension shows `Widgets.BadeWidget()`.
+
+```mermaid
+flowchart TD
+    subgraph Shells["Xcode targets"]
+        BadeApp["Bade app"]
+        WidgetExt["Widget extension"]
+    end
+    AppRoot["AppRoot<br/>composition root"]
+    subgraph Features["Feature modules"]
+        Welcome
+        Import
+        Subscriptions
+        Upcoming
+        Settings
+    end
+    subgraph Services["Services"]
+        Pipeline
+        Persistence["Persistence<br/>SwiftData, sealed"]
+        FX["FX<br/>NBG daily rates"]
+        Notifications
+        Purchases["Purchases<br/>StoreKit 2"]
+        Widgets
+    end
+    subgraph ImportEngine["Import engine"]
+        Ingestion["Ingestion<br/>BOG and TBC parsers"]
+        Normalization
+        Detection["Detection<br/>pure, no I/O"]
+        Catalog
+    end
+    UI["DesignSystem · Localization"]
+    Core["Core<br/>entities and protocols, Foundation only"]
+
+    BadeApp --> AppRoot
+    WidgetExt --> Widgets
+    AppRoot --> Features
+    AppRoot --> Services
+    Pipeline --> ImportEngine
+    Features --> UI
+    Features --> Core
+    Services --> Core
+    ImportEngine --> Core
+    UI --> Core
+```
+
+**One import, end to end.** Features see the pipeline only through
+`Core.StatementImporting`, and storage only through `Core.SubscriptionRepository`.
+
+```mermaid
+flowchart LR
+    PDF["Statement PDF<br/>in memory only"] --> Text["PDFKit text"]
+    Text --> Parser["Bank parser<br/>first that recognises it"]
+    Parser --> Normalizer["Merchant normaliser<br/>rules + catalog"]
+    Normalizer --> Detector["Recurrence detector"]
+    Detector --> Review["Review screen<br/>user confirms"]
+    Review --> Store[("SwiftData store")]
+    Store -->|changes| WidgetFeed["Widget snapshot"]
+    Store -->|changes| Reminders["Reminder schedule"]
+    NBG["NBG daily rates<br/>optional"] -.-> Store
+```
+
+**Every screen is MVI.** A `State` struct holds `private(set)` fields, an `Intent` enum
+names what can happen, and a pure `State.apply(intent) -> Effect?` decides what changes.
+An `@MainActor @Observable` view model runs the effect (load, save, delete) and feeds
+the result back as another intent. A screen reports how it was left through a single
+`Outcome` enum, not a set of closures.
+
+### Decisions worth knowing about
+
+- **Money is always `Decimal`.** Floating point never touches an amount, a rate or a
+  total.
+- **Arithmetic is deterministic Swift.** Merchant cleanup is a chain of rules plus a
+  bundled catalog. Cadence, totals, FX and detection are plain code you can read and
+  test.
+- **Cadence by phase fitting.** The detector projects each rhythm and counts how many
+  charges land on it, rather than chaining day-to-day gaps. Billing on the 31st or one
+  late charge doesn't break a subscription. Confidence comes from the number of repeats
+  and from matches against known services' published prices.
+- **FX is reported only when it happened.** A foreign charge paid from a balance already
+  in that currency was never converted, and Bade says so. When the bank did convert, its
+  rate is compared with the card-scheme rate printed on the statement or with the
+  National Bank of Georgia's published rate, and the screen names which one it used.
+- **Storage that can't brick the app.** The SwiftData schema is versioned with a
+  migration plan. A store that can't be opened is moved aside, not deleted, and the user
+  is told once.
+- **One place for each system API.** StoreKit lives only in `Purchases`,
+  UserNotifications in `Notifications`, and SwiftData in `Persistence`. Everything else
+  depends on protocols in `Core`.
 
 ## Privacy
 
-This is the part that isn't a feature — it's the design.
-
-- **Statement files are never written to disk.** Bade parses them in memory and discards them immediately. Nothing is cached, nothing is recoverable.
-- **No accounts, no backend, no analytics, no crash reporting.** There is no server to send anything to.
-- **No bank credentials, ever.** Bade reads a file you already exported. It never touches your bank.
-- **One optional network call.** If a statement doesn't print an exchange rate to compare against, Bade can ask the National Bank for that day's published rates — a date in, rates out. No account data, no merchant names, no identifiers. It's a toggle in Settings, and the app works fully with it off.
-- **Works with Apple Intelligence unavailable.** Merchant cleanup is deterministic. Nothing about the app depends on a model being present.
+- **Statement files are never written to disk.** They're parsed in memory and discarded.
+- **No accounts, no backend, no analytics, no crash reporting.** There is no server to
+  send anything to.
+- **No bank credentials, ever.** Bade reads a file you already exported.
+- **One optional network call.** If a statement doesn't print a rate to compare against,
+  Bade can ask the National Bank of Georgia for that day's published rates. The request
+  asks for a whole day, never for a particular currency, and carries no account data.
+  It's a toggle in Settings, and the app works fully with it off.
 
 ## Bade Pro
 
-An app that charges a subscription to track subscriptions is a punchline. Bade Pro is **one payment, no subscription, ever** — bought once and tied to your Apple Account.
+An app that charges a subscription to track subscriptions is a punchline. Bade Pro is
+**one payment, no subscription, ever**: a non-consumable purchase tied to your Apple
+Account. It unlocks the upcoming-charges calendar, renewal reminders, the exchange-rate
+breakdown, the home-screen widget and export to CSV or JSON.
 
-Pro covers the upcoming-charges calendar, renewal reminders, the FX markup breakdown, export to CSV or JSON, and the home screen widget.
+## Tech stack
 
-## Language & accessibility
+- **Language:** Swift 6 with strict concurrency (Swift tools 6.2).
+- **UI:** SwiftUI and Observation, with an MVI feature architecture and TipKit hints.
+- **Persistence:** SwiftData behind a `@ModelActor`.
+- **Statements:** PDFKit for text extraction, with a parser per statement format:
+  Bank of Georgia (Georgian and English exports) and TBC.
+- **Networking:** a single `URLSession` call for National Bank of Georgia rates, run as a
+  task group with a timeout.
+- **Platform:**
+  - StoreKit 2: Pro as a non-consumable.
+  - WidgetKit, fed through an App Group.
+  - UserNotifications: reminders planned by pure date arithmetic, within iOS's
+    64-pending-notification limit.
+- **Localization:** English and Georgian in one String Catalog, read through typed keys,
+  so a typo is a compile error.
+- **Accessibility:**
+  - Dynamic Type up to accessibility sizes;
+  - light and dark mode;
+  - Reduce Motion and Increase Contrast;
+  - money always shows its currency symbol (₾, $, €), placed where the reader's locale
+    expects it.
+- **Testing:**
+  - Swift Testing throughout.
+  - Golden-file tests run scrubbed real statements from both banks through the real
+    parsers and detector.
+  - Pixel-compared snapshot tests run in light, dark, Georgian, accessibility text size
+    and increased contrast.
+- **Dependencies:** none outside Apple's SDKs.
 
-English and Georgian throughout — 242 strings, every one reviewed in context by a native speaker, and no hardcoded text anywhere in a view. Every screen supports Dynamic Type to the largest sizes, light and dark appearance, Reduce Motion, and Increase Contrast, with the raised palette solved against measured contrast ratios rather than picked by eye. VoiceOver has been walked screen by screen on a device. Money always renders with its own symbol (₾, ₺, ֏), placed where the reader's locale expects it.
+Real statements never enter the repository. The golden fixtures are scrubbed derivatives:
+real dates, amounts, currencies and MCCs, with merchant names replaced unless the bundled
+catalog already knows them publicly, and branch addresses stripped.
 
----
+## How to build
 
-## Status
+Requires Xcode 26 and iOS 26. Open `Bade.xcodeproj` and run the **Bade** scheme.
 
-**Submitted to the App Store.** The import pipeline, detection engine, subscription management, exchange-rate engine, widget, reminders, and purchase flow are built and tested, and a purchase has round-tripped through StoreKit for real. Statement parsers cover two Georgian banks' exports; more formats are the obvious next thing.
+All real code is in `BadeKit`. The package also declares macOS, so the full unit and
+golden suite runs on the host without a simulator (a Mac on macOS 26):
 
-Category analytics, spending trends, themes, and price-increase alerts are planned rather than shipped, and nothing on the Pro page lists a feature that does not exist.
-
-## Building
-
-Requires Xcode 26 and iOS 26. Open `Bade.xcodeproj` and run.
-
-All real code lives in `BadeKit`, a Swift package. The full test suite runs on the host in about two seconds:
-
-```sh
+```bash
 cd BadeKit && swift test
 ```
 
-557 tests across 70 suites. The package declares macOS purely so `swift test` runs without a simulator; Bade ships iOS-only.
+Snapshot tests need an iOS simulator:
 
-A further 57 snapshot references cover eleven screens in five variants — light, dark, Georgian, accessibility text sizes, and Increase Contrast — compared pixel-wise on a simulator:
-
-```sh
-cd BadeKit && xcodebuild -scheme BadeKit-Package \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  -only-testing:SnapshotTests test
+```bash
+cd BadeKit && xcodebuild -scheme BadeKit-Package -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:SnapshotTests test
 ```
 
-## How it's built
+## What's next
 
-Swift 6 with strict concurrency, SwiftUI, SwiftData, Swift Testing. Fifteen modules with enforced boundaries — `Core` depends on nothing, feature modules never import each other, and only the composition root knows about all of them.
-
-```
-Core           entities and protocols — Foundation only
-Ingestion      PDF/text → transactions. One parser per statement format.
-Normalization  raw descriptor → merchant name
-Catalog        439 bundled services, 141 with published price points
-Detection      the recurrence engine. Pure, no I/O.
-FX             exchange rates and markup
-Pipeline       composes ingestion → normalization → detection
-Persistence    SwiftData. Sealed — nothing else imports it.
-Purchases      the one StoreKit import
-Notifications  reminder planning (pure) + the one UserNotifications import
-Widgets        home screen snapshot and timeline
-DesignSystem   theme, type, spacing, motion, haptics, components
-Localization   the one string catalog, typed keys, money formatting
-Features       Welcome, Import, Subscriptions, Upcoming, Settings
-App            composition root
-```
-
-Two rules shape most of the code:
-
-**Money is always `Decimal`.** Never a floating-point type, with no exceptions anywhere in the codebase.
-
-**Arithmetic is always deterministic Swift.** Where a language model is involved at all, it normalises merchant strings and nothing else. Cadence, totals, FX, and detection are code you can read and test.
-
-Testing is golden-file first: a real anonymised statement in, an exact expected subscription set out. Every bug a real statement produced becomes a permanent fixture.
-
-**Real statements never enter the repository.** Both banks ship a scrubbed derivative instead — real dates, amounts, currencies and MCCs, with merchant names replaced unless the bundled catalog already knows them publicly, and every branch address stripped. Tests enforce that permanently rather than trusting the original scrub: one fails if a merchant appears that is not already public, another if a name still carries a street address.
+- **More statement formats.** Only Bank of Georgia and TBC exports are recognised
+  today.
+- **Read every BOG exchange record.**
+  - Strip page headers and balance strips that land mid-record in English exports.
+  - Read the "Automatic conversion, rate:" rows, which carry a rate with no
+    counter-amount.
+- **Spending insights:** category analytics, spending trends and price-increase alerts.
+  These are planned, not shipped, and the Pro page doesn't list them.
+- **Themes.**
 
 ---
 
