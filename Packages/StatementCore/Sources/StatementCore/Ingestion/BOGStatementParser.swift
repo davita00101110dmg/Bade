@@ -22,7 +22,10 @@ public struct BOGStatementParser: StatementParser {
             flat
             .components(separatedBy: vocabulary.recordStart)
             .dropFirst()
-            .compactMap { BOGPaymentRecord(body: $0[...], vocabulary: vocabulary)?.transaction }
+            .compactMap {
+                BOGPaymentRecord(body: Self.ownFields(of: $0, vocabulary), vocabulary: vocabulary)?
+                    .transaction
+            }
 
         guard !transactions.isEmpty else {
             throw StatementParsingError.suspiciouslyFewTransactions(found: 0)
@@ -37,6 +40,11 @@ public struct BOGStatementParser: StatementParser {
     public func exchangeRates(in text: String) -> [ObservedRate] {
         let flat = Self.flatten(text)
         return BOGVocabulary.all.flatMap { BOGExchangeRecord.rates(in: flat, vocabulary: $0) }
+    }
+
+    /// Read on into a refund or transfer, a purchase took that record's rates, merchant or date.
+    private static func ownFields(of record: String, _ vocabulary: BOGVocabulary) -> Substring {
+        record.range(of: vocabulary.anyRecordStart).map { record[..<$0.lowerBound] } ?? record[...]
     }
 
     private func vocabulary(for flat: String) -> BOGVocabulary? {

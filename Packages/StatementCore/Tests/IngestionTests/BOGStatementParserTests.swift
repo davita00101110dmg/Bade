@@ -155,6 +155,33 @@ struct BOGStatementParserTests {
         }
     }
 
+    /// A refund prints the same conversion lines a purchase does; they are the refund's alone.
+    @Test func readsAPurchaseOnlyUpToTheNextRecord() throws {
+        let statement = """
+            09/04/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; \
+            Date: 09/04/2026 00:00; Card No: ****0000; 12/04/2026 Refund - Amount: GEL35.99; \
+            Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 12/04/2026 00:00; Card No: ****0000; \
+            Card scheme conversion rate (USD-GEL): 2.6500; Bank conversion rate (USD-GEL): 2.6900
+            """
+
+        let transactions = try parser.parse(statement)
+        #expect(transactions.count == 1)
+        #expect(transactions.first?.conversion == nil)
+    }
+
+    /// An exchange opens like a purchase but names no merchant; the next record must not lend one.
+    @Test func aRecordWithNoMerchantDoesNotBorrowTheNextOne() throws {
+        let statement = """
+            02/03/2026 Payment - Amount GEL540.00; Foreign Exchange. FX Rate:2.7. Counter-amount: \
+            USD200.00. konvertatsia 03/03/2026 Refund - Amount: GEL19.99; Merchant: AMZ*Adobe, \
+            United States of America; MCC:5734; Date: 01/03/2026 00:00; Card No: ****0000; \
+            09/03/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; \
+            Date: 09/03/2026 00:00; Card No: ****0000;
+            """
+
+        #expect(try parser.parse(statement).map(\.rawDescription) == ["NETFLIX.COM, Netherlands"])
+    }
+
     /// A card check debits nothing; it is not a purchase, and a transaction is always positive.
     @Test func ignoresAZeroAmountCardCheck() throws {
         let statement = """

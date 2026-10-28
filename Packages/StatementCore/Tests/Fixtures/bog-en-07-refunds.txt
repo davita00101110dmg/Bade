@@ -1,0 +1,20 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/03/2026 - 31/05/2026
+Date Operation details Amount Balance
+02/03/2026 Payment - Amount GEL540.00; Foreign Exchange. FX Rate:2.7. Counter-amount: USD200.00. konvertatsia
+03/03/2026 Refund - Amount: GEL19.99; Merchant: AMZ*Adobe, United States of America; MCC:5734; Date: 01/03/2026 00:00; Card No: ****0000;
+09/03/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 09/03/2026 00:00; Card No: ****0000;
+11/03/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 11/03/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2.6400; Bank conversion rate (USD-GEL): 2.6800
+09/04/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 09/04/2026 00:00; Card No: ****0000;
+11/04/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 11/04/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2.6450; Bank conversion rate (USD-GEL): 2.6850
+12/04/2026 Refund - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 12/04/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2.6500; Bank conversion rate (USD-GEL): 2.6900
+13/04/2026 Reversal - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 11/04/2026 00:00; Card No: ****0000;
+20/04/2026 Payment - Amount: GEL-42.00; Merchant: DEMO TAXI PARK, Tbilisi; MCC:7523; Date: 19/04/2026 00:00; Card No: ****0000;
+21/04/2026 Income - Amount: GEL42.00; Reversal of card payment, DEMO TAXI PARK
+02/05/2026 Payment - Amount: GEL250.00; Merchant: DEMO SPORT SHOP, Tbilisi; MCC:5941; Date: 02/05/2026 00:00; Card No: ****0000;
+06/05/2026 Refund - Amount: GEL250.00; Merchant: DEMO SPORT SHOP, Tbilisi; MCC:5941; Date: 06/05/2026 00:00; Card No: ****0000;
+09/05/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 09/05/2026 00:00; Card No: ****0000;
+11/05/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 11/05/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2.6300; Bank conversion rate (USD-GEL): 2.6700

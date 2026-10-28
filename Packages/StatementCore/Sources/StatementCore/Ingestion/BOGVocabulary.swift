@@ -7,17 +7,19 @@ struct BOGVocabulary: Sendable {
 
     let language: Language
     let recordStart: String
+    /// Every record, purchase or not, opens `<kind> - Amount`; a purchase's fields end at the next.
+    let anyRecordStart: String
     let merchant: String
     let date: String
     /// Which side of a card conversion is the bank's own rate; the other side is the scheme's.
     let bankRate: String
 
     static let english = BOGVocabulary(
-        language: .english, recordStart: "Payment - Amount", merchant: "Merchant:", date: "Date:",
-        bankRate: "Bank")
+        language: .english, recordStart: "Payment - Amount", anyRecordStart: " - Amount",
+        merchant: "Merchant:", date: "Date:", bankRate: "Bank")
     static let georgian = BOGVocabulary(
-        language: .georgian, recordStart: "გადახდა - თანხა", merchant: "ობიექტი:",
-        date: "თარიღი:", bankRate: "ბანკის")
+        language: .georgian, recordStart: "გადახდა - თანხა", anyRecordStart: " - თანხა",
+        merchant: "ობიექტი:", date: "თარიღი:", bankRate: "ბანკის")
 
     static let all: [BOGVocabulary] = [.english, .georgian]
 }

@@ -1,0 +1,21 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "refund", "reversal", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-03-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-11", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6800", "schemeRate": "2.6400"}},
+    {"date": "2026-04-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-04-11", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6850", "schemeRate": "2.6450"}},
+    {"date": "2026-05-02", "description": "DEMO SPORT SHOP, Tbilisi", "amount": "250.00", "currency": "GEL", "mcc": "5941", "merchant": "DEMO SPORT SHOP"},
+    {"date": "2026-05-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-05-11", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6700", "schemeRate": "2.6300"}}
+  ],
+  "rates": [
+    {"date": "2026-03-02", "from": "GEL", "to": "USD", "rate": "0.370370"}
+  ],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-06-09"},
+    {"merchant": "Setanta Sports", "currency": "GEL", "cadence": "monthly", "amount": "14.99", "charges": 3, "confidence": "confident", "next": "2026-06-11"}
+  ],
+  "candidates": []
+}

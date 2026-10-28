@@ -5,8 +5,7 @@ import Testing
 
 @Suite("Statement dates")
 struct StatementDateTests {
-    /// A malformed row must be dropped, not moved: 31/02 used to land on 3 March and 15/13 in the
-    /// following January, which also stretched the statement's end and ended live subscriptions.
+    /// A malformed row is dropped, not moved: 31/02 used to land on 3 March, 15/13 a year later.
     @Test(arguments: [
         ("31", "02", "2026"), ("29", "02", "2026"), ("31", "04", "2026"), ("00", "05", "2026"),
         ("15", "13", "2026"), ("15", "00", "2026"),
