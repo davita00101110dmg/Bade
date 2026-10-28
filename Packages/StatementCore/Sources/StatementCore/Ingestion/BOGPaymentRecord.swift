@@ -27,6 +27,7 @@ struct BOGPaymentRecord {
         guard let merchant = body.field(after: vocabulary.merchant, upTo: "; MCC:"),
             let money = try? Self.amountPattern.firstMatch(in: body),
             let amount = Decimal(string: money.2.replacingOccurrences(of: ",", with: "")),
+            amount > 0,
             let dateField = body.range(of: vocabulary.date),
             let stamp = try? Self.datePattern.firstMatch(in: body[dateField.upperBound...]),
             let date = StatementDate.from(day: stamp.1, month: stamp.2, year: stamp.3)

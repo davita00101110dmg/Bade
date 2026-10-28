@@ -201,6 +201,17 @@ struct TBCStatementParserTests {
         }
     }
 
+    /// A card check debits nothing; it is not a purchase, and a transaction is always positive.
+    @Test func ignoresAZeroAmountCardCheck() throws {
+        let statement = [
+            row(merchant: "APPLE.COM/BILL", amount: "0.00", currency: "USD"),
+            row(merchant: "APPLE.COM/BILL", amount: "2.99", currency: "USD"),
+        ].joined(separator: " ")
+
+        let transactions = try parser.parse(statement)
+        #expect(transactions.map(\.amount) == [Decimal(string: "2.99")!])
+    }
+
     @Test func identifiesItself() {
         #expect(TBCStatementParser.identifier == "tbc-pdf-v1")
         #expect(TBCStatementParser.displayName == "TBC Bank")

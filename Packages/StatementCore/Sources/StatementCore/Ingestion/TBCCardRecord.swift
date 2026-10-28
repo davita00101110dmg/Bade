@@ -26,6 +26,7 @@ struct TBCCardRecord {
         let head = body.prefix(Self.bodyLimit)
         guard let charge = try? Self.chargePattern.firstMatch(in: head),
             let amount = Decimal(string: charge.2.replacingOccurrences(of: ",", with: "")),
+            amount > 0,
             let date = StatementDate.from(day: charge.5, monthName: charge.4, year: charge.6),
             let mcc = try? Self.mccPattern.firstMatch(in: head)
         else { return nil }

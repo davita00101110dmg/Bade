@@ -155,6 +155,18 @@ struct BOGStatementParserTests {
         }
     }
 
+    /// A card check debits nothing; it is not a purchase, and a transaction is always positive.
+    @Test func ignoresAZeroAmountCardCheck() throws {
+        let statement = """
+            08/02/2026 Payment - Amount: GEL0.00; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; \
+            Date: 08/02/2026 00:00; Card No: ****0000; 09/02/2026 Payment - Amount: GEL2.99; \
+            Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 09/02/2026 00:00; Card No: ****0000;
+            """
+
+        let transactions = try parser.parse(statement)
+        #expect(transactions.map(\.amount) == [Decimal(string: "2.99")!])
+    }
+
     @Test func identifiesItself() {
         #expect(BOGStatementParser.identifier == "bog-pdf-v1")
         #expect(BOGStatementParser.displayName == "Bank of Georgia")
