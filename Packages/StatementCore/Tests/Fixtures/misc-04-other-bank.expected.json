@@ -1,0 +1,9 @@
+{
+  "parser": null,
+  "error": "unrecognisedFormat",
+  "covers": ["english", "GEL"],
+  "transactions": [],
+  "rates": [],
+  "subscriptions": [],
+  "candidates": []
+}
