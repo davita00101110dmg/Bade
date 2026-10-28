@@ -1,0 +1,25 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "georgian", "mixed", "GEL", "merchant-variants", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-01-05", "description": "მაგთიკომი, თბილისი", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-01-08", "description": "სატესტო მარკეტი, თბილისი", "amount": "18.30", "currency": "GEL", "mcc": "5411", "merchant": "სატესტო მარკეტი"},
+    {"date": "2026-01-12", "description": "SILKNET, Tbilisi", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-01-14", "description": "კაფე SAMPLE, Batumi", "amount": "23.40", "currency": "GEL", "mcc": "5814", "merchant": "კაფე SAMPLE"},
+    {"date": "2026-01-20", "description": "ALDAGI ალდაგი, Tbilisi", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"},
+    {"date": "2026-02-05", "description": "FLT*MAGTICOM, Georgia", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-02-12", "description": "სილქნეტი, თბილისი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-02-20", "description": "ALDAGI ალდაგი, Tbilisi", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"},
+    {"date": "2026-02-22", "description": "SAMPLE FITNESS ფიტნესი, Tbilisi", "amount": "120.00", "currency": "GEL", "mcc": "7997", "merchant": "SAMPLE FITNESS ფიტნესი"},
+    {"date": "2026-03-05", "description": "მაგთიკომი, თბილისი", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-03-12", "description": "ᲡᲘᲚᲥᲜᲔᲢᲘ, ᲗᲑᲘᲚᲘᲡᲘ", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-03-20", "description": "ALDAGI ალდაგი, Tbilisi", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Aldagi", "currency": "GEL", "cadence": "monthly", "amount": "60.00", "charges": 3, "confidence": "confident", "next": "2026-04-20"},
+    {"merchant": "Magti", "currency": "GEL", "cadence": "monthly", "amount": "25.00", "charges": 3, "confidence": "confident", "next": "2026-04-05"},
+    {"merchant": "Silknet", "currency": "GEL", "cadence": "monthly", "amount": "49.00", "charges": 3, "confidence": "confident", "next": "2026-04-12"}
+  ],
+  "candidates": []
+}

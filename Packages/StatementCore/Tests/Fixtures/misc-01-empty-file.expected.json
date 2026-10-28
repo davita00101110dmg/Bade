@@ -1,0 +1,9 @@
+{
+  "parser": null,
+  "error": "unreadableFile",
+  "covers": ["empty-rows"],
+  "transactions": [],
+  "rates": [],
+  "subscriptions": [],
+  "candidates": []
+}

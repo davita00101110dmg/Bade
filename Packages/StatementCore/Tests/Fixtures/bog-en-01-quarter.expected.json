@@ -1,0 +1,25 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-05-01", "description": "SAMPLE MARKET, Tbilisi, 1 Test st.", "amount": "24.60", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2026-05-04", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.7310", "schemeRate": "2.6900"}},
+    {"date": "2026-05-07", "description": "PAYPAL *SPOTIFY*P11A01, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-05-09", "description": "Wolt, Tbilisi", "amount": "18.40", "currency": "GEL", "mcc": "4215", "merchant": "Wolt"},
+    {"date": "2026-05-11", "description": "Bolt, Tbilisi", "amount": "9.50", "currency": "GEL", "mcc": "4121", "merchant": "Bolt"},
+    {"date": "2026-05-14", "description": "DEMO PHARMACY, Tbilisi", "amount": "42.30", "currency": "GEL", "mcc": "5912", "merchant": "DEMO PHARMACY"},
+    {"date": "2026-06-04", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.7160", "schemeRate": "2.6750"}},
+    {"date": "2026-06-07", "description": "PAYPAL *SPOTIFY*P11B02, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-06-19", "description": "SAMPLE MARKET, Tbilisi, 1 Test st.", "amount": "27.15", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2026-07-04", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.7220", "schemeRate": "2.6810"}},
+    {"date": "2026-07-07", "description": "PAYPAL *SPOTIFY*P11C03, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-07-17", "description": "FAKE OUTDOOR GEAR, Tbilisi", "amount": "120.00", "currency": "GEL", "mcc": "5941", "merchant": "FAKE OUTDOOR GEAR"},
+    {"date": "2026-07-25", "description": "Wolt, Tbilisi", "amount": "14.00", "currency": "GEL", "mcc": "4215", "merchant": "Wolt"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-08-04"},
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "15.20", "charges": 3, "confidence": "confident", "next": "2026-08-07"}
+  ],
+  "candidates": []
+}

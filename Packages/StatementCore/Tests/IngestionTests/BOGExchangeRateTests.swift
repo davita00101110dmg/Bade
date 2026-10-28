@@ -1,0 +1,169 @@
+import Foundation
+import Testing
+
+@testable import StatementCore
+
+private let parser = BOGStatementParser()
+
+private func day(_ iso: String) -> Date {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withFullDate]
+    return formatter.date(from: iso)!
+}
+
+/// Money is compared exactly; a rate derived by division is a repeating decimal and is not.
+private func isClose(_ value: Decimal?, _ expected: String) -> Bool {
+    guard let value else { return false }
+    return abs(value - Decimal(string: expected)!) < Decimal(string: "0.00001")!
+}
+
+/// The account holder's own conversions. They carry no merchant, so they are not transactions —
+/// but they are the only place a EUR or GBP rate appears when those charges settle from a balance
+/// held in that currency.
+@Suite("BOG exchange rates")
+struct BOGExchangeRateTests {
+    @Test func readsBothSidesOfAConversion() throws {
+        let statement = """
+            16/06/2025 Payment - Amount GEL270.00; Foreign Exchange. FX Rate:2.7. \
+            Counter-amount: USD100.00. konvertatsia
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 1)
+        #expect(rates[0].from == "GEL")
+        #expect(rates[0].to == "USD")
+        #expect(isClose(rates[0].rate, "0.370370"))
+        #expect(rates[0].date == day("2025-06-16"))
+    }
+
+    /// The printed `FX Rate` is quoted lari-per-foreign whichever way the conversion went, so the
+    /// rate is derived from the two amounts instead of trusted from the label.
+    @Test func derivesTheRateFromTheAmountsNotThePrintedLabel() throws {
+        let statement = """
+            17/06/2025 Payment - Amount USD100.00; Foreign Exchange. FX Rate:2.7. \
+            Counter-amount: GEL270.00. konvertatsia
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 1)
+        #expect(rates[0].from == "USD")
+        #expect(rates[0].to == "GEL")
+        #expect(rates[0].rate == Decimal(string: "2.7")!)
+    }
+
+    @Test func aEuroConversionIsTheOnlyPlaceAEuroRateAppears() throws {
+        let statement = """
+            10/03/2026 Payment - Amount GEL295.00; Foreign Exchange. FX Rate:2.95. \
+            Counter-amount: EUR100.00. konvertatsia
+            """
+
+        var book = RateBook()
+        for rate in parser.exchangeRates(in: statement) { book.record(rate) }
+
+        #expect(isClose(book.rate(from: "EUR", to: "GEL", on: day("2026-03-10")), "2.95"))
+    }
+
+    @Test func survivesThousandsSeparatorsAndATruncatedCounterAmount() throws {
+        let statement = """
+            16/06/2025 Payment - Amount GEL15,518.09; Foreign Exchange. FX Rate:2.757. \
+            Counter-amount: USD5,628.61. konvertatsia 18/06/2025 Income - Amount GEL178.76; \
+            Foreign Exchange. FX Rate:2.668. Counter-amount: USD67.. konvertatsia
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 2)
+        #expect(rates[1].date == day("2025-06-18"))
+        #expect(rates[1].to == "USD")
+    }
+
+    @Test func takesTheDateFromTheColumnAheadOfTheRow() throws {
+        let statement = """
+            01/02/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, \
+            United States of America; MCC:4899; Date: 01/02/2026 00:00; Card No: ****0000; \
+            05/03/2026 Payment - Amount GEL270.00; Foreign Exchange. FX Rate:2.7. \
+            Counter-amount: USD100.00. konvertatsia
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 1)
+        #expect(rates[0].date == day("2026-03-05"))
+    }
+
+    @Test func aStatementWithNoConversionsYieldsNone() {
+        let statement = """
+            09/05/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, \
+            United States of America; MCC:4899; Date: 27/05/2026 00:00; Card No: ****0000;
+            """
+
+        #expect(parser.exchangeRates(in: statement).isEmpty)
+    }
+
+    /// The same conversion in a Georgian export. Every label differs and the rate is followed by a
+    /// space rather than a full stop; the layout is otherwise identical. Reading a Georgian
+    /// statement for English labels found nothing at all, so every foreign charge fell through to a
+    /// published rate and the same account totalled differently in each language.
+    @Test func readsAConversionPrintedInGeorgian() throws {
+        let statement = """
+            16/06/2025 გადახდა - თანხა GEL270.00; ვალუტის გაცვლითი ოპერაცია. კურსი:2.7 \
+            კონტრთანხა: USD100.00. კონვერტაცია
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 1)
+        #expect(rates[0].from == "GEL")
+        #expect(rates[0].to == "USD")
+        #expect(isClose(rates[0].rate, "0.370370"))
+        #expect(rates[0].date == day("2025-06-16"))
+    }
+
+    /// Both label sets are read, so a statement is never checked for the language it is in.
+    @Test func eitherLanguageYieldsTheSameRate() throws {
+        let english = """
+            17/06/2025 Payment - Amount USD100.00; Foreign Exchange. FX Rate:2.7. \
+            Counter-amount: GEL270.00. konvertatsia
+            """
+        let georgian = """
+            17/06/2025 გადახდა - თანხა USD100.00; ვალუტის გაცვლითი ოპერაცია. კურსი:2.7 \
+            კონტრთანხა: GEL270.00. კონვერტაცია
+            """
+
+        #expect(parser.exchangeRates(in: english) == parser.exchangeRates(in: georgian))
+    }
+
+    /// CLAUDE.md's first known bug: a page footer inside a conversion lost its rate.
+    @Test func readsAConversionAPageBreakFellInside() {
+        let statement = """
+            02/02/2026 Payment - Amount GEL270.00; Foreign Exchange.
+            pg. 3 (Total 6 pg.)
+            GEL -3.10
+            FX Rate:2.7. Counter-amount: USD100.00. konvertatsia
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 1)
+        #expect(rates.first?.to == "USD")
+    }
+
+    @Test func readsAConversionPrintedWithDecimalCommas() throws {
+        let statement = """
+            12/02/2026 Income - Amount USD1.000,00; Foreign Exchange. FX Rate:2,70. \
+            Counter-amount: GEL2.700,00. konvertatsia 12/05/2026 შემოსავალი - თანხა USD1.500,00; \
+            ვალუტის გაცვლითი ოპერაცია. კურსი:2,7 კონტრთანხა: GEL4.050,00. კონვერტაცია
+            """
+
+        let rate = Decimal(string: "2.7")!
+        #expect(parser.exchangeRates(in: statement).map(\.rate) == [rate, rate])
+    }
+
+    /// A conversion is not a purchase; it must not become a subscription.
+    @Test func conversionRowsAreNotTransactions() throws {
+        let statement = """
+            09/05/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, \
+            United States of America; MCC:4899; Date: 27/05/2026 00:00; Card No: ****0000; \
+            16/06/2025 Payment - Amount GEL270.00; Foreign Exchange. FX Rate:2.7. \
+            Counter-amount: USD100.00. konvertatsia
+            """
+
+        #expect(try parser.parse(statement).count == 1)
+    }
+}

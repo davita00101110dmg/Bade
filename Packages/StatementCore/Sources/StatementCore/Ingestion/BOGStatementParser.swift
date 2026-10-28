@@ -1,0 +1,64 @@
+import Foundation
+
+/// Bank of Georgia statement export. Card purchases only — transfers, fees and deposits
+/// are not subscriptions. Bade is not affiliated with the bank; the name identifies the format.
+public struct BOGStatementParser: StatementParser {
+    public static let identifier = "bog-pdf-v1"
+    public static let displayName = "Bank of Georgia"
+
+    public init() {}
+
+    public func canParse(_ text: String) -> Bool {
+        vocabulary(for: Self.flatten(text)) != nil
+    }
+
+    public func parse(_ text: String) throws -> [RawTransaction] {
+        let flat = Self.flatten(text)
+        guard let vocabulary = vocabulary(for: flat) else {
+            throw StatementParsingError.unrecognisedFormat
+        }
+
+        let transactions =
+            flat
+            .components(separatedBy: vocabulary.recordStart)
+            .dropFirst()
+            .compactMap {
+                BOGPaymentRecord(body: Self.ownFields(of: $0, vocabulary), vocabulary: vocabulary)?
+                    .transaction
+            }
+
+        guard !transactions.isEmpty else {
+            throw StatementParsingError.suspiciouslyFewTransactions(found: 0)
+        }
+        return transactions
+    }
+
+    /// Read in both languages rather than the one the header suggests. The rows are laid out
+    /// identically either way and the two label sets share nothing, so whichever the export used
+    /// is the only one that matches — and a run of conversions carries no merchant label to
+    /// recognise the statement by in the first place.
+    public func exchangeRates(in text: String) -> [ObservedRate] {
+        let flat = Self.flatten(text)
+        return BOGVocabulary.all.flatMap { BOGExchangeRecord.rates(in: flat, vocabulary: $0) }
+    }
+
+    /// Read on into a refund or transfer, a purchase took that record's rates, merchant or date.
+    private static func ownFields(of record: String, _ vocabulary: BOGVocabulary) -> Substring {
+        record.range(of: vocabulary.anyRecordStart).map { record[..<$0.lowerBound] } ?? record[...]
+    }
+
+    private func vocabulary(for flat: String) -> BOGVocabulary? {
+        BOGVocabulary.all.first { flat.contains($0.merchant) }
+    }
+
+    /// Extraction wraps fields mid-value, merges records onto shared lines and injects page
+    /// footers, so line structure carries no meaning; fields are recovered from their labels.
+    static func flatten(_ text: String) -> String {
+        text.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
+            .replacingOccurrences(of: pageFooter, with: "", options: .regularExpression)
+    }
+
+    /// `pg. 3 (Total 9 pg.)` and the balance printed after it, wherever the page happened to break.
+    private static let pageFooter =
+        " ?(?:pg\\.|გვ\\.) [0-9]+ \\((?:Total|სულ) [0-9]+ (?:pg\\.|გვ\\.)\\)(?: [A-Z]{3} -?[0-9][0-9.,]*[0-9])?"
+}

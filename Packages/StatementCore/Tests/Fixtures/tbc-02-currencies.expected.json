@@ -1,0 +1,29 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["georgian", "english", "GEL", "USD", "EUR", "conversion", "thousands", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-01-03", "description": "OPENAI *CHATGPT SUBSCR", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2026-01-04", "description": "Epidemic Sound", "amount": "8.99", "currency": "EUR", "mcc": "5815", "merchant": "Epidemic Sound"},
+    {"date": "2026-01-06", "description": "APPLE.COM/BILL", "amount": "4.99", "currency": "USD", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-01-12", "description": "DEMO HOTEL YEREVAN", "amount": "25000.00", "currency": "AMD", "mcc": "7011", "merchant": "DEMO HOTEL YEREVAN"},
+    {"date": "2026-02-03", "description": "OPENAI *CHATGPT SUBSCR", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2026-02-04", "description": "Epidemic Sound", "amount": "8.99", "currency": "EUR", "mcc": "5815", "merchant": "Epidemic Sound"},
+    {"date": "2026-02-06", "description": "APPLE.COM/BILL", "amount": "4.99", "currency": "USD", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-02-16", "description": "DEMO MUSEUM ROME", "amount": "18.00", "currency": "EUR", "mcc": "7991", "merchant": "DEMO MUSEUM ROME"},
+    {"date": "2026-03-03", "description": "OPENAI *CHATGPT SUBSCR", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2026-03-04", "description": "Epidemic Sound", "amount": "8.99", "currency": "EUR", "mcc": "5815", "merchant": "Epidemic Sound"},
+    {"date": "2026-03-06", "description": "APPLE.COM/BILL", "amount": "4.99", "currency": "USD", "mcc": "5818", "merchant": "Apple"}
+  ],
+  "rates": [
+    {"date": "2026-01-02", "from": "USD", "to": "GEL", "rate": "2.71"},
+    {"date": "2026-01-10", "from": "EUR", "to": "GEL", "rate": "3.05"},
+    {"date": "2026-01-15", "from": "AMD", "to": "GEL", "rate": "0.0071"},
+    {"date": "2026-02-20", "from": "GEL", "to": "USD", "rate": "0.365"}
+  ],
+  "subscriptions": [
+    {"merchant": "Apple", "currency": "USD", "cadence": "monthly", "amount": "4.99", "charges": 3, "confidence": "confident", "next": "2026-04-06"},
+    {"merchant": "ChatGPT", "currency": "USD", "cadence": "monthly", "amount": "20.00", "charges": 3, "confidence": "confident", "next": "2026-04-03"},
+    {"merchant": "Epidemic Sound", "currency": "EUR", "cadence": "monthly", "amount": "8.99", "charges": 3, "confidence": "confident", "next": "2026-04-04"}
+  ],
+  "candidates": []
+}

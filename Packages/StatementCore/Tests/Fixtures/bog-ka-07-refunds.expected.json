@@ -1,0 +1,17 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "GEL", "refund", "reversal", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-02-06", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-03-06", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-03-10", "description": "DEMO ELECTRONICS, თბილისი", "amount": "899.00", "currency": "GEL", "mcc": "5732", "merchant": "DEMO ELECTRONICS"},
+    {"date": "2026-04-06", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"}
+  ],
+  "rates": [
+    {"date": "2026-02-02", "from": "GEL", "to": "USD", "rate": "0.370370"}
+  ],
+  "subscriptions": [
+    {"merchant": "YouTube Premium", "currency": "GEL", "cadence": "monthly", "amount": "17.49", "charges": 3, "confidence": "confident", "next": "2026-05-06"}
+  ],
+  "candidates": []
+}

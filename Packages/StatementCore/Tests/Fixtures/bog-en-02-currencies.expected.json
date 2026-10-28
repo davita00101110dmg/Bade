@@ -1,0 +1,29 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "USD", "EUR", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-03-03", "description": "OPENAI *CHATGPT SUBSCR, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2026-03-04", "description": "Epidemic Sound, Sweden", "amount": "8.99", "currency": "EUR", "mcc": "5815", "merchant": "Epidemic Sound"},
+    {"date": "2026-03-06", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "10.29", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6716", "schemeRate": "2.6317"}},
+    {"date": "2026-03-11", "description": "SAMPLE COFFEE, Tbilisi", "amount": "4.50", "currency": "GEL", "mcc": "5814", "merchant": "SAMPLE COFFEE"},
+    {"date": "2026-04-03", "description": "OPENAI *CHATGPT SUBSCR, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2026-04-04", "description": "Epidemic Sound, Sweden", "amount": "8.99", "currency": "EUR", "mcc": "5815", "merchant": "Epidemic Sound"},
+    {"date": "2026-04-06", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "10.29", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6800", "schemeRate": "2.6400"}},
+    {"date": "2026-04-14", "description": "FAKE CAMERA STORE, United States", "amount": "129.00", "currency": "USD", "mcc": "5946", "merchant": "FAKE CAMERA STORE"},
+    {"date": "2026-05-03", "description": "OPENAI *CHATGPT SUBSCR, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2026-05-04", "description": "Epidemic Sound, Sweden", "amount": "8.99", "currency": "EUR", "mcc": "5815", "merchant": "Epidemic Sound"},
+    {"date": "2026-05-06", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "10.29", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6950", "schemeRate": "2.6550"}},
+    {"date": "2026-05-16", "description": "DEMO HOTEL BERLIN, Germany", "amount": "42.00", "currency": "EUR", "mcc": "7011", "merchant": "DEMO HOTEL BERLIN"}
+  ],
+  "rates": [
+    {"date": "2026-03-02", "from": "GEL", "to": "USD", "rate": "0.370370"},
+    {"date": "2026-03-10", "from": "EUR", "to": "GEL", "rate": "2.95"},
+    {"date": "2026-04-20", "from": "USD", "to": "GEL", "rate": "2.68"}
+  ],
+  "subscriptions": [
+    {"merchant": "ChatGPT", "currency": "USD", "cadence": "monthly", "amount": "20.00", "charges": 3, "confidence": "confident", "next": "2026-06-03"},
+    {"merchant": "Epidemic Sound", "currency": "EUR", "cadence": "monthly", "amount": "8.99", "charges": 3, "confidence": "confident", "next": "2026-06-04"},
+    {"merchant": "YouTube Premium", "currency": "GEL", "cadence": "monthly", "amount": "10.29", "charges": 3, "confidence": "confident", "next": "2026-06-06"}
+  ],
+  "candidates": []
+}

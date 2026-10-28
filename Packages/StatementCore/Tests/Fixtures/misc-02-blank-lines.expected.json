@@ -1,0 +1,9 @@
+{
+  "parser": null,
+  "error": "unrecognisedFormat",
+  "covers": ["empty-rows"],
+  "transactions": [],
+  "rates": [],
+  "subscriptions": [],
+  "candidates": []
+}

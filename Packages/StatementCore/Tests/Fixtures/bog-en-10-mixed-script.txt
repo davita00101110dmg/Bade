@@ -1,0 +1,18 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/01/2026 - 31/03/2026
+Date Operation details Amount Balance
+05/01/2026 Payment - Amount: GEL25.00; Merchant: მაგთიკომი, თბილისი; MCC:4814; Date: 05/01/2026 00:00; Card No: ****0000;
+08/01/2026 Payment - Amount: GEL18.30; Merchant: სატესტო მარკეტი, თბილისი; MCC:5411; Date: 08/01/2026 00:00; Card No: ****0000;
+12/01/2026 Payment - Amount: GEL49.00; Merchant: SILKNET, Tbilisi; MCC:4899; Date: 12/01/2026 00:00; Card No: ****0000;
+14/01/2026 Payment - Amount: GEL23.40; Merchant: კაფე SAMPLE, Batumi; MCC:5814; Date: 14/01/2026 00:00; Card No: ****0000;
+20/01/2026 Payment - Amount: GEL60.00; Merchant: ALDAGI ალდაგი, Tbilisi; MCC:6300; Date: 20/01/2026 00:00; Card No: ****0000;
+05/02/2026 Payment - Amount: GEL25.00; Merchant: FLT*MAGTICOM, Georgia; MCC:4814; Date: 05/02/2026 00:00; Card No: ****0000;
+12/02/2026 Payment - Amount: GEL49.00; Merchant: სილქნეტი, თბილისი; MCC:4899; Date: 12/02/2026 00:00; Card No: ****0000;
+20/02/2026 Payment - Amount: GEL60.00; Merchant: ALDAGI ალდაგი, Tbilisi; MCC:6300; Date: 20/02/2026 00:00; Card No: ****0000;
+22/02/2026 Payment - Amount: GEL120.00; Merchant: SAMPLE FITNESS ფიტნესი, Tbilisi; MCC:7997; Date: 22/02/2026 00:00; Card No: ****0000;
+05/03/2026 Payment - Amount: GEL25.00; Merchant: მაგთიკომი, თბილისი; MCC:4814; Date: 05/03/2026 00:00; Card No: ****0000;
+12/03/2026 Payment - Amount: GEL49.00; Merchant: ᲡᲘᲚᲥᲜᲔᲢᲘ, ᲗᲑᲘᲚᲘᲡᲘ; MCC:4899; Date: 12/03/2026 00:00; Card No: ****0000;
+20/03/2026 Payment - Amount: GEL60.00; Merchant: ALDAGI ალდაგი, Tbilisi; MCC:6300; Date: 20/03/2026 00:00; Card No: ****0000;

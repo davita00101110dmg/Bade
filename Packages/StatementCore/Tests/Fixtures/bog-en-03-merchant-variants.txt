@@ -1,0 +1,20 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/01/2026 - 31/05/2026
+Date Operation details Amount Balance
+10/01/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 09/01/2026 00:00; Card No: ****0000;
+16/01/2026 Payment - Amount: USD20.00; Merchant: CLAUDE.AI SUBSCRIPTION, United States; MCC:5734; Date: 15/01/2026 00:00; Card No: ****0000;
+21/01/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P21A01, United Kingdom; MCC:4816; Date: 20/01/2026 00:00; Card No: ****0000;
+02/02/2026 Payment - Amount: GEL90.00; Merchant: SAMPLE GYM, Tbilisi; MCC:7997; Date: 01/02/2026 00:00; Card No: ****0000;
+10/02/2026 Payment - Amount: GEL35.99; Merchant: Netflix.com, Amsterdam; MCC:4899; Date: 09/02/2026 00:00; Card No: ****0000;
+16/02/2026 Payment - Amount: USD20.00; Merchant: ANTHROPIC* CLAUDE SUB, United States; MCC:5734; Date: 15/02/2026 00:00; Card No: ****0000;
+21/02/2026 Payment - Amount: GEL15.20; Merchant: Spotify P0A1B2C3D4, Stockholm; MCC:4816; Date: 20/02/2026 00:00; Card No: ****0000;
+02/03/2026 Payment - Amount: GEL90.00; Merchant: SAMPLE GYM, Tbilisi; MCC:7997; Date: 01/03/2026 00:00; Card No: ****0000;
+10/03/2026 Payment - Amount: GEL35.99; Merchant: SP NETFLIX.COM, Los Gatos; MCC:4899; Date: 09/03/2026 00:00; Card No: ****0000;
+16/03/2026 Payment - Amount: USD20.00; Merchant: Anthropic, San Francisco; MCC:5734; Date: 15/03/2026 00:00; Card No: ****0000;
+21/03/2026 Payment - Amount: GEL15.20; Merchant: SPOTIFY AB, Sweden; MCC:4816; Date: 20/03/2026 00:00; Card No: ****0000;
+02/04/2026 Payment - Amount: GEL90.00; Merchant: Sample Gym, Tbilisi; MCC:7997; Date: 01/04/2026 00:00; Card No: ****0000;
+10/04/2026 Payment - Amount: GEL35.99; Merchant: PAYPAL *NETFLIX, United States; MCC:4899; Date: 09/04/2026 00:00; Card No: ****0000;
+10/05/2026 Payment - Amount: GEL35.99; Merchant: www.netflix.com, Netherlands; MCC:4899; Date: 09/05/2026 00:00; Card No: ****0000;

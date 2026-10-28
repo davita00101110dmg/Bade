@@ -1,0 +1,28 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["georgian", "GEL", "USD", "month-boundary", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-01-30", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-01-31", "description": "ADOBE *CREATIVE CLOUD", "amount": "22.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"},
+    {"date": "2026-02-01", "description": "APPLE.COM/BILL", "amount": "2.99", "currency": "USD", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-02-28", "description": "ADOBE *CREATIVE CLOUD", "amount": "22.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"},
+    {"date": "2026-03-01", "description": "APPLE.COM/BILL", "amount": "2.99", "currency": "USD", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-03-02", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-03-30", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-03-31", "description": "SAMPLE MARKET", "amount": "63.20", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2026-03-31", "description": "ADOBE *CREATIVE CLOUD", "amount": "22.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"},
+    {"date": "2026-03-31", "description": "FAKE SKI PASS OFFICE", "amount": "180.00", "currency": "GEL", "mcc": "7999", "merchant": "FAKE SKI PASS OFFICE"},
+    {"date": "2026-04-01", "description": "APPLE.COM/BILL", "amount": "2.99", "currency": "USD", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-04-30", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-04-30", "description": "ADOBE *CREATIVE CLOUD", "amount": "22.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"},
+    {"date": "2026-05-01", "description": "APPLE.COM/BILL", "amount": "2.99", "currency": "USD", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-05-31", "description": "ADOBE *CREATIVE CLOUD", "amount": "22.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Adobe Creative Cloud", "currency": "USD", "cadence": "monthly", "amount": "22.99", "charges": 5, "confidence": "confident", "next": "2026-06-30"},
+    {"merchant": "Apple", "currency": "USD", "cadence": "monthly", "amount": "2.99", "charges": 4, "confidence": "confident", "next": "2026-06-01"},
+    {"merchant": "Setanta Sports", "currency": "GEL", "cadence": "monthly", "amount": "14.99", "charges": 4, "confidence": "confident", "next": "2026-05-30"}
+  ],
+  "candidates": []
+}

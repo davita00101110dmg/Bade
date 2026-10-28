@@ -1,0 +1,24 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["georgian", "english", "GEL", "USD", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2025-08-03", "description": "SAMPLE MARKET", "amount": "24.60", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2025-08-05", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2025-08-07", "description": "Spotify P1A2B3C4D5", "amount": "2.99", "currency": "USD", "mcc": "5815", "merchant": "Spotify"},
+    {"date": "2025-08-09", "description": "Wolt", "amount": "18.40", "currency": "GEL", "mcc": "4215", "merchant": "Wolt"},
+    {"date": "2025-08-11", "description": "Bolt", "amount": "9.50", "currency": "GEL", "mcc": "4121", "merchant": "Bolt"},
+    {"date": "2025-09-05", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2025-09-07", "description": "Spotify P2B3C4D5E6", "amount": "2.99", "currency": "USD", "mcc": "5815", "merchant": "Spotify"},
+    {"date": "2025-09-19", "description": "SAMPLE MARKET", "amount": "27.15", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2025-10-05", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2025-10-07", "description": "Spotify P3C4D5E6F7", "amount": "2.99", "currency": "USD", "mcc": "5815", "merchant": "Spotify"},
+    {"date": "2025-10-17", "description": "FAKE OUTDOOR GEAR", "amount": "120.00", "currency": "GEL", "mcc": "5941", "merchant": "FAKE OUTDOOR GEAR"},
+    {"date": "2025-10-25", "description": "Wolt", "amount": "14.00", "currency": "GEL", "mcc": "4215", "merchant": "Wolt"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2025-11-05"},
+    {"merchant": "Spotify", "currency": "USD", "cadence": "monthly", "amount": "2.99", "charges": 3, "confidence": "confident", "next": "2025-11-07"}
+  ],
+  "candidates": []
+}

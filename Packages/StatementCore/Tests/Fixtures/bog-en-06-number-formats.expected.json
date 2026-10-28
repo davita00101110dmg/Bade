@@ -1,0 +1,21 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "USD", "thousands", "decimal-comma", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-01-05", "description": "FAKE FURNITURE, Tbilisi", "amount": "1240.00", "currency": "GEL", "mcc": "5712", "merchant": "FAKE FURNITURE"},
+    {"date": "2026-01-10", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6859", "schemeRate": "2.6484"}},
+    {"date": "2026-01-19", "description": "DEMO CAR SERVICE, Tbilisi", "amount": "12450.75", "currency": "GEL", "mcc": "7538", "merchant": "DEMO CAR SERVICE"},
+    {"date": "2026-02-02", "description": "FAKE CAMERA STORE, United States", "amount": "2499.00", "currency": "USD", "mcc": "5946", "merchant": "FAKE CAMERA STORE"},
+    {"date": "2026-02-10", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6859", "schemeRate": "2.6484"}},
+    {"date": "2026-02-20", "description": "DEMO SKI RENTAL, Gudauri", "amount": "1240.50", "currency": "GEL", "mcc": "7999", "merchant": "DEMO SKI RENTAL"},
+    {"date": "2026-03-10", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6800", "schemeRate": "2.6400"}}
+  ],
+  "rates": [
+    {"date": "2026-01-25", "from": "GEL", "to": "USD", "rate": "0.362713"},
+    {"date": "2026-02-12", "from": "USD", "to": "GEL", "rate": "2.7"}
+  ],
+  "subscriptions": [
+    {"merchant": "Setanta Sports", "currency": "GEL", "cadence": "monthly", "amount": "14.99", "charges": 3, "confidence": "confident", "next": "2026-04-10"}
+  ],
+  "candidates": []
+}

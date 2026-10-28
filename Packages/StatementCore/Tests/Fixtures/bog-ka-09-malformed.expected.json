@@ -1,0 +1,14 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "GEL", "empty-rows", "malformed-rows", "month-boundary", "recurring"],
+  "transactions": [
+    {"date": "2026-07-03", "description": "PAYPAL *SPOTIFY*P91A01, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-08-03", "description": "PAYPAL *SPOTIFY*P91B02, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-09-03", "description": "PAYPAL *SPOTIFY*P91C03, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "15.20", "charges": 3, "confidence": "confident", "next": "2026-10-03"}
+  ],
+  "candidates": []
+}

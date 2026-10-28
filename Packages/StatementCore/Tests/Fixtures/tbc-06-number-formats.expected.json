@@ -1,0 +1,22 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["georgian", "GEL", "USD", "thousands", "decimal-comma", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-02-05", "description": "FAKE FURNITURE", "amount": "1240.00", "currency": "GEL", "mcc": "5712", "merchant": "FAKE FURNITURE"},
+    {"date": "2026-02-10", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-02-19", "description": "DEMO CAR SERVICE", "amount": "12450.75", "currency": "GEL", "mcc": "7538", "merchant": "DEMO CAR SERVICE"},
+    {"date": "2026-03-10", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-03-12", "description": "SAMPLE MARKET", "amount": "8.31", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2026-03-20", "description": "DEMO SKI RENTAL", "amount": "1240.50", "currency": "GEL", "mcc": "7999", "merchant": "DEMO SKI RENTAL"},
+    {"date": "2026-04-02", "description": "FAKE CAMERA STORE", "amount": "2499.00", "currency": "USD", "mcc": "5946", "merchant": "FAKE CAMERA STORE"},
+    {"date": "2026-04-10", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"}
+  ],
+  "rates": [
+    {"date": "2026-02-25", "from": "USD", "to": "GEL", "rate": "2.71"},
+    {"date": "2026-03-25", "from": "USD", "to": "GEL", "rate": "2.69"}
+  ],
+  "subscriptions": [
+    {"merchant": "Setanta Sports", "currency": "GEL", "cadence": "monthly", "amount": "14.99", "charges": 3, "confidence": "confident", "next": "2026-05-10"}
+  ],
+  "candidates": []
+}

@@ -1,0 +1,9 @@
+{
+  "parser": "bog-pdf-v1",
+  "error": "tooFewTransactions",
+  "covers": ["english", "malformed-rows"],
+  "transactions": [],
+  "rates": [],
+  "subscriptions": [],
+  "candidates": []
+}

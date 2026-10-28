@@ -1,0 +1,21 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/03/2026 - 31/05/2026
+Date Operation details Amount Balance
+02/03/2026 Payment - Amount GEL270.00; Foreign Exchange. FX Rate:2.7. Counter-amount: USD100.00. konvertatsia
+04/03/2026 Payment - Amount: USD20.00; Merchant: OPENAI *CHATGPT SUBSCR, United States; MCC:5734; Date: 03/03/2026 00:00; Card No: ****0000;
+05/03/2026 Payment - Amount: EUR8.99; Merchant: Epidemic Sound, Sweden; MCC:5815; Date: 04/03/2026 00:00; Card No: ****0000;
+07/03/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 06/03/2026 00:00; Card No: ****0000; Payment transaction amount and currency: 10.29 GEL; Card scheme conversion rate (USD-GEL): 2.6317; Bank conversion rate (USD-GEL): 2.6716
+10/03/2026 Payment - Amount EUR295.00; Foreign Exchange. FX Rate:2.95. Counter-amount: GEL870.25. konvertatsia
+12/03/2026 Payment - Amount: GEL4.50; Merchant: SAMPLE COFFEE, Tbilisi; MCC:5814; Date: 11/03/2026 09:12; Card No: ****0000;
+04/04/2026 Payment - Amount: USD20.00; Merchant: OPENAI *CHATGPT SUBSCR, United States; MCC:5734; Date: 03/04/2026 00:00; Card No: ****0000;
+05/04/2026 Payment - Amount: EUR8.99; Merchant: Epidemic Sound, Sweden; MCC:5815; Date: 04/04/2026 00:00; Card No: ****0000;
+07/04/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 06/04/2026 00:00; Card No: ****0000; Payment transaction amount and currency: 10.29 GEL; Card scheme conversion rate (USD-GEL): 2.6400; Bank conversion rate (USD-GEL): 2.6800
+15/04/2026 Payment - Amount: USD129.00; Merchant: FAKE CAMERA STORE, United States; MCC:5946; Date: 14/04/2026 00:00; Card No: ****0000;
+20/04/2026 Income - Amount USD150.00; Foreign Exchange. FX Rate:2.68. Counter-amount: GEL402.00. konvertatsia
+04/05/2026 Payment - Amount: USD20.00; Merchant: OPENAI *CHATGPT SUBSCR, United States; MCC:5734; Date: 03/05/2026 00:00; Card No: ****0000;
+05/05/2026 Payment - Amount: EUR8.99; Merchant: Epidemic Sound, Sweden; MCC:5815; Date: 04/05/2026 00:00; Card No: ****0000;
+07/05/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 06/05/2026 00:00; Card No: ****0000; Payment transaction amount and currency: 10.29 GEL; Card scheme conversion rate (USD-GEL): 2.6550; Bank conversion rate (USD-GEL): 2.6950
+18/05/2026 Payment - Amount: EUR42.00; Merchant: DEMO HOTEL BERLIN, Germany; MCC:7011; Date: 16/05/2026 00:00; Card No: ****0000;

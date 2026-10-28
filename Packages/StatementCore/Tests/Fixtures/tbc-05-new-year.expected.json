@@ -1,0 +1,22 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["english", "GEL", "USD", "year-boundary", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2024-12-15", "description": "SLOPES APP", "amount": "29.99", "currency": "USD", "mcc": "5818", "merchant": "Slopes"},
+    {"date": "2025-11-30", "description": "MEGOGO.NET", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2025-12-15", "description": "SLOPES APP", "amount": "29.99", "currency": "USD", "mcc": "5818", "merchant": "Slopes"},
+    {"date": "2025-12-30", "description": "MEGOGO.NET", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2025-12-31", "description": "FAKE FIREWORKS", "amount": "75.00", "currency": "GEL", "mcc": "5999", "merchant": "FAKE FIREWORKS"},
+    {"date": "2025-12-31", "description": "AMAZON PRIME*2K4LM7", "amount": "139.00", "currency": "USD", "mcc": "5968", "merchant": "Amazon Prime"},
+    {"date": "2026-01-01", "description": "ALLTRAILS INC", "amount": "35.99", "currency": "USD", "mcc": "5818", "merchant": "AllTrails"},
+    {"date": "2026-01-30", "description": "MEGOGO.NET", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "AllTrails", "currency": "USD", "cadence": "annual", "amount": "35.99", "charges": 1, "confidence": "confident", "next": "2027-01-01"},
+    {"merchant": "Amazon Prime", "currency": "USD", "cadence": "annual", "amount": "139.00", "charges": 1, "confidence": "confident", "next": "2026-12-31"},
+    {"merchant": "Megogo", "currency": "GEL", "cadence": "monthly", "amount": "9.00", "charges": 3, "confidence": "confident", "next": "2026-02-28"},
+    {"merchant": "Slopes", "currency": "USD", "cadence": "annual", "amount": "29.99", "charges": 2, "confidence": "confident", "next": "2026-12-15"}
+  ],
+  "candidates": []
+}

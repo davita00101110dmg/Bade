@@ -1,0 +1,23 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["english", "GEL", "USD", "EUR", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-06-15", "description": "CLAUDE.AI SUBSCRIPTION", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-06-20", "description": "ADOBE *LIGHTROOM", "amount": "11.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"},
+    {"date": "2026-06-23", "description": "DEMO BAKERY", "amount": "6.40", "currency": "GEL", "mcc": "5462", "merchant": "DEMO BAKERY"},
+    {"date": "2026-07-15", "description": "CLAUDE.AI SUBSCRIPTION", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-07-20", "description": "ADOBE *LIGHTROOM", "amount": "11.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"},
+    {"date": "2026-08-10", "description": "DEMO TRAIN TICKETS", "amount": "45.00", "currency": "EUR", "mcc": "4112", "merchant": "DEMO TRAIN TICKETS"},
+    {"date": "2026-08-15", "description": "CLAUDE.AI SUBSCRIPTION", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-08-20", "description": "ADOBE *LIGHTROOM", "amount": "11.99", "currency": "USD", "mcc": "5734", "merchant": "Adobe Creative Cloud"}
+  ],
+  "rates": [
+    {"date": "2026-06-03", "from": "USD", "to": "GEL", "rate": "2.68"},
+    {"date": "2026-08-05", "from": "EUR", "to": "GEL", "rate": "3.10"}
+  ],
+  "subscriptions": [
+    {"merchant": "Adobe Creative Cloud", "currency": "USD", "cadence": "monthly", "amount": "11.99", "charges": 3, "confidence": "confident", "next": "2026-09-20"},
+    {"merchant": "Claude", "currency": "USD", "cadence": "monthly", "amount": "20.00", "charges": 3, "confidence": "confident", "next": "2026-09-15"}
+  ],
+  "candidates": []
+}

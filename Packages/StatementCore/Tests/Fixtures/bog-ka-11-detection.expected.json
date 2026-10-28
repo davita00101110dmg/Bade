@@ -1,0 +1,37 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "GEL", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-03-02", "description": "DEMO CAR WASH, თბილისი", "amount": "15.00", "currency": "GEL", "mcc": "7542", "merchant": "DEMO CAR WASH"},
+    {"date": "2026-03-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-12", "description": "სილქნეტი, თბილისი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-03-21", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-03-26", "description": "DEMO CAR WASH, თბილისი", "amount": "15.00", "currency": "GEL", "mcc": "7542", "merchant": "DEMO CAR WASH"},
+    {"date": "2026-04-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-04-12", "description": "სილქნეტი, თბილისი", "amount": "55.40", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-04-21", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-04-21", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-05-09", "description": "DEMO CAR WASH, თბილისი", "amount": "15.00", "currency": "GEL", "mcc": "7542", "merchant": "DEMO CAR WASH"},
+    {"date": "2026-05-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-05-12", "description": "სილქნეტი, თბილისი", "amount": "61.90", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-05-21", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-06-12", "description": "სილქნეტი, თბილისი", "amount": "47.20", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-06-21", "description": "SPOTIFY AB, Sweden", "amount": "18.50", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-06-30", "description": "DEMO CAR WASH, თბილისი", "amount": "15.00", "currency": "GEL", "mcc": "7542", "merchant": "DEMO CAR WASH"},
+    {"date": "2026-07-12", "description": "სილქნეტი, თბილისი", "amount": "58.80", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-07-21", "description": "SPOTIFY AB, Sweden", "amount": "18.50", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-08-12", "description": "სილქნეტი, თბილისი", "amount": "52.10", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-08-14", "description": "DEMO CAR WASH, თბილისი", "amount": "15.00", "currency": "GEL", "mcc": "7542", "merchant": "DEMO CAR WASH"},
+    {"date": "2026-08-21", "description": "SPOTIFY AB, Sweden", "amount": "18.50", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-08-30", "description": "სატესტო მარკეტი, თბილისი", "amount": "61.30", "currency": "GEL", "mcc": "5411", "merchant": "სატესტო მარკეტი"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-06-09", "ended": true},
+    {"merchant": "Silknet", "currency": "GEL", "cadence": "monthly", "amount": "52.10", "charges": 6, "confidence": "confident", "next": "2026-09-12", "variable": true},
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "18.50", "charges": 6, "confidence": "confident", "next": "2026-09-21", "priceChanges": [{"date": "2026-06-21", "from": "15.20", "to": "18.50"}]}
+  ],
+  "candidates": [
+    {"merchant": "DEMO CAR WASH", "currency": "GEL", "amount": "15.00", "charges": 5}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["georgian", "english", "GEL", "USD", "empty-rows", "malformed-rows", "month-boundary", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-01-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-01-20", "description": "SAMPLE BAKERY", "amount": "6.40", "currency": "GEL", "mcc": "5462", "merchant": "SAMPLE BAKERY"},
+    {"date": "2026-01-25", "description": "DEMO POS SYSTEMS", "amount": "120.00", "currency": "GEL", "mcc": "5045", "merchant": "DEMO POS SYSTEMS"},
+    {"date": "2026-02-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-04-09"}
+  ],
+  "candidates": []
+}

@@ -1,0 +1,21 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/01/2026 - 31/05/2026
+Date Operation details Amount Balance
+30/01/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 30/01/2026 00:00; Card No: ****0000;
+02/02/2026 Payment - Amount: USD22.99; Merchant: ADOBE *CREATIVE CLOUD, Ireland; MCC:5734; Date: 31/01/2026 23:58; Card No: ****0000;
+02/02/2026 Payment - Amount: GEL63.20; Merchant: SAMPLE MARKET, Tbilisi; MCC:5411; Date: 31/01/2026 21:40; Card No: ****0000;
+02/02/2026 Payment - Amount: USD2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 01/02/2026 00:00; Card No: ****0000;
+28/02/2026 Payment - Amount: USD22.99; Merchant: ADOBE *CREATIVE CLOUD, Ireland; MCC:5734; Date: 28/02/2026 00:00; Card No: ****0000;
+02/03/2026 Payment - Amount: USD2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 01/03/2026 00:00; Card No: ****0000;
+03/03/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 02/03/2026 00:00; Card No: ****0000;
+30/03/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 30/03/2026 00:00; Card No: ****0000;
+31/03/2026 Payment - Amount: USD22.99; Merchant: ADOBE *CREATIVE CLOUD, Ireland; MCC:5734; Date: 31/03/2026 00:00; Card No: ****0000;
+01/04/2026 Payment - Amount: GEL180.00; Merchant: FAKE SKI PASS OFFICE, Gudauri; MCC:7999; Date: 31/03/2026 23:59; Card No: ****0000;
+01/04/2026 Payment - Amount: USD2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 01/04/2026 00:01; Card No: ****0000;
+30/04/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 30/04/2026 00:00; Card No: ****0000;
+30/04/2026 Payment - Amount: USD22.99; Merchant: ADOBE *CREATIVE CLOUD, Ireland; MCC:5734; Date: 30/04/2026 00:00; Card No: ****0000;
+01/05/2026 Payment - Amount: USD2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 01/05/2026 00:00; Card No: ****0000;
+31/05/2026 Payment - Amount: USD22.99; Merchant: ADOBE *CREATIVE CLOUD, Ireland; MCC:5734; Date: 31/05/2026 00:00; Card No: ****0000;

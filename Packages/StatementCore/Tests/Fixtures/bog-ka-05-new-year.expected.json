@@ -1,0 +1,20 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "GEL", "USD", "year-boundary", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2025-12-20", "description": "DUOLINGO, United States", "amount": "83.88", "currency": "USD", "mcc": "5818", "merchant": "Duolingo"},
+    {"date": "2026-11-30", "description": "MEGOGO.NET, Georgia", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2026-12-20", "description": "DUOLINGO, United States", "amount": "83.88", "currency": "USD", "mcc": "5818", "merchant": "Duolingo"},
+    {"date": "2026-12-30", "description": "MEGOGO.NET, Georgia", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2026-12-31", "description": "ნიმუში საჩუქრები, თბილისი", "amount": "89.00", "currency": "GEL", "mcc": "5947", "merchant": "ნიმუში საჩუქრები"},
+    {"date": "2027-01-01", "description": "STRAVA INC., United States", "amount": "79.99", "currency": "USD", "mcc": "5818", "merchant": "Strava"},
+    {"date": "2027-01-30", "description": "MEGOGO.NET, Georgia", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Duolingo", "currency": "USD", "cadence": "annual", "amount": "83.88", "charges": 2, "confidence": "confident", "next": "2027-12-20"},
+    {"merchant": "Megogo", "currency": "GEL", "cadence": "monthly", "amount": "9.00", "charges": 3, "confidence": "confident", "next": "2027-02-28"},
+    {"merchant": "Strava", "currency": "USD", "cadence": "annual", "amount": "79.99", "charges": 1, "confidence": "confident", "next": "2028-01-01"}
+  ],
+  "candidates": []
+}
