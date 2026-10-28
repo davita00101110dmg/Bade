@@ -6,7 +6,7 @@
 
 **How much are you paying a month?**
 
-[badeapp.com](https://badeapp.com)
+Live on the App Store · [badeapp.com](https://badeapp.com)
 
 </div>
 
