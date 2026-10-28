@@ -1,0 +1,21 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "GEL", "malformed-rows", "conversion", "recurring"],
+  "transactions": [
+    {"date": "2026-05-04", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-05-12", "description": "სილქნეტი, თბილისი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-06-04", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-06-12", "description": "სილქნეტი, თბილისი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-06-15", "description": "სატესტო მარკეტი, თბილისი", "amount": "27.80", "currency": "GEL", "mcc": "5411", "merchant": "სატესტო მარკეტი"},
+    {"date": "2026-07-04", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-07-12", "description": "სილქნეტი, თბილისი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"}
+  ],
+  "rates": [
+    {"date": "2026-05-20", "from": "GEL", "to": "USD", "rate": "0.370370"}
+  ],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-08-04"},
+    {"merchant": "Silknet", "currency": "GEL", "cadence": "monthly", "amount": "49.00", "charges": 3, "confidence": "confident", "next": "2026-08-12"}
+  ],
+  "candidates": []
+}

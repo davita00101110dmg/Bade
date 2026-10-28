@@ -1,0 +1,22 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "malformed-rows", "conversion", "recurring"],
+  "transactions": [
+    {"date": "2026-01-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-01-20", "description": "PAYPAL *SPOTIFY*P31A01, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-01-22", "description": "SAMPLE MARKET, Tbilisi", "amount": "31.75", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2026-02-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-02-20", "description": "PAYPAL *SPOTIFY*P31B02, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-02-25", "description": "SAMPLE MARKET, Tbilisi", "amount": "12.40", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"},
+    {"date": "2026-03-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-20", "description": "PAYPAL *SPOTIFY*P31C03, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"}
+  ],
+  "rates": [
+    {"date": "2026-02-02", "from": "GEL", "to": "USD", "rate": "0.370370"}
+  ],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-04-09"},
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "15.20", "charges": 3, "confidence": "confident", "next": "2026-04-20"}
+  ],
+  "candidates": []
+}

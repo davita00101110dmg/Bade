@@ -130,6 +130,20 @@ struct BOGExchangeRateTests {
         #expect(parser.exchangeRates(in: english) == parser.exchangeRates(in: georgian))
     }
 
+    /// CLAUDE.md's first known bug: a page footer inside a conversion lost its rate.
+    @Test func readsAConversionAPageBreakFellInside() {
+        let statement = """
+            02/02/2026 Payment - Amount GEL270.00; Foreign Exchange.
+            pg. 3 (Total 6 pg.)
+            GEL -3.10
+            FX Rate:2.7. Counter-amount: USD100.00. konvertatsia
+            """
+
+        let rates = parser.exchangeRates(in: statement)
+        #expect(rates.count == 1)
+        #expect(rates.first?.to == "USD")
+    }
+
     /// A conversion is not a purchase; it must not become a subscription.
     @Test func conversionRowsAreNotTransactions() throws {
         let statement = """

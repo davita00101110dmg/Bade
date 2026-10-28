@@ -1,0 +1,32 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/01/2026 - 31/03/2026
+Date Operation details Amount Balance
+09/01/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 09/01/2026 00:00; Card No: ****0000;
+20/01/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P31A01, United
+pg. 1 (Total 6 pg.)
+GEL 1,204.33
+Kingdom; MCC:4816; Date: 20/01/2026 00:00; Card No: ****0000;
+22/01/2026 Payment - Amount: GEL31.75; Merchant: SAMPLE MARKET, Tbilisi; MCC:
+pg. 2 (Total 6 pg.)
+GEL 1,172.58
+5411; Date: 22/01/2026 18:00; Card No: ****0000;
+02/02/2026 Payment - Amount GEL270.00; Foreign Exchange.
+pg. 3 (Total 6 pg.)
+GEL -3.10
+FX Rate:2.7. Counter-amount: USD100.00. konvertatsia
+09/02/2026 Payment - Amount:
+pg. 4 (Total 6 pg.)
+GEL 0.75
+GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 09/02/2026 00:00; Card No: ****0000;
+20/02/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P31B02, United Kingdom; MCC:4816; Date: 20/02/2026 00:00; Card No: ****0000;
+25/02/2026 Payment - Amount: GEL12.40; Merchant: SAMPLE MARKET, Tbilisi; MCC:5411; Date:
+pg. 5 (Total 6 pg.)
+GEL 640.00
+25/02/2026 17:45; Card No: ****0000;
+09/03/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 09/03/2026 00:00; Card No: ****0000;
+20/03/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P31C03, United Kingdom; MCC:4816; Date: 20/03/2026 00:00; Card No: ****0000;
+pg. 6 (Total 6 pg.)
+GEL 512.60

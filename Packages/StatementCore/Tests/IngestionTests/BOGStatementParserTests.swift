@@ -155,6 +155,27 @@ struct BOGStatementParserTests {
         }
     }
 
+    /// The English footer and the balance after it land mid-field; neither belongs to the record.
+    @Test func dropsPageFootersWhereverTheyLand() throws {
+        let statement = """
+            Payment - Amount:
+            pg. 4 (Total 6 pg.)
+            GEL 0.75
+            GEL15.20; Merchant: PAYPAL *SPOTIFY*P31A01, United
+            pg. 5 (Total 6 pg.)
+            GEL 1,204.33
+            Kingdom; MCC:
+            pg. 6 (Total 6 pg.)
+            GEL -3.10
+            4816; Date: 20/01/2026 00:00; Card No: ****0000;
+            """
+
+        let transaction = try #require(try parser.parse(statement).first)
+        #expect(transaction.amount == Decimal(string: "15.20")!)
+        #expect(transaction.rawDescription == "PAYPAL *SPOTIFY*P31A01, United Kingdom")
+        #expect(transaction.mcc == "4816")
+    }
+
     /// A refund prints the same conversion lines a purchase does; they are the refund's alone.
     @Test func readsAPurchaseOnlyUpToTheNextRecord() throws {
         let statement = """

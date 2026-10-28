@@ -55,5 +55,10 @@ public struct BOGStatementParser: StatementParser {
     /// footers, so line structure carries no meaning; fields are recovered from their labels.
     static func flatten(_ text: String) -> String {
         text.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
+            .replacingOccurrences(of: pageFooter, with: "", options: .regularExpression)
     }
+
+    /// `pg. 3 (Total 9 pg.)` and the balance printed after it, wherever the page happened to break.
+    private static let pageFooter =
+        " ?(?:pg\\.|გვ\\.) [0-9]+ \\((?:Total|სულ) [0-9]+ (?:pg\\.|გვ\\.)\\)(?: [A-Z]{3} -?[0-9][0-9.,]*[0-9])?"
 }
