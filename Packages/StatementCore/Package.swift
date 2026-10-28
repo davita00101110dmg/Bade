@@ -17,5 +17,6 @@ let package = Package(
         .testTarget(name: "CatalogTests", dependencies: ["StatementCore"]),
         .testTarget(name: "DetectionTests", dependencies: ["StatementCore"]),
         .testTarget(name: "PipelineTests", dependencies: ["StatementCore"]),
+        .testTarget(name: "FixtureTests", dependencies: ["StatementCore"]),
     ]
 )

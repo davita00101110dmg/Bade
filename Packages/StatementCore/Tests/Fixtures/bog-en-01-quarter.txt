@@ -1,0 +1,21 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/05/2026 - 31/07/2026
+Date Operation details Amount Balance
+02/05/2026 Payment - Amount: GEL24.60; Merchant: SAMPLE MARKET, Tbilisi, 1 Test st.; MCC:5411; Date: 01/05/2026 18:42; Card No: ****0000;
+03/05/2026 Income - Amount: GEL2,500.00; Salary, TEST EMPLOYER LLC; Account: GE00TEST0000000000001
+05/05/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 04/05/2026 00:00; Card No: ****0000; Payment transaction amount and currency: 35.99 GEL; Card scheme conversion rate (USD-GEL): 2.6900; Bank conversion rate (USD-GEL): 2.7310
+08/05/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P11A01, United Kingdom; MCC:4816; Date: 07/05/2026 00:00; Card No: ****0000;
+10/05/2026 Payment - Amount: GEL18.40; Merchant: Wolt, Tbilisi; MCC:4215; Date: 09/05/2026 13:05; Card No: ****0000;
+12/05/2026 Payment - Amount: GEL9.50; Merchant: Bolt, Tbilisi; MCC:4121; Date: 11/05/2026 23:10; Card No: ****0000;
+15/05/2026 Payment - Amount: GEL42.30; Merchant: DEMO PHARMACY, Tbilisi; MCC:5912; Date: 14/05/2026 10:01; Card No: ****0000;
+05/06/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 04/06/2026 00:00; Card No: ****0000; Payment transaction amount and currency: 35.99 GEL; Card scheme conversion rate (USD-GEL): 2.6750; Bank conversion rate (USD-GEL): 2.7160
+08/06/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P11B02, United Kingdom; MCC:4816; Date: 07/06/2026 00:00; Card No: ****0000;
+20/06/2026 Payment - Amount: GEL27.15; Merchant: SAMPLE MARKET, Tbilisi, 1 Test st.; MCC:5411; Date: 19/06/2026 19:30; Card No: ****0000;
+22/06/2026 Outgoing Transfer - Amount: GEL150.00; Beneficiary: TEST PERSON; Account: GE00TEST0000000000002; Bank: JSC TBC Bank, TBCBGE22
+05/07/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 04/07/2026 00:00; Card No: ****0000; Payment transaction amount and currency: 35.99 GEL; Card scheme conversion rate (USD-GEL): 2.6810; Bank conversion rate (USD-GEL): 2.7220
+08/07/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P11C03, United Kingdom; MCC:4816; Date: 07/07/2026 00:00; Card No: ****0000;
+18/07/2026 Payment - Amount: GEL120.00; Merchant: FAKE OUTDOOR GEAR, Tbilisi; MCC:5941; Date: 17/07/2026 12:00; Card No: ****0000;
+26/07/2026 Payment - Amount: GEL14.00; Merchant: Wolt, Tbilisi; MCC:4215; Date: 25/07/2026 20:15; Card No: ****0000;

@@ -1,0 +1,15 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/12/2024 - 28/02/2026
+Date Operation details Amount Balance
+16/12/2024 Payment - Amount: USD29.99; Merchant: SLOPES APP, United States; MCC:5818; Date: 15/12/2024 00:00; Card No: ****0000;
+29/11/2025 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P51A01, United Kingdom; MCC:4816; Date: 28/11/2025 00:00; Card No: ****0000;
+16/12/2025 Payment - Amount: USD29.99; Merchant: SLOPES APP, United States; MCC:5818; Date: 15/12/2025 00:00; Card No: ****0000;
+29/12/2025 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P51B02, United Kingdom; MCC:4816; Date: 28/12/2025 00:00; Card No: ****0000;
+02/01/2026 Payment - Amount: USD139.00; Merchant: AMAZON PRIME*2K4LM7, United States; MCC:5968; Date: 31/12/2025 23:59; Card No: ****0000;
+02/01/2026 Payment - Amount: GEL75.00; Merchant: FAKE FIREWORKS, Tbilisi; MCC:5999; Date: 31/12/2025 22:30; Card No: ****0000;
+02/01/2026 Payment - Amount: USD35.99; Merchant: ALLTRAILS INC, United States; MCC:5818; Date: 01/01/2026 00:05; Card No: ****0000;
+29/01/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P51C03, United Kingdom; MCC:4816; Date: 28/01/2026 00:00; Card No: ****0000;
+28/02/2026 Payment - Amount: GEL15.20; Merchant: PAYPAL *SPOTIFY*P51D04, United Kingdom; MCC:4816; Date: 28/02/2026 00:00; Card No: ****0000;

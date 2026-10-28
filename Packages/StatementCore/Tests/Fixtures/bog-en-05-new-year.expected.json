@@ -1,0 +1,23 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "USD", "year-boundary", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2024-12-15", "description": "SLOPES APP, United States", "amount": "29.99", "currency": "USD", "mcc": "5818", "merchant": "Slopes"},
+    {"date": "2025-11-28", "description": "PAYPAL *SPOTIFY*P51A01, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2025-12-15", "description": "SLOPES APP, United States", "amount": "29.99", "currency": "USD", "mcc": "5818", "merchant": "Slopes"},
+    {"date": "2025-12-28", "description": "PAYPAL *SPOTIFY*P51B02, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2025-12-31", "description": "AMAZON PRIME*2K4LM7, United States", "amount": "139.00", "currency": "USD", "mcc": "5968", "merchant": "Amazon Prime"},
+    {"date": "2025-12-31", "description": "FAKE FIREWORKS, Tbilisi", "amount": "75.00", "currency": "GEL", "mcc": "5999", "merchant": "FAKE FIREWORKS"},
+    {"date": "2026-01-01", "description": "ALLTRAILS INC, United States", "amount": "35.99", "currency": "USD", "mcc": "5818", "merchant": "AllTrails"},
+    {"date": "2026-01-28", "description": "PAYPAL *SPOTIFY*P51C03, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-02-28", "description": "PAYPAL *SPOTIFY*P51D04, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "AllTrails", "currency": "USD", "cadence": "annual", "amount": "35.99", "charges": 1, "confidence": "confident", "next": "2027-01-01"},
+    {"merchant": "Amazon Prime", "currency": "USD", "cadence": "annual", "amount": "139.00", "charges": 1, "confidence": "confident", "next": "2026-12-31"},
+    {"merchant": "Slopes", "currency": "USD", "cadence": "annual", "amount": "29.99", "charges": 2, "confidence": "confident", "next": "2026-12-15"},
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "15.20", "charges": 4, "confidence": "confident", "next": "2026-03-28"}
+  ],
+  "candidates": []
+}
