@@ -202,6 +202,23 @@ struct HardCaseTests {
     }
 }
 
+@Suite("Merchant identity")
+struct MerchantIdentityTests {
+    /// Split by spelling, two charges read as an ended subscription and the third was lost.
+    @Test func oneMerchantSpelledInTwoCasesIsOneSubscription() throws {
+        let charges = [
+            charge("SAMPLE GYM", "2026-02-01", "90"),
+            charge("SAMPLE GYM", "2026-03-01", "90"),
+            charge("Sample Gym", "2026-04-01", "90"),
+        ]
+
+        let detected = detector.detect(charges)
+        #expect(detected.count == 1)
+        #expect(detected.first?.merchant == "Sample Gym")
+        #expect(detected.first?.occurrences.count == 3)
+    }
+}
+
 @Suite("Next charge date")
 struct NextChargeTests {
     @Test func projectsOneIntervalPastTheLastCharge() {

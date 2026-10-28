@@ -1,0 +1,28 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "USD", "merchant-variants", "recurring"],
+  "transactions": [
+    {"date": "2026-01-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-01-15", "description": "CLAUDE.AI SUBSCRIPTION, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-01-20", "description": "PAYPAL *SPOTIFY*P21A01, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-02-01", "description": "SAMPLE GYM, Tbilisi", "amount": "90.00", "currency": "GEL", "mcc": "7997", "merchant": "SAMPLE GYM"},
+    {"date": "2026-02-09", "description": "Netflix.com, Amsterdam", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-02-15", "description": "ANTHROPIC* CLAUDE SUB, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-02-20", "description": "Spotify P0A1B2C3D4, Stockholm", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-03-01", "description": "SAMPLE GYM, Tbilisi", "amount": "90.00", "currency": "GEL", "mcc": "7997", "merchant": "SAMPLE GYM"},
+    {"date": "2026-03-09", "description": "SP NETFLIX.COM, Los Gatos", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-15", "description": "Anthropic, San Francisco", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-03-20", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-04-01", "description": "Sample Gym, Tbilisi", "amount": "90.00", "currency": "GEL", "mcc": "7997", "merchant": "Sample Gym"},
+    {"date": "2026-04-09", "description": "PAYPAL *NETFLIX, United States", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-05-09", "description": "www.netflix.com, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Claude", "currency": "USD", "cadence": "monthly", "amount": "20.00", "charges": 3, "confidence": "confident", "next": "2026-04-15", "ended": true},
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 5, "confidence": "confident", "next": "2026-06-09"},
+    {"merchant": "Sample Gym", "currency": "GEL", "cadence": "monthly", "amount": "90.00", "charges": 3, "confidence": "confident", "next": "2026-05-01"},
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "15.20", "charges": 3, "confidence": "confident", "next": "2026-04-20", "ended": true}
+  ],
+  "candidates": []
+}

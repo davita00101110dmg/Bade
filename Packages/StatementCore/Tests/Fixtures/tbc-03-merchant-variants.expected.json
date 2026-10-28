@@ -1,0 +1,29 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["english", "GEL", "USD", "merchant-variants", "recurring"],
+  "transactions": [
+    {"date": "2026-04-02", "description": "DEMO LANGUAGE APP", "amount": "12.00", "currency": "USD", "mcc": "8299", "merchant": "DEMO LANGUAGE APP"},
+    {"date": "2026-04-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-04-21", "description": "Spotify P4A5B6C7D8", "amount": "2.99", "currency": "USD", "mcc": "5815", "merchant": "Spotify"},
+    {"date": "2026-04-27", "description": "GOOGLE *YouTubePremium", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-05-02", "description": "DEMO LANGUAGE APP", "amount": "12.00", "currency": "USD", "mcc": "8299", "merchant": "DEMO LANGUAGE APP"},
+    {"date": "2026-05-09", "description": "Netflix International B.V.", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-05-21", "description": "SPOTIFY AB", "amount": "2.99", "currency": "USD", "mcc": "5815", "merchant": "Spotify"},
+    {"date": "2026-05-27", "description": "GOOGLE*YOUTUBE PREMIUM", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-06-02", "description": "Demo Language App", "amount": "12.00", "currency": "USD", "mcc": "8299", "merchant": "Demo Language App"},
+    {"date": "2026-06-09", "description": "SP NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-06-21", "description": "PAYPAL *SPOTIFY", "amount": "2.99", "currency": "USD", "mcc": "5815", "merchant": "Spotify"},
+    {"date": "2026-06-27", "description": "YouTube Premium", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-07-02", "description": "DEMO LANGUAGE APP", "amount": "12.00", "currency": "USD", "mcc": "8299", "merchant": "DEMO LANGUAGE APP"},
+    {"date": "2026-07-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-07-21", "description": "Spotify P7D8E9F0A1", "amount": "2.99", "currency": "USD", "mcc": "5815", "merchant": "Spotify"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "DEMO LANGUAGE APP", "currency": "USD", "cadence": "monthly", "amount": "12.00", "charges": 4, "confidence": "confident", "next": "2026-08-02"},
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 4, "confidence": "confident", "next": "2026-08-09"},
+    {"merchant": "Spotify", "currency": "USD", "cadence": "monthly", "amount": "2.99", "charges": 4, "confidence": "confident", "next": "2026-08-21"},
+    {"merchant": "YouTube Premium", "currency": "GEL", "cadence": "monthly", "amount": "17.49", "charges": 3, "confidence": "confident", "next": "2026-07-27"}
+  ],
+  "candidates": []
+}

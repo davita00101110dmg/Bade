@@ -32,34 +32,41 @@ public struct SubscriptionDetector: Sendable {
         for (account, charges) in Dictionary(grouping: recurring, by: Account.init)
             .sorted(by: { $0.key < $1.key })
         {
+            let merchant = Self.latestSpelling(of: charges)
             let found = grouper.clusters(for: charges).compactMap {
-                subscription(for: account, from: $0, statementEnd: statementEnd)
+                subscription(for: account, named: merchant, from: $0, statementEnd: statementEnd)
             }
             subscriptions += found
             // Only when nothing was found: a merchant already reported needs no second answer.
             guard found.isEmpty, charges.count >= Self.minimumRepeats else { continue }
-            candidates.append(Self.candidate(for: account, from: charges))
+            candidates.append(Self.candidate(for: account, named: merchant, from: charges))
         }
         return DetectionOutcome(subscriptions: subscriptions, candidates: candidates)
     }
 
-    private static func candidate(for account: Account, from charges: [NormalizedTransaction])
-        -> RepeatCandidate
-    {
+    /// The newest spelling names an account, as the newest charge sets its amount.
+    private static func latestSpelling(of charges: [NormalizedTransaction]) -> String {
+        charges.max { $0.raw.date < $1.raw.date }?.merchant ?? ""
+    }
+
+    private static func candidate(
+        for account: Account, named merchant: String, from charges: [NormalizedTransaction]
+    ) -> RepeatCandidate {
         let latest = charges.max { $0.raw.date < $1.raw.date }
         return RepeatCandidate(
-            merchant: account.merchant,
+            merchant: merchant,
             currency: account.currency,
             amount: latest?.raw.amount ?? 0,
             occurrences: charges.map(\.raw).sorted { $0.date < $1.date })
     }
 
     private func subscription(
-        for account: Account, from cluster: ChargeCluster, statementEnd: Date
+        for account: Account, named merchant: String, from cluster: ChargeCluster,
+        statementEnd: Date
     ) -> DetectedSubscription? {
         let latest = cluster.last.raw
         let match = catalog.match(
-            merchant: account.merchant, amount: latest.amount, currency: account.currency)
+            merchant: merchant, amount: latest.amount, currency: account.currency)
 
         guard let cadence = cadence(for: cluster, match: match),
             let confidence = scorer.confidence(occurrences: cluster.charges.count, catalog: match)
@@ -68,7 +75,7 @@ public struct SubscriptionDetector: Sendable {
         let occurrences = cluster.occurrences
         let history = amountAnalyzer.history(of: occurrences)
         return DetectedSubscription(
-            merchant: account.merchant,
+            merchant: merchant,
             amount: latest.amount,
             isVariableAmount: history.isVariable,
             currency: account.currency,
@@ -90,15 +97,16 @@ public struct SubscriptionDetector: Sendable {
 
 /// Currency joins the key so a merchant billing in two currencies never merges into one subscription.
 private struct Account: Hashable, Comparable {
-    let merchant: String
+    /// Folded, as `MerchantName` promises: "SAMPLE GYM" and "Sample Gym" are one merchant.
+    let name: String
     let currency: String
 
     init(_ transaction: NormalizedTransaction) {
-        merchant = transaction.merchant
+        name = MerchantName.folded(transaction.merchant)
         currency = transaction.raw.currency
     }
 
     static func < (lhs: Self, rhs: Self) -> Bool {
-        (lhs.merchant, lhs.currency) < (rhs.merchant, rhs.currency)
+        (lhs.name, lhs.currency) < (rhs.name, rhs.currency)
     }
 }

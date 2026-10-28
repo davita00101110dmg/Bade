@@ -1,0 +1,30 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "mixed", "GEL", "USD", "merchant-variants", "recurring"],
+  "transactions": [
+    {"date": "2026-01-02", "description": "DEMO YOGA STUDIO, თბილისი", "amount": "80.00", "currency": "GEL", "mcc": "7997", "merchant": "DEMO YOGA STUDIO"},
+    {"date": "2026-01-05", "description": "მაგთიკომი, თბილისი", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-01-09", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-01-15", "description": "CLAUDE.AI SUBSCRIPTION, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-02-02", "description": "DEMO YOGA STUDIO, თბილისი", "amount": "80.00", "currency": "GEL", "mcc": "7997", "merchant": "DEMO YOGA STUDIO"},
+    {"date": "2026-02-05", "description": "FLT*MAGTICOM, Georgia", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-02-09", "description": "Netflix.com, ამსტერდამი", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-02-15", "description": "ANTHROPIC* CLAUDE SUB, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-03-02", "description": "Demo Yoga Studio, თბილისი", "amount": "80.00", "currency": "GEL", "mcc": "7997", "merchant": "Demo Yoga Studio"},
+    {"date": "2026-03-05", "description": "MAGTICOM LTD, თბილისი", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-03-09", "description": "PAYPAL *NETFLIX, United States", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-15", "description": "Anthropic, San Francisco", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"},
+    {"date": "2026-04-02", "description": "DEMO YOGA STUDIO, თბილისი", "amount": "80.00", "currency": "GEL", "mcc": "7997", "merchant": "DEMO YOGA STUDIO"},
+    {"date": "2026-04-05", "description": "ᲛᲐᲒᲗᲘᲙᲝᲛᲘ, ᲗᲑᲘᲚᲘᲡᲘ", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-04-09", "description": "www.netflix.com, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-04-15", "description": "CLAUDE.AI SUBSCRIPTION, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "Claude"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Claude", "currency": "USD", "cadence": "monthly", "amount": "20.00", "charges": 4, "confidence": "confident", "next": "2026-05-15"},
+    {"merchant": "DEMO YOGA STUDIO", "currency": "GEL", "cadence": "monthly", "amount": "80.00", "charges": 4, "confidence": "confident", "next": "2026-05-02"},
+    {"merchant": "Magti", "currency": "GEL", "cadence": "monthly", "amount": "25.00", "charges": 4, "confidence": "confident", "next": "2026-05-05"},
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 4, "confidence": "confident", "next": "2026-05-09"}
+  ],
+  "candidates": []
+}
