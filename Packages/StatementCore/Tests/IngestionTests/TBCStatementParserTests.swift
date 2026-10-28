@@ -201,6 +201,13 @@ struct TBCStatementParserTests {
         }
     }
 
+    /// Split at every marker, a merchant with it in its name cut its own record in two and was lost.
+    @Test func readsAMerchantWhoseNameContainsTheMarker() throws {
+        let transactions = try parser.parse(row(merchant: "DEMO POS SYSTEMS", amount: "120.00"))
+
+        #expect(transactions.map(\.rawDescription) == ["DEMO POS SYSTEMS"])
+    }
+
     @Test func readsDecimalCommas() throws {
         let statement = [
             row(merchant: "SAMPLE MARKET", amount: "8,31"),

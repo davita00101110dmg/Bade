@@ -10,7 +10,8 @@ public struct TBCStatementParser: StatementParser {
     static let signature = "TBCBGE22"
     /// Every card purchase opens with the terminal marker. Descriptions mention it too, which is
     /// why a body still has to prove itself a record.
-    private static let recordStart = "POS "
+    // Only where the card block's " - " follows: a merchant may carry the marker in its name.
+    private static var recordStart: Regex<Substring> { /POS (?=\S*\s?-\s)/ }
 
     public init() {}
 
@@ -36,10 +37,10 @@ public struct TBCStatementParser: StatementParser {
 
     /// Lazy, so recognising a format costs one record rather than all of them.
     private static func records(in flat: String) -> some Collection<RawTransaction> {
-        flat.components(separatedBy: recordStart)
+        flat.split(separator: recordStart, omittingEmptySubsequences: false)
             .dropFirst()
             .lazy
-            .compactMap { TBCCardRecord(body: $0[...])?.transaction }
+            .compactMap { TBCCardRecord(body: $0)?.transaction }
     }
 
     public func exchangeRates(in text: String) -> [ObservedRate] {
