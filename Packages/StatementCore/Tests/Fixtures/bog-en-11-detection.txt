@@ -1,0 +1,40 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/01/2026 - 30/06/2026
+Date Operation details Amount Balance
+03/01/2026 Payment - Amount: GEL9.00; Merchant: MEGOGO.NET, Georgia; MCC:4899; Date: 03/01/2026 00:00; Card No: ****0000;
+05/01/2026 Payment - Amount: GEL9.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 05/01/2026 00:00; Card No: ****0000;
+06/01/2026 Payment - Amount: GEL5.00; Merchant: DEMO PARKING, Tbilisi; MCC:7523; Date: 06/01/2026 00:00; Card No: ****0000;
+15/01/2026 Payment - Amount: GEL31.20; Merchant: MAGTICOM LTD, Tbilisi; MCC:4814; Date: 15/01/2026 00:00; Card No: ****0000;
+18/01/2026 Payment - Amount: GEL2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 18/01/2026 00:00; Card No: ****0000;
+21/01/2026 Payment - Amount: GEL5.00; Merchant: DEMO PARKING, Tbilisi; MCC:7523; Date: 21/01/2026 00:00; Card No: ****0000;
+27/01/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 27/01/2026 00:00; Card No: ****0000;
+03/02/2026 Payment - Amount: GEL9.00; Merchant: MEGOGO.NET, Georgia; MCC:4899; Date: 03/02/2026 00:00; Card No: ****0000;
+03/02/2026 Payment - Amount: GEL9.00; Merchant: MEGOGO.NET, Georgia; MCC:4899; Date: 03/02/2026 00:00; Card No: ****0000;
+05/02/2026 Payment - Amount: GEL9.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 05/02/2026 00:00; Card No: ****0000;
+15/02/2026 Payment - Amount: GEL27.85; Merchant: MAGTICOM LTD, Tbilisi; MCC:4814; Date: 15/02/2026 00:00; Card No: ****0000;
+18/02/2026 Payment - Amount: GEL2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 18/02/2026 00:00; Card No: ****0000;
+25/02/2026 Payment - Amount: GEL5.00; Merchant: DEMO PARKING, Tbilisi; MCC:7523; Date: 25/02/2026 00:00; Card No: ****0000;
+27/02/2026 Payment - Amount: GEL10.29; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 27/02/2026 00:00; Card No: ****0000;
+03/03/2026 Payment - Amount: GEL9.00; Merchant: MEGOGO.NET, Georgia; MCC:4899; Date: 03/03/2026 00:00; Card No: ****0000;
+05/03/2026 Payment - Amount: GEL9.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 05/03/2026 00:00; Card No: ****0000;
+15/03/2026 Payment - Amount: GEL44.10; Merchant: MAGTICOM LTD, Tbilisi; MCC:4814; Date: 15/03/2026 00:00; Card No: ****0000;
+18/03/2026 Payment - Amount: GEL2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 18/03/2026 00:00; Card No: ****0000;
+27/03/2026 Payment - Amount: GEL17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 27/03/2026 00:00; Card No: ****0000;
+05/04/2026 Payment - Amount: GEL9.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 05/04/2026 00:00; Card No: ****0000;
+09/04/2026 Payment - Amount: GEL5.00; Merchant: DEMO PARKING, Tbilisi; MCC:7523; Date: 09/04/2026 00:00; Card No: ****0000;
+15/04/2026 Payment - Amount: GEL29.30; Merchant: MAGTICOM LTD, Tbilisi; MCC:4814; Date: 15/04/2026 00:00; Card No: ****0000;
+18/04/2026 Payment - Amount: GEL2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 18/04/2026 00:00; Card No: ****0000;
+27/04/2026 Payment - Amount: GEL17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 27/04/2026 00:00; Card No: ****0000;
+05/05/2026 Payment - Amount: GEL9.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 05/05/2026 00:00; Card No: ****0000;
+15/05/2026 Payment - Amount: GEL38.75; Merchant: MAGTICOM LTD, Tbilisi; MCC:4814; Date: 15/05/2026 00:00; Card No: ****0000;
+18/05/2026 Payment - Amount: GEL2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 18/05/2026 00:00; Card No: ****0000;
+27/05/2026 Payment - Amount: GEL17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 27/05/2026 00:00; Card No: ****0000;
+28/05/2026 Payment - Amount: GEL5.00; Merchant: DEMO PARKING, Tbilisi; MCC:7523; Date: 28/05/2026 00:00; Card No: ****0000;
+05/06/2026 Payment - Amount: GEL9.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 05/06/2026 00:00; Card No: ****0000;
+15/06/2026 Payment - Amount: GEL33.60; Merchant: MAGTICOM LTD, Tbilisi; MCC:4814; Date: 15/06/2026 00:00; Card No: ****0000;
+18/06/2026 Payment - Amount: GEL2.99; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 18/06/2026 00:00; Card No: ****0000;
+27/06/2026 Payment - Amount: GEL17.49; Merchant: GOOGLE *YouTubePremium, United States of America; MCC:4899; Date: 27/06/2026 00:00; Card No: ****0000;
+29/06/2026 Payment - Amount: GEL31.40; Merchant: SAMPLE MARKET, Tbilisi; MCC:5411; Date: 29/06/2026 19:00; Card No: ****0000;

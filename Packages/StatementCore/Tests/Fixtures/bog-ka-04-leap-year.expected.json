@@ -1,0 +1,24 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "GEL", "USD", "month-boundary", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2028-01-29", "description": "BACKBLAZE INC, United States", "amount": "9.00", "currency": "USD", "mcc": "4816", "merchant": "Backblaze"},
+    {"date": "2028-01-31", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2028-02-29", "description": "BACKBLAZE INC, United States", "amount": "9.00", "currency": "USD", "mcc": "4816", "merchant": "Backblaze"},
+    {"date": "2028-02-29", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2028-02-29", "description": "DEMO SKI SCHOOL, გუდაური", "amount": "150.00", "currency": "GEL", "mcc": "7032", "merchant": "DEMO SKI SCHOOL"},
+    {"date": "2028-02-29", "description": "სატესტო მარკეტი, თბილისი", "amount": "52.40", "currency": "GEL", "mcc": "5411", "merchant": "სატესტო მარკეტი"},
+    {"date": "2028-03-29", "description": "BACKBLAZE INC, United States", "amount": "9.00", "currency": "USD", "mcc": "4816", "merchant": "Backblaze"},
+    {"date": "2028-03-31", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2028-04-29", "description": "BACKBLAZE INC, United States", "amount": "9.00", "currency": "USD", "mcc": "4816", "merchant": "Backblaze"},
+    {"date": "2028-04-30", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2028-05-29", "description": "BACKBLAZE INC, United States", "amount": "9.00", "currency": "USD", "mcc": "4816", "merchant": "Backblaze"},
+    {"date": "2028-05-31", "description": "SPOTIFY AB, Sweden", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Backblaze", "currency": "USD", "cadence": "monthly", "amount": "9.00", "charges": 5, "confidence": "confident", "next": "2028-06-29"},
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "15.20", "charges": 5, "confidence": "confident", "next": "2028-06-30"}
+  ],
+  "candidates": []
+}

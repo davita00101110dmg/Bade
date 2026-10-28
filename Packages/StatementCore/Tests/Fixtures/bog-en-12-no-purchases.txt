@@ -1,0 +1,10 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/04/2026 - 30/04/2026
+Date Operation details Amount Balance
+03/04/2026 Income - Amount: GEL2,500.00; Salary, TEST EMPLOYER LLC
+04/04/2026 Payment - Amount: GEL12.00; Merchant: ; MCC:5411; Date: 04/04/2026 10:00; Card No: ****0000;
+05/04/2026 Outgoing Transfer - Amount: GEL300.00; Beneficiary: TEST PERSON; Account: GE00TEST0000000000002
+06/04/2026 Payment - Amount GEL2.00; Funds transfer from electronic till to the deposit

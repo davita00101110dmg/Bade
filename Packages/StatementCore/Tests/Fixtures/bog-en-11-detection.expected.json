@@ -1,0 +1,51 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-01-03", "description": "MEGOGO.NET, Georgia", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2026-01-05", "description": "APPLE.COM/BILL, Ireland", "amount": "9.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-01-06", "description": "DEMO PARKING, Tbilisi", "amount": "5.00", "currency": "GEL", "mcc": "7523", "merchant": "DEMO PARKING"},
+    {"date": "2026-01-15", "description": "MAGTICOM LTD, Tbilisi", "amount": "31.20", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-01-18", "description": "APPLE.COM/BILL, Ireland", "amount": "2.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-01-21", "description": "DEMO PARKING, Tbilisi", "amount": "5.00", "currency": "GEL", "mcc": "7523", "merchant": "DEMO PARKING"},
+    {"date": "2026-01-27", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "10.29", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-02-03", "description": "MEGOGO.NET, Georgia", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2026-02-03", "description": "MEGOGO.NET, Georgia", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2026-02-05", "description": "APPLE.COM/BILL, Ireland", "amount": "9.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-02-15", "description": "MAGTICOM LTD, Tbilisi", "amount": "27.85", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-02-18", "description": "APPLE.COM/BILL, Ireland", "amount": "2.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-02-25", "description": "DEMO PARKING, Tbilisi", "amount": "5.00", "currency": "GEL", "mcc": "7523", "merchant": "DEMO PARKING"},
+    {"date": "2026-02-27", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "10.29", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-03-03", "description": "MEGOGO.NET, Georgia", "amount": "9.00", "currency": "GEL", "mcc": "4899", "merchant": "Megogo"},
+    {"date": "2026-03-05", "description": "APPLE.COM/BILL, Ireland", "amount": "9.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-03-15", "description": "MAGTICOM LTD, Tbilisi", "amount": "44.10", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-03-18", "description": "APPLE.COM/BILL, Ireland", "amount": "2.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-03-27", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-04-05", "description": "APPLE.COM/BILL, Ireland", "amount": "9.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-04-09", "description": "DEMO PARKING, Tbilisi", "amount": "5.00", "currency": "GEL", "mcc": "7523", "merchant": "DEMO PARKING"},
+    {"date": "2026-04-15", "description": "MAGTICOM LTD, Tbilisi", "amount": "29.30", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-04-18", "description": "APPLE.COM/BILL, Ireland", "amount": "2.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-04-27", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-05-05", "description": "APPLE.COM/BILL, Ireland", "amount": "9.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-05-15", "description": "MAGTICOM LTD, Tbilisi", "amount": "38.75", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-05-18", "description": "APPLE.COM/BILL, Ireland", "amount": "2.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-05-27", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-05-28", "description": "DEMO PARKING, Tbilisi", "amount": "5.00", "currency": "GEL", "mcc": "7523", "merchant": "DEMO PARKING"},
+    {"date": "2026-06-05", "description": "APPLE.COM/BILL, Ireland", "amount": "9.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-06-15", "description": "MAGTICOM LTD, Tbilisi", "amount": "33.60", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2026-06-18", "description": "APPLE.COM/BILL, Ireland", "amount": "2.99", "currency": "GEL", "mcc": "5818", "merchant": "Apple"},
+    {"date": "2026-06-27", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium"},
+    {"date": "2026-06-29", "description": "SAMPLE MARKET, Tbilisi", "amount": "31.40", "currency": "GEL", "mcc": "5411", "merchant": "SAMPLE MARKET"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Apple", "currency": "GEL", "cadence": "monthly", "amount": "9.99", "charges": 6, "confidence": "confident", "next": "2026-07-05"},
+    {"merchant": "Apple", "currency": "GEL", "cadence": "monthly", "amount": "2.99", "charges": 6, "confidence": "confident", "next": "2026-07-18"},
+    {"merchant": "Magti", "currency": "GEL", "cadence": "monthly", "amount": "33.60", "charges": 6, "confidence": "confident", "next": "2026-07-15", "variable": true},
+    {"merchant": "Megogo", "currency": "GEL", "cadence": "monthly", "amount": "9.00", "charges": 3, "confidence": "confident", "next": "2026-04-03", "ended": true},
+    {"merchant": "YouTube Premium", "currency": "GEL", "cadence": "monthly", "amount": "17.49", "charges": 6, "confidence": "confident", "next": "2026-07-27", "priceChanges": [{"date": "2026-03-27", "from": "10.29", "to": "17.49"}]}
+  ],
+  "candidates": [
+    {"merchant": "DEMO PARKING", "currency": "GEL", "amount": "5.00", "charges": 5}
+  ]
+}

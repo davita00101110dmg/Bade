@@ -1,0 +1,25 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["georgian", "english", "mixed", "GEL", "merchant-variants", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2025-09-05", "description": "მაგთიკომი", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2025-09-08", "description": "სატესტო მარკეტი", "amount": "18.30", "currency": "GEL", "mcc": "5411", "merchant": "სატესტო მარკეტი"},
+    {"date": "2025-09-12", "description": "სილქნეტი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2025-09-14", "description": "კაფე SAMPLE", "amount": "23.40", "currency": "GEL", "mcc": "5814", "merchant": "კაფე SAMPLE"},
+    {"date": "2025-09-20", "description": "ALDAGI ალდაგი", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"},
+    {"date": "2025-10-05", "description": "MAGTICOM LTD", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2025-10-12", "description": "სილქნეტი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2025-10-20", "description": "ALDAGI ალდაგი", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"},
+    {"date": "2025-10-22", "description": "SAMPLE FITNESS ფიტნესი", "amount": "120.00", "currency": "GEL", "mcc": "7997", "merchant": "SAMPLE FITNESS ფიტნესი"},
+    {"date": "2025-11-05", "description": "ᲛᲐᲒᲗᲘᲙᲝᲛᲘ", "amount": "25.00", "currency": "GEL", "mcc": "4814", "merchant": "Magti"},
+    {"date": "2025-11-12", "description": "სილქნეტი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2025-11-20", "description": "ALDAGI ალდაგი", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Aldagi", "currency": "GEL", "cadence": "monthly", "amount": "60.00", "charges": 3, "confidence": "confident", "next": "2025-12-20"},
+    {"merchant": "Magti", "currency": "GEL", "cadence": "monthly", "amount": "25.00", "charges": 3, "confidence": "confident", "next": "2025-12-05"},
+    {"merchant": "Silknet", "currency": "GEL", "cadence": "monthly", "amount": "49.00", "charges": 3, "confidence": "confident", "next": "2025-12-12"}
+  ],
+  "candidates": []
+}

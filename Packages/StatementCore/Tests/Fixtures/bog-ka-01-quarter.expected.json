@@ -1,0 +1,24 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "mixed", "GEL", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-06-01", "description": "სატესტო მარკეტი, თბილისი", "amount": "31.20", "currency": "GEL", "mcc": "5411", "merchant": "სატესტო მარკეტი"},
+    {"date": "2026-06-04", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.7000", "schemeRate": "2.6600"}},
+    {"date": "2026-06-07", "description": "PAYPAL *SPOTIFY*P61A01, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-06-10", "description": "Wolt, თბილისი", "amount": "22.10", "currency": "GEL", "mcc": "4215", "merchant": "Wolt"},
+    {"date": "2026-06-15", "description": "ნიმუში აფთიაქი, თბილისი", "amount": "12.80", "currency": "GEL", "mcc": "5912", "merchant": "ნიმუში აფთიაქი"},
+    {"date": "2026-07-04", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.7050", "schemeRate": "2.6650"}},
+    {"date": "2026-07-07", "description": "PAYPAL *SPOTIFY*P61B02, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-07-19", "description": "სატესტო მარკეტი, თბილისი", "amount": "44.65", "currency": "GEL", "mcc": "5411", "merchant": "სატესტო მარკეტი"},
+    {"date": "2026-08-04", "description": "GOOGLE *YouTubePremium, United States of America", "amount": "17.49", "currency": "GEL", "mcc": "4899", "merchant": "YouTube Premium", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.7100", "schemeRate": "2.6700"}},
+    {"date": "2026-08-07", "description": "PAYPAL *SPOTIFY*P61C03, United Kingdom", "amount": "15.20", "currency": "GEL", "mcc": "4816", "merchant": "Spotify"},
+    {"date": "2026-08-13", "description": "DEMO BOOKSTORE, თბილისი", "amount": "38.00", "currency": "GEL", "mcc": "5942", "merchant": "DEMO BOOKSTORE"},
+    {"date": "2026-08-24", "description": "Bolt, თბილისი", "amount": "7.30", "currency": "GEL", "mcc": "4121", "merchant": "Bolt"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Spotify", "currency": "GEL", "cadence": "monthly", "amount": "15.20", "charges": 3, "confidence": "confident", "next": "2026-09-07"},
+    {"merchant": "YouTube Premium", "currency": "GEL", "cadence": "monthly", "amount": "17.49", "charges": 3, "confidence": "confident", "next": "2026-09-04"}
+  ],
+  "candidates": []
+}

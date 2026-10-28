@@ -1,0 +1,20 @@
+{
+  "parser": "tbc-pdf-v1",
+  "covers": ["georgian", "english", "GEL", "refund", "reversal", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-03-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-11", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-04-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-04-11", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"},
+    {"date": "2026-04-14", "description": "DEMO ELECTRONICS", "amount": "899.00", "currency": "GEL", "mcc": "5732", "merchant": "DEMO ELECTRONICS"},
+    {"date": "2026-04-16", "description": "DEMO SPORT SHOP", "amount": "250.00", "currency": "GEL", "mcc": "5941", "merchant": "DEMO SPORT SHOP"},
+    {"date": "2026-05-09", "description": "NETFLIX.COM", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-05-11", "description": "SETANTA.COM", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-06-09"},
+    {"merchant": "Setanta Sports", "currency": "GEL", "cadence": "monthly", "amount": "14.99", "charges": 3, "confidence": "confident", "next": "2026-06-11"}
+  ],
+  "candidates": []
+}

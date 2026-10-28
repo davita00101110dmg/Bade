@@ -1,0 +1,28 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "GEL", "USD", "EUR", "conversion", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2025-09-02", "description": "OPENAI *CHATGPT SUBSCR, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2025-09-06", "description": "MICROSOFT 365, Ireland", "amount": "10.00", "currency": "EUR", "mcc": "5734", "merchant": "Microsoft 365"},
+    {"date": "2025-09-08", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6900", "schemeRate": "2.6500"}},
+    {"date": "2025-09-18", "description": "DEMO HOTEL VIENNA, Austria", "amount": "86.00", "currency": "EUR", "mcc": "7011", "merchant": "DEMO HOTEL VIENNA"},
+    {"date": "2025-10-02", "description": "OPENAI *CHATGPT SUBSCR, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2025-10-06", "description": "MICROSOFT 365, Ireland", "amount": "10.00", "currency": "EUR", "mcc": "5734", "merchant": "Microsoft 365"},
+    {"date": "2025-10-08", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.6950", "schemeRate": "2.6550"}},
+    {"date": "2025-10-11", "description": "FAKE LENS RENTAL, United States", "amount": "45.00", "currency": "USD", "mcc": "7394", "merchant": "FAKE LENS RENTAL"},
+    {"date": "2025-11-02", "description": "OPENAI *CHATGPT SUBSCR, United States", "amount": "20.00", "currency": "USD", "mcc": "5734", "merchant": "ChatGPT"},
+    {"date": "2025-11-06", "description": "MICROSOFT 365, Ireland", "amount": "10.00", "currency": "EUR", "mcc": "5734", "merchant": "Microsoft 365"},
+    {"date": "2025-11-08", "description": "SETANTA.COM, United Kingdom", "amount": "14.99", "currency": "GEL", "mcc": "4899", "merchant": "Setanta Sports", "conversion": {"from": "USD", "to": "GEL", "bankRate": "2.7000", "schemeRate": "2.6600"}}
+  ],
+  "rates": [
+    {"date": "2025-09-01", "from": "GEL", "to": "USD", "rate": "0.370370"},
+    {"date": "2025-09-15", "from": "EUR", "to": "GEL", "rate": "3.15"},
+    {"date": "2025-10-20", "from": "USD", "to": "GEL", "rate": "2.69"}
+  ],
+  "subscriptions": [
+    {"merchant": "ChatGPT", "currency": "USD", "cadence": "monthly", "amount": "20.00", "charges": 3, "confidence": "confident", "next": "2025-12-02"},
+    {"merchant": "Microsoft 365", "currency": "EUR", "cadence": "monthly", "amount": "10.00", "charges": 3, "confidence": "confident", "next": "2025-12-06"},
+    {"merchant": "Setanta Sports", "currency": "GEL", "cadence": "monthly", "amount": "14.99", "charges": 3, "confidence": "confident", "next": "2025-12-08"}
+  ],
+  "candidates": []
+}

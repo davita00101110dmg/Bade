@@ -1,0 +1,24 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["georgian", "english", "mixed", "GEL", "merchant-variants", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-02-01", "description": "ალდაგი, თბილისი", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"},
+    {"date": "2026-02-12", "description": "SILKNET JSC, თბილისი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-02-14", "description": "კაფე SAMPLE, ბათუმი", "amount": "23.40", "currency": "GEL", "mcc": "5814", "merchant": "კაფე SAMPLE"},
+    {"date": "2026-02-16", "description": "TBC_P2P, Georgia", "amount": "50.00", "currency": "GEL", "mcc": "6538", "merchant": "TBC_P2P"},
+    {"date": "2026-02-20", "description": "SAMPLE ენის სკოლა, თბილისი", "amount": "150.00", "currency": "GEL", "mcc": "8299", "merchant": "SAMPLE ენის სკოლა"},
+    {"date": "2026-03-01", "description": "ალდაგი, თბილისი", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"},
+    {"date": "2026-03-12", "description": "სილქნეტი, თბილისი", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-03-20", "description": "SAMPLE ენის სკოლა, თბილისი", "amount": "150.00", "currency": "GEL", "mcc": "8299", "merchant": "SAMPLE ენის სკოლა"},
+    {"date": "2026-04-01", "description": "ალდაგი, თბილისი", "amount": "60.00", "currency": "GEL", "mcc": "6300", "merchant": "Aldagi"},
+    {"date": "2026-04-12", "description": "SILKNET, Tbilisi", "amount": "49.00", "currency": "GEL", "mcc": "4899", "merchant": "Silknet"},
+    {"date": "2026-04-20", "description": "SAMPLE ენის სკოლა, თბილისი", "amount": "150.00", "currency": "GEL", "mcc": "8299", "merchant": "SAMPLE ენის სკოლა"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Aldagi", "currency": "GEL", "cadence": "monthly", "amount": "60.00", "charges": 3, "confidence": "confident", "next": "2026-05-01"},
+    {"merchant": "SAMPLE ენის სკოლა", "currency": "GEL", "cadence": "monthly", "amount": "150.00", "charges": 3, "confidence": "confident", "next": "2026-05-20"},
+    {"merchant": "Silknet", "currency": "GEL", "cadence": "monthly", "amount": "49.00", "charges": 3, "confidence": "confident", "next": "2026-05-12"}
+  ],
+  "candidates": []
+}
