@@ -10,5 +10,12 @@ let package = Package(
     ],
     targets: [
         .target(name: "StatementCore"),
+        // One test target per area, as in BadeKit, so each file keeps its own helpers unchanged.
+        .testTarget(name: "ModelsTests", dependencies: ["StatementCore"]),
+        .testTarget(name: "IngestionTests", dependencies: ["StatementCore"]),
+        .testTarget(name: "NormalizationTests", dependencies: ["StatementCore"]),
+        .testTarget(name: "CatalogTests", dependencies: ["StatementCore"]),
+        .testTarget(name: "DetectionTests", dependencies: ["StatementCore"]),
+        .testTarget(name: "PipelineTests", dependencies: ["StatementCore"]),
     ]
 )
