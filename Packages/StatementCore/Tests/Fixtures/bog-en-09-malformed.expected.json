@@ -1,0 +1,15 @@
+{
+  "parser": "bog-pdf-v1",
+  "covers": ["english", "GEL", "empty-rows", "malformed-rows", "month-boundary", "recurring", "one-off"],
+  "transactions": [
+    {"date": "2026-01-05", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-01-10", "description": "SAMPLE BAKERY, Tbilisi", "amount": "7.50", "currency": "GEL", "mcc": "5462", "merchant": "SAMPLE BAKERY"},
+    {"date": "2026-02-05", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"},
+    {"date": "2026-03-05", "description": "NETFLIX.COM, Netherlands", "amount": "35.99", "currency": "GEL", "mcc": "4899", "merchant": "Netflix"}
+  ],
+  "rates": [],
+  "subscriptions": [
+    {"merchant": "Netflix", "currency": "GEL", "cadence": "monthly", "amount": "35.99", "charges": 3, "confidence": "confident", "next": "2026-04-05"}
+  ],
+  "candidates": []
+}

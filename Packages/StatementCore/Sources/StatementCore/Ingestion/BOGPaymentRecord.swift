@@ -4,10 +4,10 @@ import Foundation
 struct BOGPaymentRecord {
     // Regex is not Sendable, so these are computed rather than shared constants.
     private static var amountPattern: Regex<(Substring, Substring, Substring)> {
-        /([A-Z]{3})\s*([0-9,]+\.[0-9]{2})/
+        /:?\s*([A-Z]{3})\s*([0-9,]+\.[0-9]{2})/
     }
     private static var datePattern: Regex<(Substring, Substring, Substring, Substring)> {
-        /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/
+        /\s*([0-9]{2})\/([0-9]{2})\/([0-9]{4})/
     }
     private static func ratePattern(_ language: BOGVocabulary.Language)
         -> Regex<(Substring, Substring, Substring, Substring, Substring)>
@@ -24,12 +24,13 @@ struct BOGPaymentRecord {
 
     /// `body` runs from just after the record-start label to the start of the next record.
     init?(body: Substring, vocabulary: BOGVocabulary) {
+        // Amount and date are read right at their labels; searched for, a bad one took a later match.
         guard let merchant = body.field(after: vocabulary.merchant, upTo: "; MCC:"),
-            let money = try? Self.amountPattern.firstMatch(in: body),
+            let money = try? Self.amountPattern.prefixMatch(in: body),
             let amount = Decimal(string: money.2.replacingOccurrences(of: ",", with: "")),
             amount > 0,
             let dateField = body.range(of: vocabulary.date),
-            let stamp = try? Self.datePattern.firstMatch(in: body[dateField.upperBound...]),
+            let stamp = try? Self.datePattern.prefixMatch(in: body[dateField.upperBound...]),
             let date = StatementDate.from(day: stamp.1, month: stamp.2, year: stamp.3)
         else { return nil }
 

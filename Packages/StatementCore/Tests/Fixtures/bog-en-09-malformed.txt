@@ -1,0 +1,25 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/01/2026 - 31/03/2026
+Date Operation details Amount Balance
+
+   
+05/01/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 05/01/2026 00:00; Card No: ****0000;
+
+06/01/2026 Payment - Amount: ; Merchant: ; MCC: ; Date: ; Card No: ;
+07/01/2026 Payment - Amount: GEL12.00; MCC:5411; Date: 07/01/2026 10:00; Card No: ****0000;
+08/01/2026 @@@ ;;; ### ---
+09/01/2026 Payment - Amount: GEL8.00; Merchant: DEMO KIOSK, Tbilisi; MCC:5994; Date: 2026-01-09 08:15; Card No: ****0000;
+10/01/2026 Payment - Amount GEL 7.50; Merchant: SAMPLE BAKERY, Tbilisi; MCC: 5462; Card: 000000******0000; Date: 10/01/2026
+05/02/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 05/02/2026 00:00; Card No: ****0000;
+06/02/2026 Payment - Amount: ; Merchant: DEMO KIOSK, Tbilisi; MCC:5994; Date: 06/02/2026 09:00; Card No: ****0000;
+07/02/2026 Income - Amount: GEL100.00; Cash deposit, Tbilisi branch
+08/02/2026 Payment - Amount: GEL0.00; Merchant: APPLE.COM/BILL, Ireland; MCC:5818; Date: 08/02/2026 00:00; Card No: ****0000;
+15/02/2026 Payment - Amount: GEL22.00; Merchant: DEMO FLORIST, Tbilisi; MCC:5992; Date: 15/13/2026 12:00; Card No: ****0000;
+28/02/2026 Payment - Amount: GEL19.00; Merchant: DEMO FLORIST, Tbilisi; MCC:5992; Date: 31/02/2026 12:00; Card No: ****0000;
+05/03/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Netherlands; MCC:4899; Date: 05/03/2026 00:00; Card No: ****0000;
+   
+Merchant: Date: MCC:
+31/03/2026 Payment - Amount: GEL35.99; Merchant: NETFLIX.COM, Neth

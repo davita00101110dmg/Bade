@@ -182,6 +182,29 @@ struct BOGStatementParserTests {
         #expect(try parser.parse(statement).map(\.rawDescription) == ["NETFLIX.COM, Netherlands"])
     }
 
+    /// An unreadable amount drops the record; a price inside the merchant's name is not its amount.
+    @Test func readsTheAmountOnlyRightAfterTheLabel() {
+        let statement = """
+            06/07/2026 Payment - Amount: GEL; Merchant: SAMPLE TOPUP 10.00, Tbilisi; MCC:4814; \
+            Date: 06/07/2026 10:00; Card No: ****0000;
+            """
+
+        #expect(throws: StatementParsingError.suspiciouslyFewTransactions(found: 0)) {
+            try parser.parse(statement)
+        }
+    }
+
+    /// A date in the wrong shape drops the record rather than taking the next one's posting date.
+    @Test func readsTheDateOnlyRightAfterTheLabel() throws {
+        let statement = """
+            09/01/2026 Payment - Amount: GEL8.00; Merchant: DEMO KIOSK, Tbilisi; MCC:5994; \
+            Date: 2026-01-09 08:15; Card No: ****0000; 10/01/2026 Payment - Amount: GEL7.50; \
+            Merchant: SAMPLE BAKERY, Tbilisi; MCC:5462; Date: 10/01/2026 07:40; Card No: ****0000;
+            """
+
+        #expect(try parser.parse(statement).map(\.rawDescription) == ["SAMPLE BAKERY, Tbilisi"])
+    }
+
     /// A card check debits nothing; it is not a purchase, and a transaction is always positive.
     @Test func ignoresAZeroAmountCardCheck() throws {
         let statement = """
