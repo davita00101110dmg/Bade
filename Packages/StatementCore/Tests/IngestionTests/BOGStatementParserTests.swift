@@ -176,6 +176,23 @@ struct BOGStatementParserTests {
         #expect(transaction.mcc == "4816")
     }
 
+    /// Read for what they are, not cut at the comma: 14,99 was 1.00 USD, 2,6859 was 2, 1.240,50 was 1.24.
+    @Test func readsDecimalCommas() throws {
+        let statement = """
+            10/02/2026 Payment - Amount: GEL14,99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; \
+            Date: 10/02/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2,6484; \
+            Bank conversion rate (USD-GEL): 2,6859 12/02/2026 Income - Amount USD1.000,00; Foreign \
+            Exchange. FX Rate:2,70. Counter-amount: GEL2.700,00. konvertatsia 21/02/2026 Payment - \
+            Amount: GEL1.240,50; Merchant: DEMO SKI RENTAL, Gudauri; MCC:7999; Date: 20/02/2026 09:30;
+            """
+
+        let transactions = try parser.parse(statement)
+        #expect(transactions.map(\.amount) == [Decimal(string: "14.99")!, Decimal(string: "1240.50")!])
+        #expect(transactions.map(\.currency) == ["GEL", "GEL"])
+        #expect(transactions.first?.conversion?.bankRate == Decimal(string: "2.6859")!)
+        #expect(transactions.first?.conversion?.schemeRate == Decimal(string: "2.6484")!)
+    }
+
     /// A refund prints the same conversion lines a purchase does; they are the refund's alone.
     @Test func readsAPurchaseOnlyUpToTheNextRecord() throws {
         let statement = """

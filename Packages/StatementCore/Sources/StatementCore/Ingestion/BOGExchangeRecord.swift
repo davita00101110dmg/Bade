@@ -10,9 +10,9 @@ enum BOGExchangeRecord {
     {
         switch language {
         case .english:
-            /Amount:? ([A-Z]{3})([0-9,]+(?:\.[0-9]+)?); Foreign Exchange\. FX Rate:[0-9.]+\. Counter-amount: ([A-Z]{3})([0-9,]+(?:\.[0-9]+)?)/
+            /Amount:? ([A-Z]{3})([0-9](?:[0-9.,]*[0-9])?); Foreign Exchange\. FX Rate:[0-9.,]+\. Counter-amount: ([A-Z]{3})([0-9](?:[0-9.,]*[0-9])?)/
         case .georgian:
-            /თანხა:? ([A-Z]{3})([0-9,]+(?:\.[0-9]+)?); ვალუტის გაცვლითი ოპერაცია\. კურსი:[0-9.]+\s*კონტრთანხა: ([A-Z]{3})([0-9,]+(?:\.[0-9]+)?)/
+            /თანხა:? ([A-Z]{3})([0-9](?:[0-9.,]*[0-9])?); ვალუტის გაცვლითი ოპერაცია\. კურსი:[0-9.,]+\s*კონტრთანხა: ([A-Z]{3})([0-9](?:[0-9.,]*[0-9])?)/
         }
     }
 
@@ -30,7 +30,8 @@ enum BOGExchangeRecord {
             }
 
         return flat.matches(of: exchangePattern(vocabulary.language)).compactMap { match in
-            guard let from = amount(match.2), let to = amount(match.4), from > 0,
+            guard let from = StatementNumber.amount(match.2), let to = StatementNumber.amount(match.4),
+                from > 0,
                 let date = lastDay(in: days, before: match.range.lowerBound)
             else { return nil }
             return ObservedRate(
@@ -43,9 +44,5 @@ enum BOGExchangeRecord {
         in days: [(index: String.Index, date: Date)], before index: String.Index
     ) -> Date? {
         days.last { $0.index < index }?.date
-    }
-
-    private static func amount(_ text: Substring) -> Decimal? {
-        Decimal(string: text.replacingOccurrences(of: ",", with: ""))
     }
 }

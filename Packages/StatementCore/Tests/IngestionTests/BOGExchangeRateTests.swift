@@ -144,6 +144,17 @@ struct BOGExchangeRateTests {
         #expect(rates.first?.to == "USD")
     }
 
+    @Test func readsAConversionPrintedWithDecimalCommas() throws {
+        let statement = """
+            12/02/2026 Income - Amount USD1.000,00; Foreign Exchange. FX Rate:2,70. \
+            Counter-amount: GEL2.700,00. konvertatsia 12/05/2026 შემოსავალი - თანხა USD1.500,00; \
+            ვალუტის გაცვლითი ოპერაცია. კურსი:2,7 კონტრთანხა: GEL4.050,00. კონვერტაცია
+            """
+
+        let rate = Decimal(string: "2.7")!
+        #expect(parser.exchangeRates(in: statement).map(\.rate) == [rate, rate])
+    }
+
     /// A conversion is not a purchase; it must not become a subscription.
     @Test func conversionRowsAreNotTransactions() throws {
         let statement = """

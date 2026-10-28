@@ -8,7 +8,7 @@ enum TBCExchangeRecord {
     private static var ratePattern:
         Regex<(Substring, Substring, Substring, Substring, Substring)>
     {
-        /\([^()]{0,40}?([0-9]+)\s*([A-Z]{3})\s*=\s*([0-9]+\.[0-9]+)\s*([A-Z]{3})\)/
+        /\([^()]{0,40}?([0-9]+)\s*([A-Z]{3})\s*=\s*([0-9]+[.,][0-9]+)\s*([A-Z]{3})\)/
     }
     private static var datePattern: Regex<(Substring, Substring, Substring, Substring)> {
         /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/
@@ -23,7 +23,7 @@ enum TBCExchangeRecord {
 
         return flat.matches(of: ratePattern).compactMap { match in
             guard let quantity = Decimal(string: String(match.1)), quantity > 0,
-                let rate = Decimal(string: String(match.3)),
+                let rate = StatementNumber.rate(match.3),
                 let date = days.last(where: { $0.0 < match.range.lowerBound })?.1
             else { return nil }
             return ObservedRate(

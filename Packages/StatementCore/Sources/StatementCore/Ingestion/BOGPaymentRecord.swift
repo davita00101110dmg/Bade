@@ -4,7 +4,7 @@ import Foundation
 struct BOGPaymentRecord {
     // Regex is not Sendable, so these are computed rather than shared constants.
     private static var amountPattern: Regex<(Substring, Substring, Substring)> {
-        /:?\s*([A-Z]{3})\s*([0-9,]+\.[0-9]{2})/
+        /:?\s*([A-Z]{3})\s*([0-9][0-9.,]*[.,][0-9]{2})(?![0-9])/
     }
     private static var datePattern: Regex<(Substring, Substring, Substring, Substring)> {
         /\s*([0-9]{2})\/([0-9]{2})\/([0-9]{4})/
@@ -14,9 +14,9 @@ struct BOGPaymentRecord {
     {
         switch language {
         case .english:
-            /(Card scheme|Bank) conversion rate \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9.]+)/
+            /(Card scheme|Bank) conversion rate \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9]+(?:[.,][0-9]+)?)/
         case .georgian:
-            /(საბარათე სქემის|ბანკის) კონვერტაციის კურსი \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9.]+)/
+            /(საბარათე სქემის|ბანკის) კონვერტაციის კურსი \(([A-Z]{3})-([A-Z]{3})\):\s*([0-9]+(?:[.,][0-9]+)?)/
         }
     }
 
@@ -27,7 +27,7 @@ struct BOGPaymentRecord {
         // Amount and date are read right at their labels; searched for, a bad one took a later match.
         guard let merchant = body.field(after: vocabulary.merchant, upTo: "; MCC:"),
             let money = try? Self.amountPattern.prefixMatch(in: body),
-            let amount = Decimal(string: money.2.replacingOccurrences(of: ",", with: "")),
+            let amount = StatementNumber.amount(money.2),
             amount > 0,
             let dateField = body.range(of: vocabulary.date),
             let stamp = try? Self.datePattern.prefixMatch(in: body[dateField.upperBound...]),
@@ -55,7 +55,7 @@ struct BOGPaymentRecord {
         var bank: Decimal?
         var pair: (String, String)?
         for match in body.matches(of: ratePattern(vocabulary.language)) {
-            guard let value = Decimal(string: String(match.4)) else { continue }
+            guard let value = StatementNumber.rate(match.4) else { continue }
             pair = (String(match.2), String(match.3))
             if match.1 == vocabulary.bankRate { bank = value } else { scheme = value }
         }

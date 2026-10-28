@@ -1,0 +1,15 @@
+Bank of Georgia
+Account statement
+Account: GE00TEST0000000000000 Client: TEST HOLDER
+Currency: GEL
+Period: 01/01/2026 - 31/03/2026
+Date Operation details Amount Balance
+06/01/2026 Payment - Amount: GEL1,240.00; Merchant: FAKE FURNITURE, Tbilisi; MCC:5712; Date: 05/01/2026 15:20; Card No: ****0000;
+10/01/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 10/01/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2.6484; Bank conversion rate (USD-GEL): 2.6859
+20/01/2026 Payment - Amount GEL 12,450.75; Merchant: DEMO CAR SERVICE, Tbilisi; MCC: 7538; Card: 000000******0000; Date: 19/01/2026
+25/01/2026 Payment - Amount GEL15,518.09; Foreign Exchange. FX Rate:2.757. Counter-amount: USD5,628.61. konvertatsia
+03/02/2026 Payment - Amount: USD2,499.00; Merchant: FAKE CAMERA STORE, United States; MCC:5946; Date: 02/02/2026 00:00; Card No: ****0000;
+10/02/2026 Payment - Amount: GEL14,99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 10/02/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2,6484; Bank conversion rate (USD-GEL): 2,6859
+12/02/2026 Income - Amount USD1.000,00; Foreign Exchange. FX Rate:2,70. Counter-amount: GEL2.700,00. konvertatsia
+21/02/2026 Payment - Amount: GEL1.240,50; Merchant: DEMO SKI RENTAL, Gudauri; MCC:7999; Date: 20/02/2026 09:30; Card No: ****0000;
+10/03/2026 Payment - Amount: GEL14.99; Merchant: SETANTA.COM, United Kingdom; MCC:4899; Date: 10/03/2026 00:00; Card No: ****0000; Card scheme conversion rate (USD-GEL): 2.6400; Bank conversion rate (USD-GEL): 2.6800

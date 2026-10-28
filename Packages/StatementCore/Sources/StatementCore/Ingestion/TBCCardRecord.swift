@@ -8,7 +8,7 @@ struct TBCCardRecord {
     private static var chargePattern:
         Regex<(Substring, Substring, Substring, Substring, Substring, Substring, Substring)>
     {
-        /^\s*\S*\s*-\s+(.{2,80}?),\s*([0-9,]+\.[0-9]{2})\s+([A-Z]{3}),\s*([A-Za-z]{3})\s+([0-9]{1,2})\s+([0-9]{4})\s+[0-9]{1,2}:[0-9]{2}\s*(?:AM|PM)/
+        /^\s*\S*\s*-\s+(.{2,80}?),\s*([0-9][0-9.,]*[.,][0-9]{2})\s+([A-Z]{3}),\s*([A-Za-z]{3})\s+([0-9]{1,2})\s+([0-9]{4})\s+[0-9]{1,2}:[0-9]{2}\s*(?:AM|PM)/
     }
     private static var mccPattern: Regex<(Substring, Substring)> {
         /MCC:\s*([0-9]{2,4})/
@@ -25,7 +25,7 @@ struct TBCCardRecord {
     init?(body: Substring) {
         let head = body.prefix(Self.bodyLimit)
         guard let charge = try? Self.chargePattern.firstMatch(in: head),
-            let amount = Decimal(string: charge.2.replacingOccurrences(of: ",", with: "")),
+            let amount = StatementNumber.amount(charge.2),
             amount > 0,
             let date = StatementDate.from(day: charge.5, monthName: charge.4, year: charge.6),
             let mcc = try? Self.mccPattern.firstMatch(in: head)

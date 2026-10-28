@@ -201,6 +201,24 @@ struct TBCStatementParserTests {
         }
     }
 
+    @Test func readsDecimalCommas() throws {
+        let statement = [
+            row(merchant: "SAMPLE MARKET", amount: "8,31"),
+            row(merchant: "DEMO SKI RENTAL", amount: "1.240,50"),
+        ].joined(separator: " ")
+
+        let transactions = try parser.parse(statement)
+        #expect(transactions.map(\.amount) == [Decimal(string: "8.31")!, Decimal(string: "1240.50")!])
+    }
+
+    @Test func readsARatePrintedWithADecimalComma() throws {
+        let statement = """
+            25/02/2026 კონვერტაცია (ყიდვა-გაყიდვა: 1 USD = 2,7100 GEL), TBCBGE22, GE00TB0000000000000000
+            """
+
+        #expect(parser.exchangeRates(in: statement).map(\.rate) == [Decimal(string: "2.71")!])
+    }
+
     /// A card check debits nothing; it is not a purchase, and a transaction is always positive.
     @Test func ignoresAZeroAmountCardCheck() throws {
         let statement = [
