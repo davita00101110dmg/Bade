@@ -8,8 +8,12 @@ enum StatementDate {
     static func from(
         day: some StringProtocol, month: some StringProtocol, year: some StringProtocol
     ) -> Date? {
-        guard let day = Int(day), let month = Int(month), let year = Int(year) else { return nil }
-        return utc.date(from: DateComponents(year: year, month: month, day: day))
+        guard let day = Int(day), let month = Int(month), let year = Int(year),
+            let date = utc.date(from: DateComponents(year: year, month: month, day: day))
+        else { return nil }
+        // The calendar rolls 31 February over into March rather than refusing it.
+        let read = utc.dateComponents([.year, .month, .day], from: date)
+        return read.year == year && read.month == month && read.day == day ? date : nil
     }
 
     /// TBC prints the moment of purchase with an English month abbreviation rather than a number.
