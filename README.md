@@ -6,7 +6,7 @@
 
 **How much are you paying a month?**
 
-Live on the App Store · [badeapp.com](https://badeapp.com)
+[App Store](https://apps.apple.com/ge/app/bade/id6804193538) · [badeapp.com](https://badeapp.com)
 
 </div>
 
@@ -24,9 +24,11 @@ writes the statement to disk.
 
 ## Screenshots
 
-| Subscriptions | Import review | Detail & FX | Upcoming | Widget |
+| Welcome | Subscriptions | Upcoming | Pro | Georgian |
 |:---:|:---:|:---:|:---:|:---:|
-| [SCREENSHOT: bade-subscriptions] | [SCREENSHOT: bade-import-review] | [SCREENSHOT: bade-subscription-detail] | [SCREENSHOT: bade-upcoming] | [SCREENSHOT: bade-widget] |
+| <img src="BadeKit/Tests/Fixtures/Snapshots/welcome-dark.png" width="180" alt="Welcome screen in dark mode with the Import statement button and export steps"> | <img src="BadeKit/Tests/Fixtures/Snapshots/subscriptions-light.png" width="180" alt="Monthly total in lari above a list of seven subscriptions"> | <img src="BadeKit/Tests/Fixtures/Snapshots/upcoming-light.png" width="180" alt="Calendar of upcoming charges with the month's total"> | <img src="BadeKit/Tests/Fixtures/Snapshots/pro-light.png" width="180" alt="Bade Pro: one payment, no subscription, and what it unlocks"> | <img src="BadeKit/Tests/Fixtures/Snapshots/subscriptions-ka.png" width="180" alt="The subscriptions screen in Georgian"> |
+
+<sub>These are the snapshot tests' own reference images: the real app rendered with sample data.</sub>
 
 ## Architecture
 
